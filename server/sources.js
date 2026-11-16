@@ -48,8 +48,14 @@ export class DriveSource {
   static fromEnv(env, fileId) {
     const raw = env.GOOGLE_SERVICE_ACCOUNT_JSON;
     if (!raw) return null;
-    const text = raw.trim().startsWith('{') ? raw : Buffer.from(raw, 'base64').toString('utf8');
-    return new DriveSource({ fileId: env.DRIVE_FILE_ID || fileId, credentials: JSON.parse(text) });
+    try {
+      const text = raw.trim().startsWith('{') ? raw : Buffer.from(raw, 'base64').toString('utf8');
+      return new DriveSource({ fileId: env.DRIVE_FILE_ID || fileId, credentials: JSON.parse(text) });
+    } catch (error) {
+      // A malformed key must not take the public site down: serve the snapshot and report it in /admin.
+      console.error('[minho11] GOOGLE_SERVICE_ACCOUNT_JSON inválida:', error.message);
+      return null;
+    }
   }
   async accessToken() {
     if (this.token && this.token.expires > Date.now() + 60_000) return this.token.value;
