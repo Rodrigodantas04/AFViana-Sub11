@@ -99,7 +99,8 @@ export async function refreshData() {
     if (changed) paint({ preserveFocus: true });
     const checked = new Intl.DateTimeFormat('pt-PT', { timeStyle: 'short', timeZone: 'Europe/Lisbon' }).format(new Date());
     const imported = new Intl.DateTimeFormat('pt-PT', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Lisbon' }).format(new Date(data.importedAt));
-    sync.textContent = `${changed ? 'Dados atualizados' : 'Sem alterações'} · verificado às ${checked}`;
+    const sourceState = response.headers.get('X-MINHO11-Source');
+    sync.textContent = sourceState === 'snapshot' ? `Dados publicados em ${imported}` : sourceState === 'stale' ? 'Fonte indisponível · últimos dados mantidos' : `${changed ? 'Dados atualizados' : 'Sem alterações'} · verificado às ${checked}`;
     sync.title = `Última importação publicada: ${imported}. Verificação de novos dados a cada 45 segundos.`;
     sync.classList.remove('sync-error');
     sync.dataset.state = changed ? 'updated' : 'unchanged';
@@ -110,7 +111,7 @@ export async function refreshData() {
     console.warn('MINHO11: sincronização não concluída.', error.message);
   } finally { clearTimeout(timer); refreshing = false; }
 }
-const oldRoutes = { inicio: '/', jogos: '/jogos', clubes: '/clubes', marcadores: '/marcadores', classificacoes: '/competicoes/gomes-ribeiro-sub11/serie-a' };
+const oldRoutes = { inicio: '/', jogos: '/jogos', clubes: '/clubes', marcadores: '/marcadores', classificacoes: '/competicoes/gomes-ribeiro-sub11/fase-1/serie-a' };
 if (oldRoutes[location.hash.slice(1)]) history.replaceState(null, '', oldRoutes[location.hash.slice(1)]);
 await refreshData();
 setInterval(() => { if (!document.hidden) refreshData(); }, 45000);

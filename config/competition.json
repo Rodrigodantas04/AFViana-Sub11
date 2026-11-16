@@ -5,7 +5,6 @@
   "shortName": "Gomes Ribeiro",
   "season": "2026/2027",
   "category": "Sub-11",
-  "phase": "1.ª Fase",
   "region": "Alto Minho",
   "source": "data/source.xlsx",
   "clubMappings": {
@@ -13,5 +12,9 @@
     "AD Barroselas \"B\"": "AD Barroselas",
     "Desp. Monção \"A\"": "Desp. Monção",
     "Desp. Monção \"B\"": "Desp. Monção"
+  },
+  "drive": {
+    "fileId": "10NzITORyeANQY2prYW9YHF4zJmxDAAqd",
+    "folderId": "1gKXXHvmW9FD3XlBzXUajNOmySfinwLS1"
   }
 }

@@ -17,7 +17,7 @@ Fontes verificadas em 16/11/2026:
 - A/B não são fundidas numa única equipa ao abrir um clube.
 - Perfis contêm secções de plantel e equipa técnica por equipa/época.
 - Cartões suportam nome autorizado, posição, camisola, função técnica e fotografia autorizada.
-- `scripts/rosters.py` valida um cache normalizado e aplica as autorizações antes da publicação.
+- `lib/rosters.js` valida um cache normalizado e aplica as autorizações antes da publicação.
 - `src/types.d.ts` define a interface independente do fornecedor para clube e plantel.
 - Nomes e imagens estão desativados por omissão; não há fotografias fictícias nem associação de crianças só pelo nome.
 

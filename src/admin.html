@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="text-scale" content="scale">
+<meta name="color-scheme" content="dark light">
+<meta name="theme-color" content="#0b1219">
+<meta name="robots" content="noindex, nofollow">
+<title>Gestão de resultados · MINHO11</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg">
+<link rel="stylesheet" href="/assets/admin.css">
+<script type="module" src="/assets/admin.js"></script>
+</head>
+<body>
+<header class="bar">
+  <a class="brand" href="/" aria-label="MINHO11 — site público"><span class="mark">11</span><span>MINHO<b>11</b></span><small>Gestão</small></a>
+  <button type="button" class="link-button" id="logout" hidden>Sair</button>
+</header>
+
+<main id="app">
+  <section id="loading" class="center"><p class="muted">A preparar o painel…</p></section>
+
+  <section id="login-view" class="center" hidden>
+    <form id="login-form" class="card login" novalidate>
+      <h1>Entrar na gestão</h1>
+      <p class="muted">Escreve a palavra-passe partilhada pelos responsáveis.</p>
+      <input type="text" name="username" autocomplete="username" value="MINHO11 gestão" class="visually-hidden" tabindex="-1" aria-hidden="true" readonly>
+      <div class="field">
+        <label for="password">Palavra-passe</label>
+        <div class="password-row">
+          <input id="password" name="password" type="password" autocomplete="current-password" required enterkeyhint="go" spellcheck="false" autocapitalize="off" data-error="password-error">
+          <button type="button" class="ghost" id="toggle-password" aria-controls="password" aria-pressed="false">Mostrar</button>
+        </div>
+        <p id="password-error" class="error-msg">Escreve a palavra-passe.</p>
+      </div>
+      <button type="submit" class="primary wide" id="login-button">Entrar</button>
+      <p id="login-message" class="message" role="alert"></p>
+    </form>
+  </section>
+
+  <section id="desk" hidden>
+    <div id="source-banner" class="banner" role="status"></div>
+    <div id="lost-banner" class="banner banner-warning" hidden></div>
+
+    <form id="picker" class="card picker" aria-label="Escolher jogo">
+      <div class="picker-grid">
+        <label>Fase<select id="phase"></select></label>
+        <label>Série<select id="group"></select></label>
+        <label>Jornada<select id="round"></select></label>
+      </div>
+      <label class="check"><input type="checkbox" id="only-open" checked> Mostrar só jogos por preencher</label>
+    </form>
+
+    <section aria-labelledby="matches-title">
+      <h2 id="matches-title" class="section-title">Jogos</h2>
+      <ul id="match-list" class="match-list"></ul>
+    </section>
+
+    <form id="editor" class="card editor" hidden novalidate aria-labelledby="editor-title">
+      <div class="editor-head">
+        <p class="eyebrow" id="editor-context"></p>
+        <h2 id="editor-title" class="visually-hidden">Resultado do jogo</h2>
+        <button type="button" class="link-button" id="close-editor">Fechar</button>
+      </div>
+      <div id="match-issues"></div>
+
+      <div class="score">
+        <div class="side side-home">
+          <span class="where">Casa</span>
+          <label for="home-goals" class="team" id="home-name"></label>
+          <input id="home-goals" class="goals" type="text" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" autocomplete="off" enterkeyhint="next" required data-error="home-goals-error">
+          <p id="home-goals-error" class="error-msg">Golos: número de 0 a 99.</p>
+        </div>
+        <span class="versus" aria-hidden="true">–</span>
+        <div class="side side-away">
+          <span class="where">Fora</span>
+          <label for="away-goals" class="team" id="away-name"></label>
+          <input id="away-goals" class="goals" type="text" inputmode="numeric" pattern="[0-9]{1,2}" maxlength="2" autocomplete="off" enterkeyhint="done" required data-error="away-goals-error">
+          <p id="away-goals-error" class="error-msg">Golos: número de 0 a 99.</p>
+        </div>
+      </div>
+
+      <div class="scorers">
+        <fieldset class="scorer-block" data-side="home">
+          <legend>Marcadores · <span data-team="home"></span></legend>
+          <ol class="scorer-rows"></ol>
+          <p class="tally" aria-live="polite"></p>
+          <div class="row-actions">
+            <button type="button" class="ghost" data-add="player">+ Adicionar marcador</button>
+            <button type="button" class="ghost small" data-add="own">+ Autogolo a favor</button>
+          </div>
+        </fieldset>
+        <fieldset class="scorer-block" data-side="away">
+          <legend>Marcadores · <span data-team="away"></span></legend>
+          <ol class="scorer-rows"></ol>
+          <p class="tally" aria-live="polite"></p>
+          <div class="row-actions">
+            <button type="button" class="ghost" data-add="player">+ Adicionar marcador</button>
+            <button type="button" class="ghost small" data-add="own">+ Autogolo a favor</button>
+          </div>
+        </fieldset>
+      </div>
+      <p class="hint muted">Se não souberes quem marcou, deixa sem nome: o resultado fica gravado e os golos ficam «por identificar».</p>
+
+      <div class="save-bar">
+        <p id="save-state" class="save-state" role="status" aria-live="polite"></p>
+        <button type="button" class="ghost" id="reload-match" hidden>Atualizar jogo</button>
+        <button type="submit" class="primary" id="save">Gravar resultado</button>
+      </div>
+    </form>
+  </section>
+</main>
+
+<template id="scorer-row">
+  <li class="scorer-row">
+    <div class="field name-field">
+      <label class="visually-hidden">Nome</label>
+      <input class="scorer-name" type="text" autocomplete="off" autocapitalize="words" spellcheck="false" maxlength="60" enterkeyhint="next">
+      <p class="error-msg">Só letras, espaços, apóstrofo, hífen ou ponto.</p>
+    </div>
+    <div class="stepper" role="group">
+      <button type="button" class="step" data-step="-1" aria-label="Menos um golo">−</button>
+      <output class="count">1</output>
+      <button type="button" class="step" data-step="1" aria-label="Mais um golo">+</button>
+    </div>
+    <button type="button" class="remove" aria-label="Remover linha">✕</button>
+  </li>
+</template>
+</body>
+</html>

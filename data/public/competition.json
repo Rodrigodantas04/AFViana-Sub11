@@ -1,5 +1,5 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
   "competition": {
     "id": "gomes-ribeiro-sub11-2026-27",
     "slug": "gomes-ribeiro-sub11",
@@ -7,24 +7,57 @@
     "shortName": "Gomes Ribeiro",
     "season": "2026/2027",
     "category": "Sub-11",
-    "phase": "1.ª Fase",
     "region": "Alto Minho"
   },
+  "phases": [
+    {
+      "id": "fase-1",
+      "number": 1,
+      "name": "1.ª Fase",
+      "groupIds": [
+        "1a",
+        "1b",
+        "1c",
+        "1d",
+        "1e",
+        "1f"
+      ],
+      "state": "running"
+    },
+    {
+      "id": "fase-2",
+      "number": 2,
+      "name": "2.ª Fase",
+      "groupIds": [
+        "2a",
+        "2b",
+        "2c",
+        "2d",
+        "2e",
+        "2f"
+      ],
+      "state": "pending"
+    }
+  ],
   "groups": [
     {
-      "id": "A",
+      "id": "1a",
+      "phaseId": "fase-1",
+      "letter": "A",
       "name": "Série A",
+      "sourceLabel": "Série 1",
+      "defined": true,
       "teamIds": [
-        "a-ad-barroselas-b",
-        "a-arc-guilhadeses",
-        "a-ad-ponte-barca",
-        "a-adc-aboim-sabadim",
-        "a-atletico-arcos-ad",
-        "a-crc-tavora"
+        "ad-barroselas-b",
+        "arc-guilhadeses",
+        "ad-ponte-barca",
+        "adc-aboim-sabadim",
+        "atletico-arcos-ad",
+        "crc-tavora"
       ],
       "standings": [
         {
-          "teamId": "a-ad-barroselas-b",
+          "teamId": "ad-barroselas-b",
           "position": 1,
           "played": 5,
           "wins": 4,
@@ -36,19 +69,19 @@
           "points": 13
         },
         {
-          "teamId": "a-arc-guilhadeses",
+          "teamId": "arc-guilhadeses",
           "position": 2,
-          "played": 5,
-          "wins": 3,
+          "played": 6,
+          "wins": 4,
           "draws": 0,
           "losses": 2,
-          "goalsFor": 23,
-          "goalsAgainst": 5,
-          "goalDifference": 18,
-          "points": 9
+          "goalsFor": 27,
+          "goalsAgainst": 6,
+          "goalDifference": 21,
+          "points": 12
         },
         {
-          "teamId": "a-ad-ponte-barca",
+          "teamId": "ad-ponte-barca",
           "position": 3,
           "played": 5,
           "wins": 3,
@@ -60,93 +93,98 @@
           "points": 9
         },
         {
-          "teamId": "a-adc-aboim-sabadim",
+          "teamId": "adc-aboim-sabadim",
           "position": 4,
-          "played": 5,
+          "played": 6,
           "wins": 2,
           "draws": 2,
-          "losses": 1,
-          "goalsFor": 16,
-          "goalsAgainst": 19,
-          "goalDifference": -3,
+          "losses": 2,
+          "goalsFor": 17,
+          "goalsAgainst": 27,
+          "goalDifference": -10,
           "points": 8
         },
         {
-          "teamId": "a-atletico-arcos-ad",
+          "teamId": "atletico-arcos-ad",
           "position": 5,
-          "played": 5,
-          "wins": 1,
+          "played": 6,
+          "wins": 2,
           "draws": 0,
           "losses": 4,
-          "goalsFor": 12,
-          "goalsAgainst": 25,
-          "goalDifference": -13,
-          "points": 3
+          "goalsFor": 20,
+          "goalsAgainst": 26,
+          "goalDifference": -6,
+          "points": 6
         },
         {
-          "teamId": "a-crc-tavora",
+          "teamId": "crc-tavora",
           "position": 6,
-          "played": 5,
+          "played": 6,
           "wins": 0,
           "draws": 1,
-          "losses": 4,
-          "goalsFor": 9,
-          "goalsAgainst": 35,
-          "goalDifference": -26,
+          "losses": 5,
+          "goalsFor": 10,
+          "goalsAgainst": 39,
+          "goalDifference": -29,
           "points": 1
         }
       ],
-      "notes": []
+      "notes": [],
+      "pendingFixtures": 0
     },
     {
-      "id": "B",
+      "id": "1b",
+      "phaseId": "fase-1",
+      "letter": "B",
       "name": "Série B",
+      "sourceLabel": "Série 2",
+      "defined": true,
       "teamIds": [
-        "b-af-ponte-lima",
-        "b-gd-freixo",
-        "b-ad-fachense",
-        "b-ud-lanheses",
-        "b-ad-os-limianos"
+        "af-ponte-lima",
+        "gd-freixo",
+        "ad-fachense",
+        "ud-lanheses",
+        "ad-os-limianos"
       ],
       "standings": [
         {
-          "teamId": "b-af-ponte-lima",
+          "teamId": "af-ponte-lima",
           "position": 1,
-          "played": 4,
+          "played": 5,
           "wins": 4,
-          "draws": 0,
+          "draws": 1,
           "losses": 0,
-          "goalsFor": 25,
-          "goalsAgainst": 4,
+          "goalsFor": 29,
+          "goalsAgainst": 8,
           "goalDifference": 21,
-          "points": 12
+          "points": 13
         },
         {
-          "teamId": "b-gd-freixo",
+          "teamId": "gd-freixo",
           "position": 2,
-          "played": 4,
-          "wins": 2,
+          "played": 5,
+          "wins": 3,
           "draws": 1,
           "losses": 1,
-          "goalsFor": 14,
-          "goalsAgainst": 10,
-          "goalDifference": 4,
-          "points": 7
+          "goalsFor": 19,
+          "goalsAgainst": 14,
+          "goalDifference": 5,
+          "points": 10
         },
         {
-          "teamId": "b-ad-fachense",
+          "teamId": "ad-fachense",
           "position": 3,
-          "played": 4,
+          "played": 5,
           "wins": 1,
-          "draws": 1,
+          "draws": 2,
           "losses": 2,
-          "goalsFor": 9,
-          "goalsAgainst": 10,
+          "goalsFor": 13,
+          "goalsAgainst": 14,
           "goalDifference": -1,
-          "points": 4
+          "points": 5
         },
         {
-          "teamId": "b-ud-lanheses",
+          "teamId": "ud-lanheses",
           "position": 4,
           "played": 4,
           "wins": 1,
@@ -158,58 +196,63 @@
           "points": 3
         },
         {
-          "teamId": "b-ad-os-limianos",
+          "teamId": "ad-os-limianos",
           "position": 5,
-          "played": 4,
+          "played": 5,
           "wins": 1,
           "draws": 0,
-          "losses": 3,
-          "goalsFor": 3,
-          "goalsAgainst": 17,
-          "goalDifference": -14,
+          "losses": 4,
+          "goalsFor": 7,
+          "goalsAgainst": 22,
+          "goalDifference": -15,
           "points": 3
         }
       ],
-      "notes": []
+      "notes": [],
+      "pendingFixtures": 0
     },
     {
-      "id": "C",
+      "id": "1c",
+      "phaseId": "fase-1",
+      "letter": "C",
       "name": "Série C",
+      "sourceLabel": "Série 3",
+      "defined": true,
       "teamIds": [
-        "c-adc-anha",
-        "c-neves-fc",
-        "c-vila-fria-1980",
-        "c-ad-darquense",
-        "c-ad-barroselas-a",
-        "c-deucriste-sc"
+        "adc-anha",
+        "neves-fc",
+        "vila-fria-1980",
+        "ad-darquense",
+        "ad-barroselas-a",
+        "deucriste-sc"
       ],
       "standings": [
         {
-          "teamId": "c-adc-anha",
+          "teamId": "adc-anha",
           "position": 1,
-          "played": 5,
-          "wins": 4,
+          "played": 6,
+          "wins": 5,
           "draws": 1,
           "losses": 0,
-          "goalsFor": 25,
-          "goalsAgainst": 12,
-          "goalDifference": 13,
-          "points": 13
+          "goalsFor": 30,
+          "goalsAgainst": 14,
+          "goalDifference": 16,
+          "points": 16
         },
         {
-          "teamId": "c-neves-fc",
+          "teamId": "neves-fc",
           "position": 2,
-          "played": 5,
-          "wins": 3,
+          "played": 6,
+          "wins": 4,
           "draws": 2,
           "losses": 0,
-          "goalsFor": 21,
+          "goalsFor": 25,
           "goalsAgainst": 8,
-          "goalDifference": 13,
-          "points": 11
+          "goalDifference": 17,
+          "points": 14
         },
         {
-          "teamId": "c-vila-fria-1980",
+          "teamId": "vila-fria-1980",
           "position": 3,
           "played": 5,
           "wins": 3,
@@ -221,31 +264,31 @@
           "points": 9
         },
         {
-          "teamId": "c-ad-darquense",
+          "teamId": "ad-darquense",
           "position": 4,
-          "played": 5,
+          "played": 6,
           "wins": 2,
           "draws": 1,
-          "losses": 2,
-          "goalsFor": 14,
-          "goalsAgainst": 9,
-          "goalDifference": 5,
+          "losses": 3,
+          "goalsFor": 16,
+          "goalsAgainst": 14,
+          "goalDifference": 2,
           "points": 7
         },
         {
-          "teamId": "c-ad-barroselas-a",
+          "teamId": "ad-barroselas-a",
           "position": 5,
-          "played": 5,
+          "played": 6,
           "wins": 1,
           "draws": 0,
-          "losses": 4,
+          "losses": 5,
           "goalsFor": 9,
-          "goalsAgainst": 16,
-          "goalDifference": -7,
+          "goalsAgainst": 20,
+          "goalDifference": -11,
           "points": 3
         },
         {
-          "teamId": "c-deucriste-sc",
+          "teamId": "deucriste-sc",
           "position": 6,
           "played": 5,
           "wins": 0,
@@ -257,34 +300,39 @@
           "points": 0
         }
       ],
-      "notes": []
+      "notes": [],
+      "pendingFixtures": 0
     },
     {
-      "id": "D",
+      "id": "1d",
+      "phaseId": "fase-1",
+      "letter": "D",
       "name": "Série D",
+      "sourceLabel": "Série 4",
+      "defined": true,
       "teamIds": [
-        "d-perspectiva-em-jogo-ad",
-        "d-torre-sc",
-        "d-gd-meadela",
-        "d-sc-vianense",
-        "d-gd-areosense",
-        "d-adc-perre"
+        "perspectiva-em-jogo-ad",
+        "torre-sc",
+        "gd-meadela",
+        "sc-vianense",
+        "gd-areosense",
+        "adc-perre"
       ],
       "standings": [
         {
-          "teamId": "d-perspectiva-em-jogo-ad",
+          "teamId": "perspectiva-em-jogo-ad",
           "position": 1,
-          "played": 5,
-          "wins": 4,
+          "played": 6,
+          "wins": 5,
           "draws": 0,
           "losses": 1,
-          "goalsFor": 18,
-          "goalsAgainst": 6,
-          "goalDifference": 12,
-          "points": 12
+          "goalsFor": 30,
+          "goalsAgainst": 7,
+          "goalDifference": 23,
+          "points": 15
         },
         {
-          "teamId": "d-torre-sc",
+          "teamId": "torre-sc",
           "position": 2,
           "played": 5,
           "wins": 3,
@@ -296,7 +344,7 @@
           "points": 10
         },
         {
-          "teamId": "d-gd-meadela",
+          "teamId": "gd-meadela",
           "position": 3,
           "played": 5,
           "wins": 3,
@@ -308,7 +356,7 @@
           "points": 10
         },
         {
-          "teamId": "d-sc-vianense",
+          "teamId": "sc-vianense",
           "position": 4,
           "played": 5,
           "wins": 2,
@@ -320,7 +368,7 @@
           "points": 7
         },
         {
-          "teamId": "d-gd-areosense",
+          "teamId": "gd-areosense",
           "position": 5,
           "played": 5,
           "wins": 1,
@@ -332,34 +380,51 @@
           "points": 4
         },
         {
-          "teamId": "d-adc-perre",
+          "teamId": "adc-perre",
           "position": 6,
-          "played": 5,
+          "played": 6,
           "wins": 0,
           "draws": 0,
-          "losses": 5,
-          "goalsFor": 5,
-          "goalsAgainst": 34,
-          "goalDifference": -29,
+          "losses": 6,
+          "goalsFor": 6,
+          "goalsAgainst": 46,
+          "goalDifference": -40,
           "points": 0
         }
       ],
-      "notes": []
+      "notes": [],
+      "pendingFixtures": 0
     },
     {
-      "id": "E",
+      "id": "1e",
+      "phaseId": "fase-1",
+      "letter": "E",
       "name": "Série E",
+      "sourceLabel": "Série 5",
+      "defined": true,
       "teamIds": [
-        "e-ac-caminha",
-        "e-ancora-praia-fc",
-        "e-cc-os-torreenses",
-        "e-desp-moncao-b",
-        "e-ad-campos"
+        "ancora-praia-fc",
+        "ac-caminha",
+        "cc-os-torreenses",
+        "desp-moncao-b",
+        "ad-campos"
       ],
       "standings": [
         {
-          "teamId": "e-ac-caminha",
+          "teamId": "ancora-praia-fc",
           "position": 1,
+          "played": 5,
+          "wins": 4,
+          "draws": 0,
+          "losses": 1,
+          "goalsFor": 20,
+          "goalsAgainst": 7,
+          "goalDifference": 13,
+          "points": 12
+        },
+        {
+          "teamId": "ac-caminha",
+          "position": 2,
           "played": 4,
           "wins": 4,
           "draws": 0,
@@ -370,70 +435,75 @@
           "points": 12
         },
         {
-          "teamId": "e-ancora-praia-fc",
-          "position": 2,
+          "teamId": "cc-os-torreenses",
+          "position": 3,
+          "played": 5,
+          "wins": 2,
+          "draws": 1,
+          "losses": 2,
+          "goalsFor": 17,
+          "goalsAgainst": 8,
+          "goalDifference": 9,
+          "points": 7
+        },
+        {
+          "teamId": "desp-moncao-b",
+          "position": 4,
+          "played": 5,
+          "wins": 1,
+          "draws": 1,
+          "losses": 3,
+          "goalsFor": 9,
+          "goalsAgainst": 10,
+          "goalDifference": -1,
+          "points": 4
+        },
+        {
+          "teamId": "ad-campos",
+          "position": 5,
+          "played": 5,
+          "wins": 0,
+          "draws": 0,
+          "losses": 5,
+          "goalsFor": 4,
+          "goalsAgainst": 29,
+          "goalDifference": -25,
+          "points": 0
+        }
+      ],
+      "notes": [],
+      "pendingFixtures": 0
+    },
+    {
+      "id": "1f",
+      "phaseId": "fase-1",
+      "letter": "F",
+      "name": "Série F",
+      "sourceLabel": "Série 6",
+      "defined": true,
+      "teamIds": [
+        "desp-moncao-a",
+        "sc-courense",
+        "cd-cerveira",
+        "sc-valenciano",
+        "ud-os-raianos"
+      ],
+      "standings": [
+        {
+          "teamId": "desp-moncao-a",
+          "position": 1,
           "played": 4,
           "wins": 3,
           "draws": 0,
           "losses": 1,
-          "goalsFor": 11,
-          "goalsAgainst": 7,
-          "goalDifference": 4,
+          "goalsFor": 14,
+          "goalsAgainst": 12,
+          "goalDifference": 2,
           "points": 9
         },
         {
-          "teamId": "e-cc-os-torreenses",
-          "position": 3,
-          "played": 4,
-          "wins": 1,
-          "draws": 1,
-          "losses": 2,
-          "goalsFor": 13,
-          "goalsAgainst": 8,
-          "goalDifference": 5,
-          "points": 4
-        },
-        {
-          "teamId": "e-desp-moncao-b",
-          "position": 4,
-          "played": 4,
-          "wins": 1,
-          "draws": 1,
-          "losses": 2,
-          "goalsFor": 9,
-          "goalsAgainst": 6,
-          "goalDifference": 3,
-          "points": 4
-        },
-        {
-          "teamId": "e-ad-campos",
-          "position": 5,
-          "played": 4,
-          "wins": 0,
-          "draws": 0,
-          "losses": 4,
-          "goalsFor": 4,
-          "goalsAgainst": 20,
-          "goalDifference": -16,
-          "points": 0
-        }
-      ],
-      "notes": []
-    },
-    {
-      "id": "F",
-      "name": "Série F",
-      "teamIds": [
-        "f-sc-courense",
-        "f-desp-moncao-a",
-        "f-cd-cerveira",
-        "f-sc-valenciano",
-        "f-ud-os-raianos"
-      ],
-      "standings": [
-        {
-          "teamId": "f-sc-courense",
-          "position": 1,
+          "teamId": "sc-courense",
+          "position": 2,
           "played": 3,
           "wins": 2,
           "draws": 1,
@@ -444,31 +514,19 @@
           "points": 7
         },
         {
-          "teamId": "f-desp-moncao-a",
-          "position": 2,
-          "played": 3,
-          "wins": 2,
-          "draws": 0,
-          "losses": 1,
-          "goalsFor": 8,
-          "goalsAgainst": 9,
-          "goalDifference": -1,
-          "points": 6
-        },
-        {
-          "teamId": "f-cd-cerveira",
+          "teamId": "cd-cerveira",
           "position": 3,
-          "played": 3,
+          "played": 4,
           "wins": 1,
           "draws": 1,
-          "losses": 1,
-          "goalsFor": 16,
-          "goalsAgainst": 7,
-          "goalDifference": 9,
+          "losses": 2,
+          "goalsFor": 19,
+          "goalsAgainst": 13,
+          "goalDifference": 6,
           "points": 4
         },
         {
-          "teamId": "f-sc-valenciano",
+          "teamId": "sc-valenciano",
           "position": 4,
           "played": 3,
           "wins": 0,
@@ -480,7 +538,7 @@
           "points": 0
         },
         {
-          "teamId": "f-ud-os-raianos",
+          "teamId": "ud-os-raianos",
           "position": 5,
           "played": 0,
           "wins": 0,
@@ -493,240 +551,280 @@
         }
       ],
       "notes": [
-        "Nota: O UD \"Os Raianos\" desistiu da prova. Os seus jogos estão assinalados e não contam se ficarem por preencher."
-      ]
+        "Desistência do UD \"Os Raianos\"."
+      ],
+      "pendingFixtures": 0
+    },
+    {
+      "id": "2a",
+      "phaseId": "fase-2",
+      "letter": "A",
+      "name": "Série A",
+      "sourceLabel": "Série A",
+      "defined": false,
+      "teamIds": [],
+      "standings": [],
+      "notes": [],
+      "pendingFixtures": 30
+    },
+    {
+      "id": "2b",
+      "phaseId": "fase-2",
+      "letter": "B",
+      "name": "Série B",
+      "sourceLabel": "Série B",
+      "defined": false,
+      "teamIds": [],
+      "standings": [],
+      "notes": [],
+      "pendingFixtures": 30
+    },
+    {
+      "id": "2c",
+      "phaseId": "fase-2",
+      "letter": "C",
+      "name": "Série C",
+      "sourceLabel": "Série C",
+      "defined": false,
+      "teamIds": [],
+      "standings": [],
+      "notes": [],
+      "pendingFixtures": 30
+    },
+    {
+      "id": "2d",
+      "phaseId": "fase-2",
+      "letter": "D",
+      "name": "Série D",
+      "sourceLabel": "Série D",
+      "defined": false,
+      "teamIds": [],
+      "standings": [],
+      "notes": [],
+      "pendingFixtures": 30
+    },
+    {
+      "id": "2e",
+      "phaseId": "fase-2",
+      "letter": "E",
+      "name": "Série E",
+      "sourceLabel": "Série E",
+      "defined": false,
+      "teamIds": [],
+      "standings": [],
+      "notes": [],
+      "pendingFixtures": 30
+    },
+    {
+      "id": "2f",
+      "phaseId": "fase-2",
+      "letter": "F",
+      "name": "Série F",
+      "sourceLabel": "Série F",
+      "defined": false,
+      "teamIds": [],
+      "standings": [],
+      "notes": [],
+      "pendingFixtures": 30
     }
   ],
   "teams": [
     {
-      "id": "a-ad-barroselas-b",
+      "id": "ad-barroselas-b",
       "name": "AD Barroselas \"B\"",
       "clubId": "ad-barroselas",
-      "groupId": "A",
       "withdrawn": false
     },
     {
-      "id": "a-arc-guilhadeses",
+      "id": "arc-guilhadeses",
       "name": "ARC Guilhadeses",
       "clubId": "arc-guilhadeses",
-      "groupId": "A",
       "withdrawn": false
     },
     {
-      "id": "a-ad-ponte-barca",
+      "id": "ad-ponte-barca",
       "name": "AD Ponte Barca",
       "clubId": "ad-ponte-barca",
-      "groupId": "A",
       "withdrawn": false
     },
     {
-      "id": "a-adc-aboim-sabadim",
+      "id": "adc-aboim-sabadim",
       "name": "ADC Aboim Sabadim",
       "clubId": "adc-aboim-sabadim",
-      "groupId": "A",
       "withdrawn": false
     },
     {
-      "id": "a-atletico-arcos-ad",
+      "id": "atletico-arcos-ad",
       "name": "Atlético Arcos AD",
       "clubId": "atletico-arcos-ad",
-      "groupId": "A",
       "withdrawn": false
     },
     {
-      "id": "a-crc-tavora",
+      "id": "crc-tavora",
       "name": "CRC Távora",
       "clubId": "crc-tavora",
-      "groupId": "A",
       "withdrawn": false
     },
     {
-      "id": "b-af-ponte-lima",
+      "id": "af-ponte-lima",
       "name": "AF Ponte Lima",
       "clubId": "af-ponte-lima",
-      "groupId": "B",
       "withdrawn": false
     },
     {
-      "id": "b-gd-freixo",
+      "id": "gd-freixo",
       "name": "GD Freixo",
       "clubId": "gd-freixo",
-      "groupId": "B",
       "withdrawn": false
     },
     {
-      "id": "b-ad-fachense",
+      "id": "ad-fachense",
       "name": "AD Fachense",
       "clubId": "ad-fachense",
-      "groupId": "B",
       "withdrawn": false
     },
     {
-      "id": "b-ud-lanheses",
+      "id": "ud-lanheses",
       "name": "UD Lanheses",
       "clubId": "ud-lanheses",
-      "groupId": "B",
       "withdrawn": false
     },
     {
-      "id": "b-ad-os-limianos",
+      "id": "ad-os-limianos",
       "name": "AD \"Os Limianos\"",
       "clubId": "ad-os-limianos",
-      "groupId": "B",
       "withdrawn": false
     },
     {
-      "id": "c-adc-anha",
+      "id": "adc-anha",
       "name": "ADC Anha",
       "clubId": "adc-anha",
-      "groupId": "C",
       "withdrawn": false
     },
     {
-      "id": "c-neves-fc",
+      "id": "neves-fc",
       "name": "Neves FC",
       "clubId": "neves-fc",
-      "groupId": "C",
       "withdrawn": false
     },
     {
-      "id": "c-vila-fria-1980",
+      "id": "vila-fria-1980",
       "name": "Vila Fria 1980",
       "clubId": "vila-fria-1980",
-      "groupId": "C",
       "withdrawn": false
     },
     {
-      "id": "c-ad-darquense",
+      "id": "ad-darquense",
       "name": "AD Darquense",
       "clubId": "ad-darquense",
-      "groupId": "C",
       "withdrawn": false
     },
     {
-      "id": "c-ad-barroselas-a",
+      "id": "ad-barroselas-a",
       "name": "AD Barroselas \"A\"",
       "clubId": "ad-barroselas",
-      "groupId": "C",
       "withdrawn": false
     },
     {
-      "id": "c-deucriste-sc",
+      "id": "deucriste-sc",
       "name": "Deucriste SC",
       "clubId": "deucriste-sc",
-      "groupId": "C",
       "withdrawn": false
     },
     {
-      "id": "d-perspectiva-em-jogo-ad",
+      "id": "perspectiva-em-jogo-ad",
       "name": "Perspectiva em Jogo AD",
       "clubId": "perspectiva-em-jogo-ad",
-      "groupId": "D",
       "withdrawn": false
     },
     {
-      "id": "d-torre-sc",
+      "id": "torre-sc",
       "name": "Torre SC",
       "clubId": "torre-sc",
-      "groupId": "D",
       "withdrawn": false
     },
     {
-      "id": "d-gd-meadela",
+      "id": "gd-meadela",
       "name": "GD Meadela",
       "clubId": "gd-meadela",
-      "groupId": "D",
       "withdrawn": false
     },
     {
-      "id": "d-sc-vianense",
+      "id": "sc-vianense",
       "name": "SC Vianense",
       "clubId": "sc-vianense",
-      "groupId": "D",
       "withdrawn": false
     },
     {
-      "id": "d-gd-areosense",
+      "id": "gd-areosense",
       "name": "GD Areosense",
       "clubId": "gd-areosense",
-      "groupId": "D",
       "withdrawn": false
     },
     {
-      "id": "d-adc-perre",
+      "id": "adc-perre",
       "name": "ADC Perre",
       "clubId": "adc-perre",
-      "groupId": "D",
       "withdrawn": false
     },
     {
-      "id": "e-ac-caminha",
-      "name": "AC Caminha",
-      "clubId": "ac-caminha",
-      "groupId": "E",
-      "withdrawn": false
-    },
-    {
-      "id": "e-ancora-praia-fc",
+      "id": "ancora-praia-fc",
       "name": "Âncora-Praia FC",
       "clubId": "ancora-praia-fc",
-      "groupId": "E",
       "withdrawn": false
     },
     {
-      "id": "e-cc-os-torreenses",
+      "id": "ac-caminha",
+      "name": "AC Caminha",
+      "clubId": "ac-caminha",
+      "withdrawn": false
+    },
+    {
+      "id": "cc-os-torreenses",
       "name": "CC \"Os Torreenses\"",
       "clubId": "cc-os-torreenses",
-      "groupId": "E",
       "withdrawn": false
     },
     {
-      "id": "e-desp-moncao-b",
+      "id": "desp-moncao-b",
       "name": "Desp. Monção \"B\"",
       "clubId": "desp-moncao",
-      "groupId": "E",
       "withdrawn": false
     },
     {
-      "id": "e-ad-campos",
+      "id": "ad-campos",
       "name": "AD Campos",
       "clubId": "ad-campos",
-      "groupId": "E",
       "withdrawn": false
     },
     {
-      "id": "f-sc-courense",
-      "name": "SC Courense",
-      "clubId": "sc-courense",
-      "groupId": "F",
-      "withdrawn": false
-    },
-    {
-      "id": "f-desp-moncao-a",
+      "id": "desp-moncao-a",
       "name": "Desp. Monção \"A\"",
       "clubId": "desp-moncao",
-      "groupId": "F",
       "withdrawn": false
     },
     {
-      "id": "f-cd-cerveira",
+      "id": "sc-courense",
+      "name": "SC Courense",
+      "clubId": "sc-courense",
+      "withdrawn": false
+    },
+    {
+      "id": "cd-cerveira",
       "name": "CD Cerveira",
       "clubId": "cd-cerveira",
-      "groupId": "F",
       "withdrawn": false
     },
     {
-      "id": "f-sc-valenciano",
+      "id": "sc-valenciano",
       "name": "SC Valenciano",
       "clubId": "sc-valenciano",
-      "groupId": "F",
       "withdrawn": false
     },
     {
-      "id": "f-ud-os-raianos",
+      "id": "ud-os-raianos",
       "name": "UD \"Os Raianos\"",
       "clubId": "ud-os-raianos",
-      "groupId": "F",
       "withdrawn": true
     }
   ],
@@ -737,8 +835,8 @@
       "name": "AD Barroselas",
       "crestUrl": null,
       "teamIds": [
-        "a-ad-barroselas-b",
-        "c-ad-barroselas-a"
+        "ad-barroselas-b",
+        "ad-barroselas-a"
       ]
     },
     {
@@ -747,7 +845,7 @@
       "name": "ARC Guilhadeses",
       "crestUrl": null,
       "teamIds": [
-        "a-arc-guilhadeses"
+        "arc-guilhadeses"
       ]
     },
     {
@@ -756,7 +854,7 @@
       "name": "AD Ponte Barca",
       "crestUrl": null,
       "teamIds": [
-        "a-ad-ponte-barca"
+        "ad-ponte-barca"
       ]
     },
     {
@@ -765,7 +863,7 @@
       "name": "ADC Aboim Sabadim",
       "crestUrl": null,
       "teamIds": [
-        "a-adc-aboim-sabadim"
+        "adc-aboim-sabadim"
       ]
     },
     {
@@ -774,7 +872,7 @@
       "name": "Atlético Arcos AD",
       "crestUrl": null,
       "teamIds": [
-        "a-atletico-arcos-ad"
+        "atletico-arcos-ad"
       ]
     },
     {
@@ -783,7 +881,7 @@
       "name": "CRC Távora",
       "crestUrl": null,
       "teamIds": [
-        "a-crc-tavora"
+        "crc-tavora"
       ]
     },
     {
@@ -792,7 +890,7 @@
       "name": "AF Ponte Lima",
       "crestUrl": null,
       "teamIds": [
-        "b-af-ponte-lima"
+        "af-ponte-lima"
       ]
     },
     {
@@ -801,7 +899,7 @@
       "name": "GD Freixo",
       "crestUrl": null,
       "teamIds": [
-        "b-gd-freixo"
+        "gd-freixo"
       ]
     },
     {
@@ -810,7 +908,7 @@
       "name": "AD Fachense",
       "crestUrl": null,
       "teamIds": [
-        "b-ad-fachense"
+        "ad-fachense"
       ]
     },
     {
@@ -819,7 +917,7 @@
       "name": "UD Lanheses",
       "crestUrl": null,
       "teamIds": [
-        "b-ud-lanheses"
+        "ud-lanheses"
       ]
     },
     {
@@ -828,7 +926,7 @@
       "name": "AD \"Os Limianos\"",
       "crestUrl": null,
       "teamIds": [
-        "b-ad-os-limianos"
+        "ad-os-limianos"
       ]
     },
     {
@@ -837,7 +935,7 @@
       "name": "ADC Anha",
       "crestUrl": null,
       "teamIds": [
-        "c-adc-anha"
+        "adc-anha"
       ]
     },
     {
@@ -846,7 +944,7 @@
       "name": "Neves FC",
       "crestUrl": null,
       "teamIds": [
-        "c-neves-fc"
+        "neves-fc"
       ]
     },
     {
@@ -855,7 +953,7 @@
       "name": "Vila Fria 1980",
       "crestUrl": null,
       "teamIds": [
-        "c-vila-fria-1980"
+        "vila-fria-1980"
       ]
     },
     {
@@ -864,7 +962,7 @@
       "name": "AD Darquense",
       "crestUrl": null,
       "teamIds": [
-        "c-ad-darquense"
+        "ad-darquense"
       ]
     },
     {
@@ -873,7 +971,7 @@
       "name": "Deucriste SC",
       "crestUrl": null,
       "teamIds": [
-        "c-deucriste-sc"
+        "deucriste-sc"
       ]
     },
     {
@@ -882,7 +980,7 @@
       "name": "Perspectiva em Jogo AD",
       "crestUrl": null,
       "teamIds": [
-        "d-perspectiva-em-jogo-ad"
+        "perspectiva-em-jogo-ad"
       ]
     },
     {
@@ -891,7 +989,7 @@
       "name": "Torre SC",
       "crestUrl": null,
       "teamIds": [
-        "d-torre-sc"
+        "torre-sc"
       ]
     },
     {
@@ -900,7 +998,7 @@
       "name": "GD Meadela",
       "crestUrl": null,
       "teamIds": [
-        "d-gd-meadela"
+        "gd-meadela"
       ]
     },
     {
@@ -909,7 +1007,7 @@
       "name": "SC Vianense",
       "crestUrl": null,
       "teamIds": [
-        "d-sc-vianense"
+        "sc-vianense"
       ]
     },
     {
@@ -918,7 +1016,7 @@
       "name": "GD Areosense",
       "crestUrl": null,
       "teamIds": [
-        "d-gd-areosense"
+        "gd-areosense"
       ]
     },
     {
@@ -927,16 +1025,7 @@
       "name": "ADC Perre",
       "crestUrl": null,
       "teamIds": [
-        "d-adc-perre"
-      ]
-    },
-    {
-      "id": "ac-caminha",
-      "slug": "ac-caminha",
-      "name": "AC Caminha",
-      "crestUrl": null,
-      "teamIds": [
-        "e-ac-caminha"
+        "adc-perre"
       ]
     },
     {
@@ -945,7 +1034,16 @@
       "name": "Âncora-Praia FC",
       "crestUrl": null,
       "teamIds": [
-        "e-ancora-praia-fc"
+        "ancora-praia-fc"
+      ]
+    },
+    {
+      "id": "ac-caminha",
+      "slug": "ac-caminha",
+      "name": "AC Caminha",
+      "crestUrl": null,
+      "teamIds": [
+        "ac-caminha"
       ]
     },
     {
@@ -954,7 +1052,7 @@
       "name": "CC \"Os Torreenses\"",
       "crestUrl": null,
       "teamIds": [
-        "e-cc-os-torreenses"
+        "cc-os-torreenses"
       ]
     },
     {
@@ -963,8 +1061,8 @@
       "name": "Desp. Monção",
       "crestUrl": null,
       "teamIds": [
-        "e-desp-moncao-b",
-        "f-desp-moncao-a"
+        "desp-moncao-b",
+        "desp-moncao-a"
       ]
     },
     {
@@ -973,7 +1071,7 @@
       "name": "AD Campos",
       "crestUrl": null,
       "teamIds": [
-        "e-ad-campos"
+        "ad-campos"
       ]
     },
     {
@@ -982,7 +1080,7 @@
       "name": "SC Courense",
       "crestUrl": null,
       "teamIds": [
-        "f-sc-courense"
+        "sc-courense"
       ]
     },
     {
@@ -991,7 +1089,7 @@
       "name": "CD Cerveira",
       "crestUrl": null,
       "teamIds": [
-        "f-cd-cerveira"
+        "cd-cerveira"
       ]
     },
     {
@@ -1000,7 +1098,7 @@
       "name": "SC Valenciano",
       "crestUrl": null,
       "teamIds": [
-        "f-sc-valenciano"
+        "sc-valenciano"
       ]
     },
     {
@@ -1009,2297 +1107,3946 @@
       "name": "UD \"Os Raianos\"",
       "crestUrl": null,
       "teamIds": [
-        "f-ud-os-raianos"
+        "ud-os-raianos"
       ]
     }
   ],
   "matches": [
     {
       "id": "m-07f53b3897f104d3",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "a-atletico-arcos-ad",
-      "awayId": "a-adc-aboim-sabadim",
+      "homeId": "atletico-arcos-ad",
+      "awayId": "adc-aboim-sabadim",
       "homeGoals": 3,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 1,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-acfb660cd014d902",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "a-arc-guilhadeses",
-      "awayId": "a-crc-tavora",
+      "homeId": "arc-guilhadeses",
+      "awayId": "crc-tavora",
       "homeGoals": 8,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 8,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-fe56285257168860",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "a-ad-barroselas-b",
-      "awayId": "a-ad-ponte-barca",
+      "homeId": "ad-barroselas-b",
+      "awayId": "ad-ponte-barca",
       "homeGoals": 5,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 1,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-88fdcfe283b4050f",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "a-adc-aboim-sabadim",
-      "awayId": "a-ad-barroselas-b",
+      "homeId": "adc-aboim-sabadim",
+      "awayId": "ad-barroselas-b",
       "homeGoals": 3,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-a4ad4c759a76e66f",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "a-crc-tavora",
-      "awayId": "a-atletico-arcos-ad",
+      "homeId": "crc-tavora",
+      "awayId": "atletico-arcos-ad",
       "homeGoals": 4,
       "awayGoals": 7,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 7,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-567f4a66d2d08554",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "a-ad-ponte-barca",
-      "awayId": "a-arc-guilhadeses",
+      "homeId": "ad-ponte-barca",
+      "awayId": "arc-guilhadeses",
       "homeGoals": 2,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-ed75afa1364b9cff",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "a-adc-aboim-sabadim",
-      "awayId": "a-crc-tavora",
+      "homeId": "adc-aboim-sabadim",
+      "awayId": "crc-tavora",
       "homeGoals": 4,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-fb1b18d572819c29",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "a-atletico-arcos-ad",
-      "awayId": "a-ad-ponte-barca",
+      "homeId": "atletico-arcos-ad",
+      "awayId": "ad-ponte-barca",
       "homeGoals": 1,
       "awayGoals": 8,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 8,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-a65422d62df72b93",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "a-ad-barroselas-b",
-      "awayId": "a-arc-guilhadeses",
+      "homeId": "ad-barroselas-b",
+      "awayId": "arc-guilhadeses",
       "homeGoals": 2,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-82118be2b1bdf29b",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "a-ad-barroselas-b",
-      "awayId": "a-crc-tavora",
+      "homeId": "ad-barroselas-b",
+      "awayId": "crc-tavora",
       "homeGoals": 6,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 6,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-96ca8125f0ba58f5",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "a-ad-ponte-barca",
-      "awayId": "a-adc-aboim-sabadim",
+      "homeId": "ad-ponte-barca",
+      "awayId": "adc-aboim-sabadim",
       "homeGoals": 1,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-85f42118aedeb803",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "a-arc-guilhadeses",
-      "awayId": "a-atletico-arcos-ad",
+      "homeId": "arc-guilhadeses",
+      "awayId": "atletico-arcos-ad",
       "homeGoals": 5,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-9b7939a87986d467",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "a-crc-tavora",
-      "awayId": "a-ad-ponte-barca",
+      "homeId": "crc-tavora",
+      "awayId": "ad-ponte-barca",
       "homeGoals": 0,
       "awayGoals": 10,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 9,
+          "ownGoals": 1,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-d84c2e1c3bba7e9f",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "a-adc-aboim-sabadim",
-      "awayId": "a-arc-guilhadeses",
+      "homeId": "adc-aboim-sabadim",
+      "awayId": "arc-guilhadeses",
       "homeGoals": 1,
       "awayGoals": 8,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 8,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-80999d6abfb69c6a",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "a-atletico-arcos-ad",
-      "awayId": "a-ad-barroselas-b",
+      "homeId": "atletico-arcos-ad",
+      "awayId": "ad-barroselas-b",
       "homeGoals": 1,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-95431bdb0edd6448",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "a-adc-aboim-sabadim",
-      "awayId": "a-atletico-arcos-ad",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "adc-aboim-sabadim",
+      "awayId": "atletico-arcos-ad",
+      "homeGoals": 1,
+      "awayGoals": 8,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 8,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-a939a8a12df8c109",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "a-crc-tavora",
-      "awayId": "a-arc-guilhadeses",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "crc-tavora",
+      "awayId": "arc-guilhadeses",
+      "homeGoals": 1,
+      "awayGoals": 4,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-23beba013c04f9f1",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "a-ad-ponte-barca",
-      "awayId": "a-ad-barroselas-b",
+      "homeId": "ad-ponte-barca",
+      "awayId": "ad-barroselas-b",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-25ff88bac7d5cd71",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "a-ad-barroselas-b",
-      "awayId": "a-adc-aboim-sabadim",
+      "homeId": "ad-barroselas-b",
+      "awayId": "adc-aboim-sabadim",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-34969890373f7f62",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "a-atletico-arcos-ad",
-      "awayId": "a-crc-tavora",
+      "homeId": "atletico-arcos-ad",
+      "awayId": "crc-tavora",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-85d488a88f0433b2",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "a-arc-guilhadeses",
-      "awayId": "a-ad-ponte-barca",
+      "homeId": "arc-guilhadeses",
+      "awayId": "ad-ponte-barca",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-09b4e1f7bc5bfcf8",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "a-crc-tavora",
-      "awayId": "a-adc-aboim-sabadim",
+      "homeId": "crc-tavora",
+      "awayId": "adc-aboim-sabadim",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-7882fdfc5183a38f",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "a-ad-ponte-barca",
-      "awayId": "a-atletico-arcos-ad",
+      "homeId": "ad-ponte-barca",
+      "awayId": "atletico-arcos-ad",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-6200efdf5fe07b00",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "a-arc-guilhadeses",
-      "awayId": "a-ad-barroselas-b",
+      "homeId": "arc-guilhadeses",
+      "awayId": "ad-barroselas-b",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-123b4c527dc8a832",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "a-crc-tavora",
-      "awayId": "a-ad-barroselas-b",
+      "homeId": "crc-tavora",
+      "awayId": "ad-barroselas-b",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-ddc8028db6ec85cd",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "a-adc-aboim-sabadim",
-      "awayId": "a-ad-ponte-barca",
+      "homeId": "adc-aboim-sabadim",
+      "awayId": "ad-ponte-barca",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-220896327be2033c",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "a-atletico-arcos-ad",
-      "awayId": "a-arc-guilhadeses",
+      "homeId": "atletico-arcos-ad",
+      "awayId": "arc-guilhadeses",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-2aafa656c62ae050",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "a-ad-ponte-barca",
-      "awayId": "a-crc-tavora",
+      "homeId": "ad-ponte-barca",
+      "awayId": "crc-tavora",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-7e69cfabb92b7adb",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "a-arc-guilhadeses",
-      "awayId": "a-adc-aboim-sabadim",
+      "homeId": "arc-guilhadeses",
+      "awayId": "adc-aboim-sabadim",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-260ebebd0ad41a47",
-      "groupId": "A",
+      "phaseId": "fase-1",
+      "groupId": "1a",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "a-ad-barroselas-b",
-      "awayId": "a-atletico-arcos-ad",
+      "homeId": "ad-barroselas-b",
+      "awayId": "atletico-arcos-ad",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-aceb0ed4f1877868",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "b-ad-os-limianos",
-      "awayId": "b-gd-freixo",
+      "homeId": "ad-os-limianos",
+      "awayId": "gd-freixo",
       "homeGoals": 1,
       "awayGoals": 5,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-2e2620a4b22d0d66",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "b-ad-fachense",
-      "awayId": "b-af-ponte-lima",
+      "homeId": "ad-fachense",
+      "awayId": "af-ponte-lima",
       "homeGoals": 1,
       "awayGoals": 6,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 6,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-90c3d415970fd505",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "b-gd-freixo",
-      "awayId": "b-ad-fachense",
+      "homeId": "gd-freixo",
+      "awayId": "ad-fachense",
       "homeGoals": 3,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-a24d3aa9e4d8502a",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "b-af-ponte-lima",
-      "awayId": "b-ud-lanheses",
+      "homeId": "af-ponte-lima",
+      "awayId": "ud-lanheses",
       "homeGoals": 9,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 9,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-95cebd3a98751092",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "b-ud-lanheses",
-      "awayId": "b-gd-freixo",
+      "homeId": "ud-lanheses",
+      "awayId": "gd-freixo",
       "homeGoals": 3,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-0872287727473592",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "b-ad-fachense",
-      "awayId": "b-ad-os-limianos",
+      "homeId": "ad-fachense",
+      "awayId": "ad-os-limianos",
       "homeGoals": 5,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-6337e288c82318de",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "b-gd-freixo",
-      "awayId": "b-af-ponte-lima",
+      "homeId": "gd-freixo",
+      "awayId": "af-ponte-lima",
       "homeGoals": 2,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-b97e58555f044169",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "b-ad-os-limianos",
-      "awayId": "b-ud-lanheses",
+      "homeId": "ad-os-limianos",
+      "awayId": "ud-lanheses",
       "homeGoals": 2,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-6ae8a9823b1e379c",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "b-af-ponte-lima",
-      "awayId": "b-ad-os-limianos",
+      "homeId": "af-ponte-lima",
+      "awayId": "ad-os-limianos",
       "homeGoals": 7,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 7,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-f2e1b9e5702624fe",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "b-ud-lanheses",
-      "awayId": "b-ad-fachense",
+      "homeId": "ud-lanheses",
+      "awayId": "ad-fachense",
       "homeGoals": 1,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-24a2d52649eb4664",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "b-gd-freixo",
-      "awayId": "b-ad-os-limianos",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "gd-freixo",
+      "awayId": "ad-os-limianos",
+      "homeGoals": 5,
+      "awayGoals": 4,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 1
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-b71ed2efe5fea2ec",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "b-af-ponte-lima",
-      "awayId": "b-ad-fachense",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "af-ponte-lima",
+      "awayId": "ad-fachense",
+      "homeGoals": 4,
+      "awayGoals": 4,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 4
+        }
       }
     },
     {
       "id": "m-40d10c48ca6c5d47",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "b-ad-fachense",
-      "awayId": "b-gd-freixo",
+      "homeId": "ad-fachense",
+      "awayId": "gd-freixo",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-4068be8749151748",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "b-ud-lanheses",
-      "awayId": "b-af-ponte-lima",
+      "homeId": "ud-lanheses",
+      "awayId": "af-ponte-lima",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-c710408842e75e13",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "b-gd-freixo",
-      "awayId": "b-ud-lanheses",
+      "homeId": "gd-freixo",
+      "awayId": "ud-lanheses",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-47c270a11ab0c964",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "b-ad-os-limianos",
-      "awayId": "b-ad-fachense",
+      "homeId": "ad-os-limianos",
+      "awayId": "ad-fachense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-d92d60115c349321",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "b-af-ponte-lima",
-      "awayId": "b-gd-freixo",
+      "homeId": "af-ponte-lima",
+      "awayId": "gd-freixo",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-fccadfb46100dcff",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "b-ud-lanheses",
-      "awayId": "b-ad-os-limianos",
+      "homeId": "ud-lanheses",
+      "awayId": "ad-os-limianos",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-29d565eedd646076",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "b-ad-os-limianos",
-      "awayId": "b-af-ponte-lima",
+      "homeId": "ad-os-limianos",
+      "awayId": "af-ponte-lima",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-b2762ae25c91a6ba",
-      "groupId": "B",
+      "phaseId": "fase-1",
+      "groupId": "1b",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "b-ad-fachense",
-      "awayId": "b-ud-lanheses",
+      "homeId": "ad-fachense",
+      "awayId": "ud-lanheses",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-aff98e267c813c8a",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "c-ad-darquense",
-      "awayId": "c-adc-anha",
+      "homeId": "ad-darquense",
+      "awayId": "adc-anha",
       "homeGoals": 2,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-002ad83afe5af5e1",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "c-neves-fc",
-      "awayId": "c-ad-barroselas-a",
+      "homeId": "neves-fc",
+      "awayId": "ad-barroselas-a",
       "homeGoals": 2,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-cf755b08a16eba56",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "c-vila-fria-1980",
-      "awayId": "c-deucriste-sc",
+      "homeId": "vila-fria-1980",
+      "awayId": "deucriste-sc",
       "homeGoals": 3,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 1,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-ca016cd4ae9c041d",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "c-adc-anha",
-      "awayId": "c-vila-fria-1980",
+      "homeId": "adc-anha",
+      "awayId": "vila-fria-1980",
       "homeGoals": 5,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 3
+        }
       }
     },
     {
       "id": "m-c9ea768abeb1f125",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "c-ad-barroselas-a",
-      "awayId": "c-ad-darquense",
+      "homeId": "ad-barroselas-a",
+      "awayId": "ad-darquense",
       "homeGoals": 0,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-efd4ba833aa49fca",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "c-deucriste-sc",
-      "awayId": "c-neves-fc",
+      "homeId": "deucriste-sc",
+      "awayId": "neves-fc",
       "homeGoals": 0,
       "awayGoals": 8,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 8,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-c46eb4da1c4f0320",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "c-adc-anha",
-      "awayId": "c-ad-barroselas-a",
+      "homeId": "adc-anha",
+      "awayId": "ad-barroselas-a",
       "homeGoals": 6,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 1
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-75218674b10dc082",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "c-ad-darquense",
-      "awayId": "c-deucriste-sc",
+      "homeId": "ad-darquense",
+      "awayId": "deucriste-sc",
       "homeGoals": 5,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-acb22c8a81dd3886",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "c-vila-fria-1980",
-      "awayId": "c-neves-fc",
+      "homeId": "vila-fria-1980",
+      "awayId": "neves-fc",
       "homeGoals": 2,
       "awayGoals": 6,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 6,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-49da252c3448a41b",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "c-vila-fria-1980",
-      "awayId": "c-ad-barroselas-a",
+      "homeId": "vila-fria-1980",
+      "awayId": "ad-barroselas-a",
       "homeGoals": 2,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-b9576559820f7c1e",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "c-deucriste-sc",
-      "awayId": "c-adc-anha",
+      "homeId": "deucriste-sc",
+      "awayId": "adc-anha",
       "homeGoals": 1,
       "awayGoals": 7,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 7,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-8fbb873330317818",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "c-neves-fc",
-      "awayId": "c-ad-darquense",
+      "homeId": "neves-fc",
+      "awayId": "ad-darquense",
       "homeGoals": 2,
       "awayGoals": 2,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-29ba55c8c201cc38",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "c-ad-barroselas-a",
-      "awayId": "c-deucriste-sc",
+      "homeId": "ad-barroselas-a",
+      "awayId": "deucriste-sc",
       "homeGoals": 4,
       "awayGoals": 2,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-1df9ce1561f79e5a",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "c-adc-anha",
-      "awayId": "c-neves-fc",
+      "homeId": "adc-anha",
+      "awayId": "neves-fc",
       "homeGoals": 3,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-c00537441d55fa0e",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "c-ad-darquense",
-      "awayId": "c-vila-fria-1980",
+      "homeId": "ad-darquense",
+      "awayId": "vila-fria-1980",
       "homeGoals": 1,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-78be3de291aa1697",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "c-adc-anha",
-      "awayId": "c-ad-darquense",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "adc-anha",
+      "awayId": "ad-darquense",
+      "homeGoals": 5,
+      "awayGoals": 2,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 2
+        }
       }
     },
     {
       "id": "m-3373e2ab044d9995",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "c-ad-barroselas-a",
-      "awayId": "c-neves-fc",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "ad-barroselas-a",
+      "awayId": "neves-fc",
+      "homeGoals": 0,
+      "awayGoals": 4,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-0934d36b8931bc38",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "c-deucriste-sc",
-      "awayId": "c-vila-fria-1980",
+      "homeId": "deucriste-sc",
+      "awayId": "vila-fria-1980",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-7b2f4f9750bb74cb",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "c-vila-fria-1980",
-      "awayId": "c-adc-anha",
+      "homeId": "vila-fria-1980",
+      "awayId": "adc-anha",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-43a15093f40231ee",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "c-ad-darquense",
-      "awayId": "c-ad-barroselas-a",
+      "homeId": "ad-darquense",
+      "awayId": "ad-barroselas-a",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-aad26dddeec9d7c7",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "c-neves-fc",
-      "awayId": "c-deucriste-sc",
+      "homeId": "neves-fc",
+      "awayId": "deucriste-sc",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-bc7336c69ba2c857",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "c-ad-barroselas-a",
-      "awayId": "c-adc-anha",
+      "homeId": "ad-barroselas-a",
+      "awayId": "adc-anha",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-2c1e9c13c1115050",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "c-deucriste-sc",
-      "awayId": "c-ad-darquense",
+      "homeId": "deucriste-sc",
+      "awayId": "ad-darquense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-d220689cf81a9f5f",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "c-neves-fc",
-      "awayId": "c-vila-fria-1980",
+      "homeId": "neves-fc",
+      "awayId": "vila-fria-1980",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-91bbcd4112d9897b",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "c-ad-barroselas-a",
-      "awayId": "c-vila-fria-1980",
+      "homeId": "ad-barroselas-a",
+      "awayId": "vila-fria-1980",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-65bfd9f60720cdab",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "c-adc-anha",
-      "awayId": "c-deucriste-sc",
+      "homeId": "adc-anha",
+      "awayId": "deucriste-sc",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-616b6090c54c2e9c",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "c-ad-darquense",
-      "awayId": "c-neves-fc",
+      "homeId": "ad-darquense",
+      "awayId": "neves-fc",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-82db02be02e173b1",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "c-deucriste-sc",
-      "awayId": "c-ad-barroselas-a",
+      "homeId": "deucriste-sc",
+      "awayId": "ad-barroselas-a",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-eb3b6566456c401c",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "c-neves-fc",
-      "awayId": "c-adc-anha",
+      "homeId": "neves-fc",
+      "awayId": "adc-anha",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-90bb186fa9e78d59",
-      "groupId": "C",
+      "phaseId": "fase-1",
+      "groupId": "1c",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "c-vila-fria-1980",
-      "awayId": "c-ad-darquense",
+      "homeId": "vila-fria-1980",
+      "awayId": "ad-darquense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-522c653ea8936b3a",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "d-perspectiva-em-jogo-ad",
-      "awayId": "d-adc-perre",
+      "homeId": "perspectiva-em-jogo-ad",
+      "awayId": "adc-perre",
       "homeGoals": 6,
       "awayGoals": 2,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 6,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-2b4387c3eb1fc06e",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "d-gd-areosense",
-      "awayId": "d-torre-sc",
+      "homeId": "gd-areosense",
+      "awayId": "torre-sc",
       "homeGoals": 3,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-e31693996f33329d",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "d-sc-vianense",
-      "awayId": "d-gd-meadela",
+      "homeId": "sc-vianense",
+      "awayId": "gd-meadela",
       "homeGoals": 2,
       "awayGoals": 2,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-a83c05c2647e538a",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "d-adc-perre",
-      "awayId": "d-sc-vianense",
+      "homeId": "adc-perre",
+      "awayId": "sc-vianense",
       "homeGoals": 2,
       "awayGoals": 7,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 7,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-745c37692c04f28e",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "d-torre-sc",
-      "awayId": "d-perspectiva-em-jogo-ad",
+      "homeId": "torre-sc",
+      "awayId": "perspectiva-em-jogo-ad",
       "homeGoals": 2,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-c71dc0d5f74774cc",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "d-gd-meadela",
-      "awayId": "d-gd-areosense",
+      "homeId": "gd-meadela",
+      "awayId": "gd-areosense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-bf187712b71601e1",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "d-adc-perre",
-      "awayId": "d-torre-sc",
+      "homeId": "adc-perre",
+      "awayId": "torre-sc",
       "homeGoals": 0,
       "awayGoals": 10,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 10,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-212bc1b1e3aa38a7",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "d-perspectiva-em-jogo-ad",
-      "awayId": "d-gd-meadela",
+      "homeId": "perspectiva-em-jogo-ad",
+      "awayId": "gd-meadela",
       "homeGoals": 5,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-011f703a1295ec1e",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "d-sc-vianense",
-      "awayId": "d-gd-areosense",
+      "homeId": "sc-vianense",
+      "awayId": "gd-areosense",
       "homeGoals": 10,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 10,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-82ee06878a40b649",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "d-sc-vianense",
-      "awayId": "d-torre-sc",
+      "homeId": "sc-vianense",
+      "awayId": "torre-sc",
       "homeGoals": 1,
       "awayGoals": 2,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-4a4520d65887e12b",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "d-gd-meadela",
-      "awayId": "d-adc-perre",
+      "homeId": "gd-meadela",
+      "awayId": "adc-perre",
       "homeGoals": 5,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-ea5bff47abf6b919",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "d-gd-areosense",
-      "awayId": "d-perspectiva-em-jogo-ad",
+      "homeId": "gd-areosense",
+      "awayId": "perspectiva-em-jogo-ad",
       "homeGoals": 1,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-c6fa7e1d27d01f62",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "d-torre-sc",
-      "awayId": "d-gd-meadela",
+      "homeId": "torre-sc",
+      "awayId": "gd-meadela",
       "homeGoals": 2,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 1,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-e3c90e73116e46f4",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "d-adc-perre",
-      "awayId": "d-gd-areosense",
+      "homeId": "adc-perre",
+      "awayId": "gd-areosense",
       "homeGoals": 1,
       "awayGoals": 6,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 6,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-746721e1faa0e14c",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "d-perspectiva-em-jogo-ad",
-      "awayId": "d-sc-vianense",
+      "homeId": "perspectiva-em-jogo-ad",
+      "awayId": "sc-vianense",
       "homeGoals": 3,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-82685d287c7ef514",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "d-adc-perre",
-      "awayId": "d-perspectiva-em-jogo-ad",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "adc-perre",
+      "awayId": "perspectiva-em-jogo-ad",
+      "homeGoals": 1,
+      "awayGoals": 12,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 12,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-211b69912647bb71",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "d-torre-sc",
-      "awayId": "d-gd-areosense",
+      "homeId": "torre-sc",
+      "awayId": "gd-areosense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-b02caee500c0ebb7",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "d-gd-meadela",
-      "awayId": "d-sc-vianense",
+      "homeId": "gd-meadela",
+      "awayId": "sc-vianense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-f3a91a41c91ff524",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "d-sc-vianense",
-      "awayId": "d-adc-perre",
+      "homeId": "sc-vianense",
+      "awayId": "adc-perre",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-b5e30ccf7886aa8f",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "d-perspectiva-em-jogo-ad",
-      "awayId": "d-torre-sc",
+      "homeId": "perspectiva-em-jogo-ad",
+      "awayId": "torre-sc",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-a80b2f89cb2325b5",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "d-gd-areosense",
-      "awayId": "d-gd-meadela",
+      "homeId": "gd-areosense",
+      "awayId": "gd-meadela",
       "homeGoals": 1,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-40124c8b71781ea6",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "d-torre-sc",
-      "awayId": "d-adc-perre",
+      "homeId": "torre-sc",
+      "awayId": "adc-perre",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-1b0a1856182d0791",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "d-gd-meadela",
-      "awayId": "d-perspectiva-em-jogo-ad",
+      "homeId": "gd-meadela",
+      "awayId": "perspectiva-em-jogo-ad",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-67784b1f0bc99436",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "d-gd-areosense",
-      "awayId": "d-sc-vianense",
+      "homeId": "gd-areosense",
+      "awayId": "sc-vianense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-28386d5a5eb4b20f",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "d-torre-sc",
-      "awayId": "d-sc-vianense",
+      "homeId": "torre-sc",
+      "awayId": "sc-vianense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-577d1eed40a9c737",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "d-adc-perre",
-      "awayId": "d-gd-meadela",
+      "homeId": "adc-perre",
+      "awayId": "gd-meadela",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-3ba5dae56b5ea915",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "d-perspectiva-em-jogo-ad",
-      "awayId": "d-gd-areosense",
+      "homeId": "perspectiva-em-jogo-ad",
+      "awayId": "gd-areosense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-7adb802bd32fe36c",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "d-gd-meadela",
-      "awayId": "d-torre-sc",
+      "homeId": "gd-meadela",
+      "awayId": "torre-sc",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-c0b258b205b2b9e2",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "d-gd-areosense",
-      "awayId": "d-adc-perre",
+      "homeId": "gd-areosense",
+      "awayId": "adc-perre",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-2d549c7a0d55236b",
-      "groupId": "D",
+      "phaseId": "fase-1",
+      "groupId": "1d",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "d-sc-vianense",
-      "awayId": "d-perspectiva-em-jogo-ad",
+      "homeId": "sc-vianense",
+      "awayId": "perspectiva-em-jogo-ad",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-3c8f5899776e62fd",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "e-desp-moncao-b",
-      "awayId": "e-cc-os-torreenses",
+      "homeId": "desp-moncao-b",
+      "awayId": "cc-os-torreenses",
       "homeGoals": 1,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-f9940948f4e51a3e",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "e-ad-campos",
-      "awayId": "e-ancora-praia-fc",
+      "homeId": "ad-campos",
+      "awayId": "ancora-praia-fc",
       "homeGoals": 1,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-7c03938c83b47ecc",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "e-cc-os-torreenses",
-      "awayId": "e-ad-campos",
+      "homeId": "cc-os-torreenses",
+      "awayId": "ad-campos",
       "homeGoals": 8,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 8,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-4baa57b957d16a4e",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "e-ancora-praia-fc",
-      "awayId": "e-ac-caminha",
+      "homeId": "ancora-praia-fc",
+      "awayId": "ac-caminha",
       "homeGoals": 1,
       "awayGoals": 2,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-717dee4e2b5e4a0f",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "e-ac-caminha",
-      "awayId": "e-cc-os-torreenses",
+      "homeId": "ac-caminha",
+      "awayId": "cc-os-torreenses",
       "homeGoals": 3,
       "awayGoals": 2,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-ea0d89fe7bb23203",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "e-ad-campos",
-      "awayId": "e-desp-moncao-b",
+      "homeId": "ad-campos",
+      "awayId": "desp-moncao-b",
       "homeGoals": 0,
       "awayGoals": 5,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-a950c75c9df549ce",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "e-cc-os-torreenses",
-      "awayId": "e-ancora-praia-fc",
+      "homeId": "cc-os-torreenses",
+      "awayId": "ancora-praia-fc",
       "homeGoals": 2,
       "awayGoals": 4,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-6399426320074dcd",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "e-desp-moncao-b",
-      "awayId": "e-ac-caminha",
+      "homeId": "desp-moncao-b",
+      "awayId": "ac-caminha",
       "homeGoals": 1,
       "awayGoals": 2,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-47ea50960fc051a4",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "e-ancora-praia-fc",
-      "awayId": "e-desp-moncao-b",
+      "homeId": "ancora-praia-fc",
+      "awayId": "desp-moncao-b",
       "homeGoals": 3,
       "awayGoals": 2,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-29d1a47dc8493d52",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "e-ac-caminha",
-      "awayId": "e-ad-campos",
+      "homeId": "ac-caminha",
+      "awayId": "ad-campos",
       "homeGoals": 4,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-dd7c6eeeaab2ef9f",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "e-cc-os-torreenses",
-      "awayId": "e-desp-moncao-b",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "cc-os-torreenses",
+      "awayId": "desp-moncao-b",
+      "homeGoals": 4,
+      "awayGoals": 0,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 4,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-ff0c7b7064a53bf2",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "e-ancora-praia-fc",
-      "awayId": "e-ad-campos",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "ancora-praia-fc",
+      "awayId": "ad-campos",
+      "homeGoals": 9,
+      "awayGoals": 0,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 9,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-ba0264930259d022",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "e-ad-campos",
-      "awayId": "e-cc-os-torreenses",
+      "homeId": "ad-campos",
+      "awayId": "cc-os-torreenses",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-8d77166b1cf4dc86",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "e-ac-caminha",
-      "awayId": "e-ancora-praia-fc",
+      "homeId": "ac-caminha",
+      "awayId": "ancora-praia-fc",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-ab38b6764afcbed2",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "e-cc-os-torreenses",
-      "awayId": "e-ac-caminha",
+      "homeId": "cc-os-torreenses",
+      "awayId": "ac-caminha",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-f6175b973dc61596",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "e-desp-moncao-b",
-      "awayId": "e-ad-campos",
+      "homeId": "desp-moncao-b",
+      "awayId": "ad-campos",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-fc953f20d6d617bb",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "e-ancora-praia-fc",
-      "awayId": "e-cc-os-torreenses",
+      "homeId": "ancora-praia-fc",
+      "awayId": "cc-os-torreenses",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-b14f3678cdf49276",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "e-ac-caminha",
-      "awayId": "e-desp-moncao-b",
+      "homeId": "ac-caminha",
+      "awayId": "desp-moncao-b",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-72b8766060770427",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "e-desp-moncao-b",
-      "awayId": "e-ancora-praia-fc",
+      "homeId": "desp-moncao-b",
+      "awayId": "ancora-praia-fc",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-eaf477e85143868e",
-      "groupId": "E",
+      "phaseId": "fase-1",
+      "groupId": "1e",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "e-ad-campos",
-      "awayId": "e-ac-caminha",
+      "homeId": "ad-campos",
+      "awayId": "ac-caminha",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-1b10d522aa15cc3a",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "f-desp-moncao-a",
-      "awayId": "f-cd-cerveira",
+      "homeId": "desp-moncao-a",
+      "awayId": "cd-cerveira",
       "homeGoals": 2,
       "awayGoals": 1,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 1,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-8456c9ff59649a92",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 1,
       "date": "2026-10-10",
-      "homeId": "f-ud-os-raianos",
-      "awayId": "f-sc-valenciano",
+      "homeId": "ud-os-raianos",
+      "awayId": "sc-valenciano",
       "homeGoals": null,
       "awayGoals": null,
       "status": "withdrawn",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-8d1072cf39a85ef4",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "f-cd-cerveira",
-      "awayId": "f-ud-os-raianos",
+      "homeId": "cd-cerveira",
+      "awayId": "ud-os-raianos",
       "homeGoals": null,
       "awayGoals": null,
       "status": "withdrawn",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-b3ba56e284fbee67",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 2,
       "date": "2026-10-17",
-      "homeId": "f-sc-valenciano",
-      "awayId": "f-sc-courense",
+      "homeId": "sc-valenciano",
+      "awayId": "sc-courense",
       "homeGoals": 2,
       "awayGoals": 11,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 11,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-bee1e4c7defebe3f",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "f-sc-courense",
-      "awayId": "f-cd-cerveira",
+      "homeId": "sc-courense",
+      "awayId": "cd-cerveira",
       "homeGoals": 5,
       "awayGoals": 5,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 5,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-e56cad8e550be4ea",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 3,
       "date": "2026-10-24",
-      "homeId": "f-ud-os-raianos",
-      "awayId": "f-desp-moncao-a",
+      "homeId": "ud-os-raianos",
+      "awayId": "desp-moncao-a",
       "homeGoals": null,
       "awayGoals": null,
       "status": "withdrawn",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-7f88d745a4a9dfe9",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "f-cd-cerveira",
-      "awayId": "f-sc-valenciano",
+      "homeId": "cd-cerveira",
+      "awayId": "sc-valenciano",
       "homeGoals": 10,
       "awayGoals": 0,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 10,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-8543a82e54c0b9bc",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 4,
       "date": "2026-10-31",
-      "homeId": "f-desp-moncao-a",
-      "awayId": "f-sc-courense",
+      "homeId": "desp-moncao-a",
+      "awayId": "sc-courense",
       "homeGoals": 3,
       "awayGoals": 6,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 6,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-d19bf0365087febd",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "f-sc-valenciano",
-      "awayId": "f-desp-moncao-a",
+      "homeId": "sc-valenciano",
+      "awayId": "desp-moncao-a",
       "homeGoals": 2,
       "awayGoals": 3,
       "status": "finished",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 2,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-31395a2f77145f52",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 5,
       "date": "2026-11-07",
-      "homeId": "f-sc-courense",
-      "awayId": "f-ud-os-raianos",
+      "homeId": "sc-courense",
+      "awayId": "ud-os-raianos",
       "homeGoals": null,
       "awayGoals": null,
       "status": "withdrawn",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-59402f495bf320da",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "f-cd-cerveira",
-      "awayId": "f-desp-moncao-a",
-      "homeGoals": null,
-      "awayGoals": null,
-      "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "homeId": "cd-cerveira",
+      "awayId": "desp-moncao-a",
+      "homeGoals": 3,
+      "awayGoals": 6,
+      "status": "finished",
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 3,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 6,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-fcf224963e985581",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 6,
       "date": "2026-11-14",
-      "homeId": "f-sc-valenciano",
-      "awayId": "f-ud-os-raianos",
+      "homeId": "sc-valenciano",
+      "awayId": "ud-os-raianos",
       "homeGoals": null,
       "awayGoals": null,
       "status": "withdrawn",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-a46ae6365de320a3",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "f-ud-os-raianos",
-      "awayId": "f-cd-cerveira",
+      "homeId": "ud-os-raianos",
+      "awayId": "cd-cerveira",
       "homeGoals": null,
       "awayGoals": null,
       "status": "withdrawn",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-6d628e18649a93e1",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 7,
       "date": "2026-11-21",
-      "homeId": "f-sc-courense",
-      "awayId": "f-sc-valenciano",
+      "homeId": "sc-courense",
+      "awayId": "sc-valenciano",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-e48255979e18a560",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "f-cd-cerveira",
-      "awayId": "f-sc-courense",
+      "homeId": "cd-cerveira",
+      "awayId": "sc-courense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-92699232071a8b6e",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 8,
       "date": "2026-11-28",
-      "homeId": "f-desp-moncao-a",
-      "awayId": "f-ud-os-raianos",
+      "homeId": "desp-moncao-a",
+      "awayId": "ud-os-raianos",
       "homeGoals": null,
       "awayGoals": null,
       "status": "withdrawn",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-1bf323076f090253",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "f-sc-valenciano",
-      "awayId": "f-cd-cerveira",
+      "homeId": "sc-valenciano",
+      "awayId": "cd-cerveira",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-cca22df9bc388106",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 9,
       "date": "2026-12-05",
-      "homeId": "f-sc-courense",
-      "awayId": "f-desp-moncao-a",
+      "homeId": "sc-courense",
+      "awayId": "desp-moncao-a",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-e4c7d0e6e9582667",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "f-desp-moncao-a",
-      "awayId": "f-sc-valenciano",
+      "homeId": "desp-moncao-a",
+      "awayId": "sc-valenciano",
       "homeGoals": null,
       "awayGoals": null,
       "status": "scheduled",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     },
     {
       "id": "m-e894ac3be4379ed6",
-      "groupId": "F",
+      "phaseId": "fase-1",
+      "groupId": "1f",
       "round": 10,
       "date": "2026-12-12",
-      "homeId": "f-ud-os-raianos",
-      "awayId": "f-sc-courense",
+      "homeId": "ud-os-raianos",
+      "awayId": "sc-courense",
       "homeGoals": null,
       "awayGoals": null,
       "status": "withdrawn",
-      "scorers": {
-        "home": [],
-        "away": []
+      "scoring": {
+        "home": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        },
+        "away": {
+          "scorers": [],
+          "identified": 0,
+          "ownGoals": 0,
+          "missing": 0
+        }
       }
     }
   ],
-  "scorers": [],
+  "scorers": {
+    "fase-1": [],
+    "fase-2": [],
+    "total": []
+  },
   "stats": {
+    "phases": 2,
     "groups": 6,
     "teams": 33,
     "activeTeams": 32,
     "clubs": 31,
     "matches": 150,
-    "played": 71,
-    "goals": 433,
-    "scorerRecords": 199,
-    "draws": 9
+    "played": 81,
+    "goals": 510,
+    "draws": 10,
+    "describedGoals": 499,
+    "ownGoals": 5,
+    "unidentifiedGoals": 11,
+    "scorerRecords": 218,
+    "individualGoals": 494
   },
-  "generalStatistics": [
-    {
-      "label": "Equipa com Mais Vitórias",
-      "value": 4,
-      "leader": null
-    },
-    {
-      "label": "Equipa com Mais Golos Marcados",
-      "value": 25,
-      "leader": null
-    },
-    {
-      "label": "Equipa Menos Batida (Menos Golos Sofridos)",
-      "value": 4,
-      "leader": null
-    }
-  ],
+  "quality": {
+    "unidentifiedGoals": 11,
+    "sidesWithMissingScorers": 5,
+    "futureResults": [
+      "m-a80b2f89cb2325b5"
+    ]
+  },
   "publication": {
-    "individualNamesAvailable": false,
-    "individualRecordsPublished": 0
+    "scorerNames": "redacted",
+    "excludedRecords": 0
   },
   "rosters": [],
-  "version": "86435ce18a0edc9874b3c7cf997967d04332cf607e07f2e1e49e16fd62ffef14",
-  "sourceHash": "d8396e9c3f41270779e600181865c72b4bbc70999f8956d7ec526599fe26896b",
-  "importedAt": "2026-11-16T09:32:50.222453+00:00"
+  "sourceHash": "26823a9a00c42d8c9732de3f652d3f7f29e1b3c4c76e1445ac852615421ba1e3",
+  "version": "9240b9d18e47f29e70bd349ec1197fb1f852c8ade261130f458298e745cd2fcb",
+  "importedAt": "2026-11-16T14:25:09.512Z"
 }

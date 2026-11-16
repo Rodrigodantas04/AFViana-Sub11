@@ -1,7 +1,7 @@
 {
-  "playerRecords": {},
-  "excludedRecordIds": [],
+  "scorerNames": "public",
+  "excludedScorerIds": [],
   "rosterRecords": {},
   "excludedRosterRecordIds": [],
-  "description": "Publicação individual desativada por omissão. Cada entrada exige recordId, fingerprint e uma referência interna de autorização. Consultar ARCHITECTURE.md."
+  "description": "scorerNames: 'public' mostra nome, equipa e golos tal como registados na fonte, apenas na projeção ao vivo (nunca no Git nem no HTML pré-renderizado); 'hidden' oculta todos. excludedScorerIds: identificadores s-… a retirar a pedido (opt-out). Plantéis continuam a exigir autorização por registo e fingerprint. Ver ARCHITECTURE.md."
 }

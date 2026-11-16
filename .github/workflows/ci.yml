@@ -11,9 +11,12 @@ jobs:
         with:
           node-version: '24'
           package-manager-cache: false
-      - uses: actions/setup-python@v7
-        with:
-          python-version: '3.11'
+      - run: npm ci
       - run: npm run check
+      # Public checkout: no workbook, so the build uses the committed snapshot (no names).
       - run: npm run build
       - run: npm test
+      - name: Built site contains no private data
+        run: |
+          test ! -e dist/data/internal && ! ls dist/**/*.xlsx 2>/dev/null
+          node -e "const d=require('./dist/data/competition.json'); if (d.publication.scorerNames!=='redacted') process.exit(1)"

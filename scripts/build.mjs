@@ -1,16 +1,20 @@
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { validateDataset } from '../src/domain.js';
+import { validateDataset, groupPath } from '../src/domain.js';
 import { renderView, pageTitle, header, footer } from '../src/views.js';
 import { esc } from '../src/components.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url)), output = path.join(root, 'dist');
+// Static HTML is always rendered from the repository snapshot, which has no children's names.
 const data = validateDataset(JSON.parse(await fs.readFile(path.join(root, 'data/public/competition.json'), 'utf8')));
-const routes = ['/', '/competicoes', `/competicoes/${data.competition.slug}`, '/jogos', '/clubes', '/marcadores', '/estatisticas', ...data.groups.map(g => `/competicoes/${data.competition.slug}/serie-${g.id.toLowerCase()}`), ...data.matches.map(m => `/jogos/${m.id}`), ...data.clubs.map(c => `/clubes/${c.slug}`)];
-const base = process.env.SITE_URL || process.env.URL || '';
-if (base && !/^https?:\/\//.test(base)) throw new Error('SITE_URL deve ser um URL HTTP(S) absoluto.');
-const baseUrl = base ? new URL(base).origin : '';
+const livePath = path.join(root, 'data/internal/live.json');
+const liveData = await fs.readFile(livePath, 'utf8').then(text => validateDataset(JSON.parse(text)) && text).catch(() => null);
+const base = `/competicoes/${data.competition.slug}`;
+const routes = ['/', '/competicoes', base, '/jogos', '/clubes', '/marcadores', '/estatisticas', '/privacidade', ...data.phases.map(p => `${base}/${p.id}`), ...data.groups.map(g => groupPath(data, g.id)), ...data.matches.map(m => `/jogos/${m.id}`), ...data.clubs.map(c => `/clubes/${c.slug}`)];
+const siteUrl = process.env.SITE_URL || process.env.URL || '';
+if (siteUrl && !/^https?:\/\//.test(siteUrl)) throw new Error('SITE_URL deve ser um URL HTTP(S) absoluto.');
+const baseUrl = siteUrl ? new URL(siteUrl).origin : '';
 const description = 'Resultados, classificações e protagonistas do futebol de formação do Alto Minho. Torneio Gomes Ribeiro Sub-11.';
 await fs.mkdir(output, { recursive: true });
 // Build only into the public directory. No copying of the repository or private source.
@@ -18,7 +22,12 @@ await fs.rm(output, { recursive: true, force: true });
 await fs.mkdir(path.join(output, 'assets'), { recursive: true });
 await fs.mkdir(path.join(output, 'data'), { recursive: true });
 for (const name of ['app.js', 'theme.js', 'views.js', 'components.js', 'domain.js', 'styles.css']) await fs.copyFile(path.join(root, 'src', name), path.join(output, 'assets', name));
-await fs.copyFile(path.join(root, 'data/public/competition.json'), path.join(output, 'data/competition.json'));
+for (const name of ['admin.js', 'admin.css']) await fs.copyFile(path.join(root, 'src', name), path.join(output, 'assets', name));
+await fs.mkdir(path.join(output, 'admin'), { recursive: true });
+await fs.copyFile(path.join(root, 'src/admin.html'), path.join(output, 'admin/index.html'));
+// Local previews may use the private live projection (dist/ is never committed); deployments serve it from the server.
+if (liveData && !process.env.NETLIFY) await fs.writeFile(path.join(output, 'data/competition.json'), liveData);
+else await fs.copyFile(path.join(root, 'data/public/competition.json'), path.join(output, 'data/competition.json'));
 await fs.copyFile(path.join(root, 'assets/social.png'), path.join(output, 'social.png'));
 const photos = new Set((data.rosters ?? []).flatMap(r => [...r.players, ...r.staff]).map(p => p.photoPath).filter(Boolean));
 if (photos.size) await fs.mkdir(path.join(output, 'media'), { recursive: true });
@@ -39,7 +48,8 @@ for (const route of routes) {
   await fs.writeFile(path.join(directory, 'index.html'), html(route));
 }
 await fs.writeFile(path.join(output, '404.html'), html('/404', true));
-await fs.writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\n${baseUrl ? `Sitemap: ${baseUrl}/sitemap.xml\n` : ''}`);
+await fs.writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\n${baseUrl ? `Sitemap: ${baseUrl}/sitemap.xml\n` : ''}`);
 if (baseUrl) await fs.writeFile(path.join(output, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map(r => `<url><loc>${esc(baseUrl + r)}</loc></url>`).join('')}</urlset>`);
+await fs.writeFile(path.join(output, '_redirects'), data.groups.filter(g => g.phaseId === 'fase-1').map(g => `${base}/serie-${g.letter.toLowerCase()} ${groupPath(data, g.id)} 301`).join('\n') + '\n');
 await fs.writeFile(path.join(output, '_headers'), '/data/competition.json\n  Cache-Control: no-cache, no-store, must-revalidate\n/assets/*\n  Cache-Control: public, max-age=0, must-revalidate\n');
 console.log(`MINHO11: ${routes.length} páginas pré-renderizadas. Fonte Excel e relatório interno fora de dist/.`);
