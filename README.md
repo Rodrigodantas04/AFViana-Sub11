@@ -89,7 +89,7 @@ Passos que dependem do responsável:
 
 1. Criar o site na Netlify a partir deste repositório.
 2. Criar uma conta de serviço Google com a Drive API ativa e partilhar **apenas** o ficheiro Excel com o email dessa conta, como Editor. A partilha pública não muda.
-3. Definir na Netlify (Environment variables, nunca no código) `GOOGLE_SERVICE_ACCOUNT_JSON`, `ADMIN_PASSWORD_HASH` e `ADMIN_SESSION_SECRET`. Os dois últimos vêm de `npm run admin:password`.
+3. Ligar esta pasta ao site (`npx netlify-cli@27.16.1 login` e `… link`) e correr `npm run configure:production -- caminho/da/chave.json`. O comando testa a leitura e a permissão de edição no Drive, pede a palavra-passe sem a mostrar e grava `GOOGLE_SERVICE_ACCOUNT_JSON`, `ADMIN_PASSWORD_HASH` e `ADMIN_SESSION_SECRET` como variáveis secretas da Netlify (nunca no código).
 
 Sem estas variáveis, o site público funciona com o snapshot e o `/admin` explica que a gestão ainda não está configurada.
 
