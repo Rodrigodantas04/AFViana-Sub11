@@ -87,8 +87,7 @@ async function loadDesk({ keepDraft = null } = {}) {
   state.data = result;
   $('#logout').hidden = false;
   show('#desk');
-  renderBanners();
-  renderPicker();
+  renderAll();
   const restore = keepDraft ?? state.draftKeep;
   state.draftKeep = null;
   if (restore) { openMatch(restore.matchId, { draft: restore.draft }); }
@@ -120,40 +119,62 @@ function renderPicker() {
   round.replaceChildren(option('', 'Todas', !keepRound), ...rounds.map(r => option(String(r), `Jornada ${r}`, String(r) === keepRound)));
   renderMatches();
 }
+function matchButton(m, { showGroup = false } = {}) {
+  const li = document.createElement('li'), button = document.createElement('button');
+  button.type = 'button'; button.dataset.match = m.id;
+  if (m.id === state.matchId) button.setAttribute('aria-current', 'true');
+  const missing = m.scorers.home.missing + m.scorers.away.missing;
+  const late = isOpen(m) && m.date && m.date <= today;
+  button.innerHTML = `<span class="teams"></span><span class="result"></span><span class="meta"></span>`;
+  button.querySelector('.teams').textContent = `${teamName(m.homeId)} – ${teamName(m.awayId)}`;
+  button.querySelector('.result').textContent = m.status === 'finished' ? `${m.homeGoals}–${m.awayGoals}` : '–';
+  const meta = button.querySelector('.meta'), g = groupOf(m.groupId);
+  meta.textContent = `${showGroup ? `${phaseOf(m.phaseId).number}.ª F · Série ${g.letter} · ` : ''}J${m.round} · ${dateText(m.date)}`;
+  const tag = (text, cls = '') => meta.append(Object.assign(document.createElement('span'), { className: `tag ${cls}`, textContent: text }));
+  if (m.status === 'withdrawn') tag('desistência');
+  else if (late) tag('por preencher');
+  else if (m.status === 'finished' && missing) tag(`${missing} ${missing === 1 ? 'golo sem nome' : 'golos sem nome'}`, 'tag-soft');
+  else if (m.status === 'finished') tag('completo', 'tag-ok');
+  if (m.issues.some(i => i.level === 'warning')) tag('rever');
+  li.append(button);
+  return li;
+}
 function renderMatches() {
   const d = state.data, list = $('#match-list'), onlyOpen = $('#only-open').checked;
   const matches = d.matches.filter(m => m.groupId === $('#group').value && (!$('#round').value || m.round === Number($('#round').value)) && (!onlyOpen || isOpen(m) || m.scorers.home.missing || m.scorers.away.missing))
     .sort((a, b) => a.round - b.round || (a.date ?? '').localeCompare(b.date ?? ''));
-  list.replaceChildren();
-  if (!matches.length) { list.append(Object.assign(document.createElement('li'), { className: 'empty', textContent: onlyOpen ? 'Nenhum jogo por preencher nesta seleção. 🎉' : 'Sem jogos nesta seleção.' })); return; }
-  for (const m of matches) {
-    const li = document.createElement('li'), button = document.createElement('button');
-    button.type = 'button'; button.dataset.match = m.id;
-    if (m.id === state.matchId) button.setAttribute('aria-current', 'true');
-    const missing = m.scorers.home.missing + m.scorers.away.missing;
-    const late = isOpen(m) && m.date && m.date <= today;
-    button.innerHTML = `<span class="teams"></span><span class="result"></span><span class="meta"></span>`;
-    button.querySelector('.teams').textContent = `${teamName(m.homeId)} – ${teamName(m.awayId)}`;
-    button.querySelector('.result').textContent = m.status === 'finished' ? `${m.homeGoals}–${m.awayGoals}` : '–';
-    const meta = button.querySelector('.meta');
-    meta.textContent = `J${m.round} · ${dateText(m.date)}`;
-    const tag = text => meta.append(Object.assign(document.createElement('span'), { className: 'tag', textContent: text }));
-    if (m.status === 'withdrawn') tag('desistência');
-    else if (late) tag('por preencher');
-    else if (m.status === 'finished' && missing) tag(`${missing} ${missing === 1 ? 'golo sem nome' : 'golos sem nome'}`);
-    if (m.issues.some(i => i.level === 'warning')) tag('rever');
-    li.append(button); list.append(li);
-  }
+  list.replaceChildren(...matches.map(m => matchButton(m)));
+  if (!matches.length) list.append(Object.assign(document.createElement('li'), { className: 'empty', textContent: onlyOpen ? 'Nenhum jogo por preencher nesta seleção. 🎉' : 'Sem jogos nesta seleção.' }));
+  renderToday();
+}
+const addDays = (iso, days) => new Date(Date.parse(iso + 'T12:00:00Z') + days * 86400000).toISOString().slice(0, 10);
+function renderToday() {
+  const d = state.data, from = addDays(today, -7), list = $('#today-list');
+  const recent = d.matches.filter(m => m.date && m.status !== 'withdrawn' && ((m.date >= from && m.date <= addDays(today, 1)) || (isOpen(m) && m.date <= today)))
+    .sort((a, b) => Number(isOpen(b) && b.date <= today) - Number(isOpen(a) && a.date <= today) || b.date.localeCompare(a.date) || a.groupId.localeCompare(b.groupId));
+  list.replaceChildren(...recent.map(m => matchButton(m, { showGroup: true })));
+  if (!recent.length) list.append(Object.assign(document.createElement('li'), { className: 'empty', textContent: 'Sem jogos nos últimos dias. Usa «Por série» para abrir qualquer jogo.' }));
+}
+function renderAll() {
+  renderBanners(); renderPicker(); renderPhase2(); renderPrivacy(); renderHistory();
 }
 $('#phase').addEventListener('change', () => { $('#group').value = ''; $('#round').value = ''; renderPicker(); });
 $('#group').addEventListener('change', () => { $('#round').value = ''; renderPicker(); });
 $('#round').addEventListener('change', renderMatches);
 $('#only-open').addEventListener('change', renderMatches);
-$('#match-list').addEventListener('click', event => {
+for (const list of ['#match-list', '#today-list']) $(list).addEventListener('click', event => {
   const id = event.target.closest('[data-match]')?.dataset.match;
   if (!id) return;
   if (id !== state.matchId && isDirty() && !confirm('Tens alterações por gravar neste jogo. Abrir outro e perdê-las?')) return;
   openMatch(id);
+});
+// --- tabs ---------------------------------------------------------------------------
+document.querySelector('.tabs').addEventListener('click', event => {
+  const tab = event.target.closest('[data-tab]')?.dataset.tab;
+  if (!tab) return;
+  for (const b of document.querySelectorAll('[data-tab]')) b.setAttribute('aria-pressed', String(b.dataset.tab === tab));
+  for (const p of document.querySelectorAll('[data-panel]')) p.hidden = p.dataset.panel !== tab;
+  if (!['today', 'series'].includes(tab) && !isDirty()) { $('#editor').hidden = true; state.matchId = null; state.initial = null; }
 });
 
 // --- editor -------------------------------------------------------------------------
@@ -217,6 +238,10 @@ function openMatch(id, { draft = null } = {}) {
   state.op = null;
   const editable = state.data.writable && m.status !== 'withdrawn';
   for (const el of $('#editor').querySelectorAll('input, button:not(#close-editor):not(#reload-match)')) el.disabled = !editable;
+  $('#match-date').value = m.date ?? '';
+  $('#match-date').disabled = !state.data.writable;
+  $('#save-date').disabled = !state.data.writable;
+  $('#clear-result').hidden = !(m.homeGoals !== null || m.awayGoals !== null || m.scorers.home.entries.length || m.scorers.away.entries.length);
   $('#reload-match').hidden = true;
   $('#editor').hidden = false;
   renderMatches();
@@ -285,6 +310,7 @@ $('#close-editor').addEventListener('click', () => {
   if (isDirty() && !confirm('Fechar sem gravar as alterações?')) return;
   $('#editor').hidden = true; state.matchId = null; state.initial = null; renderMatches();
 });
+
 function validateName(input) {
   const row = input.closest('.scorer-row'), own = row.dataset.own === 'true', value = input.value.replace(/\s+/g, ' ').trim();
   let message = '';
@@ -339,7 +365,7 @@ $('#editor').addEventListener('submit', async event => {
     if (result.ok) {
       if (result.state) state.data = result.state;
       else return await loadDesk();
-      renderBanners(); renderPicker();
+      renderAll();
       const id = state.matchId;
       openMatch(id);
       setSaveState('saved', result.repeated ? 'Este resultado já estava gravado.' : 'Resultado gravado ✓ O site já foi atualizado.');
@@ -356,6 +382,133 @@ $('#editor').addEventListener('submit', async event => {
 });
 $('#reload-match').addEventListener('click', () => loadDesk({ keepDraft: { matchId: state.matchId, draft: readDraft() } }));
 addEventListener('beforeunload', event => { if (isDirty() || state.saving) { event.preventDefault(); event.returnValue = ''; } });
+
+// --- confirmations and other operations ---------------------------------------------
+function confirmDialog(title, text, okLabel = 'Confirmar') {
+  const dialog = $('#confirm');
+  $('#confirm-title').textContent = title; $('#confirm-text').textContent = text; $('#confirm-ok').textContent = okLabel;
+  dialog.returnValue = '';
+  dialog.showModal();
+  return new Promise(resolve => dialog.addEventListener('close', () => resolve(dialog.returnValue === 'ok'), { once: true }));
+}
+/** Sends one operation; on success replaces the state and re-renders everything. */
+async function operation(path, method, body, { button, busy = 'A gravar…' } = {}) {
+  if (state.saving) return null;
+  state.saving = true;
+  const label = button?.textContent;
+  if (button) { button.disabled = true; button.textContent = busy; }
+  try {
+    const result = await api(path, { method, body: { revision: state.data.revision, operationId: crypto.randomUUID(), ...body } });
+    if (result.status === 401) return null;
+    if (result.ok && result.state) { state.data = result.state; renderAll(); }
+    return result;
+  } catch { return { ok: false, message: 'Sem ligação: nada foi confirmado. Tenta outra vez.' }; }
+  finally { state.saving = false; if (button) { button.disabled = false; button.textContent = label; } }
+}
+$('#save-date').addEventListener('click', async () => {
+  const value = $('#match-date').value, id = state.matchId;
+  if (!value) { $('#match-date').focus(); return; }
+  if (isDirty()) { setSaveState('error', 'Grava ou desfaz primeiro as alterações do resultado.'); return; }
+  const result = await operation(`matches/${id}`, 'PUT', { type: 'date', date: value }, { button: $('#save-date') });
+  if (!result) return;
+  if (result.ok) { openMatch(id); setSaveState('saved', `Data gravada: ${dateText(value)} ✓`); }
+  else { setSaveState('error', result.message); if (result.status === 409) $('#reload-match').hidden = false; }
+});
+$('#clear-result').addEventListener('click', async () => {
+  const m = state.data.matches.find(x => x.id === state.matchId);
+  const ok = await confirmDialog('Apagar o resultado?', `${teamName(m.homeId)} ${m.homeGoals ?? '–'}–${m.awayGoals ?? '–'} ${teamName(m.awayId)}. O resultado e os marcadores saem do Excel e do site; o jogo volta a «por realizar». Usa isto só quando o resultado foi lançado no jogo errado.`, 'Apagar resultado');
+  if (!ok) return;
+  const id = m.id;
+  const result = await operation(`matches/${id}`, 'PUT', { type: 'clear' }, { button: $('#clear-result'), busy: 'A apagar…' });
+  if (!result) return;
+  if (result.ok) { openMatch(id); setSaveState('saved', 'Resultado apagado ✓'); }
+  else setSaveState('error', result.message);
+});
+
+// --- 2.ª fase -----------------------------------------------------------------------
+function renderPhase2() {
+  const d = state.data, box = $('#phase2-groups');
+  const phase2 = d.groups.filter(g => g.phaseId === 'fase-2');
+  const used = new Map(); for (const g of phase2) for (const id of g.teamIds) used.set(id, g.id);
+  const candidates = d.teams.filter(t => !t.withdrawn).sort((a, b) => a.name.localeCompare(b.name, 'pt-PT'));
+  box.replaceChildren(...phase2.map(g => {
+    const locked = d.matches.some(m => m.groupId === g.id && m.status === 'finished');
+    const card = document.createElement('form'); card.className = 'card phase2-card'; card.dataset.group = g.id;
+    card.innerHTML = `<h3>Série ${g.letter}${g.defined ? '' : ' <small>por definir</small>'}</h3><ol class="slots"></ol><p class="muted small slot-note"></p><button type="submit" class="primary">Gravar equipas</button><p class="message" role="status"></p>`;
+    const slots = card.querySelector('.slots');
+    const current = [...g.teamIds]; while (current.length < 6) current.push('');
+    current.forEach((teamId, i) => {
+      const li = document.createElement('li'), select = document.createElement('select');
+      select.name = `slot-${i}`; select.setAttribute('aria-label', `Série ${g.letter}, posição ${i + 1}`);
+      select.append(option('', '— vazio —', !teamId), ...candidates.filter(t => !used.has(t.id) || used.get(t.id) === g.id).map(t => option(t.id, t.name, t.id === teamId)));
+      select.disabled = locked || !d.writable;
+      li.append(select); slots.append(li);
+    });
+    card.querySelector('.slot-note').textContent = locked ? 'Já tem resultados: as equipas ficam fixas.' : 'Posições vazias ficam como folga (sem jogo).';
+    card.querySelector('button').disabled = locked || !d.writable;
+    return card;
+  }));
+}
+$('#phase2-groups').addEventListener('submit', async event => {
+  event.preventDefault();
+  const card = event.target, groupId = card.dataset.group, message = card.querySelector('.message');
+  const teams = [...card.querySelectorAll('select')].map(s => s.value);
+  const g = groupOf(groupId);
+  const ok = await confirmDialog(`Gravar equipas da Série ${g.letter}?`, `${teams.filter(Boolean).map(teamName).join(', ') || 'Nenhuma equipa'}. O Excel gera os jogos a partir desta ordem.`, 'Gravar equipas');
+  if (!ok) return;
+  const result = await operation(`groups/${groupId}/teams`, 'PUT', { teams }, { button: card.querySelector('button') });
+  if (!result) return;
+  const fresh = document.querySelector(`.phase2-card[data-group="${groupId}"] .message`);
+  (fresh ?? message).textContent = result.ok ? 'Equipas gravadas ✓' : result.message;
+});
+
+// --- privacy ------------------------------------------------------------------------
+function renderPrivacy() {
+  const d = state.data, q = fold($('#privacy-search').value), list = $('#privacy-list');
+  const rows = d.scorers.filter(s => !q || fold(`${s.name} ${teamName(s.teamId)}`).includes(q)).sort((a, b) => Number(b.hidden) - Number(a.hidden) || a.name.localeCompare(b.name, 'pt-PT')).slice(0, 60);
+  list.replaceChildren(...rows.map(s => {
+    const li = document.createElement('li'); li.className = s.hidden ? 'is-hidden' : '';
+    li.innerHTML = `<span class="who"><strong></strong><small></small></span><button type="button" class="ghost small"></button>`;
+    li.querySelector('strong').textContent = s.name;
+    li.querySelector('small').textContent = `${teamName(s.teamId)} · ${s.goals} ${s.goals === 1 ? 'golo' : 'golos'}${s.hidden ? ' · oculto no site' : ''}`;
+    const button = li.querySelector('button'); button.dataset.scorer = s.id; button.dataset.hide = String(!s.hidden);
+    button.textContent = s.hidden ? 'Mostrar' : 'Ocultar nome';
+    return li;
+  }));
+  if (!rows.length) list.append(Object.assign(document.createElement('li'), { className: 'empty', textContent: q ? 'Nenhum nome encontrado.' : 'Ainda não há marcadores.' }));
+}
+$('#privacy-search').addEventListener('input', renderPrivacy);
+$('#privacy-list').addEventListener('click', async event => {
+  const button = event.target.closest('[data-scorer]');
+  if (!button) return;
+  const hide = button.dataset.hide === 'true';
+  const s = state.data.scorers.find(x => x.id === button.dataset.scorer);
+  if (hide && !await confirmDialog(`Ocultar «${s.name}»?`, `O nome deixa de aparecer em todo o site (rankings e jogos). Os golos continuam a contar para ${teamName(s.teamId)}.`, 'Ocultar nome')) return;
+  const result = await operation('privacy', 'POST', { scorerId: s.id, hidden: hide }, { button, busy: '…' });
+  if (result && !result.ok) announcer.textContent = result.message;
+});
+
+// --- history ------------------------------------------------------------------------
+const LABELS = { result: 'Resultado', clear: 'Resultado apagado', date: 'Data', teams: 'Equipas da 2.ª fase', hide: 'Nome ocultado', show: 'Nome visível' };
+function renderHistory() {
+  const d = state.data, list = $('#history-list');
+  const when = iso => new Intl.DateTimeFormat('pt-PT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Lisbon' }).format(new Date(iso));
+  const score = x => x && x.homeGoals !== null && x.homeGoals !== undefined ? `${x.homeGoals}–${x.awayGoals}` : 'sem resultado';
+  list.replaceChildren(...d.history.map(h => {
+    const li = document.createElement('li');
+    const m = h.matchId && d.matches.find(x => x.id === h.matchId);
+    let detail = '';
+    if (m) detail = `${teamName(m.homeId)} – ${teamName(m.awayId)} · ${h.type === 'date' ? `${dateText(h.before?.date)} → ${dateText(h.after?.date)}` : `${score(h.before)} → ${score(h.after)}`}`;
+    else if (h.scorerId) { const sc = d.scorers.find(x => x.id === h.scorerId); detail = sc ? `${sc.name} · ${teamName(sc.teamId)}` : 'registo sem golos atuais'; }
+    else if (h.groupId) detail = `Série ${groupOf(h.groupId)?.letter}: ${(h.after ?? []).map(teamName).join(', ')}`;
+    li.innerHTML = '<time></time><strong></strong><span></span>';
+    li.querySelector('time').textContent = when(h.savedAt);
+    li.querySelector('strong').textContent = LABELS[h.type] ?? h.type;
+    li.querySelector('span').textContent = detail;
+    return li;
+  }));
+  if (!d.history.length) list.append(Object.assign(document.createElement('li'), { className: 'empty', textContent: 'Ainda não houve alterações feitas pelo painel.' }));
+}
 
 // --- start --------------------------------------------------------------------------
 (async () => {

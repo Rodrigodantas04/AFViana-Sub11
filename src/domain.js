@@ -15,7 +15,8 @@ export const groupLabel = (data, groupId, { short = false } = {}) => {
 /** Groups a team belongs to, phase by phase (a team keeps one identity across phases). */
 export const teamGroups = (data, teamId) => data.groups.filter(g => g.teamIds.includes(teamId));
 export const definedGroups = (data, phaseId) => data.groups.filter(g => g.defined && (!phaseId || g.phaseId === phaseId));
-export const currentPhase = data => [...data.phases].reverse().find(p => p.state !== 'pending') ?? data.phases[0];
+/** The phase to feature: the latest one that already has results (a 2.ª fase that is defined but not started yet does not hide the 1.ª). */
+export const currentPhase = data => [...data.phases].reverse().find(p => data.matches.some(m => m.phaseId === p.id && m.status === 'finished')) ?? data.phases.find(p => p.state !== 'pending') ?? data.phases[0];
 
 export function todayLisbon(now = new Date()) {
   const parts = new Intl.DateTimeFormat('en', { timeZone: 'Europe/Lisbon', year: 'numeric', month: '2-digit', day: '2-digit' }).formatToParts(now);

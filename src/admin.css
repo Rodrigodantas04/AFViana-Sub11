@@ -1,105 +1,162 @@
-:root {
-  color-scheme: dark light;
-  --bg: #0b1219; --surface: #121d25; --raised: #19262e; --line: #2a3941;
-  --text: #eff4f3; --muted: #a3b3ba; --accent: #c4fa58; --accent-ink: #142105;
-  --danger: #ffb4a2; --danger-bg: #3a1a14; --warn: #ffd889; --warn-bg: #33290f; --ok: #c4fa58;
-  @media (prefers-color-scheme: light) {
-    --bg: #f3f5f0; --surface: #fff; --raised: #e9eee6; --line: #d1d9cc;
-    --text: #172722; --muted: #56695e; --accent: #3e6a15; --accent-ink: #fff;
-    --danger: #a3301a; --danger-bg: #fbe7e2; --warn: #7a5400; --warn-bg: #fff3d6; --ok: #2f5a0b;
+/* MINHO11 · results desk. Mobile-first; light/dark from the OS via light-dark(); rem-based so OS text scaling works. */
+@layer reset, tokens, base, components;
+@layer reset {
+  *, *::before, *::after { box-sizing: border-box; margin: 0 }
+  [hidden] { display: none !important }
+  button, input, select { font: inherit; color: inherit }
+}
+@layer tokens {
+  :root {
+    color-scheme: dark light;
+    --bg: #0b1219; --surface: #121d25; --raised: #19262e; --line: #2a3941;
+    --text: #eff4f3; --muted: #a8b8bf; --accent: #c4fa58; --accent-ink: #142105; --accent-soft: #c4fa5818;
+    --danger: #ffb4a2; --danger-bg: #3a1a14; --warn: #ffd889; --warn-bg: #33290f; --ok: #c4fa58;
+    @media (prefers-color-scheme: light) {
+      --bg: #f3f5f0; --surface: #ffffff; --raised: #eef2ea; --line: #d1d9cc;
+      --text: #14231e; --muted: #4f6257; --accent: #3e6a15; --accent-ink: #ffffff; --accent-soft: #3e6a1514;
+      --danger: #a3301a; --danger-bg: #fbe7e2; --warn: #7a5400; --warn-bg: #fff3d6; --ok: #2f5a0b;
+    }
+    @supports (color: light-dark(white, black)) {
+      --bg: light-dark(#f3f5f0, #0b1219); --surface: light-dark(#ffffff, #121d25); --raised: light-dark(#eef2ea, #19262e); --line: light-dark(#d1d9cc, #2a3941);
+      --text: light-dark(#14231e, #eff4f3); --muted: light-dark(#4f6257, #a8b8bf); --accent: light-dark(#3e6a15, #c4fa58); --accent-ink: light-dark(#ffffff, #142105); --accent-soft: light-dark(#3e6a1514, #c4fa5818);
+      --danger: light-dark(#a3301a, #ffb4a2); --danger-bg: light-dark(#fbe7e2, #3a1a14); --warn: light-dark(#7a5400, #ffd889); --warn-bg: light-dark(#fff3d6, #33290f); --ok: light-dark(#2f5a0b, #c4fa58);
+    }
+    accent-color: var(--accent);
+    --radius: 1rem;
   }
-  accent-color: var(--accent);
 }
-*, *::before, *::after { box-sizing: border-box; margin: 0 }
-[hidden] { display: none !important }
-body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100dvh; padding-bottom: env(safe-area-inset-bottom) }
-button, input, select { font: inherit; color: inherit }
-.visually-hidden { position: absolute !important; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); white-space: nowrap }
-.muted { color: var(--muted) }
-.bar { display: flex; justify-content: space-between; align-items: center; padding: .75rem 1rem; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: var(--bg); z-index: 5 }
-.brand { display: flex; align-items: center; gap: .4rem; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: .02em }
-.brand b { color: var(--accent) }
-.brand small { font-weight: 600; color: var(--muted); margin-left: .35rem; font-size: .85rem }
-.mark { display: grid; place-items: center; width: 1.9rem; height: 1.9rem; border-radius: .5rem; background: var(--accent); color: var(--accent-ink); font-size: .95rem }
-main { max-width: 46rem; margin-inline: auto; padding: 1rem }
-.center { min-height: 70dvh; display: grid; place-items: center }
-.card { background: var(--surface); border: 1px solid var(--line); border-radius: 1rem; padding: 1.25rem }
-.login { width: min(100%, 24rem); display: grid; gap: 1rem }
-.login h1 { font-size: 1.6rem }
-.field { display: grid; gap: .35rem }
-label { font-weight: 600 }
-input[type=text], input[type=password], select {
-  width: 100%; min-height: 3rem; padding: .6rem .8rem; border-radius: .7rem; border: 1px solid var(--line); background: var(--raised); font-size: 1.05rem
+@layer base {
+  body { font-family: system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.5; min-height: 100dvh; padding-bottom: env(safe-area-inset-bottom); -webkit-tap-highlight-color: transparent }
+  .visually-hidden { position: absolute !important; width: 1px !important; height: 1px !important; min-height: 0 !important; padding: 0 !important; border: 0 !important; overflow: hidden !important; clip-path: inset(50%) !important; white-space: nowrap !important }
+  .muted { color: var(--muted) }
+  .small { font-size: .9rem }
+  main { max-width: 48rem; margin-inline: auto; padding: 1rem }
+  label { font-weight: 600 }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
+  h1, h2, h3 { line-height: 1.2; text-wrap: balance }
 }
-input:focus-visible, select:focus-visible, button:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px }
-input:user-invalid { border-color: var(--danger); background: var(--danger-bg) }
-.error-msg { display: none; color: var(--danger); font-size: .9rem }
-input:user-invalid ~ .error-msg, .field:has(input:user-invalid) .error-msg { display: block }
-.password-row { display: flex; gap: .5rem }
-button { cursor: pointer; border: 0; border-radius: .7rem; min-height: 2.75rem; padding: .55rem 1rem; font-weight: 700 }
-.primary { background: var(--accent); color: var(--accent-ink); font-size: 1.1rem; min-height: 3.25rem; padding-inline: 1.4rem }
-.primary:disabled { opacity: .6; cursor: progress }
-.wide { width: 100% }
-.ghost { background: var(--raised); color: var(--text); border: 1px solid var(--line) }
-.ghost.small { font-weight: 600; font-size: .9rem }
-.link-button { background: none; color: var(--muted); text-decoration: underline; min-height: 2.75rem; padding: .25rem .5rem }
-.message { min-height: 1.5em; color: var(--danger); font-weight: 600 }
-.message:empty { display: none }
-.banner { border-radius: .8rem; padding: .7rem 1rem; margin-bottom: 1rem; border: 1px solid var(--line); background: var(--surface); font-size: .95rem }
-.banner-warning { background: var(--warn-bg); color: var(--warn); border-color: currentColor }
-.banner-error { background: var(--danger-bg); color: var(--danger); border-color: currentColor }
-.picker { display: grid; gap: .8rem; margin-bottom: 1.25rem }
-.picker-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); gap: .75rem }
-.picker label:not(.check) { display: grid; gap: .3rem }
-.check { display: flex; align-items: center; gap: .6rem; min-height: 2.75rem; font-weight: 500 }
-.check input { width: 1.4rem; height: 1.4rem }
-.section-title { font-size: 1rem; color: var(--muted); margin: .5rem 0 .6rem; font-weight: 700; text-transform: uppercase; letter-spacing: .06em }
-.match-list { list-style: none; padding: 0; display: grid; gap: .6rem; margin-bottom: 1.25rem }
-.match-list button {
-  width: 100%; text-align: left; display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; align-items: center;
-  background: var(--surface); border: 1px solid var(--line); padding: .85rem 1rem; font-weight: 500; min-height: 4rem
+@layer components {
+  .bar { display: flex; justify-content: space-between; align-items: center; padding: .75rem 1rem; border-bottom: 1px solid var(--line); position: sticky; top: 0; background: color-mix(in srgb, var(--bg) 92%, transparent); backdrop-filter: blur(8px); z-index: 5 }
+  .brand { display: flex; align-items: center; gap: .45rem; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: .02em }
+  .brand b { color: var(--accent) }
+  .brand small { font-weight: 600; color: var(--muted); margin-left: .35rem; font-size: .85rem }
+  .mark, .login-mark { display: grid; place-items: center; width: 1.9rem; aspect-ratio: 1; border-radius: .55rem; background: var(--accent); color: var(--accent-ink); font-size: .95rem; font-weight: 900 }
+  .login-mark { width: 3.2rem; font-size: 1.5rem; border-radius: .9rem; margin-bottom: .25rem }
+  .center { min-height: 70dvh; display: grid; place-items: center }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem }
+  .login { width: min(100%, 24rem); display: grid; gap: 1rem; box-shadow: 0 1.5rem 3rem -1.5rem #0006 }
+  .login h1 { font-size: 1.6rem }
+  .field { display: grid; gap: .35rem }
+  input[type=text], input[type=password], input[type=search], input[type=date], select {
+    width: 100%; min-height: 3rem; padding: .6rem .8rem; border-radius: .7rem; border: 1px solid var(--line); background: var(--raised); font-size: 1.05rem
+  }
+  input:user-invalid { border-color: var(--danger); background: var(--danger-bg) }
+  .error-msg { display: none; color: var(--danger); font-size: .9rem }
+  .field:has(input:user-invalid) .error-msg { display: block }
+  .password-row { display: flex; gap: .5rem }
+  button { cursor: pointer; border: 0; border-radius: .7rem; min-height: 2.75rem; padding: .55rem 1rem; font-weight: 700; transition: transform .1s, background-color .15s }
+  button:active:not(:disabled) { transform: scale(.98) }
+  button:disabled { opacity: .55; cursor: not-allowed }
+  .primary { background: var(--accent); color: var(--accent-ink); font-size: 1.1rem; min-height: 3.25rem; padding-inline: 1.4rem }
+  .wide { width: 100% }
+  .ghost { background: var(--raised); color: var(--text); border: 1px solid var(--line) }
+  .ghost.small { font-weight: 600; font-size: .9rem }
+  .danger { background: var(--danger-bg); color: var(--danger); border: 1px solid currentColor }
+  .link-button { background: none; color: var(--muted); text-decoration: underline; min-height: 2.75rem; padding: .25rem .5rem }
+  .message { min-height: 1.5em; color: var(--danger); font-weight: 600 }
+  .message:empty { display: none }
+  .banner { border-radius: .8rem; padding: .7rem 1rem; margin-bottom: 1rem; border: 1px solid var(--line); background: var(--surface); font-size: .95rem }
+  .banner-warning { background: var(--warn-bg); color: var(--warn); border-color: currentColor }
+  .banner-error { background: var(--danger-bg); color: var(--danger); border-color: currentColor }
+
+  .tabs { display: flex; gap: .4rem; overflow-x: auto; scrollbar-width: none; margin: 0 -1rem 1rem; padding: .1rem 1rem .4rem; scroll-snap-type: x proximity }
+  .tabs button { flex: none; background: var(--surface); border: 1px solid var(--line); border-radius: 99rem; scroll-snap-align: start }
+  .tabs button[aria-pressed=true] { background: var(--accent); color: var(--accent-ink); border-color: transparent }
+
+  .picker { display: grid; gap: .8rem; margin-bottom: 1.25rem }
+  .picker-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 9rem), 1fr)); gap: .75rem }
+  .picker label:not(.check) { display: grid; gap: .3rem }
+  .check { display: flex; align-items: center; gap: .6rem; min-height: 2.75rem; font-weight: 500 }
+  .check input { width: 1.4rem; height: 1.4rem }
+  .section-title { font-size: .85rem; color: var(--muted); margin: .25rem 0 .4rem; font-weight: 800; text-transform: uppercase; letter-spacing: .08em }
+  .section-title + .muted { margin-bottom: .8rem }
+  .match-list { list-style: none; padding: 0; display: grid; gap: .6rem; margin-bottom: 1.25rem }
+  .match-list button {
+    width: 100%; text-align: left; display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; align-items: center;
+    background: var(--surface); border: 1px solid var(--line); padding: .85rem 1rem; font-weight: 500; min-height: 4rem; border-radius: .9rem
+  }
+  .match-list button:hover { border-color: color-mix(in srgb, var(--accent) 50%, var(--line)) }
+  .match-list button[aria-current] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset; background: var(--accent-soft) }
+  .match-list .teams { font-weight: 700; overflow-wrap: anywhere }
+  .match-list .result { font-size: 1.35rem; font-weight: 900; font-variant-numeric: tabular-nums; grid-row: span 2 }
+  .match-list .meta { color: var(--muted); font-size: .85rem; display: flex; flex-wrap: wrap; gap: .25rem .4rem; align-items: center }
+  .tag { display: inline-block; font-size: .75rem; font-weight: 800; border-radius: 99rem; padding: .05rem .55rem; background: var(--warn-bg); color: var(--warn) }
+  .tag-ok { background: var(--accent-soft); color: var(--ok) }
+  .tag-soft { background: var(--raised); color: var(--muted) }
+  .empty { color: var(--muted); padding: 1.2rem; text-align: center; border: 1px dashed var(--line); border-radius: .8rem; list-style: none }
+
+  .editor { display: grid; gap: 1.25rem; scroll-margin-top: 4.5rem; margin-top: 1rem }
+  .editor-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem }
+  .eyebrow { font-size: .85rem; font-weight: 800; color: var(--muted); text-transform: uppercase; letter-spacing: .06em }
+  .score { display: grid; grid-template-columns: 1fr auto 1fr; gap: .6rem; align-items: start }
+  .side { display: grid; gap: .4rem; justify-items: center; text-align: center }
+  .where { font-size: .8rem; font-weight: 800; letter-spacing: .1em; text-transform: uppercase; color: var(--accent) }
+  .team { font-size: 1.05rem; font-weight: 800; min-height: 2.6em; display: flex; align-items: center; overflow-wrap: anywhere }
+  .goals { width: 5.5rem !important; height: 5.5rem; text-align: center; font-size: 2.6rem !important; font-weight: 900; border-radius: 1.1rem !important; font-variant-numeric: tabular-nums }
+  .versus { font-size: 2rem; font-weight: 800; color: var(--muted); padding-top: 5.2rem }
+  .scorers { display: grid; gap: 1rem }
+  @media (min-width: 40rem) { .scorers { grid-template-columns: 1fr 1fr } }
+  .scorer-block { border: 1px solid var(--line); border-radius: .9rem; padding: .9rem; display: grid; gap: .6rem; min-width: 0 }
+  .scorer-block legend { font-weight: 800; padding-inline: .3rem; overflow-wrap: anywhere }
+  .scorer-rows { list-style: none; padding: 0; display: grid; gap: .5rem }
+  .scorer-row { display: grid; grid-template-columns: 1fr auto auto; grid-template-areas: 'name step remove'; gap: .4rem; align-items: start }
+  .scorer-row .name-field { grid-area: name; min-width: 0 } .scorer-row .stepper { grid-area: step } .scorer-row .remove { grid-area: remove }
+  @media (max-width: 40rem) { .scorer-row { grid-template-columns: 1fr auto; grid-template-areas: 'name name' 'step remove'; padding-bottom: .5rem; border-bottom: 1px dashed var(--line) } .scorer-row .stepper { justify-self: start } }
+  .scorer-row.own .scorer-name { font-style: italic }
+  .stepper { display: flex; align-items: center; border: 1px solid var(--line); border-radius: .7rem; background: var(--raised) }
+  .step { background: none; min-width: 2.75rem; min-height: 3rem; font-size: 1.3rem; padding: 0 }
+  .count { min-width: 1.6rem; text-align: center; font-weight: 800; font-variant-numeric: tabular-nums }
+  .remove { background: none; color: var(--muted); min-width: 2.75rem; min-height: 3rem; padding: 0; font-size: 1.1rem }
+  .row-actions { display: flex; flex-wrap: wrap; gap: .5rem }
+  .tally { font-size: .9rem; color: var(--muted) }
+  .tally.over { color: var(--danger); font-weight: 700 }
+  .tally.done { color: var(--ok); font-weight: 700 }
+  .hint { font-size: .9rem }
+  .more { border: 1px solid var(--line); border-radius: .9rem }
+  .more summary { cursor: pointer; padding: .8rem 1rem; font-weight: 700; min-height: 2.75rem }
+  .more-body { display: grid; gap: 1rem; padding: 0 1rem 1rem }
+  .save-bar {
+    position: sticky; bottom: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .6rem;
+    background: var(--surface); padding: .9rem 1.25rem calc(.9rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); margin: 0 -1.25rem -1.25rem; border-radius: 0 0 var(--radius) var(--radius)
+  }
+  .save-state { margin-right: auto; font-weight: 700 }
+  .save-state[data-state=dirty] { color: var(--warn) }
+  .save-state[data-state=error] { color: var(--danger) }
+  .save-state[data-state=saved] { color: var(--ok) }
+  .issue { font-size: .9rem; border-radius: .7rem; padding: .55rem .8rem; background: var(--warn-bg); color: var(--warn); margin-bottom: .4rem }
+
+  .phase2-grid { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 18rem), 1fr)) }
+  .phase2-card { display: grid; gap: .7rem; align-content: start }
+  .phase2-card h3 small { font-size: .8rem; color: var(--muted); font-weight: 600 }
+  .slots { display: grid; gap: .45rem; padding-left: 1.6rem }
+  .slots li::marker { color: var(--muted); font-weight: 700 }
+
+  .search input { margin-bottom: .8rem }
+  .privacy-list, .history-list { list-style: none; padding: 0; display: grid; gap: .5rem }
+  .privacy-list li:not(.empty) { display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .7rem .9rem; border: 1px solid var(--line); border-radius: .8rem; background: var(--surface) }
+  .privacy-list li.is-hidden { border-style: dashed; background: var(--raised) }
+  .who { display: grid; min-width: 0 } .who small { color: var(--muted) } .who strong { overflow-wrap: anywhere }
+  .history-list li:not(.empty) { display: grid; grid-template-columns: auto 1fr; gap: .1rem .8rem; padding: .7rem .9rem; border-left: 3px solid var(--accent); background: var(--surface); border-radius: .5rem }
+  .history-list time { color: var(--muted); font-size: .85rem; grid-row: span 2; font-variant-numeric: tabular-nums }
+  .history-list span { color: var(--muted); font-size: .9rem; overflow-wrap: anywhere }
+
+  dialog { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--text); padding: 1.4rem; width: min(92vw, 26rem) }
+  dialog::backdrop { background: #0009; backdrop-filter: blur(2px) }
+  dialog form { display: grid; gap: .9rem }
+  .dialog-actions { display: flex; justify-content: flex-end; gap: .6rem; flex-wrap: wrap }
+  @media (prefers-reduced-motion: no-preference) {
+    .editor { animation: rise .18s ease-out }
+    dialog[open] { animation: rise .16s ease-out }
+    @keyframes rise { from { opacity: 0; translate: 0 .5rem } }
+  }
 }
-.match-list button[aria-current] { border-color: var(--accent); box-shadow: 0 0 0 1px var(--accent) inset }
-.match-list .teams { font-weight: 700; overflow-wrap: anywhere }
-.match-list .result { font-size: 1.3rem; font-weight: 800; font-variant-numeric: tabular-nums; grid-row: span 2 }
-.match-list .meta { color: var(--muted); font-size: .85rem }
-.tag { display: inline-block; font-size: .75rem; font-weight: 700; border-radius: 99rem; padding: .05rem .5rem; margin-left: .35rem; background: var(--warn-bg); color: var(--warn) }
-.tag-ok { background: var(--raised); color: var(--ok) }
-.empty { color: var(--muted); padding: 1rem; text-align: center; border: 1px dashed var(--line); border-radius: .8rem }
-.editor { display: grid; gap: 1.25rem; scroll-margin-top: 4.5rem }
-.editor-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem }
-.eyebrow { font-size: .85rem; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .05em }
-.score { display: grid; grid-template-columns: 1fr auto 1fr; gap: .6rem; align-items: start }
-.side { display: grid; gap: .4rem; justify-items: center; text-align: center }
-.where { font-size: .8rem; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--accent) }
-.team { font-size: 1.05rem; font-weight: 800; min-height: 2.6em; display: flex; align-items: center; overflow-wrap: anywhere }
-.goals { width: 5.5rem !important; height: 5.5rem; text-align: center; font-size: 2.6rem !important; font-weight: 800; border-radius: 1rem !important; font-variant-numeric: tabular-nums }
-.versus { font-size: 2rem; font-weight: 800; color: var(--muted); padding-top: 5.2rem }
-.scorers { display: grid; gap: 1rem }
-@media (min-width: 40rem) { .scorers { grid-template-columns: 1fr 1fr } }
-.scorer-block { border: 1px solid var(--line); border-radius: .9rem; padding: .9rem; display: grid; gap: .6rem; min-width: 0 }
-.scorer-block legend { font-weight: 800; padding-inline: .3rem; overflow-wrap: anywhere }
-.scorer-rows { list-style: none; padding: 0; display: grid; gap: .5rem }
-.scorer-row { display: grid; grid-template-columns: 1fr auto auto; grid-template-areas: 'name step remove'; gap: .4rem; align-items: start; container-type: inline-size }
-.scorer-row .name-field { grid-area: name; min-width: 0 } .scorer-row .stepper { grid-area: step } .scorer-row .remove { grid-area: remove }
-@media (max-width: 40rem) { .scorer-row { grid-template-columns: 1fr auto; grid-template-areas: 'name name' 'step remove'; padding-bottom: .5rem; border-bottom: 1px dashed var(--line) } .scorer-row .stepper { justify-self: start } }
-.scorer-row.own .scorer-name { font-style: italic }
-.stepper { display: flex; align-items: center; border: 1px solid var(--line); border-radius: .7rem; background: var(--raised) }
-.step { background: none; min-width: 2.75rem; min-height: 3rem; font-size: 1.3rem; padding: 0 }
-.count { min-width: 1.6rem; text-align: center; font-weight: 800; font-variant-numeric: tabular-nums }
-.remove { background: none; color: var(--muted); min-width: 2.75rem; min-height: 3rem; padding: 0; font-size: 1.1rem }
-.row-actions { display: flex; flex-wrap: wrap; gap: .5rem }
-.tally { font-size: .9rem; color: var(--muted) }
-.tally.over { color: var(--danger); font-weight: 700 }
-.tally.done { color: var(--ok) }
-.hint { font-size: .9rem }
-.save-bar {
-  position: sticky; bottom: 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .6rem;
-  background: var(--surface); padding: .9rem 0 calc(.9rem + env(safe-area-inset-bottom)); border-top: 1px solid var(--line); margin-inline: -1.25rem; padding-inline: 1.25rem
-}
-.save-state { margin-right: auto; font-weight: 700 }
-.save-state[data-state=dirty] { color: var(--warn) }
-.save-state[data-state=error] { color: var(--danger) }
-.save-state[data-state=saved] { color: var(--ok) }
-.issue { font-size: .9rem; border-radius: .7rem; padding: .55rem .8rem; background: var(--warn-bg); color: var(--warn); margin-bottom: .4rem }
-@media (prefers-reduced-motion: no-preference) { .editor { animation: rise .18s ease-out } @keyframes rise { from { opacity: 0; translate: 0 .5rem } } }

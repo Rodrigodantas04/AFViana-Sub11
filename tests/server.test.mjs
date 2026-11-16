@@ -97,3 +97,30 @@ test('public endpoint falls back to the snapshot when there is no source', async
   assert.equal((await app(request('/api/admin/status'))).status, 200);
   assert.equal((await (await app(request('/api/admin/status'))).json()).configured, false);
 });
+
+test('2.ª fase teams, date, clear and privacy go through the same protected pipeline and are logged', async () => {
+  const { app, data } = await setup();
+  const cookie = await login(app);
+  let state = await (await app(request('/api/admin/state', { cookie }))).json();
+  const ids = state.groups.find(g => g.id === '1a').teamIds;
+  const put = (path, body) => app(request(path, { method: 'PUT', body: { revision: state.revision, operationId: crypto.randomUUID(), ...body }, cookie }));
+  let r = await put('/api/admin/groups/2a/teams', { teams: [...ids, '', '', ''] });
+  assert.equal(r.status, 200, await r.clone().text());
+  state = (await r.json()).state;
+  assert.equal(state.matches.filter(m => m.groupId === '2a').length, 6);
+  const game = state.matches.find(m => m.groupId === '1a' && m.status === 'finished');
+  r = await put(`/api/admin/matches/${game.id}`, { type: 'date', date: '2026-12-12' });
+  state = (await r.json()).state;
+  r = await put(`/api/admin/matches/${game.id}`, { type: 'clear' });
+  state = (await r.json()).state;
+  assert.equal(state.matches.find(m => m.id === game.id).status, 'scheduled');
+  const scorer = state.scorers[0];
+  r = await app(request('/api/admin/privacy', { method: 'POST', body: { scorerId: scorer.id, hidden: true }, cookie }));
+  state = (await r.json()).state;
+  assert.equal(state.scorers.find(s => s.id === scorer.id).hidden, true);
+  const live = await (await app(request('/data/competition.json'))).json();
+  assert.equal(JSON.stringify(live).includes(scorer.name), false, 'hidden name removed from public data');
+  assert.deepEqual(state.history.map(h => h.type), ['hide', 'clear', 'date', 'teams']);
+  assert.equal((await app(request('/api/admin/privacy', { method: 'POST', body: { scorerId: scorer.id, hidden: true } }))).status, 401);
+  assert.equal((await app(request('/api/admin/groups/1a/teams', { method: 'PUT', body: {}, cookie }))).status, 404, 'only 2.ª fase series can be edited');
+});

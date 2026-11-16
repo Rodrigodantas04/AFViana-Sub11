@@ -7,7 +7,7 @@
  */
 import { createHash } from 'node:crypto';
 import { importCompetition } from '../lib/competition.js';
-import { applyResult, validateChange, OWN_GOAL_LABEL } from '../lib/writer.js';
+import { applyChange, validateChange, OWN_GOAL_LABEL } from '../lib/writer.js';
 import { projectDataset } from '../lib/projection.js';
 import { todayLisbon } from '../src/domain.js';
 import { authConfigured, verifyPassword, issueToken, readToken, sessionCookie, sameOrigin } from './auth.js';
@@ -20,9 +20,10 @@ const SECURITY = {
 const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(value), { status, headers: { ...SECURITY, 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store', ...extra } });
 const problem = (message, status, extra) => json({ message }, status, extra);
 const sha = text => createHash('sha256').update(text).digest('hex');
-const LIVE_KEY = 'public/live-v2.json', WRITE_LOCK = 'locks/write', REFRESH_LOCK = 'locks/refresh', OPS = 'operations/log';
+const LIVE_KEY = 'public/live-v2.json', WRITE_LOCK = 'locks/write', REFRESH_LOCK = 'locks/refresh', OPS = 'operations/log', HIDDEN = 'privacy/hidden';
+const SUCCESS = { result: 'Resultado gravado. O site já mostra o novo resultado.', clear: 'Resultado apagado. O jogo voltou a «por realizar».', date: 'Data gravada.', teams: 'Equipas gravadas. Os jogos da série já aparecem no site.' };
 
-export function createApp({ storage, source, env = {}, config, policy, snapshot, refreshSeconds = 60, now = Date.now, log = () => {} }) {
+export function createApp({ storage, source, env = {}, config, policy, snapshot, crests = {}, refreshSeconds = 60, now = Date.now, log = () => {} }) {
   const today = () => todayLisbon(new Date(now()));
 
   async function body(request) {
@@ -35,7 +36,8 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
   async function rebuild(read) {
     const { data, report } = importCompetition(read.bytes, config, { today: today() });
     const importedAt = new Date(now()).toISOString();
-    const live = projectDataset(data, policy, { mode: 'public', today: today(), importedAt, rosters: snapshot.rosters ?? [] });
+    const hidden = (await storage.get(HIDDEN))?.value ?? [];
+    const live = projectDataset(data, { ...policy, excludedScorerIds: [...(policy.excludedScorerIds ?? []), ...hidden] }, { mode: 'public', today: today(), importedAt, rosters: snapshot.rosters ?? [], crests });
     await storage.set(LIVE_KEY, { checkedAt: now(), sourceVersion: read.meta.version, revision: read.revision, data: live });
     return { data, report, live, read };
   }
@@ -93,13 +95,17 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie(token) });
   }
 
-  function adminView(data, report, read, operations = []) {
+  function adminView(data, report, read, operations = [], hidden = []) {
     const issuesByMatch = new Map();
     for (const issue of report.issues) for (const id of issue.matchIds ?? (issue.matchId ? [issue.matchId] : [])) (issuesByMatch.get(id) ?? issuesByMatch.set(id, []).get(id)).push({ level: issue.level, code: issue.code, message: issue.message });
-    const lost = operations.filter(op => {
-      const m = data.matches.find(x => x.id === op.matchId);
-      return m && op.revisionAfter && op.final && (m.homeGoals !== op.final.homeGoals || m.awayGoals !== op.final.awayGoals || m.scorers.home.description !== op.final.home || m.scorers.away.description !== op.final.away);
+    // Last write per match; if the workbook no longer has it, someone saved over it.
+    const latest = new Map();
+    for (const op of operations) if (op.matchId && op.type !== 'date' && !latest.has(op.matchId)) latest.set(op.matchId, op);
+    const lost = [...latest.values()].filter(op => {
+      const m = data.matches.find(x => x.id === op.matchId), f = op.summary?.after;
+      return m && f && (m.homeGoals !== f.homeGoals || m.awayGoals !== f.awayGoals || m.scorers.home.description !== f.home || m.scorers.away.description !== f.away);
     }).map(op => ({ matchId: op.matchId, savedAt: op.savedAt }));
+    const hiddenSet = new Set([...(policy.excludedScorerIds ?? []), ...hidden]);
     return {
       revision: read.revision,
       writable: Boolean(read.meta.canEdit),
@@ -117,6 +123,9 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
       })),
       quality: { unidentifiedGoals: data.stats.unidentifiedGoals, warnings: report.issues.filter(i => i.level === 'warning' && !i.matchId && !i.matchIds).map(i => i.message) },
       lostWrites: lost,
+      history: operations.slice(0, 50).filter(op => op.type).map(({ type, savedAt, matchId, groupId, scorerId, summary }) => ({ type, savedAt, matchId, groupId, scorerId, before: summary?.before, after: summary?.after })),
+      scorers: data.scorers.total.map(({ id, name, teamId, goals }) => ({ id, name, teamId, goals, hidden: hiddenSet.has(id) })),
+      hiddenOutsideRanking: [...hiddenSet].filter(id => !data.scorers.total.some(s => s.id === id)).length,
     };
   }
   /** Same notation the writer produces: one entry per credited name, own goals by name. */
@@ -136,42 +145,60 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     const read = await source.read();
     const { data, report } = await rebuild(read);
     const operations = (await storage.get(OPS))?.value ?? [];
-    return json(adminView(data, report, read, operations));
+    return json(adminView(data, report, read, operations, (await storage.get(HIDDEN))?.value ?? []));
   }
 
-  async function saveMatch(request, matchId) {
+  async function runOperation(request, target) {
     if (!source) return problem('A ligação à fonte ainda não está configurada. Nada foi gravado.', 503);
-    const change = { ...await body(request), matchId };
+    const change = { ...await body(request), ...target };
+    if (target.groupId) change.type = 'teams';
+    else if (change.type === 'teams') return problem('Operação inválida para um jogo.', 400);
     try { validateChange(change); } catch (error) { return problem(error.message, error.status ?? 400); }
     const fingerprint = sha(JSON.stringify(change));
     const opKey = `operations/${change.operationId}`;
     const previous = await storage.get(opKey);
     if (previous) {
       if (previous.value.fingerprint !== fingerprint) return problem('Pedido repetido com dados diferentes. Recarrega a página.', 409);
-      return json({ ok: true, repeated: true, message: 'Este resultado já tinha sido gravado.', revision: previous.value.revisionAfter });
+      return json({ ok: true, repeated: true, message: 'Isto já tinha sido gravado.', revision: previous.value.revisionAfter });
     }
     const release = await acquireLease(storage, WRITE_LOCK, 120, now);
-    if (!release) return problem('Está outra gravação a decorrer. Espera uns segundos e carrega outra vez em «Gravar resultado».', 409);
+    if (!release) return problem('Está outra gravação a decorrer. Espera uns segundos e tenta outra vez.', 409);
     try {
       const read = await source.read();
-      if (read.revision !== change.revision) return problem('O Excel foi alterado depois de abrires este jogo. Os teus dados continuam no formulário: carrega em «Atualizar jogo» e grava de novo.', 409, { 'X-MINHO11-Conflict': 'revision' });
+      if (read.revision !== change.revision) return problem('O Excel foi alterado depois de abrires este ecrã. Os teus dados continuam no formulário: carrega em «Atualizar» e grava de novo.', 409, { 'X-MINHO11-Conflict': 'revision' });
       if (!read.meta.canEdit) return problem('A ligação ao Excel só tem permissão de leitura. Nada foi gravado.', 503);
       let result;
-      try { result = applyResult(read.bytes, config, change, { today: today() }); }
+      try { result = applyChange(read.bytes, config, change, { today: today() }); }
       catch (error) { return problem(error.message, error.status ?? 422); }
       // Private recoverable copy before replacing the Drive file (Drive also keeps its own version history).
       await storage.set(`backups/${new Date(now()).toISOString().replace(/[:.]/g, '-')}-${read.revision.slice(0, 12)}.xlsx`, read.bytes);
       const written = await source.write(result.bytes, read);
       const { data, report } = await rebuild(written);
-      const saved = data.matches.find(m => m.id === matchId);
-      const final = { homeGoals: saved.homeGoals, awayGoals: saved.awayGoals, home: saved.scorers.home.description, away: saved.scorers.away.description };
-      const entry = { matchId, savedAt: new Date(now()).toISOString(), revisionBefore: read.revision, revisionAfter: written.revision, final, fingerprint };
+      const entry = { type: change.type, matchId: change.matchId ?? null, groupId: change.groupId ?? null, savedAt: new Date(now()).toISOString(), revisionBefore: read.revision, revisionAfter: written.revision, summary: result.summary, fingerprint };
       await storage.set(opKey, entry);
-      const history = (await storage.get(OPS))?.value ?? [];
-      const operations = [entry, ...history.filter(op => op.matchId !== matchId)].slice(0, 100);
+      const operations = [entry, ...((await storage.get(OPS))?.value ?? [])].slice(0, 200);
       await storage.set(OPS, operations);
-      return json({ ok: true, message: 'Resultado gravado. O site já mostra o novo resultado.', state: adminView(data, report, written, operations) });
+      return json({ ok: true, message: SUCCESS[change.type], state: adminView(data, report, written, operations, (await storage.get(HIDDEN))?.value ?? []) });
     } finally { await release(); }
+  }
+
+  /** "Ocultar nome": applied to the public projection only; the workbook keeps the name and the goals. */
+  async function setPrivacy(request) {
+    const input = await body(request);
+    if (!/^s-[a-f0-9]{12}$/.test(input.scorerId ?? '') || typeof input.hidden !== 'boolean') return problem('Pedido inválido.', 400);
+    for (let attempt = 0; attempt < 5; attempt++) {
+      const current = await storage.get(HIDDEN);
+      const list = new Set(current?.value ?? []);
+      if (input.hidden) list.add(input.scorerId); else list.delete(input.scorerId);
+      const saved = await storage.set(HIDDEN, [...list], current ? { onlyIfMatch: current.etag } : { onlyIfNew: true });
+      if (saved.modified) {
+        const operations = [{ type: input.hidden ? 'hide' : 'show', scorerId: input.scorerId, savedAt: new Date(now()).toISOString() }, ...((await storage.get(OPS))?.value ?? [])].slice(0, 200);
+        await storage.set(OPS, operations);
+        if (source) { const read = await source.read(); const { data, report } = await rebuild(read); return json({ ok: true, message: input.hidden ? 'Nome ocultado em todo o site.' : 'Nome visível outra vez.', state: adminView(data, report, read, operations, [...list]) }); }
+        return json({ ok: true });
+      }
+    }
+    return problem('Não foi possível gravar agora. Tenta outra vez.', 409);
   }
 
   async function admin(request, path) {
@@ -186,7 +213,10 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     if (path === 'logout' && request.method === 'POST') { await storage.delete(`sessions/${claims.sid}`); return json({ ok: true }, 200, { 'Set-Cookie': sessionCookie('', { clear: true }) }); }
     if (path === 'state' && request.method === 'GET') return adminState();
     const match = /^matches\/(m-[a-f0-9]{16})$/.exec(path);
-    if (match && request.method === 'PUT') return saveMatch(request, match[1]);
+    if (match && request.method === 'PUT') return runOperation(request, { matchId: match[1] });
+    const group = /^groups\/(2[a-f])\/teams$/.exec(path);
+    if (group && request.method === 'PUT') return runOperation(request, { groupId: group[1] });
+    if (path === 'privacy' && request.method === 'POST') return setPrivacy(request);
     return problem('Pedido não encontrado.', 404);
   }
 

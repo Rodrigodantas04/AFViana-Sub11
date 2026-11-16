@@ -1,16 +1,16 @@
-# Verificação da versão 0.2.0
+# Verificação da versão 0.3.0
 
 Executada localmente em 16/11/2026 (macOS, Node 24).
 
 ## Automática (CI público, dados fictícios)
 
 - `npm run check`: sem erros.
-- `npm test`: 29 testes, 0 falhas. Cobrem o motor (tokens, `(n)`, `(PB)`, `(AG)`, 10 nomes, chaves sem maiúsculas, empates, desempates, desistente, wildcards), o importador (duas fases, placeholders, A/B, desistências, rankings sem dupla contagem), as projeções (sem nomes no repositório, retirada a pedido), o escritor (partes alteradas, fórmulas intactas, releitura sem divergências, recusas), o servidor (palavra-passe, origem, sessão revogada, limite de tentativas, gravação confirmada, idempotência, conflito, bloqueio, fallback) e as vistas (fases, URL antigo, autogolos, escaping).
-- `npm run build`: 203 páginas pré-renderizadas a partir do snapshot sem nomes.
+- `npm test`: 34 testes, 0 falhas (inclui as operações 2.ª fase/data/apagar, ocultar nomes, histórico, emblemas e comparação). Cobrem o motor (tokens, `(n)`, `(PB)`, `(AG)`, 10 nomes, chaves sem maiúsculas, empates, desempates, desistente, wildcards), o importador (duas fases, placeholders, A/B, desistências, rankings sem dupla contagem), as projeções (sem nomes no repositório, retirada a pedido), o escritor (partes alteradas, fórmulas intactas, releitura sem divergências, recusas), o servidor (palavra-passe, origem, sessão revogada, limite de tentativas, gravação confirmada, idempotência, conflito, bloqueio, fallback) e as vistas (fases, URL antigo, autogolos, escaping).
+- `npm run build`: 204 páginas pré-renderizadas a partir do snapshot sem nomes.
 
 ## Fonte real (local, `npm run verify:source`)
 
-- 15 folhas, 151 968 valores calculados comparados, **0 divergências**, leitura em ~230 ms.
+- 15 folhas, 152 328 valores calculados comparados (inclui as equipas dos jogos da 2.ª fase), **0 divergências**, leitura em ~230 ms.
 - Totais iguais aos valores de controlo (150 / 81 / 510; 218 registos, 494 golos individuais, 5 PB, 11 por identificar).
 - Ensaio de gravação em memória: ~0,9 s, 4 partes alteradas (workbook, série, marcadores da fase, totais), fórmulas e estilos intactos.
 
@@ -27,3 +27,7 @@ Feito no browser, num viewport de 375×812:
 
 - Gravação real no Google Drive: falta a conta de serviço. O cliente Drive (`server/sources.js`) segue a API documentada, mas não foi exercitado contra o Drive.
 - Publicação na Netlify: falta a conta.
+
+## Interface (0.3.0)
+
+Capturas com Chromium (Playwright) de todas as páginas públicas e do painel a 375 px e 1280 px, em claro e escuro: sem transbordo horizontal em nenhuma página. No painel (375×812): login, Dia de jogo, 2.ª fase (equipas gravadas, 12 jogos criados), ocultar nome (desaparece de `/data/competition.json`), mudar data, gravar e apagar resultado, histórico.

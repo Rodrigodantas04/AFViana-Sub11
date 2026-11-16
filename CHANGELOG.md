@@ -1,8 +1,13 @@
 # Histórico de alterações
 
-## Em preparação (fim de semana)
+## 0.3.0 — 2026-11-16 · Painel completo e nova interface
 
-- Contacto do projeto para pedidos de privacidade: minho11.contacto@gmail.com (página /privacidade e README).
+- **Painel:** separadores Dia de jogo, Por série, 2.ª fase, Privacidade e Histórico; mudar data e apagar resultado (com confirmação); escolher as equipas da 2.ª fase; ocultar/mostrar nomes; histórico com antes/depois.
+- **Escritor:** operações `clear`, `date` e `teams`, com as mesmas garantias (só células de introdução, caches recalculadas incluindo as equipas dos jogos da 2.ª fase, releitura, nenhum outro jogo alterado).
+- **Interface:** tipografia em `rem` com mínimo legível (respeita a escala de texto do sistema, `meta text-scale`), contraste do tema claro, gráficos em HTML/CSS que ocupam a largura sem encolher o texto, comparação com barras, iniciais dos clubes com cor própria, transições suaves entre páginas, filtros de telemóvel em duas colunas. Revisão de todos os ecrãs a 375 px e 1280 px, em claro e escuro, guiada pelo Modern Web Guidance.
+- **Comparar equipas** (`/comparar`) e **emblemas** dos clubes com registo de origem e autorização.
+- **Contacto do projeto** para pedidos de privacidade: minho11.contacto@gmail.com.
+- 34 testes.
 
 ## 0.2.0 — 2026-11-16 · Nova fonte, duas fases e gestão de resultados
 
@@ -21,7 +26,7 @@
 - **Testes** com um XLSX sintético que tem as mesmas fórmulas e nomes fictícios: 29 testes (motor, importador, escritor, servidor, vistas e garantia de que o snapshot versionado não tem nomes).
 
 ### Pendente
-- Criar o site na Netlify e configurar `GOOGLE_SERVICE_ACCOUNT_JSON`, `ADMIN_PASSWORD_HASH` e `ADMIN_SESSION_SECRET`, depois de partilhar o Excel com a conta de serviço.
+- Abrir o site ao público (proteção de acesso da Netlify) e confirmar a gravação real no Drive.
 - Confirmar com a organização os desempates oficiais (a folha usa pontos, DF, GM e a ordem de inscrição).
 - Rever na fonte: data da Série D J7, marcadores da Série A J6 e os 11 golos por identificar.
 - Desativar o Site antigo (ChatGPT Sites), que não foi atualizado.
