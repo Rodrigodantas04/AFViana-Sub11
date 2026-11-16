@@ -135,3 +135,19 @@ test('crests need a registered file, source and authorisation', () => {
   const live = projectDataset(data, {}, { mode: 'public', today, importedAt: '2026-11-16T00:00:00Z', crests: { clubs: { 'clube-norte': { file: 'assets/crests/clube-norte.png', source: 'clube', authorizationReference: 'ok' } } } });
   assert.equal(live.clubs.find(c => c.id === 'clube-norte').crestUrl, '/media/crests/clube-norte.png');
 });
+
+test('writer: rename joins spellings of one child in every game of that team only', () => {
+  const norte = team('Clube Norte "A"');
+  // Make a second spelling first, as a typo in another game would.
+  const game = data.matches.find(m => m.groupId === '1a' && m.status === 'scheduled' && [m.homeId, m.awayId].includes(norte.id));
+  const side = game.homeId === norte.id ? 'home' : 'away';
+  const typo = op(bytes, { type: 'result', matchId: game.id, homeGoals: 1, awayGoals: 1, scorers: { home: [{ name: side === 'home' ? 'ana lima' : 'Outro Nome', goals: 1, ownGoal: false }], away: [{ name: side === 'away' ? 'ana lima' : 'Outro Nome', goals: 1, ownGoal: false }] } });
+  const before = typo.data.scorers.total.find(s => s.teamId === norte.id && s.name.toLowerCase() === 'ana lima').goals;
+  const r = op(typo.bytes, { type: 'rename', teamId: norte.id, from: ['ana lima', 'Ana Lima'], to: 'Ana Lima' });
+  const after = r.data.matches.flatMap(m => ['home', 'away'].filter(s => m[s + 'Id'] === norte.id).map(s => m.scorers[s].description)).join(' | ');
+  assert.doesNotMatch(after, /ana lima/, 'no lowercase spelling left');
+  assert.equal(r.data.scorers.total.find(s => s.teamId === norte.id && s.name === 'Ana Lima').goals, before);
+  assert.equal(importCompetition(r.bytes, fixtureConfig, { today }).context.drift, 0);
+  assert.throws(() => op(r.bytes, { type: 'rename', teamId: norte.id, from: ['Ninguém Aqui'], to: 'X Y' }), /Não encontrei/);
+  assert.throws(() => op(r.bytes, { type: 'rename', teamId: norte.id, from: ['Ana Lima'], to: 'Ana (2)' }), /só pode ter letras/);
+});

@@ -124,3 +124,19 @@ test('2.ª fase teams, date, clear and privacy go through the same protected pip
   assert.equal((await app(request('/api/admin/privacy', { method: 'POST', body: { scorerId: scorer.id, hidden: true } }))).status, 401);
   assert.equal((await app(request('/api/admin/groups/1a/teams', { method: 'PUT', body: {}, cookie }))).status, 404, 'only 2.ª fase series can be edited');
 });
+
+test('players: spellings are listed per team, suggested and joined through the protected pipeline', async () => {
+  const { app } = await setup();
+  const cookie = await login(app);
+  let state = await (await app(request('/api/admin/state', { cookie }))).json();
+  const teamId = state.scorers[0].teamId;
+  const put = (path, body) => app(request(path, { method: 'PUT', body: { revision: state.revision, operationId: crypto.randomUUID(), ...body }, cookie }));
+  assert.ok(state.players.list.every(p => p.teamId && p.name && p.goals > 0));
+  const name = state.players.list.find(p => p.teamId === teamId).name;
+  const r = await put(`/api/admin/teams/${teamId}/rename`, { from: [name], to: name + ' Júnior' });
+  assert.equal(r.status, 200, await r.clone().text());
+  state = (await r.json()).state;
+  assert.ok(state.players.list.some(p => p.name === name + ' Júnior'));
+  assert.equal(state.history[0].type, 'rename');
+  assert.equal((await app(request(`/api/admin/teams/${teamId}/rename`, { method: 'PUT', body: { from: [name], to: 'X' } }))).status, 401);
+});

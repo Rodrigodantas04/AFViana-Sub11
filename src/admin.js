@@ -156,7 +156,7 @@ function renderToday() {
   if (!recent.length) list.append(Object.assign(document.createElement('li'), { className: 'empty', textContent: 'Sem jogos nos últimos dias. Usa «Por série» para abrir qualquer jogo.' }));
 }
 function renderAll() {
-  renderBanners(); renderPicker(); renderPhase2(); renderPrivacy(); renderHistory();
+  renderBanners(); renderPicker(); renderPhase2(); renderPrivacy(); renderHistory(); renderPlayers();
 }
 $('#phase').addEventListener('change', () => { $('#group').value = ''; $('#round').value = ''; renderPicker(); });
 $('#group').addEventListener('change', () => { $('#round').value = ''; renderPicker(); });
@@ -192,7 +192,6 @@ function addRow(side, { name = '', goals = 1, ownGoal = false } = {}, focus = fa
   const input = row.querySelector('.scorer-name'), id = `n-${crypto.randomUUID()}`;
   input.id = id; row.querySelector('label').htmlFor = id;
   row.querySelector('.error-msg').id = id + '-error'; input.dataset.error = id + '-error';
-  if (!ownGoal) input.setAttribute('list', `names-${side}`);
   input.value = name;
   row.dataset.own = String(ownGoal);
   if (ownGoal) {
@@ -210,6 +209,48 @@ function addRow(side, { name = '', goals = 1, ownGoal = false } = {}, focus = fa
   if (focus) input.focus();
   refresh();
 }
+const loose = value => String(value ?? '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().trim();
+/** Names this team already used, best scorers first (goals in all games of the competition). */
+function teamScorers(teamId) {
+  const goals = new Map();
+  for (const m of state.data.matches) for (const side of sides) if (m[side + 'Id'] === teamId) for (const e of m.scorers[side].entries) if (!e.ownGoal && e.name) {
+    const key = fold(e.name), cur = goals.get(key) ?? { name: e.name, goals: 0 };
+    cur.goals += e.goals; goals.set(key, cur);
+  }
+  return [...goals.values()].sort((a, b) => b.goals - a.goals || a.name.localeCompare(b.name, 'pt-PT'));
+}
+function renderQuickNames(side, teamId) {
+  const box = block(side).querySelector('.quick-names');
+  const list = teamScorers(teamId).slice(0, 8);
+  box.replaceChildren(...(list.length ? [Object.assign(document.createElement('span'), { className: 'quick-label', textContent: 'Já marcaram:' })] : []), ...list.map(p => {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'chip'; b.dataset.quick = p.name;
+    b.textContent = `+ ${p.name}`; b.title = `${p.goals} ${p.goals === 1 ? 'golo' : 'golos'} na competição`;
+    return b;
+  }));
+}
+/** One tap: add the player, or one more goal if already listed. */
+function quickAdd(side, name) {
+  const rows = [...block(side).querySelectorAll('.scorer-row:not(.own)')];
+  const existing = rows.find(r => fold(r.querySelector('.scorer-name').value) === fold(name));
+  if (existing) {
+    const out = existing.querySelector('.count'), v = Math.min(99, Number(out.value) + 1);
+    out.value = String(v); out.textContent = String(v); refresh();
+    existing.classList.remove('bump'); void existing.offsetWidth; existing.classList.add('bump');
+  } else {
+    const empty = rows.find(r => !r.querySelector('.scorer-name').value.trim());
+    if (empty) { empty.querySelector('.scorer-name').value = name; refresh(); }
+    else addRow(side, { name });
+  }
+  announcer.textContent = `${name} adicionado.`;
+}
+function showSuggestions(input) {
+  const box = input.parentElement.querySelector('.name-suggest'), side = input.closest('.scorer-block').dataset.side;
+  const q = loose(input.value), m = state.data.matches.find(x => x.id === state.matchId);
+  if (!q || input.closest('.scorer-row').dataset.own === 'true') { box.hidden = true; return; }
+  const matches = teamScorers(m[side + 'Id']).filter(p => loose(p.name).split(' ').some(w => w.startsWith(q)) || loose(p.name).startsWith(q)).filter(p => fold(p.name) !== fold(input.value)).slice(0, 5);
+  box.replaceChildren(...matches.map(p => { const b = document.createElement('button'); b.type = 'button'; b.role = 'option'; b.dataset.pick = p.name; b.innerHTML = '<strong></strong><small></small>'; b.querySelector('strong').textContent = p.name; b.querySelector('small').textContent = `${p.goals} ${p.goals === 1 ? 'golo' : 'golos'}`; return b; }));
+  box.hidden = !matches.length;
+}
 function setDatalist(side, teamId) {
   let list = document.getElementById(`names-${side}`);
   if (!list) { list = document.createElement('datalist'); list.id = `names-${side}`; document.body.append(list); }
@@ -226,6 +267,7 @@ function openMatch(id, { draft = null } = {}) {
     $(`#${side}-name`).textContent = name;
     document.querySelector(`[data-team="${side}"]`).textContent = name;
     setDatalist(side, m[side + 'Id']);
+    renderQuickNames(side, m[side + 'Id']);
     block(side).querySelector('.scorer-rows').replaceChildren();
   }
   const issues = $('#match-issues');
@@ -283,11 +325,20 @@ function setSaveState(kind, text) {
   else if (!kind) el.textContent = '';
 }
 $('#editor').addEventListener('input', event => {
-  if (event.target.classList.contains('scorer-name')) validateName(event.target);
+  if (event.target.classList.contains('scorer-name')) { validateName(event.target); showSuggestions(event.target); }
   if ($('#save-state').dataset.state === 'error' || $('#save-state').dataset.state === 'saved') setSaveState('');
   refresh();
 });
 $('#editor').addEventListener('click', event => {
+  const quick = event.target.closest('[data-quick]');
+  if (quick) { quickAdd(quick.closest('.scorer-block').dataset.side, quick.dataset.quick); return; }
+  const pick = event.target.closest('[data-pick]');
+  if (pick) {
+    const input = pick.closest('.name-field').querySelector('.scorer-name');
+    input.value = pick.dataset.pick; validateName(input); pick.parentElement.hidden = true; refresh();
+    input.closest('.scorer-row').querySelector('[data-step="1"]').focus();
+    return;
+  }
   const add = event.target.closest('[data-add]');
   if (add) { addRow(add.closest('.scorer-block').dataset.side, { ownGoal: add.dataset.add === 'own' }, true); return; }
   const step = event.target.closest('[data-step]');
@@ -305,6 +356,16 @@ $('#editor').addEventListener('click', event => {
     (next?.querySelector('.scorer-name') ?? side.querySelector('[data-add="player"]')).focus();
     refresh();
   }
+});
+// Enter in a name never saves the result: it closes the suggestions and moves on.
+$('#editor').addEventListener('keydown', event => {
+  if (event.key !== 'Enter' || !event.target.classList?.contains('scorer-name')) return;
+  event.preventDefault();
+  event.target.parentElement.querySelector('.name-suggest').hidden = true;
+  event.target.closest('.scorer-row').querySelector('[data-step="1"]').focus();
+});
+$('#editor').addEventListener('focusout', event => {
+  if (event.target.classList?.contains('scorer-name')) setTimeout(() => { if (!event.target.parentElement.contains(document.activeElement)) event.target.parentElement.querySelector('.name-suggest').hidden = true; }, 150);
 });
 $('#close-editor').addEventListener('click', () => {
   if (isDirty() && !confirm('Fechar sem gravar as alterações?')) return;
@@ -488,8 +549,89 @@ $('#privacy-list').addEventListener('click', async event => {
   if (result && !result.ok) announcer.textContent = result.message;
 });
 
+// --- players (spellings) -------------------------------------------------------------
+const DISMISSED_KEY = 'minho11-admin-dismissed';
+const dismissed = () => { try { return new Set(JSON.parse(localStorage.getItem(DISMISSED_KEY) ?? '[]')); } catch { return new Set(); } };
+const suggestionKey = sg => sg.teamId + ':' + sg.names.map(n => n.name).sort().join('|');
+function renderPlayers() {
+  const d = state.data, box = $('#name-suggestions'), select = $('#players-team');
+  const hidden = dismissed();
+  const suggestions = d.players.suggestions.filter(sg => !hidden.has(suggestionKey(sg)));
+  box.replaceChildren(...suggestions.map(sg => {
+    const card = document.createElement('div'); card.className = 'card suggestion'; card.dataset.key = suggestionKey(sg);
+    card.innerHTML = '<p class="eyebrow">Possível mesmo jogador</p><strong class="sg-team"></strong><ul class="sg-names"></ul><div class="row-actions"><button type="button" class="primary sg-merge"></button><button type="button" class="ghost small sg-dismiss">Não são o mesmo</button></div>';
+    card.querySelector('.sg-team').textContent = teamName(sg.teamId);
+    card.querySelector('.sg-names').replaceChildren(...sg.names.map(n => Object.assign(document.createElement('li'), { textContent: `«${n.name}» · ${n.goals} ${n.goals === 1 ? 'golo' : 'golos'} em ${n.matches} ${n.matches === 1 ? 'jogo' : 'jogos'}` })));
+    const merge = card.querySelector('.sg-merge'); merge.textContent = `Juntar como «${sg.suggested}»`;
+    merge.dataset.team = sg.teamId; merge.dataset.names = JSON.stringify(sg.names.map(n => n.name)); merge.dataset.suggested = sg.suggested;
+    return card;
+  }));
+  const teams = [...new Set(d.players.list.map(p => p.teamId))].sort((a, b) => teamName(a).localeCompare(teamName(b), 'pt-PT'));
+  const keep = teams.includes(select.value) ? select.value : suggestions[0]?.teamId ?? teams[0];
+  select.replaceChildren(...teams.map(id => option(id, teamName(id), id === keep)));
+  renderPlayerList();
+}
+function renderPlayerList() {
+  const d = state.data, teamId = $('#players-team').value, list = $('#players-list');
+  const rows = d.players.list.filter(p => p.teamId === teamId).sort((a, b) => b.goals - a.goals || a.name.localeCompare(b.name, 'pt-PT'));
+  list.replaceChildren(...rows.map(p => {
+    const li = document.createElement('li');
+    li.innerHTML = '<label class="pick"><input type="checkbox"><span class="who"><strong></strong><small></small></span></label><button type="button" class="ghost small fix-name">Corrigir</button>';
+    li.querySelector('input').value = p.name;
+    li.querySelector('strong').textContent = p.name;
+    li.querySelector('small').textContent = `${p.goals} ${p.goals === 1 ? 'golo' : 'golos'} · ${p.matches} ${p.matches === 1 ? 'jogo' : 'jogos'}`;
+    li.querySelector('.fix-name').dataset.name = p.name;
+    return li;
+  }));
+  if (!rows.length) list.append(Object.assign(document.createElement('li'), { className: 'empty', textContent: 'Esta equipa ainda não tem marcadores identificados.' }));
+  updateMergeButton();
+}
+function updateMergeButton() {
+  const n = $('#players-list').querySelectorAll('input:checked').length;
+  $('#merge-players').disabled = n < 2 || !state.data.writable;
+  $('#players-state').textContent = n ? `${n} ${n === 1 ? 'nome selecionado' : 'nomes selecionados'}` : 'Seleciona dois ou mais nomes do mesmo jogador para os juntar.';
+}
+async function askRename(teamId, names, suggested) {
+  const dialog = $('#rename-dialog'), input = $('#rename-to');
+  $('#rename-title').textContent = names.length > 1 ? 'Juntar nomes' : 'Corrigir nome';
+  $('#rename-text').textContent = `${teamName(teamId)}: ${names.map(n => `«${n}»`).join(' + ')}. O nome fica corrigido em todos os jogos do Excel; os golos e os resultados não mudam.`;
+  input.value = suggested; input.setCustomValidity('');
+  dialog.returnValue = ''; dialog.showModal(); input.select();
+  const ok = await new Promise(resolve => dialog.addEventListener('close', () => resolve(dialog.returnValue === 'ok'), { once: true }));
+  if (!ok) return;
+  const to = input.value.replace(/\s+/g, ' ').trim();
+  if (!NAME.test(to)) { announcer.textContent = 'Nome inválido.'; return askRename(teamId, names, to); }
+  if (names.length === 1 && names[0] === to) return;
+  $('#players-state').textContent = 'A gravar no Excel e a confirmar…';
+  const result = await operation(`teams/${teamId}/rename`, 'PUT', { from: names, to }, { button: $('#merge-players'), busy: 'A gravar…' });
+  if (!result) return;
+  $('#players-team').value = teamId; renderPlayerList();
+  $('#players-state').textContent = result.ok ? `${result.message} ✓` : result.message;
+}
+$('#players-team').addEventListener('change', renderPlayerList);
+$('#players-list').addEventListener('change', updateMergeButton);
+$('#players-list').addEventListener('click', event => {
+  const fix = event.target.closest('.fix-name');
+  if (fix) askRename($('#players-team').value, [fix.dataset.name], fix.dataset.name);
+});
+$('#merge-players').addEventListener('click', () => {
+  const names = [...$('#players-list').querySelectorAll('input:checked')].map(i => i.value);
+  const best = state.data.players.list.filter(p => p.teamId === $('#players-team').value && names.includes(p.name)).sort((a, b) => b.matches - a.matches)[0]?.name ?? names[0];
+  askRename($('#players-team').value, names, best);
+});
+$('#name-suggestions').addEventListener('click', event => {
+  const merge = event.target.closest('.sg-merge');
+  if (merge) { askRename(merge.dataset.team, JSON.parse(merge.dataset.names), merge.dataset.suggested); return; }
+  const dismiss = event.target.closest('.sg-dismiss');
+  if (dismiss) {
+    const set = dismissed(); set.add(dismiss.closest('.suggestion').dataset.key);
+    try { localStorage.setItem(DISMISSED_KEY, JSON.stringify([...set])); } catch { /* only this visit */ }
+    renderPlayers();
+  }
+});
+
 // --- history ------------------------------------------------------------------------
-const LABELS = { result: 'Resultado', clear: 'Resultado apagado', date: 'Data', teams: 'Equipas da 2.ª fase', hide: 'Nome ocultado', show: 'Nome visível' };
+const LABELS = { rename: 'Nomes juntados', result: 'Resultado', clear: 'Resultado apagado', date: 'Data', teams: 'Equipas da 2.ª fase', hide: 'Nome ocultado', show: 'Nome visível' };
 function renderHistory() {
   const d = state.data, list = $('#history-list');
   const when = iso => new Intl.DateTimeFormat('pt-PT', { day: 'numeric', month: 'short', hour: '2-digit', minute: '2-digit', timeZone: 'Europe/Lisbon' }).format(new Date(iso));
@@ -500,6 +642,7 @@ function renderHistory() {
     let detail = '';
     if (m) detail = `${teamName(m.homeId)} – ${teamName(m.awayId)} · ${h.type === 'date' ? `${dateText(h.before?.date)} → ${dateText(h.after?.date)}` : `${score(h.before)} → ${score(h.after)}`}`;
     else if (h.scorerId) { const sc = d.scorers.find(x => x.id === h.scorerId); detail = sc ? `${sc.name} · ${teamName(sc.teamId)}` : 'registo sem golos atuais'; }
+    else if (h.type === 'rename') detail = `${teamName(h.teamId)}: ${(h.before ?? []).join(' + ')} → ${h.after}`;
     else if (h.groupId) detail = `Série ${groupOf(h.groupId)?.letter}: ${(h.after ?? []).map(teamName).join(', ')}`;
     li.innerHTML = '<time></time><strong></strong><span></span>';
     li.querySelector('time').textContent = when(h.savedAt);

@@ -21,7 +21,7 @@ const json = (value, status = 200, extra = {}) => new Response(JSON.stringify(va
 const problem = (message, status, extra) => json({ message }, status, extra);
 const sha = text => createHash('sha256').update(text).digest('hex');
 const LIVE_KEY = 'public/live-v2.json', WRITE_LOCK = 'locks/write', REFRESH_LOCK = 'locks/refresh', OPS = 'operations/log', HIDDEN = 'privacy/hidden';
-const SUCCESS = { result: 'Resultado gravado. O site já mostra o novo resultado.', clear: 'Resultado apagado. O jogo voltou a «por realizar».', date: 'Data gravada.', teams: 'Equipas gravadas. Os jogos da série já aparecem no site.' };
+const SUCCESS = { rename: 'Nome corrigido em todos os jogos. O site já mostra o jogador junto.', result: 'Resultado gravado. O site já mostra o novo resultado.', clear: 'Resultado apagado. O jogo voltou a «por realizar».', date: 'Data gravada.', teams: 'Equipas gravadas. Os jogos da série já aparecem no site.' };
 
 export function createApp({ storage, source, env = {}, config, policy, snapshot, crests = {}, refreshSeconds = 60, now = Date.now, log = () => {} }) {
   const today = () => todayLisbon(new Date(now()));
@@ -123,10 +123,28 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
       })),
       quality: { unidentifiedGoals: data.stats.unidentifiedGoals, warnings: report.issues.filter(i => i.level === 'warning' && !i.matchId && !i.matchIds).map(i => i.message) },
       lostWrites: lost,
-      history: operations.slice(0, 50).filter(op => op.type).map(({ type, savedAt, matchId, groupId, scorerId, summary }) => ({ type, savedAt, matchId, groupId, scorerId, before: summary?.before, after: summary?.after })),
+      history: operations.slice(0, 50).filter(op => op.type).map(({ type, savedAt, matchId, groupId, teamId, scorerId, summary }) => ({ type, savedAt, matchId, groupId, teamId, scorerId, before: summary?.before, after: summary?.after })),
+      players: playerNames(data),
       scorers: data.scorers.total.map(({ id, name, teamId, goals }) => ({ id, name, teamId, goals, hidden: hiddenSet.has(id) })),
       hiddenOutsideRanking: [...hiddenSet].filter(id => !data.scorers.total.some(s => s.id === id)).length,
     };
+  }
+  /** Every spelling used in the match sheets, per team (the ranking merges case variants, this does not). */
+  function playerNames(data) {
+    const byKey = new Map();
+    const loose = name => name.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z]+/g, ' ').trim();
+    for (const m of data.matches) for (const side of ['home', 'away']) for (const e of m.scorers[side].events) {
+      if (e.ownGoal || !e.credited) continue;
+      const teamId = m[side + 'Id'], key = teamId + '|' + e.name;
+      const entry = byKey.get(key) ?? byKey.set(key, { teamId, name: e.name, goals: 0, matches: 0, loose: loose(e.name) }).get(key);
+      entry.goals += e.credited; entry.matches += 1;
+    }
+    const capitals = name => name.split(' ').filter(w => /^\p{Lu}/u.test(w)).length;
+    const list = [...byKey.values()];
+    const groups = new Map();
+    for (const p of list) (groups.get(p.teamId + '|' + p.loose) ?? groups.set(p.teamId + '|' + p.loose, []).get(p.teamId + '|' + p.loose)).push(p);
+    const suggestions = [...groups.values()].filter(g => g.length > 1).map(g => ({ teamId: g[0].teamId, names: g.map(({ name, goals, matches }) => ({ name, goals, matches })), suggested: [...g].sort((a, b) => capitals(b.name) - capitals(a.name) || b.matches - a.matches || b.name.length - a.name.length)[0].name }));
+    return { list: list.map(({ loose: _, ...p }) => p), suggestions };
   }
   /** Same notation the writer produces: one entry per credited name, own goals by name. */
   function groupEntries(events) {
@@ -152,7 +170,8 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     if (!source) return problem('A ligação à fonte ainda não está configurada. Nada foi gravado.', 503);
     const change = { ...await body(request), ...target };
     if (target.groupId) change.type = 'teams';
-    else if (change.type === 'teams') return problem('Operação inválida para um jogo.', 400);
+    else if (target.teamId) change.type = 'rename';
+    else if (['teams', 'rename'].includes(change.type)) return problem('Operação inválida para um jogo.', 400);
     try { validateChange(change); } catch (error) { return problem(error.message, error.status ?? 400); }
     const fingerprint = sha(JSON.stringify(change));
     const opKey = `operations/${change.operationId}`;
@@ -174,7 +193,7 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
       await storage.set(`backups/${new Date(now()).toISOString().replace(/[:.]/g, '-')}-${read.revision.slice(0, 12)}.xlsx`, read.bytes);
       const written = await source.write(result.bytes, read);
       const { data, report } = await rebuild(written);
-      const entry = { type: change.type, matchId: change.matchId ?? null, groupId: change.groupId ?? null, savedAt: new Date(now()).toISOString(), revisionBefore: read.revision, revisionAfter: written.revision, summary: result.summary, fingerprint };
+      const entry = { type: change.type, matchId: change.matchId ?? null, groupId: change.groupId ?? null, teamId: change.teamId ?? null, savedAt: new Date(now()).toISOString(), revisionBefore: read.revision, revisionAfter: written.revision, summary: result.summary, fingerprint };
       await storage.set(opKey, entry);
       const operations = [entry, ...((await storage.get(OPS))?.value ?? [])].slice(0, 200);
       await storage.set(OPS, operations);
@@ -214,6 +233,8 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     if (path === 'state' && request.method === 'GET') return adminState();
     const match = /^matches\/(m-[a-f0-9]{16})$/.exec(path);
     if (match && request.method === 'PUT') return runOperation(request, { matchId: match[1] });
+    const renameTeam = /^teams\/([a-z0-9-]{1,80})\/rename$/.exec(path);
+    if (renameTeam && request.method === 'PUT') return runOperation(request, { teamId: renameTeam[1] });
     const group = /^groups\/(2[a-f])\/teams$/.exec(path);
     if (group && request.method === 'PUT') return runOperation(request, { groupId: group[1] });
     if (path === 'privacy' && request.method === 'POST') return setPrivacy(request);

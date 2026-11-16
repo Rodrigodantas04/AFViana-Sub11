@@ -91,7 +91,7 @@ export function matchDetails(data, id) {
     const s = match.scoring[side];
     if (match.status !== 'finished') return `<p class="muted">${matchStatus(match) === 'unconfirmed' ? 'Resultado por confirmar.' : 'Jogo por realizar.'}</p>`;
     if (score === 0) return '<p class="muted">Sem golos.</p>';
-    const list = s.scorers.length ? `<ul class="goal-events">${s.scorers.map(e => `<li>${icon('ball')}<strong>${esc(e.name)}</strong><span>${e.goals} ${e.goals === 1 ? 'golo' : 'golos'}</span></li>`).join('')}</ul>` : '';
+    const list = s.scorers.length ? `<ul class="goal-events">${s.scorers.map(e => `<li>${icon('ball')}<strong>${e.id ? `<a class="player-link" href="/jogadores/${esc(e.id)}">${esc(e.name)}</a>` : esc(e.name)}</strong><span>${e.goals} ${e.goals === 1 ? 'golo' : 'golos'}</span></li>`).join('')}</ul>` : '';
     const hidden = s.identified - s.scorers.reduce((n, e) => n + e.goals, 0);
     const extra = [
       s.ownGoals ? `<li class="own-goal">${icon('ball')}<strong>Autogolo</strong><span>${s.ownGoals} ${s.ownGoals === 1 ? 'golo' : 'golos'}</span></li>` : '',
@@ -192,6 +192,25 @@ function compareTeams(data, url) {
   };
   return `${head}${form}<section class="versus-hero panel">${side(teamA, gA, sA, A, 'team-a')}<span class="versus-x" aria-hidden="true">×</span>${side(teamB, gB, sB, B, 'team-b')}</section>${gA.id !== gB.id ? `<p class="notice">${icon('info')}<span>Séries diferentes: os números são por jogo, mas os adversários não foram os mesmos.</span></p>` : ''}<section class="section panel duel"><div class="panel-heading"><h2>Os números</h2><span class="subtle-label">${A.all.played} e ${B.all.played} jogos</span></div>${row('Pontos por jogo', per(A.all.points, A.all.played), per(B.all.points, B.all.played), { digits: 2 })}${row('Aproveitamento', A.efficiency === null ? null : Math.round(A.efficiency * 100), B.efficiency === null ? null : Math.round(B.efficiency * 100), { digits: 0, pct: true })}${row('Golos marcados por jogo', per(A.all.goalsFor, A.all.played), per(B.all.goalsFor, B.all.played))}${row('Golos sofridos por jogo', per(A.all.goalsAgainst, A.all.played), per(B.all.goalsAgainst, B.all.played), { lower: true })}${row('Jogos sem sofrer', A.cleanSheets, B.cleanSheets, { digits: 0 })}${row('Vitórias', A.all.wins, B.all.wins, { digits: 0 })}</section><section class="section">${heading('Confronto direto', h2h.length ? 'Quando se encontraram' : 'Ainda sem confronto direto', h2h.length ? '' : 'Não há jogos entre estas equipas nesta fase.')}${h2h.length ? matchGrid(data, h2h) : ''}</section>`;
 }
+function playerProfile(data, id) {
+  const back = `<a class="back-link" href="/marcadores">← Bota de Ouro</a>`;
+  if (data.publication.scorerNames === 'redacted') return `${back}<div class="panel">${emptyState('A carregar o perfil…', 'Os nomes chegam com os dados ao vivo da competição.')}</div>`;
+  const record = scorersFor(data, 'total').find(s => s.id === id);
+  if (!record) return `${back}${pageHeading('Jogador', 'Perfil indisponível.', 'Este perfil não existe ou o nome não é publicado.')}`;
+  const team = teamById(data, record.teamId), club = clubById(data, team.clubId);
+  const ranked = rankScorers(scorersFor(data, 'total')).find(s => s.id === id);
+  const games = data.matches.filter(m => m.status === 'finished' && ['home', 'away'].some(side => m[side + 'Id'] === team.id && m.scoring[side].scorers.some(e => e.id === id)))
+    .sort((a, b) => (b.date ?? '').localeCompare(a.date ?? '') || b.round - a.round);
+  const teamGoals = data.groups.flatMap(g => g.standings).filter(s => s.teamId === team.id).reduce((n, s) => n + s.goalsFor, 0);
+  const byPhase = data.phases.map(p => ({ p, goals: scorersFor(data, p.id).find(s => s.id === id)?.goals ?? 0 })).filter(x => x.p.state !== 'pending');
+  const rows = games.map(m => {
+    const side = m.homeId === team.id ? 'home' : 'away', other = side === 'home' ? m.awayId : m.homeId;
+    const goals = m.scoring[side].scorers.find(e => e.id === id).goals, g = groupById(data, m.groupId);
+    const res = m[side + 'Goals'] > m[(side === 'home' ? 'away' : 'home') + 'Goals'] ? 'V' : m.homeGoals === m.awayGoals ? 'E' : 'D';
+    return `<li><a href="/jogos/${m.id}"><span class="pg-date">${dateLabel(m.date)}<small>${esc(phaseById(data, m.phaseId).name)} · Série ${g.letter} · J${m.round}</small></span><span class="pg-opp"><small class="pg-where">${side === 'home' ? 'Casa' : 'Fora'}</small>${teamBadge(data, other)}<span>${esc(teamById(data, other).name)}</span></span><span class="pg-score"><span class="form-chip form-${res}">${res}</span> ${m.homeGoals}–${m.awayGoals}</span><strong class="pg-goals">${'⚽'.repeat(Math.min(goals, 5))}<small>${goals} ${goals === 1 ? 'golo' : 'golos'}</small></strong></a></li>`;
+  }).join('');
+  return `${back}<header class="player-hero">${teamBadge(data, team, true)}<div><p class="eyebrow">${esc(data.competition.category)} · ${esc(data.competition.season)}</p><h1 tabindex="-1">${esc(record.name)}</h1><p class="muted"><a href="/clubes/${club.slug}">${esc(team.name)}</a> · ${ranked.rank}.º na Bota de Ouro${ranked.tied ? ' (empatado)' : ''}</p></div></header><section class="metrics">${metric(record.goals, 'Golos', 'ball', 'Acumulado da competição')}${byPhase.map(x => metric(x.goals, `Golos · ${x.p.name}`, 'trophy')).join('')}${metric(games.length, 'Jogos a marcar', 'calendar')}${metric(teamGoals ? `${Math.round(record.goals / teamGoals * 100)}%` : '—', 'dos golos da equipa', 'chart', `${record.goals} de ${teamGoals}`)}</section><section class="section">${heading('Jogo a jogo', 'Os golos', 'Jogos em que marcou, do mais recente para o mais antigo.')}${games.length ? `<ol class="player-games">${rows}</ol>` : emptyState('Sem jogos', '')}</section><p class="notice">${icon('shield')}<span>Perfil criado a partir das fichas de jogo: só o nome, a equipa e os golos. Sem fotografias nem dados pessoais. <a href="/privacidade">Pedir para retirar</a>.</span></p>`;
+}
 export function notFound() {
   return `${pageHeading('404 · Fora de jogo', 'Esta página saiu do campo.', 'A página que procuras não foi encontrada.')}<a class="button" href="/">Voltar ao início ${icon('arrow')}</a>`;
 }
@@ -221,11 +240,13 @@ export function renderView(data, url) {
   if (path === '/estatisticas') return statistics(data);
   if (path === '/privacidade') return privacyPage(data);
   if (path === '/comparar') return compareTeams(data, url);
+  if (path.startsWith('/jogadores/')) return playerProfile(data, path.slice('/jogadores/'.length));
   return notFound();
 }
 export function pageTitle(data, path) {
   if (path.startsWith('/jogos/')) { const m = data.matches.find(m => `/jogos/${m.id}` === path); if (m) return `${teamById(data, m.homeId).name} × ${teamById(data, m.awayId).name} · MINHO11`; }
   if (path.startsWith('/clubes/')) { const c = data.clubs.find(c => `/clubes/${c.slug}` === path); if (c) return `${c.name} · MINHO11`; }
+  if (path.startsWith('/jogadores/')) { const p = (data.scorers?.total ?? []).find(s => `/jogadores/${s.id}` === path); return `${p ? p.name : 'Jogador'} · MINHO11`; }
   const route = routeOf(data, path);
   if (route.view === 'group') return `${groupLabel(data, route.id)} · ${data.competition.shortName} · MINHO11`;
   if (route.view === 'phase') return `${phaseById(data, route.id)?.name ?? ''} · ${data.competition.shortName} · MINHO11`;

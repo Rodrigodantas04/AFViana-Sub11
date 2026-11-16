@@ -47,6 +47,7 @@
     <nav class="tabs" aria-label="Secções do painel">
       <button type="button" data-tab="today" aria-pressed="true">Dia de jogo</button>
       <button type="button" data-tab="series" aria-pressed="false">Por série</button>
+      <button type="button" data-tab="players" aria-pressed="false">Jogadores</button>
       <button type="button" data-tab="phase2" aria-pressed="false">2.ª fase</button>
       <button type="button" data-tab="privacy" aria-pressed="false">Privacidade</button>
       <button type="button" data-tab="history" aria-pressed="false">Histórico</button>
@@ -68,6 +69,15 @@
         <label class="check"><input type="checkbox" id="only-open" checked> Mostrar só jogos por preencher</label>
       </form>
       <ul id="match-list" class="match-list"></ul>
+    </section>
+
+    <section data-panel="players" hidden aria-labelledby="players-title">
+      <h2 id="players-title" class="section-title">Jogadores</h2>
+      <p class="muted small">Cada nome escrito nas fichas é um jogador da equipa. Se o mesmo miúdo aparece escrito de maneiras diferentes, junta-os: o nome fica corrigido em todos os jogos do Excel e os golos somam-se. Nomes iguais em equipas diferentes nunca se juntam.</p>
+      <div id="name-suggestions"></div>
+      <label class="team-pick">Equipa<select id="players-team"></select></label>
+      <ul id="players-list" class="players-list"></ul>
+      <div class="players-actions"><p id="players-state" class="muted small" role="status"></p><button type="button" class="primary" id="merge-players" disabled>Juntar selecionados</button></div>
     </section>
 
     <section data-panel="phase2" hidden aria-labelledby="phase2-title">
@@ -115,6 +125,7 @@
       <div class="scorers">
         <fieldset class="scorer-block" data-side="home">
           <legend>Marcadores · <span data-team="home"></span></legend>
+          <div class="quick-names" aria-label="Marcadores habituais"></div>
           <ol class="scorer-rows"></ol>
           <p class="tally" aria-live="polite"></p>
           <div class="row-actions">
@@ -124,6 +135,7 @@
         </fieldset>
         <fieldset class="scorer-block" data-side="away">
           <legend>Marcadores · <span data-team="away"></span></legend>
+          <div class="quick-names" aria-label="Marcadores habituais"></div>
           <ol class="scorer-rows"></ol>
           <p class="tally" aria-live="polite"></p>
           <div class="row-actions">
@@ -168,11 +180,28 @@
   </form>
 </dialog>
 
+<dialog id="rename-dialog" aria-labelledby="rename-title">
+  <form method="dialog" novalidate>
+    <h2 id="rename-title">Juntar nomes</h2>
+    <p id="rename-text" class="muted"></p>
+    <div class="field">
+      <label for="rename-to">Nome certo, como deve aparecer</label>
+      <input id="rename-to" type="text" autocomplete="off" autocapitalize="words" spellcheck="false" maxlength="60" required data-error="rename-error">
+      <p id="rename-error" class="error-msg">Só letras, espaços, apóstrofo, hífen ou ponto.</p>
+    </div>
+    <div class="dialog-actions">
+      <button value="cancel" class="ghost" formnovalidate>Cancelar</button>
+      <button value="ok" class="primary" id="rename-ok">Gravar no Excel</button>
+    </div>
+  </form>
+</dialog>
+
 <template id="scorer-row">
   <li class="scorer-row">
     <div class="field name-field">
       <label class="visually-hidden">Nome</label>
       <input class="scorer-name" type="text" autocomplete="off" autocapitalize="words" spellcheck="false" maxlength="60" enterkeyhint="next">
+      <div class="name-suggest" role="listbox" hidden></div>
       <p class="error-msg">Só letras, espaços, apóstrofo, hífen ou ponto.</p>
     </div>
     <div class="stepper" role="group">

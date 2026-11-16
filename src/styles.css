@@ -2690,6 +2690,22 @@
   }
   .phase-tabs a { display:inline-grid; gap:0; text-align:center; line-height:1.2 }
   .phase-tabs small { display:block; font-size:.75rem; color:inherit; opacity:.75; margin:0 }
+  /* Player profile */
+  .player-link { color:inherit; text-decoration:none }
+  .player-link:hover strong, a.player-link:hover { color:var(--accent); text-decoration:underline; text-underline-offset:3px }
+  .player-hero { display:flex; align-items:center; gap:1.25rem; margin:1.5rem 0 2rem }
+  .player-hero h1 { font-size:clamp(2.25rem, 1.6rem + 3vw, 4rem); line-height:1.05 }
+  .player-hero .muted a { color:var(--accent); font-weight:600 }
+  .player-games { list-style:none; padding:0; display:grid; gap:.6rem }
+  .player-games a { display:grid; grid-template-columns:10rem 1fr auto auto; grid-template-areas:'date opp score goals'; align-items:center; gap:.5rem 1rem; padding:1rem 1.25rem; background:var(--surface); border:1px solid var(--line); border-radius:14px; color:inherit; text-decoration:none }
+  .pg-date { grid-area:date } .pg-opp { grid-area:opp } .pg-score { grid-area:score } .pg-goals { grid-area:goals }
+  .player-games a:hover { border-color:color-mix(in srgb, var(--accent) 45%, var(--line)) }
+  .pg-date { display:grid; font-weight:700 } .pg-date small { font-weight:500; color:var(--muted); font-size:.8125rem }
+  .pg-opp { display:flex; align-items:center; gap:.5rem; min-width:0; color:var(--muted) }
+  .pg-score { display:flex; align-items:center; gap:.5rem; font-variant-numeric:tabular-nums; font-weight:700 }
+  .pg-where { font-size:.6875rem; font-weight:800; text-transform:uppercase; letter-spacing:.08em; padding:.15rem .45rem; border-radius:99px; background:var(--surface-raised); color:var(--muted); flex:none }
+  .pg-goals { display:grid; justify-items:end; font-size:1.125rem; letter-spacing:.05em } .pg-goals small { font-size:.75rem; color:var(--muted); letter-spacing:0 }
+  @media (max-width: 40rem) { .player-games a { grid-template-columns:1fr auto; grid-template-areas:'date score' 'opp goals'; padding:.9rem 1rem } .pg-score { justify-self:end } .pg-opp { font-size:.9375rem } }
   /* Pending phase / empty states */
   .pending-state h3 { font-size:1.25rem }
   .pending-state p { font-size:1rem }

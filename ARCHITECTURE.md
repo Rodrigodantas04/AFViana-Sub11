@@ -81,7 +81,13 @@ Recalcular no servidor evita que o Drive, o Excel e o site mostrem números dife
 
 **Limite real de concorrência.** O Drive não suporta compare-and-swap em uploads binários. Entre a última verificação de versão e o `PATCH` há uma janela pequena em que uma gravação externa (por exemplo, o Excel no computador com sincronização do Drive) pode ganhar. O servidor guarda o último valor que gravou em cada jogo e, sempre que o painel abre, avisa se o Excel já não o tem. A perda é detetada e mostrada, mas não é impedida. Recomendação operacional: depois de começar a usar o painel, não ter o Excel aberto a editar ao mesmo tempo.
 
-## 6.1 Ocultar nomes e histórico
+## 6.1 Jogadores: identidade e perfis
+
+Um jogador é **«nome numa equipa», tal como escrito nas fichas** (a mesma chave das fórmulas). Não há identidades inferidas: homónimos em equipas diferentes ficam separados. Grafias diferentes do mesmo miúdo resolvem-se **no Excel** com a operação `rename` (separador Jogadores): o nome é corrigido em todas as descrições dessa equipa, golos do mesmo nome somam-se, e a verificação garante que os golos da equipa e todos os resultados ficam iguais. O painel sugere grafias que só diferem em maiúsculas, acentos ou espaços; juntar nomes diferentes («Rafa» e «Rafael Costa») é sempre decisão humana. Quando houver acesso Zerozero, cada nome poderá ser ligado ao identificador do fornecedor (decisão humana nos casos ambíguos).
+
+O perfil público (`/jogadores/<id>`) é renderizado só com a projeção ao vivo: o HTML estático é uma página genérica com `noindex` (cabeçalho e meta), `robots.txt` exclui `/jogadores/`, e um nome oculto devolve «Perfil indisponível».
+
+## 6.2 Ocultar nomes e histórico
 
 O pedido de retirada de um nome é aplicado no painel (**Privacidade**). A lista de registos ocultos vive no armazenamento do servidor (`privacy/hidden`, escrita com CAS) e é somada a `excludedScorerIds` da configuração na projeção pública: o nome desaparece dos rankings e dos jogos; o Excel e os golos não mudam. Todas as operações (incluindo ocultar/mostrar) ficam no histórico do painel com o antes e o depois.
 

@@ -1,5 +1,13 @@
 # Histórico de alterações
 
+## 0.4.0 — 2026-11-16 · Jogadores
+
+- **Perfil do jogador** com golos por fase, jogos em que marcou e peso na equipa; ligações a partir da Bota de Ouro, dos jogos e dos clubes. Não indexado, só com dados ao vivo, respeita «Ocultar nome».
+- **Painel · Jogadores:** lista de grafias por equipa, sugestões de duplicados (maiúsculas/acentos), juntar ou corrigir nomes com gravação no Excel (operação `rename`, verificada).
+- **Lançar marcadores mais depressa:** botões «Já marcaram» por equipa (um toque acrescenta ou soma um golo) e sugestões enquanto se escreve, sem impedir nomes novos; Enter num nome já não grava o formulário.
+- Servidor tolera uma chave Google malformada (site continua com o snapshot); comando de configuração confirma as variáveis na Netlify e não usa âmbitos pagos.
+- 37 testes.
+
 ## 0.3.0 — 2026-11-16 · Painel completo e nova interface
 
 - **Painel:** separadores Dia de jogo, Por série, 2.ª fase, Privacidade e Histórico; mudar data e apagar resultado (com confirmação); escolher as equipas da 2.ª fase; ocultar/mostrar nomes; histórico com antes/depois.
