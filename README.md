@@ -101,6 +101,10 @@ Sem estas variáveis, o site público funciona com o snapshot e o `/admin` expli
 - Os gráficos usam só o que a fonte tem (resultados e marcadores). Não há minutos, assistências, remates nem posse.
 - Plantéis, treinadores e fotografias aguardam uma fonte autorizada (Zerozero). Os estados vazios são intencionais.
 
+## Contacto
+
+Pedidos de retirada de nomes, emblemas dos clubes e outras questões: **minho11.contacto@gmail.com**. Os pedidos de privacidade não devem ser feitos em *issues* públicas do GitHub.
+
 ## Documentação
 
 - [ARCHITECTURE.md](ARCHITECTURE.md): decisões, modelo, sincronização, segurança e privacidade.

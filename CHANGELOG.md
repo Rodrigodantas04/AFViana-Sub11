@@ -1,5 +1,9 @@
 # Histórico de alterações
 
+## Em preparação (fim de semana)
+
+- Contacto do projeto para pedidos de privacidade: minho11.contacto@gmail.com (página /privacidade e README).
+
 ## 0.2.0 — 2026-11-16 · Nova fonte, duas fases e gestão de resultados
 
 ### Entregue
@@ -20,7 +24,6 @@
 - Criar o site na Netlify e configurar `GOOGLE_SERVICE_ACCOUNT_JSON`, `ADMIN_PASSWORD_HASH` e `ADMIN_SESSION_SECRET`, depois de partilhar o Excel com a conta de serviço.
 - Confirmar com a organização os desempates oficiais (a folha usa pontos, DF, GM e a ordem de inscrição).
 - Rever na fonte: data da Série D J7, marcadores da Série A J6 e os 11 golos por identificar.
-- Definir um contacto para pedidos de retirada (`privacyContact`).
 - Desativar o Site antigo (ChatGPT Sites), que não foi atualizado.
 - Plantéis e fotografias: aguardam o acesso Zerozero.
 
