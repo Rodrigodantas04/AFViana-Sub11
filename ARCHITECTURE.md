@@ -1,80 +1,117 @@
-# Arquitetura do MINHO11
+# Arquitetura
 
-## Problema e decisão
+## 1. Princípios
 
-A base recebida tinha um HTML único com CSS, dados renderizados por JavaScript e funções globais, acompanhado por um importador XLSX em Python. A competição é pequena, as atualizações dependem da publicação do Excel e não existem, nesta fase, contas de utilizador nem escrita pública de resultados.
+1. **O Excel no Google Drive é a fonte de verdade.** Pessoas e plataforma editam o mesmo ficheiro. Tudo o resto (JSON público, cache, páginas) é uma projeção descartável.
+2. **Não inventar dados.** Placeholders (`0`, células vazias) não criam equipas, jogos ou atletas. Golos sem nome ficam «por identificar». Resultados com data futura são preservados e sinalizados.
+3. **Os miúdos primeiro.** Os nomes só aparecem onde é preciso e nunca entram no Git nem no HTML estático. Existe retirada a pedido.
+4. **Falhar fechado.** Se a estrutura ou as fórmulas do Excel mudarem, a importação para e a última versão válida continua publicada.
 
-Mantém-se uma aplicação estática. O frontend foi separado em módulos ES que também correm em Node para pré-renderizar as páginas. O importador continua independente e sem dependências externas. Next.js, PostgreSQL e Supabase acrescentariam serviços sem resolver uma necessidade atual de escrita ou de autenticação. Esta decisão pode ser revista quando houver administração autenticada, várias competições ou consultas que exijam armazenamento transacional.
+## 2. A fonte (16/11/2026)
 
-## Fluxo dos dados
+`AFVC_Torneio_Benjamins_Gomes_Ribeiro_Sub11_Completo.xlsx`, ID `10NzITORyeANQY2prYW9YHF4zJmxDAAqd`, XLSX binário (não é uma Google Sheet). Tem 15 folhas visíveis, sem nomes definidos, tabelas, desenhos nem folhas ocultas:
 
-Quando disponível no ambiente autorizado, `data/source.xlsx` é lido pelo adaptador OpenXML. O parser reconhece os cabeçalhos das oito folhas, normaliza os registos e produz um relatório de validação. A transformação de publicação remove informação individual não autorizada. O snapshot público é versionado; o build Node valida o contrato e gera apenas as páginas e os recursos necessários em `dist/`.
-
-O repositório GitHub é público e exclui o Excel original. `scripts/prepare-data.mjs` importa a fonte quando ela existe localmente. Sem a fonte, usa explicitamente o snapshot público versionado. A presença de um Excel inválido faz falhar a importação; não desencadeia um fallback silencioso. O teste público do adaptador gera um XLSX temporário a partir de uma fixture com nomes substituídos. Num ambiente com a fonte autorizada, os testes também verificam os dados originais.
-
-Uma atualização da fonte passa pelo mesmo processo. O snapshot público só é substituído depois de o Excel, a configuração e o cache autorizado de plantéis terem sido processados com sucesso. A escrita JSON usa ficheiro temporário e substituição atómica. Um build Netlify falhado não deve substituir o deploy anterior.
-
-## Módulos
-
-| Módulo | Responsabilidade |
+| Folhas | Conteúdo |
 | --- | --- |
-| `scripts/import_excel.py` | Leitura XLSX, normalização, validação, relatório interno e transformação pública |
-| `scripts/rosters.py` | Contrato de fornecedor de plantéis e filtragem de pessoas/imagens |
-| `src/domain.js` | Seleção de jogos, estados, pesquisa, rankings, totais e validação do snapshot |
-| `src/components.js` | Componentes HTML partilhados e escape de texto |
-| `src/views.js` | Composição das páginas, clubes, jogos, estatísticas e plantéis |
-| `src/app.js` | Navegação, filtros, temas, diálogo de pesquisa e verificação de novas versões |
-| `scripts/build.mjs` | Pré-renderização e cópia explícita dos recursos públicos |
-| `scripts/serve.mjs` | Servidor local restrito a `dist/` |
+| `1ª Fase - Série 1`, `1.ª Fase - Série 2…6` | Séries A–F (o título diz «SÉRIE 1 (SÉRIE A)»). Classificação em A5:J11, auxiliares M:W, programa de jogos a partir da linha 13 |
+| `Marcadores 1ª Fase` | Tabela automática (A4:D604) e auxiliares G:R, com 3000 linhas de tokens (300 células × 10) |
+| `2ª Fase - Série A…F` | Equipas por preencher em M6:M11. As equipas dos jogos são fórmulas `IF(M6="","",M6)` |
+| `Marcadores 2ª Fase`, `Marcadores Totais` | Mesma lógica: só a 2.ª fase, ou as duas fases (6600 linhas) |
 
-## Entidades e identificadores
+Programa de jogos: `A` jornada, `B` data (texto dd/mm/aaaa), `C` casa, `D` golos da casa, `F` golos de fora, `G` fora. Na linha seguinte, `C`/`G` têm os marcadores de cada equipa (`Nome (2), Outro, Adversário (PB)`).
 
-Uma competição tem época, fase e séries. Uma equipa pertence a uma série da competição; um clube pode ter várias equipas. A relação entre Barroselas A/B e Monção A/B está explícita em `config/competition.json`, em vez de ser inferida num fornecedor remoto. Os restantes nomes mantêm a identidade da fonte até existir um mapeamento externo confirmado.
+### Lógica das fórmulas (reproduzida em `lib/excel-engine.js`)
 
-Os identificadores de jogo derivam de competição, série, jornada, equipa visitada e visitante. Não incluem resultado, data ou posição na folha: corrigir um resultado/data não cria um jogo novo. Alterar o nome de uma equipa pode mudar o seu identificador derivado; essa mudança exige um alias/migração explícitos. Trocar equipas ou jornada pode representar outro jogo e é tratado como nova identidade.
+- **Classificação:** J/V/E/D/GM/GS por `COUNTIFS`/`SUMPRODUCT`/`SUMIFS` sobre as linhas 14..fim. A chave é `Pts·10⁶ + DF·10³ + GM − k·0,01`, e `RANK` ordena por pontos, diferença, golos marcados e, por fim, a ordem em M6:M11. Uma equipa com «Desistiu» no nome vai para o fim. `INDEX` de uma célula vazia devolve `0`, por isso as séries de 5 equipas mostram uma linha `0`, que não é uma equipa.
+- **Marcadores:** `TRIM(MID(SUBSTITUTE(célula,","," "×200),(k−1)·200+1,200))` lê até 10 nomes por célula. `(n)` dá n golos, `(PB)` dá 0 golos ao nome (o golo conta no resultado, mas não é creditado) e qualquer outro parêntese dá 1 golo, por isso `(AG)` contaria como golo do jogador. A chave nome|equipa é comparada **sem distinguir maiúsculas** (`COUNTIF`/`SUMIFS`). Os empates no ranking ficam pela ordem de primeira aparição.
 
-Um registo da tabela de marcadores é um registo de origem, não uma identidade de pessoa. Nomes iguais não são fundidos. A autorização liga a linha e a impressão digital do nome, equipa, competição e linha. Reordenar a folha pode exigir renovar as autorizações, uma escolha que falha de forma restritiva para evitar autorizar outra criança por acidente.
+Os desempates acima são os da folha. Não foram confirmados contra o regulamento oficial da AF Viana do Castelo.
 
-Plantéis externos usam identificadores reais do fornecedor, equipa e época. Nunca são associados a uma criança apenas pelo nome. O contrato TypeScript em `src/types.d.ts` documenta a fronteira futura; o frontend atual é JavaScript modular, sem compilador TypeScript.
+## 3. Modelo de dados (schema 2)
 
-## Regras da competição e qualidade
+```
+competition ── phases[fase-1, fase-2] ── groups[1a…1f, 2a…2f] ── standings
+teams (uma identidade por equipa, entre fases) ── clubs (AD Barroselas A/B → um clube, duas equipas)
+matches { id, phaseId, groupId, round, date, homeId, awayId, homeGoals, awayGoals, status, scoring{home,away} }
+scorers { fase-1:[…], fase-2:[…], total:[…] }   ← cada registo é «nome numa equipa», não uma pessoa
+```
 
-As classificações da fonte são preservadas, incluindo a ordem em empate. O diagnóstico independente usa a hipótese de 3 pontos por vitória e 1 por empate, com regras/desempates ainda por confirmar. Divergências são descritas em `data/internal/validation.json` e não alteram a fonte.
+- **IDs de jogo.** Na 1.ª fase mantêm-se os IDs publicados antes (`m-` + SHA-256 do JSON Python `[competição, letra, jornada, equipaCasa, equipaFora]` com IDs antigos), e os 150 coincidem. Na 2.ª fase o hash inclui `fase-2`, para não colidir com jogos da mesma série e jornada. Os URLs antigos `/competicoes/<slug>/serie-a` redirecionam (301) para `/fase-1/serie-a`.
+- **Equipas.** O ID é o slug do nome sem «(Desistiu)». A mesma equipa mantém a identidade na 2.ª fase, e a mudança de série não perde o histórico.
+- **Estados.** `finished` (os dois golos preenchidos; um 0–0 é um resultado), `incomplete` (só um lado), `scheduled`, `withdrawn` (equipa desistente, sem resultado). O estado `unconfirmed` é derivado na vista quando a data já passou e ainda não há resultado; nunca se escreve «adiado».
+- **Rastreabilidade.** O modelo interno guarda folha e linha de cada jogo e o hash da fonte. A projeção pública remove-os.
 
-Resultados parciais ficam com estado incompleto e não entram nos jogos realizados. Valores de golos negativos, fracionários ou desconhecidos provocam erro explícito. Notas de desistência vêm da folha. Jogos passados sem resultado não são automaticamente classificados como adiados. Os estados de data usam Europe/Lisbon.
+## 4. Projeções e privacidade
 
-Notações de marcadores preservam a descrição original no conjunto interno. Autogolos não são associados ao jogador da equipa beneficiada. Comparações por nome exato são apenas diagnósticos e ignoram associações ambíguas. As estatísticas gerais com erros Excel ficam registadas no relatório, sem apresentar esses erros ao visitante.
+| Projeção | Onde | Nomes |
+| --- | --- | --- |
+| `repository` | `data/public/competition.json` (Git), páginas HTML estáticas | Nunca. Só contagens |
+| `public` | `/data/competition.json` ao vivo (função) e preview local | Conforme `config/publication.json` (`scorerNames: public`, `excludedScorerIds`) |
+| interna | `data/internal/` (local) e resposta do `/admin` com sessão | Sim, com referências à fonte |
 
-O parser consome resultados calculados guardados no XLSX. Não recalcula fórmulas. Alterações de formato fora dos cabeçalhos reconhecidos exigem adaptar o importador e adicionar testes.
+A política publica apenas nome (como escrito na ficha), equipa e golos. Não há perfis pessoais nem fusão de homónimos: 15 nomes aparecem em mais de uma equipa e ficam separados, e grafias que só diferem em maiúsculas ficam juntas como faz o Excel, com aviso interno. Uma retirada usa o ID `s-…` do registo e aplica-se aos rankings e aos jogos, sem mexer no resultado.
 
-## Privacidade e publicação
+## 5. Escrita no Excel
 
-`data/internal/` e `data/source.xlsx` não são servidos nem versionados no repositório público. A publicação inicial do código usa um histórico limpo, sem o commit local que continha o Excel. A fixture pública usa pseudónimos de teste e não identifica os jogadores. Um ambiente privado pode importar a fonte original sem a adicionar ao Git.
+`lib/writer.js`:
 
-Para autorizar um marcador, um operador com fundamento de publicação confirmado coloca em `config/publication.json` uma entrada em `playerRecords` com a chave `id` encontrada no relatório interno. A entrada exige `fingerprint` coincidente e `authorizationReference` não vazia. Essa referência é um identificador interno de prova, não o documento de autorização; não guardar contactos, assinaturas ou documentos pessoais no Git. `excludedRecordIds` tem prioridade sobre a aprovação.
+1. Valida o pedido: inteiros 0–99, nomes só com letras, espaço, apóstrofo, hífen ou ponto (sem `=+@`, vírgulas, parênteses ou dígitos), soma dos marcadores ≤ resultado, ≤10 tokens, e o Excel tem de conseguir ler a descrição sem a partir.
+2. Escreve quatro **células de introdução**: `D`/`F` da linha do jogo e `C`/`G` da linha de marcadores (como inline string). Recusa escrever por cima de uma fórmula.
+3. Volta a avaliar o livro e atualiza **apenas o valor em cache** das fórmulas cujo resultado mudou (série afetada, marcadores da fase e totais). A fórmula, o estilo, as fórmulas partilhadas, a formatação condicional, a calcChain e as outras partes do pacote mantêm-se byte a byte.
+4. Define `fullCalcOnLoad="1"`, para que o Excel recalcule ao abrir.
+5. Relê o próprio resultado e exige: zero divergências entre as caches e as fórmulas, o jogo com os valores pedidos e nenhum outro jogo alterado.
 
-Para plantéis, `rosterRecords` usa `recordId`, com `fingerprint` e `authorizationReference`. A pessoa fica oculta se faltar algum requisito. `excludedRosterRecordIds` permite remoção. Nomes de técnicos também passam pela confirmação de utilização da fonte. Fotografias exigem adicionalmente `photoAuthorizationReference`, `photoHash` e a referência de direitos da imagem no cache. Só ficheiros locais raster com hash coincidente são copiados para `dist/media/`. Não se fazem pedidos a domínios externos no navegador para carregar fotografias.
+Recalcular no servidor evita que o Drive, o Excel e o site mostrem números diferentes até alguém abrir o ficheiro. Não se usa a Sheets API, porque o ficheiro não é uma Google Sheet, nem se converte o ficheiro, para não mudar o ID, as permissões e o histórico.
 
-Uma revogação exige retirar a aprovação, voltar a compilar e publicar. Não existe ainda painel de administração, servidor de consentimentos ou garantia de apagar cópias de terceiros. As autorizações são configuração operacional confirmada por uma pessoa, não uma validação jurídica automática.
+## 6. Servidor
 
-Os marcadores de jogos só são apresentados quando há correspondência exata e única com um registo autorizado. Não se presume que a autorização de um ranking autorize fotografias. As páginas públicas de clubes e os metadados SEO não contêm nomes individuais por omissão.
+`server/app.js` é independente do alojamento (Request → Response). Os adaptadores são `netlify/functions/minho11.mjs` (produção) e `scripts/serve.mjs` (local, com uma cópia do Excel).
 
-## Navegação e atualização
+**Leitura pública.** A cache em Netlify Blobs é refrescada no máximo a cada 60 s. Primeiro faz um pedido barato de metadados ao Drive e só descarrega o ficheiro se a versão mudou. Se o Drive falhar, serve a última projeção válida (`X-MINHO11-Source: stale`) ou o snapshot do repositório. Nunca serve dados por validar.
 
-Os mesmos componentes geram HTML inicial e atualizações no navegador. Cada jogo, clube e série possui um ficheiro HTML próprio, pelo que a atualização de uma ligação direta funciona sem depender de fallback SPA. Formulários GET e ligações continuam utilizáveis quando JavaScript está indisponível, embora filtros interativos exijam JavaScript para aplicar os parâmetros sobre o snapshot pré-renderizado.
+**Gravação (`PUT /api/admin/matches/:id`):**
 
-Com JavaScript, navegação usa `pushState`, `replaceState` e `popstate`. Pesquisa não cria uma entrada por tecla; seleções de filtros ficam no URL. Os controlos de tema mantêm a chave original `minho11-theme`, com fallback à preferência do sistema. O script de tema é carregado antes da folha de estilos.
+1. Exige sessão válida, `Origin` igual ao site e `Content-Type: application/json`.
+2. A idempotência usa `operationId`: um reenvio igual devolve «já gravado», e um ID repetido com outros dados é recusado.
+3. Um bloqueio com expiração (CAS em Blobs, `onlyIfNew`/`onlyIfMatch`) serializa as gravações da aplicação.
+4. O servidor lê a fonte. Se o hash não coincidir com a revisão que o painel tinha, responde 409 e o painel mantém o formulário.
+5. Guarda uma cópia de segurança privada (`backups/…xlsx`) antes de substituir o ficheiro. O Drive mantém também o seu histórico de versões.
+6. Volta a confirmar a versão no Drive, faz `PATCH` ao mesmo ficheiro (`uploadType=media`), relê-o e compara o SHA-256 (e o md5 do Drive).
+7. Reimporta, atualiza a projeção pública e responde. Só então o painel diz «Resultado gravado».
 
-A verificação periódica valida o snapshot antes de trocar o estado, compara `version` e mantém os filtros, a vista e o foco. Erros distinguem versão inválida e ligação indisponível. O rodapé indica a última verificação e disponibiliza a data de importação. Não existe indicador de relato em direto.
+**Limite real de concorrência.** O Drive não suporta compare-and-swap em uploads binários. Entre a última verificação de versão e o `PATCH` há uma janela pequena em que uma gravação externa (por exemplo, o Excel no computador com sincronização do Drive) pode ganhar. O servidor guarda o último valor que gravou em cada jogo e, sempre que o painel abre, avisa se o Excel já não o tem. A perda é detetada e mostrada, mas não é impedida. Recomendação operacional: depois de começar a usar o painel, não ter o Excel aberto a editar ao mesmo tempo.
 
-## Desempenho e acessibilidade
+## 7. Autenticação
 
-Não há bibliotecas de interface, fontes remotas, rastreadores ou pedidos a terceiros. SVGs próprios representam ícones e grafismos; iniciais são substitutos identificáveis de emblemas, nunca emblemas oficiais inventados. CSS usa tokens semânticos e dois temas, com tabelas completas no desktop e estatísticas essenciais no telemóvel.
+- Uma palavra-passe partilhada, guardada só como `pbkdf2-sha256$600000$sal$hash` na variável `ADMIN_PASSWORD_HASH`. A comparação é feita em tempo constante.
+- Limite de 5 tentativas falhadas por cliente em cada 15 minutos (chave com hash do IP).
+- Sessão de 8 h: token assinado com HMAC (`ADMIN_SESSION_SECRET`, ≥32 caracteres) num cookie `HttpOnly; Secure; SameSite=Strict; Path=/api/admin`, e registo no servidor para que **«Sair» revogue a sessão de facto**.
+- Todas as leituras privadas e escritas são autorizadas no servidor. Saber o URL `/admin` não dá acesso. A página do painel é estática e não contém dados.
 
-HTML semântico, foco visível, salto para o conteúdo, labels, diálogo nativo, estados textuais e respeito por movimento reduzido são implementados. Os testes de lógica e a revisão no navegador complementam-se; não constituem certificação WCAG nem medição de Core Web Vitals em produção.
+## 8. Alojamento: porquê Netlify
 
-## Deploy e evolução
+| Opção | Avaliação |
+| --- | --- |
+| Netlify (escolhida) | Plano gratuito, subdomínio estável, funções Node sem limite de 10 ms de CPU (ler e gravar o XLSX demora ~0,3–0,9 s), Blobs com escrita condicional, configuração já existente no repositório |
+| Cloudflare Workers | O plano gratuito limita o CPU a 10 ms por pedido, insuficiente para descomprimir 16 MB de XML. Exigiria plano pago |
+| Site anterior (ChatGPT Sites, `minho11-futebol-formacao…`) | Sem ferramentas para o gerir a partir deste ambiente e com o endpoint antigo `/internal/sync`. Não foi reutilizado nem publicado. Fica por desativar pelo responsável |
+| Apps Script / Sheets | Obrigaria a converter o XLSX ou a duplicar a fonte |
 
-Netlify recebe um build estático. `SITE_URL` ou `URL` fornece a origem real para canonical e sitemap. A política de cache força revalidação do JSON e dos módulos. A versão atual não requer segredos. Uma chave Zerozero futura ficará apenas no ambiente de build/backend, nunca no código do frontend ou no JSON público.
+O limite de 4 KB das variáveis de ambiente das funções comporta a chave da conta de serviço (~2,4 KB) e os dois segredos.
 
-Uma fonte OneDrive/Drive pode substituir a aquisição do Excel antes do parser. Um adaptador Zerozero pode atualizar o cache normalizado de plantéis sem alterar resultados. Quando a aplicação precisar de escrita multiutilizador, a fronteira de domínio e os identificadores podem suportar um serviço e uma base de dados; não é uma migração já implementada.
+## 9. Estrutura
+
+```
+lib/        xlsx.js · excel-engine.js · competition.js · writer.js · projection.js · rosters.js
+server/     app.js · auth.js · sources.js (Drive / ficheiro) · storage.js (Blobs / memória / ficheiro) · runtime.js
+netlify/functions/minho11.mjs
+src/        domain.js · views.js · components.js · app.js · styles.css · admin.{html,css,js}
+scripts/    import.mjs · prepare-data.mjs · build.mjs · serve.mjs · verify-source.mjs · admin-password.mjs
+tests/      *.test.mjs + fixtures/workbook.mjs (XLSX sintético com as mesmas fórmulas)
+```
+
+O importador Python da versão 0.1 foi substituído por JavaScript para existir **uma só implementação** da fonte, usada pelo build e pelo servidor. Com duas implementações, os números do site e os da gravação poderiam divergir.
+
+## 10. Plantéis e Zerozero
+
+`lib/rosters.js` mantém a fronteira da versão anterior: a cache normalizada `data/internal/rosters-source.json`, a autorização por registo com fingerprint e as fotografias com direitos próprios e hash. Nenhum endpoint Zerozero é suposto ou chamado. Ver docs/ZEROZERO.md. Quando houver dados, os resultados continuam a vir só do Excel.

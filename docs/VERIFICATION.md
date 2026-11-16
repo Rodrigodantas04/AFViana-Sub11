@@ -1,26 +1,29 @@
-# Verificação da versão 0.1.0
+# Verificação da versão 0.2.0
 
-Verificações executadas localmente em 16/11/2026.
+Executada localmente em 16/11/2026 (macOS, Node 24).
 
-## Comandos
+## Automática (CI público, dados fictícios)
 
-`npm run check`, `npm run build` e `npm test` concluíram com sucesso. Foram executados 29 testes Python e 12 testes Node, sem falhas. O build gerou 194 páginas pré-renderizadas a partir da competição fornecida.
+- `npm run check`: sem erros.
+- `npm test`: 29 testes, 0 falhas. Cobrem o motor (tokens, `(n)`, `(PB)`, `(AG)`, 10 nomes, chaves sem maiúsculas, empates, desempates, desistente, wildcards), o importador (duas fases, placeholders, A/B, desistências, rankings sem dupla contagem), as projeções (sem nomes no repositório, retirada a pedido), o escritor (partes alteradas, fórmulas intactas, releitura sem divergências, recusas), o servidor (palavra-passe, origem, sessão revogada, limite de tentativas, gravação confirmada, idempotência, conflito, bloqueio, fallback) e as vistas (fases, URL antigo, autogolos, escaping).
+- `npm run build`: 203 páginas pré-renderizadas a partir do snapshot sem nomes.
 
-Os testes cobrem leitura das folhas, cabeçalhos desconhecidos, dados em falta, resultados incompletos, valores de golos inválidos, duplicados, desistências, correções com identidade estável, autogolos, erros Excel e preservação do último snapshot válido. Também verificam autorização/revogação de nomes e imagens, contratos de plantel, pesquisas, rankings empatados, renderização, ligações e ausência de informação individual não autorizada nos HTML/JSON publicados.
+## Fonte real (local, `npm run verify:source`)
 
-## Navegador
+- 15 folhas, 151 968 valores calculados comparados, **0 divergências**, leitura em ~230 ms.
+- Totais iguais aos valores de controlo (150 / 81 / 510; 218 registos, 494 golos individuais, 5 PB, 11 por identificar).
+- Ensaio de gravação em memória: ~0,9 s, 4 partes alteradas (workbook, série, marcadores da fase, totais), fórmulas e estilos intactos.
 
-- Servidor local respondeu HTTP 200.
-- Pesquisa de LANHESES com série B e estado finalizado apresentou quatro jogos no snapshot fornecido.
-- Abertura de um jogo, retroceder e atualização da página mantiveram o URL e os filtros.
-- Alternância de tema e atualização da página preservaram a preferência.
-- Menu móvel, pesquisa em diálogo e fecho por Escape funcionaram.
-- Perfil de UD Lanheses apresentou classificação, estatísticas e secções de plantel/equipa técnica, com estados sem dados.
-- Página inicial sem transbordo horizontal a 320, 375, 390, 430, 768, 1024 e 1440 px.
-- Jogos, série F, clubes, perfil de clube, marcadores e estatísticas sem transbordo horizontal a 320 e 1440 px.
-- Revisão visual e capturas nos temas claro e escuro, incluindo o perfil móvel.
-- Sem avisos ou erros na consola durante os percursos verificados.
+## Percurso completo (local, cópia `data/dev-source.xlsx`)
 
-## Limites
+Feito no browser, num viewport de 375×812:
 
-Não foram executados Lighthouse, auditoria WCAG independente, testes em dispositivos físicos ou validação de produção Netlify. Os estados de erro de dados são cobertos por testes de contrato e preservação do snapshot; não foi simulada uma falha de rede no navegador. A integração Zerozero e o carregamento de fotografias reais não podem ser verificados enquanto não houver acesso aprovado, dados autorizados e direitos de utilização.
+1. `/admin` mostra só a palavra-passe. Pedidos sem `Origin` válido e palavra-passe errada são recusados.
+2. Série A J6 (por preencher) → 3–2, um marcador e um autogolo → «Resultado gravado». O ficheiro relido tem `Atleta Teste, Autogolo (PB)`, a classificação passa a 12 pontos para a AD Ponte Barca e `/data/competition.json` foi atualizado. Ficou uma cópia de segurança.
+3. Alteração externa do ficheiro com o jogo aberto → 409. O formulário manteve 4–2 e os nomes, apareceu o aviso «resultado gravado aqui já não está no Excel» e, depois de «Atualizar jogo», a gravação passou e o aviso desapareceu.
+4. Páginas públicas sem scroll horizontal a 375 px. A análise da ADC Anha bate certo (29/30 golos identificados).
+
+## Não verificado
+
+- Gravação real no Google Drive: falta a conta de serviço. O cliente Drive (`server/sources.js`) segue a API documentada, mas não foi exercitado contra o Drive.
+- Publicação na Netlify: falta a conta.
