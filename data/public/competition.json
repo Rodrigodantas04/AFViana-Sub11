@@ -865,7 +865,10 @@
       "teamIds": [
         "ad-ponte-barca"
       ],
-      "colors": null
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#ffffff"
+      }
     },
     {
       "id": "adc-aboim-sabadim",
@@ -1162,7 +1165,10 @@
         "desp-moncao-b",
         "desp-moncao-a"
       ],
-      "colors": null
+      "colors": {
+        "primary": "#1f4e9e",
+        "secondary": "#c8102e"
+      }
     },
     {
       "id": "ad-campos",
@@ -5166,6 +5172,6 @@
   },
   "rosters": [],
   "sourceHash": "26823a9a00c42d8c9732de3f652d3f7f29e1b3c4c76e1445ac852615421ba1e3",
-  "version": "3aa76f4b8109caf9e581c22ef33ec1367589df6776b06dd79852e6772dd76ba8",
-  "importedAt": "2026-11-16T17:17:02.423Z"
+  "version": "a899351525e93d37a285012d227e0dcb6fc88b6c39f20966538c62da1c3e69d3",
+  "importedAt": "2026-11-16T17:18:57.532Z"
 }
