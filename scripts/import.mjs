@@ -24,16 +24,16 @@ const atomic = (file, value) => {
 };
 
 export function runImport(source = process.argv[2]) {
-  const config = read('config/competition.json'), policy = read('config/publication.json'), crests = read('config/crests.json');
+  const config = read('config/competition.json'), policy = read('config/publication.json'), crests = read('config/crests.json'), colors = read('config/club-colors.json');
   const file = path.resolve(root, source ?? config.source);
   const today = todayLisbon();
   const { data, report } = importCompetition(fs.readFileSync(file), config, { today });
   const rosterSource = loadRosters(path.join(root, 'data/internal/rosters-source.json'), data.competition, data.teams);
   const rosters = publicRosters(rosterSource, policy, root);
   const previous = fs.existsSync(path.join(root, 'data/public/competition.json')) ? read('data/public/competition.json') : {};
-  let repository = projectDataset(data, policy, { mode: 'repository', today, rosters, crests, importedAt: previous.importedAt });
-  if (repository.version !== previous.version) repository = projectDataset(data, policy, { mode: 'repository', today, rosters, crests, importedAt: new Date().toISOString() });
-  const live = projectDataset(data, policy, { mode: 'public', today, rosters, crests, importedAt: repository.importedAt });
+  let repository = projectDataset(data, policy, { mode: 'repository', today, rosters, crests, colors, importedAt: previous.importedAt });
+  if (repository.version !== previous.version) repository = projectDataset(data, policy, { mode: 'repository', today, rosters, crests, colors, importedAt: new Date().toISOString() });
+  const live = projectDataset(data, policy, { mode: 'public', today, rosters, crests, colors, importedAt: repository.importedAt });
   atomic('data/internal/competition.json', { ...data, importedAt: repository.importedAt });
   atomic('data/internal/validation.json', { ...report, importedAt: repository.importedAt });
   atomic('data/internal/rosters-reviewed.json', rosterSource);

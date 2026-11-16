@@ -23,8 +23,12 @@ const sha = text => createHash('sha256').update(text).digest('hex');
 const LIVE_KEY = 'public/live-v2.json', WRITE_LOCK = 'locks/write', REFRESH_LOCK = 'locks/refresh', OPS = 'operations/log', HIDDEN = 'privacy/hidden';
 const SUCCESS = { rename: 'Nome corrigido em todos os jogos. O site já mostra o jogador junto.', result: 'Resultado gravado. O site já mostra o novo resultado.', clear: 'Resultado apagado. O jogo voltou a «por realizar».', date: 'Data gravada.', teams: 'Equipas gravadas. Os jogos da série já aparecem no site.' };
 
-export function createApp({ storage, source, env = {}, config, policy, snapshot, crests = {}, refreshSeconds = 60, now = Date.now, log = () => {} }) {
+export function createApp({ storage, source, env = {}, config, policy, snapshot, crests = {}, colors = {}, refreshSeconds = 60, now = Date.now, log = () => {} }) {
   const today = () => todayLisbon(new Date(now()));
+  // The public cache is only reused while the publishing rules and code are the same (a deploy with new
+  // colours, crests or policy must rebuild it even if the workbook did not change).
+  let deployId = env.DEPLOY_ID ?? env.COMMIT_REF ?? null;
+  const projectionVersion = () => sha(JSON.stringify({ policy, crests, colors, schema: snapshot.schemaVersion, code: deployId ?? 'local' }));
 
   async function body(request) {
     const text = await request.text();
@@ -37,15 +41,16 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     const { data, report } = importCompetition(read.bytes, config, { today: today() });
     const importedAt = new Date(now()).toISOString();
     const hidden = (await storage.get(HIDDEN))?.value ?? [];
-    const live = projectDataset(data, { ...policy, excludedScorerIds: [...(policy.excludedScorerIds ?? []), ...hidden] }, { mode: 'public', today: today(), importedAt, rosters: snapshot.rosters ?? [], crests });
-    await storage.set(LIVE_KEY, { checkedAt: now(), sourceVersion: read.meta.version, revision: read.revision, data: live });
+    const live = projectDataset(data, { ...policy, excludedScorerIds: [...(policy.excludedScorerIds ?? []), ...hidden] }, { mode: 'public', today: today(), importedAt, rosters: snapshot.rosters ?? [], crests, colors });
+    await storage.set(LIVE_KEY, { checkedAt: now(), sourceVersion: read.meta.version, revision: read.revision, projectionVersion: projectionVersion(), data: live });
     return { data, report, live, read };
   }
 
   async function publicData(context) {
-    const cached = await storage.get(LIVE_KEY);
+    const stored = await storage.get(LIVE_KEY);
+    const cached = stored && stored.value.projectionVersion === projectionVersion() ? stored : null;
     const age = cached ? now() - cached.value.checkedAt : Infinity;
-    if (!source) return json(cached?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': cached ? 'cache' : 'snapshot' });
+    if (!source) return json(stored?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': stored ? 'cache' : 'snapshot' });
     if (age < refreshSeconds * 1000) return json(cached.value.data, 200, { 'X-MINHO11-Source': 'live' });
     const refresh = async () => {
       const release = await acquireLease(storage, REFRESH_LOCK, 60, now);
@@ -66,7 +71,7 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
       return json(fresh ?? cached?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': fresh || cached ? 'live' : 'snapshot' });
     } catch (error) {
       log('refresh failed', error.message);
-      return json(cached?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': 'stale' });
+      return json(cached?.value.data ?? stored?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': 'stale' });
     }
   }
 
@@ -242,6 +247,7 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
   }
 
   return async function handle(request, context = {}) {
+    deployId ??= context?.deploy?.id ?? null;
     const url = new URL(request.url);
     try {
       if (url.pathname.startsWith('/api/admin/')) return await admin(request, url.pathname.slice('/api/admin/'.length));

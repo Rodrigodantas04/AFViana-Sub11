@@ -838,7 +838,8 @@
       "teamIds": [
         "ad-barroselas-b",
         "ad-barroselas-a"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "arc-guilhadeses",
@@ -847,7 +848,8 @@
       "crestUrl": null,
       "teamIds": [
         "arc-guilhadeses"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "ad-ponte-barca",
@@ -856,7 +858,8 @@
       "crestUrl": null,
       "teamIds": [
         "ad-ponte-barca"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "adc-aboim-sabadim",
@@ -865,7 +868,8 @@
       "crestUrl": null,
       "teamIds": [
         "adc-aboim-sabadim"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "atletico-arcos-ad",
@@ -874,7 +878,11 @@
       "crestUrl": null,
       "teamIds": [
         "atletico-arcos-ad"
-      ]
+      ],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#ffffff"
+      }
     },
     {
       "id": "crc-tavora",
@@ -883,7 +891,8 @@
       "crestUrl": null,
       "teamIds": [
         "crc-tavora"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "af-ponte-lima",
@@ -892,7 +901,8 @@
       "crestUrl": null,
       "teamIds": [
         "af-ponte-lima"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "gd-freixo",
@@ -901,7 +911,8 @@
       "crestUrl": null,
       "teamIds": [
         "gd-freixo"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "ad-fachense",
@@ -910,7 +921,8 @@
       "crestUrl": null,
       "teamIds": [
         "ad-fachense"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "ud-lanheses",
@@ -919,7 +931,8 @@
       "crestUrl": null,
       "teamIds": [
         "ud-lanheses"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "ad-os-limianos",
@@ -928,7 +941,11 @@
       "crestUrl": null,
       "teamIds": [
         "ad-os-limianos"
-      ]
+      ],
+      "colors": {
+        "primary": "#f2c200",
+        "secondary": "#1f4e9e"
+      }
     },
     {
       "id": "adc-anha",
@@ -937,7 +954,8 @@
       "crestUrl": null,
       "teamIds": [
         "adc-anha"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "neves-fc",
@@ -946,7 +964,8 @@
       "crestUrl": null,
       "teamIds": [
         "neves-fc"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "vila-fria-1980",
@@ -955,7 +974,8 @@
       "crestUrl": null,
       "teamIds": [
         "vila-fria-1980"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "ad-darquense",
@@ -964,7 +984,8 @@
       "crestUrl": null,
       "teamIds": [
         "ad-darquense"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "deucriste-sc",
@@ -973,7 +994,8 @@
       "crestUrl": null,
       "teamIds": [
         "deucriste-sc"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "perspectiva-em-jogo-ad",
@@ -982,7 +1004,8 @@
       "crestUrl": null,
       "teamIds": [
         "perspectiva-em-jogo-ad"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "torre-sc",
@@ -991,7 +1014,8 @@
       "crestUrl": null,
       "teamIds": [
         "torre-sc"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "gd-meadela",
@@ -1000,7 +1024,8 @@
       "crestUrl": null,
       "teamIds": [
         "gd-meadela"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "sc-vianense",
@@ -1009,7 +1034,11 @@
       "crestUrl": null,
       "teamIds": [
         "sc-vianense"
-      ]
+      ],
+      "colors": {
+        "primary": "#1f4e9e",
+        "secondary": "#ffffff"
+      }
     },
     {
       "id": "gd-areosense",
@@ -1018,7 +1047,11 @@
       "crestUrl": null,
       "teamIds": [
         "gd-areosense"
-      ]
+      ],
+      "colors": {
+        "primary": "#c8102e",
+        "secondary": "#ffffff"
+      }
     },
     {
       "id": "adc-perre",
@@ -1027,7 +1060,8 @@
       "crestUrl": null,
       "teamIds": [
         "adc-perre"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "ancora-praia-fc",
@@ -1036,7 +1070,8 @@
       "crestUrl": null,
       "teamIds": [
         "ancora-praia-fc"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "ac-caminha",
@@ -1045,7 +1080,8 @@
       "crestUrl": null,
       "teamIds": [
         "ac-caminha"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "cc-os-torreenses",
@@ -1054,7 +1090,8 @@
       "crestUrl": null,
       "teamIds": [
         "cc-os-torreenses"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "desp-moncao",
@@ -1064,7 +1101,8 @@
       "teamIds": [
         "desp-moncao-b",
         "desp-moncao-a"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "ad-campos",
@@ -1073,7 +1111,8 @@
       "crestUrl": null,
       "teamIds": [
         "ad-campos"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "sc-courense",
@@ -1082,7 +1121,8 @@
       "crestUrl": null,
       "teamIds": [
         "sc-courense"
-      ]
+      ],
+      "colors": null
     },
     {
       "id": "cd-cerveira",
@@ -1091,7 +1131,11 @@
       "crestUrl": null,
       "teamIds": [
         "cd-cerveira"
-      ]
+      ],
+      "colors": {
+        "primary": "#f2c200",
+        "secondary": "#1f7a3a"
+      }
     },
     {
       "id": "sc-valenciano",
@@ -1100,7 +1144,11 @@
       "crestUrl": null,
       "teamIds": [
         "sc-valenciano"
-      ]
+      ],
+      "colors": {
+        "primary": "#1f7a3a",
+        "secondary": "#ffffff"
+      }
     },
     {
       "id": "ud-os-raianos",
@@ -1109,7 +1157,8 @@
       "crestUrl": null,
       "teamIds": [
         "ud-os-raianos"
-      ]
+      ],
+      "colors": null
     }
   ],
   "matches": [
@@ -5048,6 +5097,6 @@
   },
   "rosters": [],
   "sourceHash": "26823a9a00c42d8c9732de3f652d3f7f29e1b3c4c76e1445ac852615421ba1e3",
-  "version": "c3eed3a1d143c09ed023a3573773b5d7312b2aefaa5d40b4b46fe7b867253a64",
-  "importedAt": "2026-11-16T15:13:42.256Z"
+  "version": "add31e873000a70f12c3e9e60a997b2a6a5da289bc0f5b39c56600c0470791c6",
+  "importedAt": "2026-11-16T16:39:35.485Z"
 }

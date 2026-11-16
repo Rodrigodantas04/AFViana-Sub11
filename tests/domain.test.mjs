@@ -67,3 +67,12 @@ test('player profile: live names only, hidden or unknown ids show nothing person
   assert.match(renderView(hidden, url(`/jogadores/${top.id}`)), /Perfil indisponível/);
   assert.ok(data.matches.some(m => m.scoring.home.scorers.some(e => e.id === top.id) || m.scoring.away.scorers.some(e => e.id === top.id)), 'goal entries link to the profile id');
 });
+import { clubColors } from '../lib/projection.js';
+import { badgeInk, badge } from '../src/components.js';
+test('club colours: only valid, reliable entries; initials always legible', () => {
+  assert.deepEqual(clubColors({ clubs: { a: { primary: '#1F7A3A', secondary: '#ffffff', confidence: 'high' }, b: { primary: '#111111', secondary: '#222222', confidence: 'low' }, c: { primary: 'green', secondary: '#fff', confidence: 'high' } } }), { a: { primary: '#1f7a3a', secondary: '#ffffff' } });
+  assert.equal(badgeInk({ primary: '#1f7a3a', secondary: '#ffffff' }), '#ffffff');
+  assert.equal(badgeInk({ primary: '#f2c200', secondary: '#ffffff' }), '#111111', 'white on yellow is not legible');
+  assert.equal(badgeInk({ primary: '#1f4e9e', secondary: '#f2c200' }), '#f2c200');
+  assert.match(badge('Neves FC', false, null, { primary: '#1f7a3a', secondary: '#ffffff' }), /--club-1:#1f7a3a/);
+});

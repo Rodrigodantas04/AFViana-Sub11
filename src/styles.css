@@ -2606,6 +2606,9 @@
 
   /* Club initials get a stable, club-specific tint so lists are easier to scan */
   .badge:not(.badge-crest) { background:color-mix(in oklab, hsl(var(--badge-hue, 90) 55% 45%) 22%, var(--surface-raised)); border-color:color-mix(in oklab, hsl(var(--badge-hue, 90) 55% 45%) 40%, var(--line)) }
+  /* Club colours: main colour field with a diagonal band of the second colour */
+  .badge.badge-club { background:linear-gradient(135deg, var(--club-1) 0 62%, var(--club-2) 62% 70%, var(--club-1) 70%); border-color:color-mix(in srgb, var(--club-2) 45%, var(--club-1)); color:var(--club-ink) }
+  .badge.badge-club span { color:var(--club-ink); text-shadow:0 1px 0 color-mix(in srgb, var(--club-1) 60%, transparent) }
   .badge-crest { background:#fff; padding:2px; overflow:hidden }
   .badge-crest img { width:100%; height:100%; object-fit:contain; display:block }
 

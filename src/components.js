@@ -13,18 +13,29 @@ export function icon(name, cls = '') {
   return `<svg class="icon ${esc(cls)}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] ?? paths.ball}</svg>`;
 }
 /** Club crest when an authorised file exists; otherwise initials. Decorative (the name is always next to it). */
-export function badge(name, large = false, crest = null) {
-  if (crest) return `<span class="badge badge-crest ${large ? 'badge-large' : ''}" aria-hidden="true"><img src="${esc(crest)}" alt="" width="${large ? 72 : 36}" height="${large ? 72 : 36}" loading="lazy" decoding="async"></span>`;
+function initialsOf(name) {
   const words = String(name).replace(/[^\p{L}\p{N}\s]/gu, '').split(/\s+/).filter(Boolean);
-  const initials = (words.length > 1 ? words.slice(0, 3).map(w => w[0]).join('') : words[0]?.slice(0, 3) ?? 'M11').toUpperCase();
+  return (words.length > 1 ? words.slice(0, 3).map(w => w[0]).join('') : words[0]?.slice(0, 3) ?? 'M11').toUpperCase();
+}
+const lum = hex => { const c = [1, 3, 5].map(i => parseInt(hex.slice(i, i + 2), 16) / 255).map(v => v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4); return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]; };
+const contrast = (a, b) => { const [x, y] = [lum(a), lum(b)].sort((p, q) => q - p); return (x + 0.05) / (y + 0.05); };
+/** Text colour on the club's main colour: its second colour if legible, otherwise white or black. */
+export function badgeInk(colors) {
+  if (contrast(colors.primary, colors.secondary) >= 3) return colors.secondary;
+  return contrast(colors.primary, '#ffffff') >= contrast(colors.primary, '#111111') ? '#ffffff' : '#111111';
+}
+export function badge(name, large = false, crest = null, colors = null) {
+  if (crest) return `<span class="badge badge-crest ${large ? 'badge-large' : ''}" aria-hidden="true"><img src="${esc(crest)}" alt="" width="${large ? 72 : 36}" height="${large ? 72 : 36}" loading="lazy" decoding="async"></span>`;
+  const initials = initialsOf(name);
+  if (colors) return `<span class="badge badge-club ${large ? 'badge-large' : ''}" style="--club-1:${colors.primary};--club-2:${colors.secondary};--club-ink:${badgeInk(colors)}" aria-hidden="true"><span>${esc(initialsOf(name))}</span></span>`;
   let hue = 0; for (const c of String(name)) hue = (hue * 31 + c.codePointAt(0)) % 360;
   return `<span class="badge ${large ? 'badge-large' : ''}" style="--badge-hue:${hue}" aria-hidden="true"><span>${esc(initials)}</span></span>`;
 }
-export const clubBadge = (club, large = false) => badge(club.name, large, club.crestUrl);
+export const clubBadge = (club, large = false) => badge(club.name, large, club.crestUrl, club.colors);
 export function teamBadge(data, teamOrId, large = false) {
   const team = typeof teamOrId === 'string' ? teamById(data, teamOrId) : teamOrId;
   const club = data.clubs.find(c => c.id === team?.clubId);
-  return badge(team?.name ?? '', large, club?.crestUrl);
+  return badge(team?.name ?? '', large, club?.crestUrl, club?.colors);
 }
 export const brand = () => `<a class="brand" href="/" aria-label="MINHO11 — início"><span class="brand-mark">${icon('ball')}</span><span>MINHO<span class="brand-number">11</span></span></a>`;
 export function heading(eyebrow, title, description = '', action = '') {
