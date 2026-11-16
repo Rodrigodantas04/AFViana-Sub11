@@ -1,0 +1,4274 @@
+{
+  "Série 1 (A)": {
+    "rows": {
+      "1": {
+        "A": "AF VIANA DO CASTELO - TORNEIO DISTRITAL BENJAMINS \"GOMES RIBEIRO\" - SUB 11 (FUT. 8)"
+      },
+      "2": {
+        "A": "SÉRIE 1 (SÉRIE A) - 6 EQUIPAS"
+      },
+      "4": {
+        "A": "CLASSIFICAÇÃO GERAL"
+      },
+      "5": {
+        "A": "Pos.",
+        "B": "Equipa",
+        "C": "J",
+        "D": "V",
+        "E": "E",
+        "F": "D",
+        "G": "GM",
+        "H": "GS",
+        "I": "DF",
+        "J": "Pts"
+      },
+      "6": {
+        "A": "1.º",
+        "B": "AD Barroselas \"B\"",
+        "C": 5,
+        "D": 4,
+        "E": 1,
+        "F": 0,
+        "G": 20,
+        "H": 9,
+        "I": 11,
+        "J": 13
+      },
+      "7": {
+        "A": "2.º",
+        "B": "ARC Guilhadeses",
+        "C": 5,
+        "D": 3,
+        "E": 0,
+        "F": 2,
+        "G": 23,
+        "H": 5,
+        "I": 18,
+        "J": 9
+      },
+      "8": {
+        "A": "3.º",
+        "B": "AD Ponte Barca",
+        "C": 5,
+        "D": 3,
+        "E": 0,
+        "F": 2,
+        "G": 24,
+        "H": 11,
+        "I": 13,
+        "J": 9
+      },
+      "9": {
+        "A": "4.º",
+        "B": "ADC Aboim Sabadim",
+        "C": 5,
+        "D": 2,
+        "E": 2,
+        "F": 1,
+        "G": 16,
+        "H": 19,
+        "I": -3,
+        "J": 8
+      },
+      "10": {
+        "A": "5.º",
+        "B": "Atlético Arcos AD",
+        "C": 5,
+        "D": 1,
+        "E": 0,
+        "F": 4,
+        "G": 12,
+        "H": 25,
+        "I": -13,
+        "J": 3
+      },
+      "11": {
+        "A": "6.º",
+        "B": "CRC Távora",
+        "C": 5,
+        "D": 0,
+        "E": 1,
+        "F": 4,
+        "G": 9,
+        "H": 35,
+        "I": -26,
+        "J": 1
+      },
+      "13": {
+        "A": "PROGRAMA DE JOGOS E MARCADORES (Insira os golos nas células amarelas e os marcadores nas linhas verdes, ex: Dinis(2), Atleta AEB)"
+      },
+      "14": {
+        "A": "Jor.",
+        "B": "Data",
+        "C": "Equipa Visitada (Casa)",
+        "E": "GM",
+        "F": "vs",
+        "G": "GF",
+        "H": "Equipa Visitante (Fora)"
+      },
+      "15": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "Atlético Arcos AD",
+        "E": 3,
+        "F": "X",
+        "G": 4,
+        "H": "ADC Aboim Sabadim"
+      },
+      "16": {
+        "C": "Atleta AEZ, Atleta AES, Atleta AFZ",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFV (2), Atleta ABV, Atleta AES (PB)"
+      },
+      "17": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "ARC Guilhadeses",
+        "E": 8,
+        "F": "X",
+        "G": 0,
+        "H": "CRC Távora"
+      },
+      "18": {
+        "C": "Atleta AAI (3), Atleta AEU (2), Atleta AFO, Atleta AAV (2)",
+        "E": "▲ Marcadores ▲"
+      },
+      "19": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "AD Barroselas \"B\"",
+        "E": 5,
+        "F": "X",
+        "G": 3,
+        "H": "AD Ponte Barca"
+      },
+      "20": {
+        "C": "Atleta ABL, Atleta ACI, Atleta AAU, Atleta ABI, Atleta AAA (PB)",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AEN, Atleta AFK, Atleta ADR"
+      },
+      "21": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "ADC Aboim Sabadim",
+        "E": 3,
+        "F": "X",
+        "G": 3,
+        "H": "AD Barroselas \"B\""
+      },
+      "22": {
+        "C": "Atleta AAC, Atleta ACV, Atleta AFV",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AAG, Atleta ABI, Atleta AAU"
+      },
+      "23": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "CRC Távora",
+        "E": 4,
+        "F": "X",
+        "G": 7,
+        "H": "Atlético Arcos AD"
+      },
+      "24": {
+        "C": "Atleta AFN (2), Atleta ADX (2)",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AES, Atleta AAD, Atleta ADM (2), Atleta ADN (2), Atleta AFU"
+      },
+      "25": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "AD Ponte Barca",
+        "E": 2,
+        "F": "X",
+        "G": 1,
+        "H": "ARC Guilhadeses"
+      },
+      "26": {
+        "C": "Atleta ACD, Atleta AAA",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AAV"
+      },
+      "27": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "ADC Aboim Sabadim",
+        "E": 4,
+        "F": "X",
+        "G": 4,
+        "H": "CRC Távora"
+      },
+      "28": {
+        "C": "Atleta AFV, Atleta AGI, Atleta ABV, Atleta AAC",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADX, Atleta AEH, Atleta AGY (2)"
+      },
+      "29": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "Atlético Arcos AD",
+        "E": 1,
+        "F": "X",
+        "G": 8,
+        "H": "AD Ponte Barca"
+      },
+      "30": {
+        "C": "Atleta ADN",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADL, Atleta AFT (2), Atleta AEN (2), Atleta AGR, Atleta ACL, Atleta ACD"
+      },
+      "31": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "AD Barroselas \"B\"",
+        "E": 2,
+        "F": "X",
+        "G": 1,
+        "H": "ARC Guilhadeses"
+      },
+      "32": {
+        "C": "Atleta ACI (2)",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AEU"
+      },
+      "33": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "AD Barroselas \"B\"",
+        "E": 6,
+        "F": "X",
+        "G": 1,
+        "H": "CRC Távora"
+      },
+      "34": {
+        "C": "Atleta AAU, Atleta ABU, Atleta ACI (3), Atleta AAY",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AGY"
+      },
+      "35": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "AD Ponte Barca",
+        "E": 1,
+        "F": "X",
+        "G": 4,
+        "H": "ADC Aboim Sabadim"
+      },
+      "36": {
+        "C": "Atleta AFT",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFR (3), Atleta AFV"
+      },
+      "37": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "ARC Guilhadeses",
+        "E": 5,
+        "F": "X",
+        "G": 0,
+        "H": "Atlético Arcos AD"
+      },
+      "38": {
+        "C": "Atleta AEU (2), Atleta AEV, Atleta AAE, Atleta ABO",
+        "E": "▲ Marcadores ▲"
+      },
+      "39": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "CRC Távora",
+        "E": 0,
+        "F": "X",
+        "G": 10,
+        "H": "AD Ponte Barca"
+      },
+      "40": {
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFK, Atleta AEN, Atleta AAL (PB), Atleta AEB, Atleta AEN, Atleta AGR (3), Atleta ACD, Atleta AHE"
+      },
+      "41": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "ADC Aboim Sabadim",
+        "E": 1,
+        "F": "X",
+        "G": 8,
+        "H": "ARC Guilhadeses"
+      },
+      "42": {
+        "C": "Atleta AFV",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AEV, Atleta ABO, Atleta ABB, Atleta AAI (2), Atleta AEW, Atleta AEU, Atleta ABA"
+      },
+      "43": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "Atlético Arcos AD",
+        "E": 1,
+        "F": "X",
+        "G": 4,
+        "H": "AD Barroselas \"B\""
+      },
+      "44": {
+        "C": "Atleta AEZ",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ABU, Atleta AAG (2), Atleta AEI"
+      },
+      "45": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "ADC Aboim Sabadim",
+        "F": "X",
+        "H": "Atlético Arcos AD"
+      },
+      "46": {
+        "E": "▲ Marcadores ▲"
+      },
+      "47": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "CRC Távora",
+        "F": "X",
+        "H": "ARC Guilhadeses"
+      },
+      "48": {
+        "E": "▲ Marcadores ▲"
+      },
+      "49": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "AD Ponte Barca",
+        "F": "X",
+        "H": "AD Barroselas \"B\""
+      },
+      "50": {
+        "E": "▲ Marcadores ▲"
+      },
+      "51": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "AD Barroselas \"B\"",
+        "F": "X",
+        "H": "ADC Aboim Sabadim"
+      },
+      "52": {
+        "E": "▲ Marcadores ▲"
+      },
+      "53": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "Atlético Arcos AD",
+        "F": "X",
+        "H": "CRC Távora"
+      },
+      "54": {
+        "E": "▲ Marcadores ▲"
+      },
+      "55": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "ARC Guilhadeses",
+        "F": "X",
+        "H": "AD Ponte Barca"
+      },
+      "56": {
+        "E": "▲ Marcadores ▲"
+      },
+      "57": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "CRC Távora",
+        "F": "X",
+        "H": "ADC Aboim Sabadim"
+      },
+      "58": {
+        "E": "▲ Marcadores ▲"
+      },
+      "59": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "AD Ponte Barca",
+        "F": "X",
+        "H": "Atlético Arcos AD"
+      },
+      "60": {
+        "E": "▲ Marcadores ▲"
+      },
+      "61": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "ARC Guilhadeses",
+        "F": "X",
+        "H": "AD Barroselas \"B\""
+      },
+      "62": {
+        "E": "▲ Marcadores ▲"
+      },
+      "63": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "CRC Távora",
+        "F": "X",
+        "H": "AD Barroselas \"B\""
+      },
+      "64": {
+        "E": "▲ Marcadores ▲"
+      },
+      "65": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "ADC Aboim Sabadim",
+        "F": "X",
+        "H": "AD Ponte Barca"
+      },
+      "66": {
+        "E": "▲ Marcadores ▲"
+      },
+      "67": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "Atlético Arcos AD",
+        "F": "X",
+        "H": "ARC Guilhadeses"
+      },
+      "68": {
+        "E": "▲ Marcadores ▲"
+      },
+      "69": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "AD Ponte Barca",
+        "F": "X",
+        "H": "CRC Távora"
+      },
+      "70": {
+        "E": "▲ Marcadores ▲"
+      },
+      "71": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "ARC Guilhadeses",
+        "F": "X",
+        "H": "ADC Aboim Sabadim"
+      },
+      "72": {
+        "E": "▲ Marcadores ▲"
+      },
+      "73": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "AD Barroselas \"B\"",
+        "F": "X",
+        "H": "Atlético Arcos AD"
+      },
+      "74": {
+        "E": "▲ Marcadores ▲"
+      }
+    }
+  },
+  "Série 2 (B)": {
+    "rows": {
+      "1": {
+        "A": "AF VIANA DO CASTELO - TORNEIO DISTRITAL BENJAMINS \"GOMES RIBEIRO\" - SUB 11 (FUT. 8)"
+      },
+      "2": {
+        "A": "SÉRIE 2 (SÉRIE B) - 5 EQUIPAS"
+      },
+      "4": {
+        "A": "CLASSIFICAÇÃO GERAL"
+      },
+      "5": {
+        "A": "Pos.",
+        "B": "Equipa",
+        "C": "J",
+        "D": "V",
+        "E": "E",
+        "F": "D",
+        "G": "GM",
+        "H": "GS",
+        "I": "DF",
+        "J": "Pts"
+      },
+      "6": {
+        "A": "1.º",
+        "B": "AF Ponte Lima",
+        "C": 4,
+        "D": 4,
+        "E": 0,
+        "F": 0,
+        "G": 25,
+        "H": 4,
+        "I": 21,
+        "J": 12
+      },
+      "7": {
+        "A": "2.º",
+        "B": "GD Freixo",
+        "C": 4,
+        "D": 2,
+        "E": 1,
+        "F": 1,
+        "G": 14,
+        "H": 10,
+        "I": 4,
+        "J": 7
+      },
+      "8": {
+        "A": "3.º",
+        "B": "AD Fachense",
+        "C": 4,
+        "D": 1,
+        "E": 1,
+        "F": 2,
+        "G": 9,
+        "H": 10,
+        "I": -1,
+        "J": 4
+      },
+      "9": {
+        "A": "4.º",
+        "B": "UD Lanheses",
+        "C": 4,
+        "D": 1,
+        "E": 0,
+        "F": 3,
+        "G": 5,
+        "H": 15,
+        "I": -10,
+        "J": 3
+      },
+      "10": {
+        "A": "5.º",
+        "B": "AD \"Os Limianos\"",
+        "C": 4,
+        "D": 1,
+        "E": 0,
+        "F": 3,
+        "G": 3,
+        "H": 17,
+        "I": -14,
+        "J": 3
+      },
+      "12": {
+        "A": "PROGRAMA DE JOGOS E MARCADORES (Insira os golos nas células amarelas e os marcadores nas linhas verdes, ex: Dinis(2), Atleta AEB)"
+      },
+      "13": {
+        "A": "Jor.",
+        "B": "Data",
+        "C": "Equipa Visitada (Casa)",
+        "E": "GM",
+        "F": "vs",
+        "G": "GF",
+        "H": "Equipa Visitante (Fora)"
+      },
+      "14": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "AD \"Os Limianos\"",
+        "E": 1,
+        "F": "X",
+        "G": 5,
+        "H": "GD Freixo"
+      },
+      "15": {
+        "C": "Atleta AGP",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFF (2), Atleta ADO, Atleta AEE, Atleta AGH"
+      },
+      "16": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "AD Fachense",
+        "E": 1,
+        "F": "X",
+        "G": 6,
+        "H": "AF Ponte Lima"
+      },
+      "17": {
+        "C": "Atleta AEL",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AGF (2), Atleta AGD, Atleta ABE, Atleta AGE, Atleta AHF"
+      },
+      "18": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "GD Freixo",
+        "E": 3,
+        "F": "X",
+        "G": 3,
+        "H": "AD Fachense"
+      },
+      "19": {
+        "C": "Atleta AFF (2), Atleta ADG",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFS, Atleta AGC, Atleta ACS"
+      },
+      "20": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "AF Ponte Lima",
+        "E": 9,
+        "F": "X",
+        "G": 1,
+        "H": "UD Lanheses"
+      },
+      "21": {
+        "C": "Atleta ABY, Atleta ABE (2), Atleta AHA, Atleta AGF (2), Atleta ACM, Atleta ACJ, Atleta AHF",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFW"
+      },
+      "22": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "UD Lanheses",
+        "E": 3,
+        "F": "X",
+        "G": 4,
+        "H": "GD Freixo"
+      },
+      "23": {
+        "C": "Atleta ADS, Atleta ABZ, Atleta AFW",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFF, Atleta ADG (3)"
+      },
+      "24": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "AD Fachense",
+        "E": 5,
+        "F": "X",
+        "G": 0,
+        "H": "AD \"Os Limianos\""
+      },
+      "25": {
+        "C": "Atleta AGC, Atleta ABC, Atleta AEL, Atleta ACB (2)",
+        "E": "▲ Marcadores ▲"
+      },
+      "26": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "GD Freixo",
+        "E": 2,
+        "F": "X",
+        "G": 3,
+        "H": "AF Ponte Lima"
+      },
+      "27": {
+        "C": "Atleta AFF, Atleta ADG",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADV (2), Atleta ABY"
+      },
+      "28": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "AD \"Os Limianos\"",
+        "E": 2,
+        "F": "X",
+        "G": 0,
+        "H": "UD Lanheses"
+      },
+      "29": {
+        "C": "Atleta ACZ, Atleta AFL",
+        "E": "▲ Marcadores ▲"
+      },
+      "30": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "AF Ponte Lima",
+        "E": 7,
+        "F": "X",
+        "G": 0,
+        "H": "AD \"Os Limianos\""
+      },
+      "31": {
+        "C": "Atleta ADV (3), Atleta AGE, Atleta ACM, Atleta ADE, Atleta ABE",
+        "E": "▲ Marcadores ▲"
+      },
+      "32": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "UD Lanheses",
+        "E": 1,
+        "F": "X",
+        "G": 0,
+        "H": "AD Fachense"
+      },
+      "33": {
+        "C": "Atleta AAF",
+        "E": "▲ Marcadores ▲"
+      },
+      "34": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "GD Freixo",
+        "F": "X",
+        "H": "AD \"Os Limianos\""
+      },
+      "35": {
+        "E": "▲ Marcadores ▲"
+      },
+      "36": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "AF Ponte Lima",
+        "F": "X",
+        "H": "AD Fachense"
+      },
+      "37": {
+        "E": "▲ Marcadores ▲"
+      },
+      "38": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "AD Fachense",
+        "F": "X",
+        "H": "GD Freixo"
+      },
+      "39": {
+        "E": "▲ Marcadores ▲"
+      },
+      "40": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "UD Lanheses",
+        "F": "X",
+        "H": "AF Ponte Lima"
+      },
+      "41": {
+        "E": "▲ Marcadores ▲"
+      },
+      "42": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "GD Freixo",
+        "F": "X",
+        "H": "UD Lanheses"
+      },
+      "43": {
+        "E": "▲ Marcadores ▲"
+      },
+      "44": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "AD \"Os Limianos\"",
+        "F": "X",
+        "H": "AD Fachense"
+      },
+      "45": {
+        "E": "▲ Marcadores ▲"
+      },
+      "46": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "AF Ponte Lima",
+        "F": "X",
+        "H": "GD Freixo"
+      },
+      "47": {
+        "E": "▲ Marcadores ▲"
+      },
+      "48": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "UD Lanheses",
+        "F": "X",
+        "H": "AD \"Os Limianos\""
+      },
+      "49": {
+        "E": "▲ Marcadores ▲"
+      },
+      "50": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "AD \"Os Limianos\"",
+        "F": "X",
+        "H": "AF Ponte Lima"
+      },
+      "51": {
+        "E": "▲ Marcadores ▲"
+      },
+      "52": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "AD Fachense",
+        "F": "X",
+        "H": "UD Lanheses"
+      },
+      "53": {
+        "E": "▲ Marcadores ▲"
+      }
+    }
+  },
+  "Série 3 (C)": {
+    "rows": {
+      "1": {
+        "A": "AF VIANA DO CASTELO - TORNEIO DISTRITAL BENJAMINS \"GOMES RIBEIRO\" - SUB 11 (FUT. 8)"
+      },
+      "2": {
+        "A": "SÉRIE 3 (SÉRIE C) - 6 EQUIPAS"
+      },
+      "4": {
+        "A": "CLASSIFICAÇÃO GERAL"
+      },
+      "5": {
+        "A": "Pos.",
+        "B": "Equipa",
+        "C": "J",
+        "D": "V",
+        "E": "E",
+        "F": "D",
+        "G": "GM",
+        "H": "GS",
+        "I": "DF",
+        "J": "Pts"
+      },
+      "6": {
+        "A": "1.º",
+        "B": "ADC Anha",
+        "C": 5,
+        "D": 4,
+        "E": 1,
+        "F": 0,
+        "G": 25,
+        "H": 12,
+        "I": 13,
+        "J": 13
+      },
+      "7": {
+        "A": "2.º",
+        "B": "Neves FC",
+        "C": 5,
+        "D": 3,
+        "E": 2,
+        "F": 0,
+        "G": 21,
+        "H": 8,
+        "I": 13,
+        "J": 11
+      },
+      "8": {
+        "A": "3.º",
+        "B": "Vila Fria 1980",
+        "C": 5,
+        "D": 3,
+        "E": 0,
+        "F": 2,
+        "G": 13,
+        "H": 14,
+        "I": -1,
+        "J": 9
+      },
+      "9": {
+        "A": "4.º",
+        "B": "AD Darquense",
+        "C": 5,
+        "D": 2,
+        "E": 1,
+        "F": 2,
+        "G": 14,
+        "H": 9,
+        "I": 5,
+        "J": 7
+      },
+      "10": {
+        "A": "5.º",
+        "B": "AD Barroselas \"A\"",
+        "C": 5,
+        "D": 1,
+        "E": 0,
+        "F": 4,
+        "G": 9,
+        "H": 16,
+        "I": -7,
+        "J": 3
+      },
+      "11": {
+        "A": "6.º",
+        "B": "Deucriste SC",
+        "C": 5,
+        "D": 0,
+        "E": 0,
+        "F": 5,
+        "G": 4,
+        "H": 27,
+        "I": -23,
+        "J": 0
+      },
+      "13": {
+        "A": "PROGRAMA DE JOGOS E MARCADORES (Insira os golos nas células amarelas e os marcadores nas linhas verdes, ex: Dinis(2), Atleta AEB)"
+      },
+      "14": {
+        "A": "Jor.",
+        "B": "Data",
+        "C": "Equipa Visitada (Casa)",
+        "E": "GM",
+        "F": "vs",
+        "G": "GF",
+        "H": "Equipa Visitante (Fora)"
+      },
+      "15": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "AD Darquense",
+        "E": 2,
+        "F": "X",
+        "G": 4,
+        "H": "ADC Anha"
+      },
+      "16": {
+        "C": "Atleta AGL, Atleta AER",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACX (3), Atleta ADU"
+      },
+      "17": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "Neves FC",
+        "E": 2,
+        "F": "X",
+        "G": 1,
+        "H": "AD Barroselas \"A\""
+      },
+      "18": {
+        "C": "Atleta ADI, Atleta AGX",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFH"
+      },
+      "19": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "Vila Fria 1980",
+        "E": 3,
+        "F": "X",
+        "G": 1,
+        "H": "Deucriste SC"
+      },
+      "20": {
+        "C": "Atleta AFI, Atleta ABF, Atleta ADZ",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADZ (PB)"
+      },
+      "21": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "ADC Anha",
+        "E": 5,
+        "F": "X",
+        "G": 3,
+        "H": "Vila Fria 1980"
+      },
+      "22": {
+        "C": "Atleta ADP, Atleta ADU, Atleta AGT (2), Atleta ACX",
+        "E": "▲ Marcadores ▲"
+      },
+      "23": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "AD Barroselas \"A\"",
+        "E": 0,
+        "F": "X",
+        "G": 4,
+        "H": "AD Darquense"
+      },
+      "24": {
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AGL, Atleta AFP, Atleta AAV, Atleta ACW"
+      },
+      "25": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "Deucriste SC",
+        "E": 0,
+        "F": "X",
+        "G": 8,
+        "H": "Neves FC"
+      },
+      "26": {
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AGX (3), Atleta AFX (4), Atleta ABX"
+      },
+      "27": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "ADC Anha",
+        "E": 6,
+        "F": "X",
+        "G": 3,
+        "H": "AD Barroselas \"A\""
+      },
+      "28": {
+        "C": "Atleta ACX (2), Atleta ADP, Atleta ACY, Atleta AHC",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AEX (2), Atleta AFH"
+      },
+      "29": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "AD Darquense",
+        "E": 5,
+        "F": "X",
+        "G": 0,
+        "H": "Deucriste SC"
+      },
+      "30": {
+        "C": "Atleta AHB (2), Atleta AAT, Atleta ACW, Atleta AFP",
+        "E": "▲ Marcadores ▲"
+      },
+      "31": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "Vila Fria 1980",
+        "E": 2,
+        "F": "X",
+        "G": 6,
+        "H": "Neves FC"
+      },
+      "32": {
+        "C": "Atleta AFI, Atleta AAX",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFX (2), Atleta AGX (3), Atleta AFY"
+      },
+      "33": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "Vila Fria 1980",
+        "E": 2,
+        "F": "X",
+        "G": 1,
+        "H": "AD Barroselas \"A\""
+      },
+      "34": {
+        "C": "Atleta ABF (2)",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AEC"
+      },
+      "35": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "Deucriste SC",
+        "E": 1,
+        "F": "X",
+        "G": 7,
+        "H": "ADC Anha"
+      },
+      "36": {
+        "C": "Atleta AGG",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACX (4), Atleta ACY, Atleta ADP, Atleta ADU"
+      },
+      "37": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "Neves FC",
+        "E": 2,
+        "F": "X",
+        "G": 2,
+        "H": "AD Darquense"
+      },
+      "38": {
+        "C": "Atleta AFY, Atleta ADI",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AER, Atleta ACW"
+      },
+      "39": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "AD Barroselas \"A\"",
+        "E": 4,
+        "F": "X",
+        "G": 2,
+        "H": "Deucriste SC"
+      },
+      "40": {
+        "C": "Atleta ABH, Atleta ADQ (2), Atleta AEX",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADK, Atleta AEF"
+      },
+      "41": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "ADC Anha",
+        "E": 3,
+        "F": "X",
+        "G": 3,
+        "H": "Neves FC"
+      },
+      "42": {
+        "C": "Atleta ACY (3)",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADI, Atleta AGX, Atleta AFX"
+      },
+      "43": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "AD Darquense",
+        "E": 1,
+        "F": "X",
+        "G": 3,
+        "H": "Vila Fria 1980"
+      },
+      "44": {
+        "C": "Atleta ADT",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFQ, Atleta AGS, Atleta ABF"
+      },
+      "45": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "ADC Anha",
+        "F": "X",
+        "H": "AD Darquense"
+      },
+      "46": {
+        "E": "▲ Marcadores ▲"
+      },
+      "47": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "AD Barroselas \"A\"",
+        "F": "X",
+        "H": "Neves FC"
+      },
+      "48": {
+        "E": "▲ Marcadores ▲"
+      },
+      "49": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "Deucriste SC",
+        "F": "X",
+        "H": "Vila Fria 1980"
+      },
+      "50": {
+        "E": "▲ Marcadores ▲"
+      },
+      "51": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "Vila Fria 1980",
+        "F": "X",
+        "H": "ADC Anha"
+      },
+      "52": {
+        "E": "▲ Marcadores ▲"
+      },
+      "53": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "AD Darquense",
+        "F": "X",
+        "H": "AD Barroselas \"A\""
+      },
+      "54": {
+        "E": "▲ Marcadores ▲"
+      },
+      "55": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "Neves FC",
+        "F": "X",
+        "H": "Deucriste SC"
+      },
+      "56": {
+        "E": "▲ Marcadores ▲"
+      },
+      "57": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "AD Barroselas \"A\"",
+        "F": "X",
+        "H": "ADC Anha"
+      },
+      "58": {
+        "E": "▲ Marcadores ▲"
+      },
+      "59": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "Deucriste SC",
+        "F": "X",
+        "H": "AD Darquense"
+      },
+      "60": {
+        "E": "▲ Marcadores ▲"
+      },
+      "61": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "Neves FC",
+        "F": "X",
+        "H": "Vila Fria 1980"
+      },
+      "62": {
+        "E": "▲ Marcadores ▲"
+      },
+      "63": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "AD Barroselas \"A\"",
+        "F": "X",
+        "H": "Vila Fria 1980"
+      },
+      "64": {
+        "E": "▲ Marcadores ▲"
+      },
+      "65": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "ADC Anha",
+        "F": "X",
+        "H": "Deucriste SC"
+      },
+      "66": {
+        "E": "▲ Marcadores ▲"
+      },
+      "67": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "AD Darquense",
+        "F": "X",
+        "H": "Neves FC"
+      },
+      "68": {
+        "E": "▲ Marcadores ▲"
+      },
+      "69": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "Deucriste SC",
+        "F": "X",
+        "H": "AD Barroselas \"A\""
+      },
+      "70": {
+        "E": "▲ Marcadores ▲"
+      },
+      "71": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "Neves FC",
+        "F": "X",
+        "H": "ADC Anha"
+      },
+      "72": {
+        "E": "▲ Marcadores ▲"
+      },
+      "73": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "Vila Fria 1980",
+        "F": "X",
+        "H": "AD Darquense"
+      },
+      "74": {
+        "E": "▲ Marcadores ▲"
+      }
+    }
+  },
+  "Série 4 (D)": {
+    "rows": {
+      "1": {
+        "A": "AF VIANA DO CASTELO - TORNEIO DISTRITAL BENJAMINS \"GOMES RIBEIRO\" - SUB 11 (FUT. 8)"
+      },
+      "2": {
+        "A": "SÉRIE 4 (SÉRIE D) - 6 EQUIPAS"
+      },
+      "4": {
+        "A": "CLASSIFICAÇÃO GERAL"
+      },
+      "5": {
+        "A": "Pos.",
+        "B": "Equipa",
+        "C": "J",
+        "D": "V",
+        "E": "E",
+        "F": "D",
+        "G": "GM",
+        "H": "GS",
+        "I": "DF",
+        "J": "Pts"
+      },
+      "6": {
+        "A": "1.º",
+        "B": "Perspectiva em Jogo AD",
+        "C": 5,
+        "D": 4,
+        "E": 0,
+        "F": 1,
+        "G": 18,
+        "H": 6,
+        "I": 12,
+        "J": 12
+      },
+      "7": {
+        "A": "2.º",
+        "B": "Torre SC",
+        "C": 5,
+        "D": 3,
+        "E": 1,
+        "F": 1,
+        "G": 19,
+        "H": 8,
+        "I": 11,
+        "J": 10
+      },
+      "8": {
+        "A": "3.º",
+        "B": "GD Meadela",
+        "C": 5,
+        "D": 3,
+        "E": 1,
+        "F": 1,
+        "G": 16,
+        "H": 10,
+        "I": 6,
+        "J": 10
+      },
+      "9": {
+        "A": "4.º",
+        "B": "SC Vianense",
+        "C": 5,
+        "D": 2,
+        "E": 1,
+        "F": 2,
+        "G": 20,
+        "H": 9,
+        "I": 11,
+        "J": 7
+      },
+      "10": {
+        "A": "5.º",
+        "B": "GD Areosense",
+        "C": 5,
+        "D": 1,
+        "E": 1,
+        "F": 3,
+        "G": 11,
+        "H": 22,
+        "I": -11,
+        "J": 4
+      },
+      "11": {
+        "A": "6.º",
+        "B": "ADC Perre",
+        "C": 5,
+        "D": 0,
+        "E": 0,
+        "F": 5,
+        "G": 5,
+        "H": 34,
+        "I": -29,
+        "J": 0
+      },
+      "13": {
+        "A": "PROGRAMA DE JOGOS E MARCADORES (Insira os golos nas células amarelas e os marcadores nas linhas verdes, ex: Dinis(2), Atleta AEB)"
+      },
+      "14": {
+        "A": "Jor.",
+        "B": "Data",
+        "C": "Equipa Visitada (Casa)",
+        "E": "GM",
+        "F": "vs",
+        "G": "GF",
+        "H": "Equipa Visitante (Fora)"
+      },
+      "15": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "Perspectiva em Jogo AD",
+        "E": 6,
+        "F": "X",
+        "G": 2,
+        "H": "ADC Perre"
+      },
+      "16": {
+        "C": "Atleta ACT (2), Atleta ABT, Atleta AFJ, Atleta ACQ (2)",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACP, Atleta AGQ"
+      },
+      "17": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "GD Areosense",
+        "E": 3,
+        "F": "X",
+        "G": 3,
+        "H": "Torre SC"
+      },
+      "18": {
+        "C": "Atleta ADF (2), Atleta AAW",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACA (2), Atleta AGA"
+      },
+      "19": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "SC Vianense",
+        "E": 2,
+        "F": "X",
+        "G": 2,
+        "H": "GD Meadela"
+      },
+      "20": {
+        "C": "Atleta AFB, Atleta ADC",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AAJ, Atleta AAO"
+      },
+      "21": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "ADC Perre",
+        "E": 2,
+        "F": "X",
+        "G": 7,
+        "H": "SC Vianense"
+      },
+      "22": {
+        "C": "Atleta ABM, Atleta AGQ",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADC, Atleta AFG (3), Atleta AFD, Atleta AGJ, Atleta AEA"
+      },
+      "23": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "Torre SC",
+        "E": 2,
+        "F": "X",
+        "G": 0,
+        "H": "Perspectiva em Jogo AD"
+      },
+      "24": {
+        "C": "Atleta ACA, Atleta ABD",
+        "E": "▲ Marcadores ▲"
+      },
+      "25": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "GD Meadela",
+        "F": "X",
+        "H": "GD Areosense"
+      },
+      "26": {
+        "E": "▲ Marcadores ▲"
+      },
+      "27": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "ADC Perre",
+        "E": 0,
+        "F": "X",
+        "G": 10,
+        "H": "Torre SC"
+      },
+      "28": {
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ABD (4), Atleta AGA, Atleta AFU, Atleta ACA (2), Atleta AEM (2)"
+      },
+      "29": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "Perspectiva em Jogo AD",
+        "E": 5,
+        "F": "X",
+        "G": 1,
+        "H": "GD Meadela"
+      },
+      "30": {
+        "C": "Atleta ACQ, Atleta AFJ, Atleta ADJ, Atleta ACN (2)",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ABJ"
+      },
+      "31": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "SC Vianense",
+        "E": 10,
+        "F": "X",
+        "G": 0,
+        "H": "GD Areosense"
+      },
+      "32": {
+        "C": "Atleta ADC (3), Atleta ABS (2), Atleta ADB, Atleta AFG (3), Atleta AGJ",
+        "E": "▲ Marcadores ▲"
+      },
+      "33": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "SC Vianense",
+        "E": 1,
+        "F": "X",
+        "G": 2,
+        "H": "Torre SC"
+      },
+      "34": {
+        "C": "Atleta AGN",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFU (2)"
+      },
+      "35": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "GD Meadela",
+        "E": 5,
+        "F": "X",
+        "G": 0,
+        "H": "ADC Perre"
+      },
+      "36": {
+        "C": "Atleta ACG (2), Atleta ABJ, Atleta AET, Atleta AEO",
+        "E": "▲ Marcadores ▲"
+      },
+      "37": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "GD Areosense",
+        "E": 1,
+        "F": "X",
+        "G": 4,
+        "H": "Perspectiva em Jogo AD"
+      },
+      "38": {
+        "C": "Atleta AAW",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACN, Atleta ACT, Atleta ABT, Atleta ABP"
+      },
+      "39": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "Torre SC",
+        "E": 2,
+        "F": "X",
+        "G": 4,
+        "H": "GD Meadela"
+      },
+      "40": {
+        "C": "Atleta AEM, Atleta ACF (PB)",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ABJ, Atleta ACG (2), Atleta AFA"
+      },
+      "41": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "ADC Perre",
+        "E": 1,
+        "F": "X",
+        "G": 6,
+        "H": "GD Areosense"
+      },
+      "42": {
+        "C": "Atleta ACP",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADF (3), Atleta AAW, Atleta AGE, Atleta ADW"
+      },
+      "43": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "Perspectiva em Jogo AD",
+        "E": 3,
+        "F": "X",
+        "G": 0,
+        "H": "SC Vianense"
+      },
+      "44": {
+        "C": "Atleta AHD, Atleta AFJ, Atleta ADJ",
+        "E": "▲ Marcadores ▲"
+      },
+      "45": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "ADC Perre",
+        "F": "X",
+        "H": "Perspectiva em Jogo AD"
+      },
+      "46": {
+        "E": "▲ Marcadores ▲"
+      },
+      "47": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "Torre SC",
+        "F": "X",
+        "H": "GD Areosense"
+      },
+      "48": {
+        "E": "▲ Marcadores ▲"
+      },
+      "49": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "GD Meadela",
+        "F": "X",
+        "H": "SC Vianense"
+      },
+      "50": {
+        "E": "▲ Marcadores ▲"
+      },
+      "51": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "SC Vianense",
+        "F": "X",
+        "H": "ADC Perre"
+      },
+      "52": {
+        "E": "▲ Marcadores ▲"
+      },
+      "53": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "Perspectiva em Jogo AD",
+        "F": "X",
+        "H": "Torre SC"
+      },
+      "54": {
+        "E": "▲ Marcadores ▲"
+      },
+      "55": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "GD Areosense",
+        "E": 1,
+        "F": "X",
+        "G": 4,
+        "H": "GD Meadela"
+      },
+      "56": {
+        "C": "Atleta ADF",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACG, Atleta AGU, Atleta AAJ, Atleta AAO"
+      },
+      "57": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "Torre SC",
+        "F": "X",
+        "H": "ADC Perre"
+      },
+      "58": {
+        "E": "▲ Marcadores ▲"
+      },
+      "59": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "GD Meadela",
+        "F": "X",
+        "H": "Perspectiva em Jogo AD"
+      },
+      "60": {
+        "E": "▲ Marcadores ▲"
+      },
+      "61": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "GD Areosense",
+        "F": "X",
+        "H": "SC Vianense"
+      },
+      "62": {
+        "E": "▲ Marcadores ▲"
+      },
+      "63": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "Torre SC",
+        "F": "X",
+        "H": "SC Vianense"
+      },
+      "64": {
+        "E": "▲ Marcadores ▲"
+      },
+      "65": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "ADC Perre",
+        "F": "X",
+        "H": "GD Meadela"
+      },
+      "66": {
+        "E": "▲ Marcadores ▲"
+      },
+      "67": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "Perspectiva em Jogo AD",
+        "F": "X",
+        "H": "GD Areosense"
+      },
+      "68": {
+        "E": "▲ Marcadores ▲"
+      },
+      "69": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "GD Meadela",
+        "F": "X",
+        "H": "Torre SC"
+      },
+      "70": {
+        "E": "▲ Marcadores ▲"
+      },
+      "71": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "GD Areosense",
+        "F": "X",
+        "H": "ADC Perre"
+      },
+      "72": {
+        "E": "▲ Marcadores ▲"
+      },
+      "73": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "SC Vianense",
+        "F": "X",
+        "H": "Perspectiva em Jogo AD"
+      },
+      "74": {
+        "E": "▲ Marcadores ▲"
+      }
+    }
+  },
+  "Série 5 (E)": {
+    "rows": {
+      "1": {
+        "A": "AF VIANA DO CASTELO - TORNEIO DISTRITAL BENJAMINS \"GOMES RIBEIRO\" - SUB 11 (FUT. 8)"
+      },
+      "2": {
+        "A": "SÉRIE 5 (SÉRIE E) - 5 EQUIPAS"
+      },
+      "4": {
+        "A": "CLASSIFICAÇÃO GERAL"
+      },
+      "5": {
+        "A": "Pos.",
+        "B": "Equipa",
+        "C": "J",
+        "D": "V",
+        "E": "E",
+        "F": "D",
+        "G": "GM",
+        "H": "GS",
+        "I": "DF",
+        "J": "Pts"
+      },
+      "6": {
+        "A": "1.º",
+        "B": "AC Caminha",
+        "C": 4,
+        "D": 4,
+        "E": 0,
+        "F": 0,
+        "G": 11,
+        "H": 7,
+        "I": 4,
+        "J": 12
+      },
+      "7": {
+        "A": "2.º",
+        "B": "Âncora-Praia FC",
+        "C": 4,
+        "D": 3,
+        "E": 0,
+        "F": 1,
+        "G": 11,
+        "H": 7,
+        "I": 4,
+        "J": 9
+      },
+      "8": {
+        "A": "3.º",
+        "B": "CC \"Os Torreenses\"",
+        "C": 4,
+        "D": 1,
+        "E": 1,
+        "F": 2,
+        "G": 13,
+        "H": 8,
+        "I": 5,
+        "J": 4
+      },
+      "9": {
+        "A": "4.º",
+        "B": "Desp. Monção \"B\"",
+        "C": 4,
+        "D": 1,
+        "E": 1,
+        "F": 2,
+        "G": 9,
+        "H": 6,
+        "I": 3,
+        "J": 4
+      },
+      "10": {
+        "A": "5.º",
+        "B": "AD Campos",
+        "C": 4,
+        "D": 0,
+        "E": 0,
+        "F": 4,
+        "G": 4,
+        "H": 20,
+        "I": -16,
+        "J": 0
+      },
+      "12": {
+        "A": "PROGRAMA DE JOGOS E MARCADORES (Insira os golos nas células amarelas e os marcadores nas linhas verdes, ex: Dinis(2), Atleta AEB)"
+      },
+      "13": {
+        "A": "Jor.",
+        "B": "Data",
+        "C": "Equipa Visitada (Casa)",
+        "E": "GM",
+        "F": "vs",
+        "G": "GF",
+        "H": "Equipa Visitante (Fora)"
+      },
+      "14": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "Desp. Monção \"B\"",
+        "E": 1,
+        "F": "X",
+        "G": 1,
+        "H": "CC \"Os Torreenses\""
+      },
+      "15": {
+        "C": "Atleta AGW",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AEJ"
+      },
+      "16": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "AD Campos",
+        "E": 1,
+        "F": "X",
+        "G": 3,
+        "H": "Âncora-Praia FC"
+      },
+      "17": {
+        "C": "Atleta AEP",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ABO (2), Atleta AGV"
+      },
+      "18": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "CC \"Os Torreenses\"",
+        "E": 8,
+        "F": "X",
+        "G": 0,
+        "H": "AD Campos"
+      },
+      "19": {
+        "C": "Atleta ABW (4), Atleta AAS (2), Atleta AED, Atleta AAH",
+        "E": "▲ Marcadores ▲"
+      },
+      "20": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "Âncora-Praia FC",
+        "E": 1,
+        "F": "X",
+        "G": 2,
+        "H": "AC Caminha"
+      },
+      "21": {
+        "C": "Atleta AGV",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AAP, Atleta ABG"
+      },
+      "22": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "AC Caminha",
+        "E": 3,
+        "F": "X",
+        "G": 2,
+        "H": "CC \"Os Torreenses\""
+      },
+      "23": {
+        "C": "Atleta AGZ (2), Atleta ACH",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AAS, Atleta AEJ"
+      },
+      "24": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "AD Campos",
+        "E": 0,
+        "F": "X",
+        "G": 5,
+        "H": "Desp. Monção \"B\""
+      },
+      "25": {
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACU, Atleta AEY (3), Atleta AGK"
+      },
+      "26": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "CC \"Os Torreenses\"",
+        "E": 2,
+        "F": "X",
+        "G": 4,
+        "H": "Âncora-Praia FC"
+      },
+      "27": {
+        "C": "Atleta AAM, Atleta AEK",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AGO, Atleta ABO (2), Atleta AAK"
+      },
+      "28": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "Desp. Monção \"B\"",
+        "E": 1,
+        "F": "X",
+        "G": 2,
+        "H": "AC Caminha"
+      },
+      "29": {
+        "C": "Atleta ACU",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACH (2)"
+      },
+      "30": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "Âncora-Praia FC",
+        "E": 3,
+        "F": "X",
+        "G": 2,
+        "H": "Desp. Monção \"B\""
+      },
+      "31": {
+        "C": "Atleta ABO (2), Atleta AAR",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADY, Atleta ACU"
+      },
+      "32": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "AC Caminha",
+        "E": 4,
+        "F": "X",
+        "G": 3,
+        "H": "AD Campos"
+      },
+      "33": {
+        "C": "Atleta AAP, Atleta AGZ (2), Atleta ACK",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AEP, Atleta AAB, Atleta ADS"
+      },
+      "34": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "CC \"Os Torreenses\"",
+        "F": "X",
+        "H": "Desp. Monção \"B\""
+      },
+      "35": {
+        "E": "▲ Marcadores ▲"
+      },
+      "36": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "Âncora-Praia FC",
+        "F": "X",
+        "H": "AD Campos"
+      },
+      "37": {
+        "E": "▲ Marcadores ▲"
+      },
+      "38": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "AD Campos",
+        "F": "X",
+        "H": "CC \"Os Torreenses\""
+      },
+      "39": {
+        "E": "▲ Marcadores ▲"
+      },
+      "40": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "AC Caminha",
+        "F": "X",
+        "H": "Âncora-Praia FC"
+      },
+      "41": {
+        "E": "▲ Marcadores ▲"
+      },
+      "42": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "CC \"Os Torreenses\"",
+        "F": "X",
+        "H": "AC Caminha"
+      },
+      "43": {
+        "E": "▲ Marcadores ▲"
+      },
+      "44": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "Desp. Monção \"B\"",
+        "F": "X",
+        "H": "AD Campos"
+      },
+      "45": {
+        "E": "▲ Marcadores ▲"
+      },
+      "46": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "Âncora-Praia FC",
+        "F": "X",
+        "H": "CC \"Os Torreenses\""
+      },
+      "47": {
+        "E": "▲ Marcadores ▲"
+      },
+      "48": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "AC Caminha",
+        "F": "X",
+        "H": "Desp. Monção \"B\""
+      },
+      "49": {
+        "E": "▲ Marcadores ▲"
+      },
+      "50": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "Desp. Monção \"B\"",
+        "F": "X",
+        "H": "Âncora-Praia FC"
+      },
+      "51": {
+        "E": "▲ Marcadores ▲"
+      },
+      "52": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "AD Campos",
+        "F": "X",
+        "H": "AC Caminha"
+      },
+      "53": {
+        "E": "▲ Marcadores ▲"
+      }
+    }
+  },
+  "Série 6 (F)": {
+    "rows": {
+      "1": {
+        "A": "AF VIANA DO CASTELO - TORNEIO DISTRITAL BENJAMINS \"GOMES RIBEIRO\" - SUB 11 (FUT. 8)"
+      },
+      "2": {
+        "A": "SÉRIE 6 (SÉRIE F) - 5 EQUIPAS (Desistência do UD \"Os Raianos\")"
+      },
+      "3": {
+        "A": "Nota: O UD \"Os Raianos\" desistiu da prova. Os seus jogos estão assinalados e não contam se ficarem por preencher."
+      },
+      "4": {
+        "A": "CLASSIFICAÇÃO GERAL"
+      },
+      "5": {
+        "A": "Pos.",
+        "B": "Equipa",
+        "C": "J",
+        "D": "V",
+        "E": "E",
+        "F": "D",
+        "G": "GM",
+        "H": "GS",
+        "I": "DF",
+        "J": "Pts"
+      },
+      "6": {
+        "A": "1.º",
+        "B": "SC Courense",
+        "C": 3,
+        "D": 2,
+        "E": 1,
+        "F": 0,
+        "G": 22,
+        "H": 10,
+        "I": 12,
+        "J": 7
+      },
+      "7": {
+        "A": "2.º",
+        "B": "Desp. Monção \"A\"",
+        "C": 3,
+        "D": 2,
+        "E": 0,
+        "F": 1,
+        "G": 8,
+        "H": 9,
+        "I": -1,
+        "J": 6
+      },
+      "8": {
+        "A": "3.º",
+        "B": "CD Cerveira",
+        "C": 3,
+        "D": 1,
+        "E": 1,
+        "F": 1,
+        "G": 16,
+        "H": 7,
+        "I": 9,
+        "J": 4
+      },
+      "9": {
+        "A": "4.º",
+        "B": "SC Valenciano",
+        "C": 3,
+        "D": 0,
+        "E": 0,
+        "F": 3,
+        "G": 4,
+        "H": 24,
+        "I": -20,
+        "J": 0
+      },
+      "10": {
+        "A": "5.º",
+        "B": "UD \"Os Raianos\" (Desistiu)",
+        "C": 0,
+        "D": 0,
+        "E": 0,
+        "F": 0,
+        "G": 0,
+        "H": 0,
+        "I": 0,
+        "J": 0
+      },
+      "12": {
+        "A": "PROGRAMA DE JOGOS E MARCADORES (Insira os golos nas células amarelas e os marcadores nas linhas verdes, ex: Dinis(2), Atleta AEB)"
+      },
+      "13": {
+        "A": "Jor.",
+        "B": "Data",
+        "C": "Equipa Visitada (Casa)",
+        "E": "GM",
+        "F": "vs",
+        "G": "GF",
+        "H": "Equipa Visitante (Fora)"
+      },
+      "14": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "Desp. Monção \"A\"",
+        "E": 2,
+        "F": "X",
+        "G": 1,
+        "H": "CD Cerveira"
+      },
+      "15": {
+        "C": "Atleta ADD, Atleta ADY",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AFE"
+      },
+      "16": {
+        "A": "J1",
+        "B": "10/10/2026",
+        "C": "UD \"Os Raianos\" (Desistiu)",
+        "F": "X",
+        "H": "SC Valenciano"
+      },
+      "17": {
+        "E": "▲ Marcadores ▲"
+      },
+      "18": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "CD Cerveira",
+        "F": "X",
+        "H": "UD \"Os Raianos\" (Desistiu)"
+      },
+      "19": {
+        "E": "▲ Marcadores ▲"
+      },
+      "20": {
+        "A": "J2",
+        "B": "17/10/2026",
+        "C": "SC Valenciano",
+        "E": 2,
+        "F": "X",
+        "G": 11,
+        "H": "SC Courense"
+      },
+      "21": {
+        "C": "Atleta ACE (2)",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACC (4), Atleta AGB, Atleta ABN, Atleta AFC (2), Atleta ACO, Atleta ABR (2)"
+      },
+      "22": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "SC Courense",
+        "E": 5,
+        "F": "X",
+        "G": 5,
+        "H": "CD Cerveira"
+      },
+      "23": {
+        "C": "Atleta ACC (2), Atleta ABK (2), Atleta AGB",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ADH (3), Atleta ACR, Atleta AAQ"
+      },
+      "24": {
+        "A": "J3",
+        "B": "24/10/2026",
+        "C": "UD \"Os Raianos\" (Desistiu)",
+        "F": "X",
+        "H": "Desp. Monção \"A\""
+      },
+      "25": {
+        "E": "▲ Marcadores ▲"
+      },
+      "26": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "CD Cerveira",
+        "E": 10,
+        "F": "X",
+        "G": 0,
+        "H": "SC Valenciano"
+      },
+      "27": {
+        "C": "Atleta ADA (2), Atleta ADH (3), Atleta AEG, Atleta AAN (2), Atleta AAQ, Atleta ACR",
+        "E": "▲ Marcadores ▲"
+      },
+      "28": {
+        "A": "J4",
+        "B": "31/10/2026",
+        "C": "Desp. Monção \"A\"",
+        "E": 3,
+        "F": "X",
+        "G": 6,
+        "H": "SC Courense"
+      },
+      "29": {
+        "C": "Atleta AEY, Atleta AGK, Atleta ABQ",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta ACC (2), Atleta ABK (2), Atleta AFC (2)"
+      },
+      "30": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "SC Valenciano",
+        "E": 2,
+        "F": "X",
+        "G": 3,
+        "H": "Desp. Monção \"A\""
+      },
+      "31": {
+        "C": "Atleta AEQ, Atleta AFM",
+        "E": "▲ Marcadores ▲",
+        "H": "Atleta AGM (2), Atleta AAZ"
+      },
+      "32": {
+        "A": "J5",
+        "B": "07/11/2026",
+        "C": "SC Courense",
+        "F": "X",
+        "H": "UD \"Os Raianos\" (Desistiu)"
+      },
+      "33": {
+        "E": "▲ Marcadores ▲"
+      },
+      "34": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "CD Cerveira",
+        "F": "X",
+        "H": "Desp. Monção \"A\""
+      },
+      "35": {
+        "E": "▲ Marcadores ▲"
+      },
+      "36": {
+        "A": "J6",
+        "B": "14/11/2026",
+        "C": "SC Valenciano",
+        "F": "X",
+        "H": "UD \"Os Raianos\" (Desistiu)"
+      },
+      "37": {
+        "E": "▲ Marcadores ▲"
+      },
+      "38": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "UD \"Os Raianos\" (Desistiu)",
+        "F": "X",
+        "H": "CD Cerveira"
+      },
+      "39": {
+        "E": "▲ Marcadores ▲"
+      },
+      "40": {
+        "A": "J7",
+        "B": "21/11/2026",
+        "C": "SC Courense",
+        "F": "X",
+        "H": "SC Valenciano"
+      },
+      "41": {
+        "E": "▲ Marcadores ▲"
+      },
+      "42": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "CD Cerveira",
+        "F": "X",
+        "H": "SC Courense"
+      },
+      "43": {
+        "E": "▲ Marcadores ▲"
+      },
+      "44": {
+        "A": "J8",
+        "B": "28/11/2026",
+        "C": "Desp. Monção \"A\"",
+        "F": "X",
+        "H": "UD \"Os Raianos\" (Desistiu)"
+      },
+      "45": {
+        "E": "▲ Marcadores ▲"
+      },
+      "46": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "SC Valenciano",
+        "F": "X",
+        "H": "CD Cerveira"
+      },
+      "47": {
+        "E": "▲ Marcadores ▲"
+      },
+      "48": {
+        "A": "J9",
+        "B": "05/12/2026",
+        "C": "SC Courense",
+        "F": "X",
+        "H": "Desp. Monção \"A\""
+      },
+      "49": {
+        "E": "▲ Marcadores ▲"
+      },
+      "50": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "Desp. Monção \"A\"",
+        "F": "X",
+        "H": "SC Valenciano"
+      },
+      "51": {
+        "E": "▲ Marcadores ▲"
+      },
+      "52": {
+        "A": "J10",
+        "B": "12/12/2026",
+        "C": "UD \"Os Raianos\" (Desistiu)",
+        "F": "X",
+        "H": "SC Courense"
+      },
+      "53": {
+        "E": "▲ Marcadores ▲"
+      }
+    }
+  },
+  "Melhores Marcadores": {
+    "rows": {
+      "1": {
+        "A": "AF VIANA DO CASTELO - TORNEIO DISTRITAL BENJAMINS \"GOMES RIBEIRO\" - SUB 11"
+      },
+      "2": {
+        "A": "TABELA GERAL DE MELHORES MARCADORES (TODAS AS SÉRIES)"
+      },
+      "4": {
+        "A": "Pos.",
+        "B": "Jogador",
+        "C": "Equipa",
+        "D": "Série",
+        "E": "Golos"
+      },
+      "5": {
+        "A": "1.º",
+        "B": "Atleta ACX",
+        "C": "ADC Anha",
+        "D": "Série 3 (C)",
+        "E": 10
+      },
+      "6": {
+        "A": "2.º",
+        "B": "Atleta AGX",
+        "C": "Neves FC",
+        "D": "Série 3 (C)",
+        "E": 8
+      },
+      "7": {
+        "A": "3.º",
+        "B": "Atleta ACC",
+        "C": "SC Courense",
+        "D": "Série 6 (F)",
+        "E": 8
+      },
+      "8": {
+        "A": "4.º",
+        "B": "Atleta AFX",
+        "C": "Neves FC",
+        "D": "Série 3 (C)",
+        "E": 7
+      },
+      "9": {
+        "A": "5.º",
+        "B": "Atleta ACI",
+        "C": "AD Barroselas \"B\"",
+        "D": "Série 1 (A)",
+        "E": 6
+      },
+      "10": {
+        "A": "6.º",
+        "B": "Atleta AEU",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 6
+      },
+      "11": {
+        "A": "7.º",
+        "B": "Atleta AFV",
+        "C": "ADC Aboim Sabadim",
+        "D": "Série 1 (A)",
+        "E": 6
+      },
+      "12": {
+        "A": "8.º",
+        "B": "Atleta AFF",
+        "C": "GD Freixo",
+        "D": "Série 2 (B)",
+        "E": 6
+      },
+      "13": {
+        "A": "9.º",
+        "B": "Atleta ADF",
+        "C": "GD Areosense",
+        "D": "Série 4 (D)",
+        "E": 6
+      },
+      "14": {
+        "A": "10.º",
+        "B": "Atleta AFG",
+        "C": "SC Vianense",
+        "D": "Série 4 (D)",
+        "E": 6
+      },
+      "15": {
+        "A": "11.º",
+        "B": "Atleta ABO",
+        "C": "Âncora-Praia FC",
+        "D": "Série 5 (E)",
+        "E": 6
+      },
+      "16": {
+        "A": "12.º",
+        "B": "Atleta ADH",
+        "C": "CD Cerveira",
+        "D": "Série 6 (F)",
+        "E": 6
+      },
+      "17": {
+        "A": "13.º",
+        "B": "Atleta AAI",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 5
+      },
+      "18": {
+        "A": "14.º",
+        "B": "Atleta AEN",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 5
+      },
+      "19": {
+        "A": "15.º",
+        "B": "Atleta ADG",
+        "C": "GD Freixo",
+        "D": "Série 2 (B)",
+        "E": 5
+      },
+      "20": {
+        "A": "16.º",
+        "B": "Atleta ADV",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 5
+      },
+      "21": {
+        "A": "17.º",
+        "B": "Atleta ACY",
+        "C": "ADC Anha",
+        "D": "Série 3 (C)",
+        "E": 5
+      },
+      "22": {
+        "A": "18.º",
+        "B": "Atleta ABD",
+        "C": "Torre SC",
+        "D": "Série 4 (D)",
+        "E": 5
+      },
+      "23": {
+        "A": "19.º",
+        "B": "Atleta ACA",
+        "C": "Torre SC",
+        "D": "Série 4 (D)",
+        "E": 5
+      },
+      "24": {
+        "A": "20.º",
+        "B": "Atleta ACG",
+        "C": "GD Meadela",
+        "D": "Série 4 (D)",
+        "E": 5
+      },
+      "25": {
+        "A": "21.º",
+        "B": "Atleta ADC",
+        "C": "SC Vianense",
+        "D": "Série 4 (D)",
+        "E": 5
+      },
+      "26": {
+        "A": "22.º",
+        "B": "Atleta AGR",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 4
+      },
+      "27": {
+        "A": "23.º",
+        "B": "Atleta ABE",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 4
+      },
+      "28": {
+        "A": "24.º",
+        "B": "Atleta AGF",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 4
+      },
+      "29": {
+        "A": "25.º",
+        "B": "Atleta ABF",
+        "C": "Vila Fria 1980",
+        "D": "Série 3 (C)",
+        "E": 4
+      },
+      "30": {
+        "A": "26.º",
+        "B": "Atleta ABW",
+        "C": "CC \"Os Torreenses\"",
+        "D": "Série 5 (E)",
+        "E": 4
+      },
+      "31": {
+        "A": "27.º",
+        "B": "Atleta AGZ",
+        "C": "AC Caminha",
+        "D": "Série 5 (E)",
+        "E": 4
+      },
+      "32": {
+        "A": "28.º",
+        "B": "Atleta ABK",
+        "C": "SC Courense",
+        "D": "Série 6 (F)",
+        "E": 4
+      },
+      "33": {
+        "A": "29.º",
+        "B": "Atleta AFC",
+        "C": "SC Courense",
+        "D": "Série 6 (F)",
+        "E": 4
+      },
+      "34": {
+        "A": "30.º",
+        "B": "Atleta AAG",
+        "C": "AD Barroselas \"B\"",
+        "D": "Série 1 (A)",
+        "E": 3
+      },
+      "35": {
+        "A": "31.º",
+        "B": "Atleta AAU",
+        "C": "AD Barroselas \"B\"",
+        "D": "Série 1 (A)",
+        "E": 3
+      },
+      "36": {
+        "A": "32.º",
+        "B": "Atleta AAV",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 3
+      },
+      "37": {
+        "A": "33.º",
+        "B": "Atleta ACD",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 3
+      },
+      "38": {
+        "A": "34.º",
+        "B": "Atleta ADN",
+        "C": "Atlético Arcos AD",
+        "D": "Série 1 (A)",
+        "E": 3
+      },
+      "39": {
+        "A": "35.º",
+        "B": "Atleta ADX",
+        "C": "CRC Távora",
+        "D": "Série 1 (A)",
+        "E": 3
+      },
+      "40": {
+        "A": "36.º",
+        "B": "Atleta AFR",
+        "C": "ADC Aboim Sabadim",
+        "D": "Série 1 (A)",
+        "E": 3
+      },
+      "41": {
+        "A": "37.º",
+        "B": "Atleta AFT",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 3
+      },
+      "42": {
+        "A": "38.º",
+        "B": "Atleta AGY",
+        "C": "CRC Távora",
+        "D": "Série 1 (A)",
+        "E": 3
+      },
+      "43": {
+        "A": "39.º",
+        "B": "Atleta ACW",
+        "C": "AD Darquense",
+        "D": "Série 3 (C)",
+        "E": 3
+      },
+      "44": {
+        "A": "40.º",
+        "B": "Atleta ADI",
+        "C": "Neves FC",
+        "D": "Série 3 (C)",
+        "E": 3
+      },
+      "45": {
+        "A": "41.º",
+        "B": "Atleta ADP",
+        "C": "ADC Anha",
+        "D": "Série 3 (C)",
+        "E": 3
+      },
+      "46": {
+        "A": "42.º",
+        "B": "Atleta ADU",
+        "C": "ADC Anha",
+        "D": "Série 3 (C)",
+        "E": 3
+      },
+      "47": {
+        "A": "43.º",
+        "B": "Atleta AEX",
+        "C": "AD Barroselas \"A\"",
+        "D": "Série 3 (C)",
+        "E": 3
+      },
+      "48": {
+        "A": "44.º",
+        "B": "Atleta AAW",
+        "C": "GD Areosense",
+        "D": "Série 4 (D)",
+        "E": 3
+      },
+      "49": {
+        "A": "45.º",
+        "B": "Atleta ABJ",
+        "C": "GD Meadela",
+        "D": "Série 4 (D)",
+        "E": 3
+      },
+      "50": {
+        "A": "46.º",
+        "B": "Atleta ACN",
+        "C": "Perspectiva em Jogo AD",
+        "D": "Série 4 (D)",
+        "E": 3
+      },
+      "51": {
+        "A": "47.º",
+        "B": "Atleta ACQ",
+        "C": "Perspectiva em Jogo AD",
+        "D": "Série 4 (D)",
+        "E": 3
+      },
+      "52": {
+        "A": "48.º",
+        "B": "Atleta ACT",
+        "C": "Perspectiva em Jogo AD",
+        "D": "Série 4 (D)",
+        "E": 3
+      },
+      "53": {
+        "A": "49.º",
+        "B": "Atleta AEM",
+        "C": "Torre SC",
+        "D": "Série 4 (D)",
+        "E": 3
+      },
+      "54": {
+        "A": "50.º",
+        "B": "Atleta AFJ",
+        "C": "Perspectiva em Jogo AD",
+        "D": "Série 4 (D)",
+        "E": 3
+      },
+      "55": {
+        "A": "51.º",
+        "B": "Atleta AFU",
+        "C": "Torre SC",
+        "D": "Série 4 (D)",
+        "E": 3
+      },
+      "56": {
+        "A": "52.º",
+        "B": "Atleta AAS",
+        "C": "CC \"Os Torreenses\"",
+        "D": "Série 5 (E)",
+        "E": 3
+      },
+      "57": {
+        "A": "53.º",
+        "B": "Atleta ACH",
+        "C": "AC Caminha",
+        "D": "Série 5 (E)",
+        "E": 3
+      },
+      "58": {
+        "A": "54.º",
+        "B": "Atleta ACU",
+        "C": "Desp. Monção \"B\"",
+        "D": "Série 5 (E)",
+        "E": 3
+      },
+      "59": {
+        "A": "55.º",
+        "B": "Atleta AEY",
+        "C": "Desp. Monção \"B\"",
+        "D": "Série 5 (E)",
+        "E": 3
+      },
+      "60": {
+        "A": "56.º",
+        "B": "Atleta AAC",
+        "C": "ADC Aboim Sabadim",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "61": {
+        "A": "57.º",
+        "B": "Atleta ABI",
+        "C": "AD Barroselas \"B\"",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "62": {
+        "A": "58.º",
+        "B": "Atleta ABO",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "63": {
+        "A": "59.º",
+        "B": "Atleta ABU",
+        "C": "AD Barroselas \"B\"",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "64": {
+        "A": "60.º",
+        "B": "Atleta ABV",
+        "C": "ADC Aboim Sabadim",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "65": {
+        "A": "61.º",
+        "B": "Atleta ADM",
+        "C": "Atlético Arcos AD",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "66": {
+        "A": "62.º",
+        "B": "Atleta AES",
+        "C": "Atlético Arcos AD",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "67": {
+        "A": "63.º",
+        "B": "Atleta AEV",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "68": {
+        "A": "64.º",
+        "B": "Atleta AEZ",
+        "C": "Atlético Arcos AD",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "69": {
+        "A": "65.º",
+        "B": "Atleta AFK",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "70": {
+        "A": "66.º",
+        "B": "Atleta AFN",
+        "C": "CRC Távora",
+        "D": "Série 1 (A)",
+        "E": 2
+      },
+      "71": {
+        "A": "67.º",
+        "B": "Atleta ABY",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 2
+      },
+      "72": {
+        "A": "68.º",
+        "B": "Atleta ACB",
+        "C": "AD Fachense",
+        "D": "Série 2 (B)",
+        "E": 2
+      },
+      "73": {
+        "A": "69.º",
+        "B": "Atleta ACM",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 2
+      },
+      "74": {
+        "A": "70.º",
+        "B": "Atleta AEL",
+        "C": "AD Fachense",
+        "D": "Série 2 (B)",
+        "E": 2
+      },
+      "75": {
+        "A": "71.º",
+        "B": "Atleta AFW",
+        "C": "UD Lanheses",
+        "D": "Série 2 (B)",
+        "E": 2
+      },
+      "76": {
+        "A": "72.º",
+        "B": "Atleta AGC",
+        "C": "AD Fachense",
+        "D": "Série 2 (B)",
+        "E": 2
+      },
+      "77": {
+        "A": "73.º",
+        "B": "Atleta AGE",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 2
+      },
+      "78": {
+        "A": "74.º",
+        "B": "Atleta AHF",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 2
+      },
+      "79": {
+        "A": "75.º",
+        "B": "Atleta ADQ",
+        "C": "AD Barroselas \"A\"",
+        "D": "Série 3 (C)",
+        "E": 2
+      },
+      "80": {
+        "A": "76.º",
+        "B": "Atleta AER",
+        "C": "AD Darquense",
+        "D": "Série 3 (C)",
+        "E": 2
+      },
+      "81": {
+        "A": "77.º",
+        "B": "Atleta AFH",
+        "C": "AD Barroselas \"A\"",
+        "D": "Série 3 (C)",
+        "E": 2
+      },
+      "82": {
+        "A": "78.º",
+        "B": "Atleta AFI",
+        "C": "Vila Fria 1980",
+        "D": "Série 3 (C)",
+        "E": 2
+      },
+      "83": {
+        "A": "79.º",
+        "B": "Atleta AFP",
+        "C": "AD Darquense",
+        "D": "Série 3 (C)",
+        "E": 2
+      },
+      "84": {
+        "A": "80.º",
+        "B": "Atleta AFY",
+        "C": "Neves FC",
+        "D": "Série 3 (C)",
+        "E": 2
+      },
+      "85": {
+        "A": "81.º",
+        "B": "Atleta AGL",
+        "C": "AD Darquense",
+        "D": "Série 3 (C)",
+        "E": 2
+      },
+      "86": {
+        "A": "82.º",
+        "B": "Atleta AGT",
+        "C": "ADC Anha",
+        "D": "Série 3 (C)",
+        "E": 2
+      },
+      "87": {
+        "A": "83.º",
+        "B": "Atleta AHB",
+        "C": "AD Darquense",
+        "D": "Série 3 (C)",
+        "E": 2
+      },
+      "88": {
+        "A": "84.º",
+        "B": "Atleta AAJ",
+        "C": "GD Meadela",
+        "D": "Série 4 (D)",
+        "E": 2
+      },
+      "89": {
+        "A": "85.º",
+        "B": "Atleta AAO",
+        "C": "GD Meadela",
+        "D": "Série 4 (D)",
+        "E": 2
+      },
+      "90": {
+        "A": "86.º",
+        "B": "Atleta ABS",
+        "C": "SC Vianense",
+        "D": "Série 4 (D)",
+        "E": 2
+      },
+      "91": {
+        "A": "87.º",
+        "B": "Atleta ABT",
+        "C": "Perspectiva em Jogo AD",
+        "D": "Série 4 (D)",
+        "E": 2
+      },
+      "92": {
+        "A": "88.º",
+        "B": "Atleta ACP",
+        "C": "ADC Perre",
+        "D": "Série 4 (D)",
+        "E": 2
+      },
+      "93": {
+        "A": "89.º",
+        "B": "Atleta ADJ",
+        "C": "Perspectiva em Jogo AD",
+        "D": "Série 4 (D)",
+        "E": 2
+      },
+      "94": {
+        "A": "90.º",
+        "B": "Atleta AGA",
+        "C": "Torre SC",
+        "D": "Série 4 (D)",
+        "E": 2
+      },
+      "95": {
+        "A": "91.º",
+        "B": "Atleta AGJ",
+        "C": "SC Vianense",
+        "D": "Série 4 (D)",
+        "E": 2
+      },
+      "96": {
+        "A": "92.º",
+        "B": "Atleta AGQ",
+        "C": "ADC Perre",
+        "D": "Série 4 (D)",
+        "E": 2
+      },
+      "97": {
+        "A": "93.º",
+        "B": "Atleta AAP",
+        "C": "AC Caminha",
+        "D": "Série 5 (E)",
+        "E": 2
+      },
+      "98": {
+        "A": "94.º",
+        "B": "Atleta AEJ",
+        "C": "CC \"Os Torreenses\"",
+        "D": "Série 5 (E)",
+        "E": 2
+      },
+      "99": {
+        "A": "95.º",
+        "B": "Atleta AEP",
+        "C": "AD Campos",
+        "D": "Série 5 (E)",
+        "E": 2
+      },
+      "100": {
+        "A": "96.º",
+        "B": "Atleta AGV",
+        "C": "Âncora-Praia FC",
+        "D": "Série 5 (E)",
+        "E": 2
+      },
+      "101": {
+        "A": "97.º",
+        "B": "Atleta AAN",
+        "C": "CD Cerveira",
+        "D": "Série 6 (F)",
+        "E": 2
+      },
+      "102": {
+        "A": "98.º",
+        "B": "Atleta AAQ",
+        "C": "CD Cerveira",
+        "D": "Série 6 (F)",
+        "E": 2
+      },
+      "103": {
+        "A": "99.º",
+        "B": "Atleta ABR",
+        "C": "SC Courense",
+        "D": "Série 6 (F)",
+        "E": 2
+      },
+      "104": {
+        "A": "100.º",
+        "B": "Atleta ACE",
+        "C": "SC Valenciano",
+        "D": "Série 6 (F)",
+        "E": 2
+      },
+      "105": {
+        "A": "101.º",
+        "B": "Atleta ACR",
+        "C": "CD Cerveira",
+        "D": "Série 6 (F)",
+        "E": 2
+      },
+      "106": {
+        "A": "102.º",
+        "B": "Atleta ADA",
+        "C": "CD Cerveira",
+        "D": "Série 6 (F)",
+        "E": 2
+      },
+      "107": {
+        "A": "103.º",
+        "B": "Atleta AGB",
+        "C": "SC Courense",
+        "D": "Série 6 (F)",
+        "E": 2
+      },
+      "108": {
+        "A": "104.º",
+        "B": "Atleta AGM",
+        "C": "Desp. Monção \"A\"",
+        "D": "Série 6 (F)",
+        "E": 2
+      },
+      "109": {
+        "A": "105.º",
+        "B": "Atleta AAA",
+        "C": "AD Barroselas \"B\"",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "110": {
+        "A": "106.º",
+        "B": "Atleta AAA",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "111": {
+        "A": "107.º",
+        "B": "Atleta AAD",
+        "C": "Atlético Arcos AD",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "112": {
+        "A": "108.º",
+        "B": "Atleta AAE",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "113": {
+        "A": "109.º",
+        "B": "Atleta AAL",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "114": {
+        "A": "110.º",
+        "B": "Atleta AAY",
+        "C": "AD Barroselas \"B\"",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "115": {
+        "A": "111.º",
+        "B": "Atleta ABA",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "116": {
+        "A": "112.º",
+        "B": "Atleta ABB",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "117": {
+        "A": "113.º",
+        "B": "Atleta ABL",
+        "C": "AD Barroselas \"B\"",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "118": {
+        "A": "114.º",
+        "B": "Atleta ACL",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "119": {
+        "A": "115.º",
+        "B": "Atleta ACV",
+        "C": "ADC Aboim Sabadim",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "120": {
+        "A": "116.º",
+        "B": "Atleta ADL",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "121": {
+        "A": "117.º",
+        "B": "Atleta ADR",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "122": {
+        "A": "118.º",
+        "B": "Atleta AEB",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "123": {
+        "A": "119.º",
+        "B": "Atleta AEH",
+        "C": "CRC Távora",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "124": {
+        "A": "120.º",
+        "B": "Atleta AEI",
+        "C": "AD Barroselas \"B\"",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "125": {
+        "A": "121.º",
+        "B": "Atleta AES",
+        "C": "ADC Aboim Sabadim",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "126": {
+        "A": "122.º",
+        "B": "Atleta AEW",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "127": {
+        "A": "123.º",
+        "B": "Atleta AFO",
+        "C": "ARC Guilhadeses",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "128": {
+        "A": "124.º",
+        "B": "Atleta AFU",
+        "C": "Atlético Arcos AD",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "129": {
+        "A": "125.º",
+        "B": "Atleta AFZ",
+        "C": "Atlético Arcos AD",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "130": {
+        "A": "126.º",
+        "B": "Atleta AGI",
+        "C": "ADC Aboim Sabadim",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "131": {
+        "A": "127.º",
+        "B": "Atleta AHE",
+        "C": "AD Ponte Barca",
+        "D": "Série 1 (A)",
+        "E": 1
+      },
+      "132": {
+        "A": "128.º",
+        "B": "Atleta AAF",
+        "C": "UD Lanheses",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "133": {
+        "A": "129.º",
+        "B": "Atleta ABC",
+        "C": "AD Fachense",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "134": {
+        "A": "130.º",
+        "B": "Atleta ABZ",
+        "C": "UD Lanheses",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "135": {
+        "A": "131.º",
+        "B": "Atleta ACJ",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "136": {
+        "A": "132.º",
+        "B": "Atleta ACS",
+        "C": "AD Fachense",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "137": {
+        "A": "133.º",
+        "B": "Atleta ACZ",
+        "C": "AD \"Os Limianos\"",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "138": {
+        "A": "134.º",
+        "B": "Atleta ADE",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "139": {
+        "A": "135.º",
+        "B": "Atleta ADO",
+        "C": "GD Freixo",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "140": {
+        "A": "136.º",
+        "B": "Atleta ADS",
+        "C": "UD Lanheses",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "141": {
+        "A": "137.º",
+        "B": "Atleta AEE",
+        "C": "GD Freixo",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "142": {
+        "A": "138.º",
+        "B": "Atleta AFL",
+        "C": "AD \"Os Limianos\"",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "143": {
+        "A": "139.º",
+        "B": "Atleta AFS",
+        "C": "AD Fachense",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "144": {
+        "A": "140.º",
+        "B": "Atleta AGD",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "145": {
+        "A": "141.º",
+        "B": "Atleta AGH",
+        "C": "GD Freixo",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "146": {
+        "A": "142.º",
+        "B": "Atleta AGP",
+        "C": "AD \"Os Limianos\"",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "147": {
+        "A": "143.º",
+        "B": "Atleta AHA",
+        "C": "AF Ponte Lima",
+        "D": "Série 2 (B)",
+        "E": 1
+      },
+      "148": {
+        "A": "144.º",
+        "B": "Atleta AAT",
+        "C": "AD Darquense",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "149": {
+        "A": "145.º",
+        "B": "Atleta AAV",
+        "C": "AD Darquense",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "150": {
+        "A": "146.º",
+        "B": "Atleta AAX",
+        "C": "Vila Fria 1980",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "151": {
+        "A": "147.º",
+        "B": "Atleta ABH",
+        "C": "AD Barroselas \"A\"",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "152": {
+        "A": "148.º",
+        "B": "Atleta ABX",
+        "C": "Neves FC",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "153": {
+        "A": "149.º",
+        "B": "Atleta ADK",
+        "C": "Deucriste SC",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "154": {
+        "A": "150.º",
+        "B": "Atleta ADT",
+        "C": "AD Darquense",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "155": {
+        "A": "151.º",
+        "B": "Atleta ADZ",
+        "C": "Vila Fria 1980",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "156": {
+        "A": "152.º",
+        "B": "Atleta ADZ",
+        "C": "Deucriste SC",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "157": {
+        "A": "153.º",
+        "B": "Atleta AEC",
+        "C": "AD Barroselas \"A\"",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "158": {
+        "A": "154.º",
+        "B": "Atleta AEF",
+        "C": "Deucriste SC",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "159": {
+        "A": "155.º",
+        "B": "Atleta AFQ",
+        "C": "Vila Fria 1980",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "160": {
+        "A": "156.º",
+        "B": "Atleta AGG",
+        "C": "Deucriste SC",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "161": {
+        "A": "157.º",
+        "B": "Atleta AGS",
+        "C": "Vila Fria 1980",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "162": {
+        "A": "158.º",
+        "B": "Atleta AHC",
+        "C": "ADC Anha",
+        "D": "Série 3 (C)",
+        "E": 1
+      },
+      "163": {
+        "A": "159.º",
+        "B": "Atleta ABM",
+        "C": "ADC Perre",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "164": {
+        "A": "160.º",
+        "B": "Atleta ABP",
+        "C": "Perspectiva em Jogo AD",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "165": {
+        "A": "161.º",
+        "B": "Atleta ACF",
+        "C": "Torre SC",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "166": {
+        "A": "162.º",
+        "B": "Atleta ADB",
+        "C": "SC Vianense",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "167": {
+        "A": "163.º",
+        "B": "Atleta ADW",
+        "C": "GD Areosense",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "168": {
+        "A": "164.º",
+        "B": "Atleta AEA",
+        "C": "SC Vianense",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "169": {
+        "A": "165.º",
+        "B": "Atleta AEO",
+        "C": "GD Meadela",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "170": {
+        "A": "166.º",
+        "B": "Atleta AET",
+        "C": "GD Meadela",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "171": {
+        "A": "167.º",
+        "B": "Atleta AFA",
+        "C": "GD Meadela",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "172": {
+        "A": "168.º",
+        "B": "Atleta AFB",
+        "C": "SC Vianense",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "173": {
+        "A": "169.º",
+        "B": "Atleta AFD",
+        "C": "SC Vianense",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "174": {
+        "A": "170.º",
+        "B": "Atleta AGE",
+        "C": "GD Areosense",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "175": {
+        "A": "171.º",
+        "B": "Atleta AGN",
+        "C": "SC Vianense",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "176": {
+        "A": "172.º",
+        "B": "Atleta AGU",
+        "C": "GD Meadela",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "177": {
+        "A": "173.º",
+        "B": "Atleta AHD",
+        "C": "Perspectiva em Jogo AD",
+        "D": "Série 4 (D)",
+        "E": 1
+      },
+      "178": {
+        "A": "174.º",
+        "B": "Atleta AAB",
+        "C": "AD Campos",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "179": {
+        "A": "175.º",
+        "B": "Atleta AAH",
+        "C": "CC \"Os Torreenses\"",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "180": {
+        "A": "176.º",
+        "B": "Atleta AAK",
+        "C": "Âncora-Praia FC",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "181": {
+        "A": "177.º",
+        "B": "Atleta AAM",
+        "C": "CC \"Os Torreenses\"",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "182": {
+        "A": "178.º",
+        "B": "Atleta AAR",
+        "C": "Âncora-Praia FC",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "183": {
+        "A": "179.º",
+        "B": "Atleta ABG",
+        "C": "AC Caminha",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "184": {
+        "A": "180.º",
+        "B": "Atleta ACK",
+        "C": "AC Caminha",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "185": {
+        "A": "181.º",
+        "B": "Atleta ADS",
+        "C": "AD Campos",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "186": {
+        "A": "182.º",
+        "B": "Atleta ADY",
+        "C": "Desp. Monção \"B\"",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "187": {
+        "A": "183.º",
+        "B": "Atleta AED",
+        "C": "CC \"Os Torreenses\"",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "188": {
+        "A": "184.º",
+        "B": "Atleta AEK",
+        "C": "CC \"Os Torreenses\"",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "189": {
+        "A": "185.º",
+        "B": "Atleta AGK",
+        "C": "Desp. Monção \"B\"",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "190": {
+        "A": "186.º",
+        "B": "Atleta AGO",
+        "C": "Âncora-Praia FC",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "191": {
+        "A": "187.º",
+        "B": "Atleta AGW",
+        "C": "Desp. Monção \"B\"",
+        "D": "Série 5 (E)",
+        "E": 1
+      },
+      "192": {
+        "A": "188.º",
+        "B": "Atleta AAZ",
+        "C": "Desp. Monção \"A\"",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "193": {
+        "A": "189.º",
+        "B": "Atleta ABN",
+        "C": "SC Courense",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "194": {
+        "A": "190.º",
+        "B": "Atleta ABQ",
+        "C": "Desp. Monção \"A\"",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "195": {
+        "A": "191.º",
+        "B": "Atleta ACO",
+        "C": "SC Courense",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "196": {
+        "A": "192.º",
+        "B": "Atleta ADD",
+        "C": "Desp. Monção \"A\"",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "197": {
+        "A": "193.º",
+        "B": "Atleta ADY",
+        "C": "Desp. Monção \"A\"",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "198": {
+        "A": "194.º",
+        "B": "Atleta AEG",
+        "C": "CD Cerveira",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "199": {
+        "A": "195.º",
+        "B": "Atleta AEQ",
+        "C": "SC Valenciano",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "200": {
+        "A": "196.º",
+        "B": "Atleta AEY",
+        "C": "Desp. Monção \"A\"",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "201": {
+        "A": "197.º",
+        "B": "Atleta AFE",
+        "C": "CD Cerveira",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "202": {
+        "A": "198.º",
+        "B": "Atleta AFM",
+        "C": "SC Valenciano",
+        "D": "Série 6 (F)",
+        "E": 1
+      },
+      "203": {
+        "A": "199.º",
+        "B": "Atleta AGK",
+        "C": "Desp. Monção \"A\"",
+        "D": "Série 6 (F)",
+        "E": 1
+      }
+    }
+  },
+  "Estatística Geral": {
+    "rows": {
+      "1": {
+        "A": "AF VIANA DO CASTELO - TORNEIO DISTRITAL BENJAMINS \"GOMES RIBEIRO\" - SUB 11"
+      },
+      "2": {
+        "A": "ESTATÍSTICA GERAL (TODAS AS SÉRIES)"
+      },
+      "4": {
+        "A": "DESTAQUES GERAIS DA COMPETIÇÃO (ATUALIZAÇÃO AUTOMÁTICA)"
+      },
+      "5": {
+        "A": "Indicador Estatístico",
+        "D": "Marca / Registo",
+        "E": "Equipa(s) Líder(es) (Todas as Séries)"
+      },
+      "6": {
+        "A": "Equipa com Mais Vitórias",
+        "D": 4,
+        "E": "#NAME?"
+      },
+      "7": {
+        "A": "Equipa com Mais Golos Marcados",
+        "D": 25,
+        "E": "#NAME?"
+      },
+      "8": {
+        "A": "Equipa Menos Batida (Menos Golos Sofridos)",
+        "D": 4,
+        "E": "#NAME?"
+      },
+      "10": {
+        "A": "QUADRO COMPARATIVO GERAL DE EQUIPAS (TODAS AS SÉRIES)"
+      },
+      "11": {
+        "A": "Série",
+        "B": "Equipa",
+        "C": "Pos. Série",
+        "D": "J",
+        "E": "V",
+        "F": "E",
+        "G": "D",
+        "H": "GM",
+        "I": "GS",
+        "J": "DF",
+        "K": "Pts"
+      },
+      "12": {
+        "A": "Série 1 (A)",
+        "B": "AD Barroselas \"B\"",
+        "C": "1.º",
+        "D": 5,
+        "E": 4,
+        "F": 1,
+        "G": 0,
+        "H": 20,
+        "I": 9,
+        "J": 11,
+        "K": 13
+      },
+      "13": {
+        "A": "Série 1 (A)",
+        "B": "ARC Guilhadeses",
+        "C": "2.º",
+        "D": 5,
+        "E": 3,
+        "F": 0,
+        "G": 2,
+        "H": 23,
+        "I": 5,
+        "J": 18,
+        "K": 9
+      },
+      "14": {
+        "A": "Série 1 (A)",
+        "B": "AD Ponte Barca",
+        "C": "3.º",
+        "D": 5,
+        "E": 3,
+        "F": 0,
+        "G": 2,
+        "H": 24,
+        "I": 11,
+        "J": 13,
+        "K": 9
+      },
+      "15": {
+        "A": "Série 1 (A)",
+        "B": "ADC Aboim Sabadim",
+        "C": "4.º",
+        "D": 5,
+        "E": 2,
+        "F": 2,
+        "G": 1,
+        "H": 16,
+        "I": 19,
+        "J": -3,
+        "K": 8
+      },
+      "16": {
+        "A": "Série 1 (A)",
+        "B": "Atlético Arcos AD",
+        "C": "5.º",
+        "D": 5,
+        "E": 1,
+        "F": 0,
+        "G": 4,
+        "H": 12,
+        "I": 25,
+        "J": -13,
+        "K": 3
+      },
+      "17": {
+        "A": "Série 1 (A)",
+        "B": "CRC Távora",
+        "C": "6.º",
+        "D": 5,
+        "E": 0,
+        "F": 1,
+        "G": 4,
+        "H": 9,
+        "I": 35,
+        "J": -26,
+        "K": 1
+      },
+      "18": {
+        "A": "Série 2 (B)",
+        "B": "AF Ponte Lima",
+        "C": "1.º",
+        "D": 4,
+        "E": 4,
+        "F": 0,
+        "G": 0,
+        "H": 25,
+        "I": 4,
+        "J": 21,
+        "K": 12
+      },
+      "19": {
+        "A": "Série 2 (B)",
+        "B": "GD Freixo",
+        "C": "2.º",
+        "D": 4,
+        "E": 2,
+        "F": 1,
+        "G": 1,
+        "H": 14,
+        "I": 10,
+        "J": 4,
+        "K": 7
+      },
+      "20": {
+        "A": "Série 2 (B)",
+        "B": "AD Fachense",
+        "C": "3.º",
+        "D": 4,
+        "E": 1,
+        "F": 1,
+        "G": 2,
+        "H": 9,
+        "I": 10,
+        "J": -1,
+        "K": 4
+      },
+      "21": {
+        "A": "Série 2 (B)",
+        "B": "UD Lanheses",
+        "C": "4.º",
+        "D": 4,
+        "E": 1,
+        "F": 0,
+        "G": 3,
+        "H": 5,
+        "I": 15,
+        "J": -10,
+        "K": 3
+      },
+      "22": {
+        "A": "Série 2 (B)",
+        "B": "AD \"Os Limianos\"",
+        "C": "5.º",
+        "D": 4,
+        "E": 1,
+        "F": 0,
+        "G": 3,
+        "H": 3,
+        "I": 17,
+        "J": -14,
+        "K": 3
+      },
+      "23": {
+        "A": "Série 3 (C)",
+        "B": "ADC Anha",
+        "C": "1.º",
+        "D": 5,
+        "E": 4,
+        "F": 1,
+        "G": 0,
+        "H": 25,
+        "I": 12,
+        "J": 13,
+        "K": 13
+      },
+      "24": {
+        "A": "Série 3 (C)",
+        "B": "Neves FC",
+        "C": "2.º",
+        "D": 5,
+        "E": 3,
+        "F": 2,
+        "G": 0,
+        "H": 21,
+        "I": 8,
+        "J": 13,
+        "K": 11
+      },
+      "25": {
+        "A": "Série 3 (C)",
+        "B": "Vila Fria 1980",
+        "C": "3.º",
+        "D": 5,
+        "E": 3,
+        "F": 0,
+        "G": 2,
+        "H": 13,
+        "I": 14,
+        "J": -1,
+        "K": 9
+      },
+      "26": {
+        "A": "Série 3 (C)",
+        "B": "AD Darquense",
+        "C": "4.º",
+        "D": 5,
+        "E": 2,
+        "F": 1,
+        "G": 2,
+        "H": 14,
+        "I": 9,
+        "J": 5,
+        "K": 7
+      },
+      "27": {
+        "A": "Série 3 (C)",
+        "B": "AD Barroselas \"A\"",
+        "C": "5.º",
+        "D": 5,
+        "E": 1,
+        "F": 0,
+        "G": 4,
+        "H": 9,
+        "I": 16,
+        "J": -7,
+        "K": 3
+      },
+      "28": {
+        "A": "Série 3 (C)",
+        "B": "Deucriste SC",
+        "C": "6.º",
+        "D": 5,
+        "E": 0,
+        "F": 0,
+        "G": 5,
+        "H": 4,
+        "I": 27,
+        "J": -23,
+        "K": 0
+      },
+      "29": {
+        "A": "Série 4 (D)",
+        "B": "Perspectiva em Jogo AD",
+        "C": "1.º",
+        "D": 5,
+        "E": 4,
+        "F": 0,
+        "G": 1,
+        "H": 18,
+        "I": 6,
+        "J": 12,
+        "K": 12
+      },
+      "30": {
+        "A": "Série 4 (D)",
+        "B": "Torre SC",
+        "C": "2.º",
+        "D": 5,
+        "E": 3,
+        "F": 1,
+        "G": 1,
+        "H": 19,
+        "I": 8,
+        "J": 11,
+        "K": 10
+      },
+      "31": {
+        "A": "Série 4 (D)",
+        "B": "GD Meadela",
+        "C": "3.º",
+        "D": 5,
+        "E": 3,
+        "F": 1,
+        "G": 1,
+        "H": 16,
+        "I": 10,
+        "J": 6,
+        "K": 10
+      },
+      "32": {
+        "A": "Série 4 (D)",
+        "B": "SC Vianense",
+        "C": "4.º",
+        "D": 5,
+        "E": 2,
+        "F": 1,
+        "G": 2,
+        "H": 20,
+        "I": 9,
+        "J": 11,
+        "K": 7
+      },
+      "33": {
+        "A": "Série 4 (D)",
+        "B": "GD Areosense",
+        "C": "5.º",
+        "D": 5,
+        "E": 1,
+        "F": 1,
+        "G": 3,
+        "H": 11,
+        "I": 22,
+        "J": -11,
+        "K": 4
+      },
+      "34": {
+        "A": "Série 4 (D)",
+        "B": "ADC Perre",
+        "C": "6.º",
+        "D": 5,
+        "E": 0,
+        "F": 0,
+        "G": 5,
+        "H": 5,
+        "I": 34,
+        "J": -29,
+        "K": 0
+      },
+      "35": {
+        "A": "Série 5 (E)",
+        "B": "AC Caminha",
+        "C": "1.º",
+        "D": 4,
+        "E": 4,
+        "F": 0,
+        "G": 0,
+        "H": 11,
+        "I": 7,
+        "J": 4,
+        "K": 12
+      },
+      "36": {
+        "A": "Série 5 (E)",
+        "B": "Âncora-Praia FC",
+        "C": "2.º",
+        "D": 4,
+        "E": 3,
+        "F": 0,
+        "G": 1,
+        "H": 11,
+        "I": 7,
+        "J": 4,
+        "K": 9
+      },
+      "37": {
+        "A": "Série 5 (E)",
+        "B": "CC \"Os Torreenses\"",
+        "C": "3.º",
+        "D": 4,
+        "E": 1,
+        "F": 1,
+        "G": 2,
+        "H": 13,
+        "I": 8,
+        "J": 5,
+        "K": 4
+      },
+      "38": {
+        "A": "Série 5 (E)",
+        "B": "Desp. Monção \"B\"",
+        "C": "4.º",
+        "D": 4,
+        "E": 1,
+        "F": 1,
+        "G": 2,
+        "H": 9,
+        "I": 6,
+        "J": 3,
+        "K": 4
+      },
+      "39": {
+        "A": "Série 5 (E)",
+        "B": "AD Campos",
+        "C": "5.º",
+        "D": 4,
+        "E": 0,
+        "F": 0,
+        "G": 4,
+        "H": 4,
+        "I": 20,
+        "J": -16,
+        "K": 0
+      },
+      "40": {
+        "A": "Série 6 (F)",
+        "B": "SC Courense",
+        "C": "1.º",
+        "D": 3,
+        "E": 2,
+        "F": 1,
+        "G": 0,
+        "H": 22,
+        "I": 10,
+        "J": 12,
+        "K": 7
+      },
+      "41": {
+        "A": "Série 6 (F)",
+        "B": "Desp. Monção \"A\"",
+        "C": "2.º",
+        "D": 3,
+        "E": 2,
+        "F": 0,
+        "G": 1,
+        "H": 8,
+        "I": 9,
+        "J": -1,
+        "K": 6
+      },
+      "42": {
+        "A": "Série 6 (F)",
+        "B": "CD Cerveira",
+        "C": "3.º",
+        "D": 3,
+        "E": 1,
+        "F": 1,
+        "G": 1,
+        "H": 16,
+        "I": 7,
+        "J": 9,
+        "K": 4
+      },
+      "43": {
+        "A": "Série 6 (F)",
+        "B": "SC Valenciano",
+        "C": "4.º",
+        "D": 3,
+        "E": 0,
+        "F": 0,
+        "G": 3,
+        "H": 4,
+        "I": 24,
+        "J": -20,
+        "K": 0
+      },
+      "44": {
+        "A": "TOTAIS GERAIS DA PROVA",
+        "D": 142,
+        "E": 62,
+        "F": 18,
+        "G": 62,
+        "H": 433,
+        "I": 433,
+        "J": 0,
+        "K": 204
+      }
+    }
+  }
+}

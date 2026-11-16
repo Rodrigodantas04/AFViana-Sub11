@@ -1,0 +1,7 @@
+{
+  "playerRecords": {},
+  "excludedRecordIds": [],
+  "rosterRecords": {},
+  "excludedRosterRecordIds": [],
+  "description": "Publicação individual desativada por omissão. Cada entrada exige recordId, fingerprint e uma referência interna de autorização. Consultar ARCHITECTURE.md."
+}

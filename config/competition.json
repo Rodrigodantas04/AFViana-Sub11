@@ -1,0 +1,17 @@
+{
+  "id": "gomes-ribeiro-sub11-2026-27",
+  "slug": "gomes-ribeiro-sub11",
+  "name": "Torneio Distrital Benjamins Gomes Ribeiro",
+  "shortName": "Gomes Ribeiro",
+  "season": "2026/2027",
+  "category": "Sub-11",
+  "phase": "1.ª Fase",
+  "region": "Alto Minho",
+  "source": "data/source.xlsx",
+  "clubMappings": {
+    "AD Barroselas \"A\"": "AD Barroselas",
+    "AD Barroselas \"B\"": "AD Barroselas",
+    "Desp. Monção \"A\"": "Desp. Monção",
+    "Desp. Monção \"B\"": "Desp. Monção"
+  }
+}

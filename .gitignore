@@ -1,0 +1,12 @@
+data/internal/
+data/source.xlsx
+data/*.xlsx
+dist/
+.DS_Store
+__pycache__/
+*.pyc
+.env
+.env.*
+node_modules/
+coverage/
+
