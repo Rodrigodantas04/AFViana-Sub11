@@ -150,7 +150,8 @@
   .history-list time { color: var(--muted); font-size: .85rem; grid-row: span 2; font-variant-numeric: tabular-nums }
   .history-list span { color: var(--muted); font-size: .9rem; overflow-wrap: anywhere }
 
-  .quick-names { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center }
+  .quick-names { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center; padding-top: .7rem; border-top: 1px dashed var(--line) }
+  .quick-names:empty { display: none }
   .quick-label { font-size: .8125rem; color: var(--muted); font-weight: 700; margin-right: .1rem }
   .chip { min-height: 2.5rem; padding: .3rem .8rem; border-radius: 99rem; background: var(--accent-soft); color: var(--text); border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); font-weight: 700; font-size: .9rem }
   .name-field { position: relative }
