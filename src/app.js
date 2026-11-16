@@ -45,8 +45,10 @@ function navigate(url, { replace = false, filters = false } = {}) {
   history[replace ? 'replaceState' : 'pushState']({ minho11: true }, '', url.pathname + url.search + url.hash);
   if (dialog.open) dialog.close();
   closeMenu();
-  paint({ focusHeading: !filters, preserveFocus: filters });
-  if (!filters) scrollTo({ top: 0, behavior: 'instant' }); else scrollTo({ top: previousScroll, behavior: 'instant' });
+  const update = () => { paint({ focusHeading: !filters, preserveFocus: filters }); if (!filters) scrollTo({ top: 0, behavior: 'instant' }); else scrollTo({ top: previousScroll, behavior: 'instant' }); };
+  // Smooth cross-fade between pages where supported; filters update in place without animation.
+  if (!filters && document.startViewTransition && !matchMedia('(prefers-reduced-motion: reduce)').matches) document.startViewTransition(update);
+  else update();
 }
 
 document.addEventListener('click', event => {

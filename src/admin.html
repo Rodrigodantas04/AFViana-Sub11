@@ -23,6 +23,7 @@
 
   <section id="login-view" class="center" hidden>
     <form id="login-form" class="card login" novalidate>
+      <span class="login-mark" aria-hidden="true">11</span>
       <h1>Entrar na gestão</h1>
       <p class="muted">Escreve a palavra-passe partilhada pelos responsáveis.</p>
       <input type="text" name="username" autocomplete="username" value="MINHO11 gestão" class="visually-hidden" tabindex="-1" aria-hidden="true" readonly>
@@ -43,18 +44,48 @@
     <div id="source-banner" class="banner" role="status"></div>
     <div id="lost-banner" class="banner banner-warning" hidden></div>
 
-    <form id="picker" class="card picker" aria-label="Escolher jogo">
-      <div class="picker-grid">
-        <label>Fase<select id="phase"></select></label>
-        <label>Série<select id="group"></select></label>
-        <label>Jornada<select id="round"></select></label>
-      </div>
-      <label class="check"><input type="checkbox" id="only-open" checked> Mostrar só jogos por preencher</label>
-    </form>
+    <nav class="tabs" aria-label="Secções do painel">
+      <button type="button" data-tab="today" aria-pressed="true">Dia de jogo</button>
+      <button type="button" data-tab="series" aria-pressed="false">Por série</button>
+      <button type="button" data-tab="phase2" aria-pressed="false">2.ª fase</button>
+      <button type="button" data-tab="privacy" aria-pressed="false">Privacidade</button>
+      <button type="button" data-tab="history" aria-pressed="false">Histórico</button>
+    </nav>
 
-    <section aria-labelledby="matches-title">
-      <h2 id="matches-title" class="section-title">Jogos</h2>
+    <section data-panel="today" aria-labelledby="today-title">
+      <h2 id="today-title" class="section-title">Jogos para lançar</h2>
+      <p class="muted small">Jogos dos últimos 7 dias e jogos atrasados sem resultado. Toca num jogo para o abrir.</p>
+      <ul id="today-list" class="match-list"></ul>
+    </section>
+
+    <section data-panel="series" hidden>
+      <form id="picker" class="card picker" aria-label="Escolher jogo">
+        <div class="picker-grid">
+          <label>Fase<select id="phase"></select></label>
+          <label>Série<select id="group"></select></label>
+          <label>Jornada<select id="round"></select></label>
+        </div>
+        <label class="check"><input type="checkbox" id="only-open" checked> Mostrar só jogos por preencher</label>
+      </form>
       <ul id="match-list" class="match-list"></ul>
+    </section>
+
+    <section data-panel="phase2" hidden aria-labelledby="phase2-title">
+      <h2 id="phase2-title" class="section-title">Equipas da 2.ª fase</h2>
+      <p class="muted small">A ordem conta: o Excel gera o calendário a partir da posição de cada equipa (1 a 6). Uma série com resultados já não pode mudar de equipas aqui.</p>
+      <div id="phase2-groups" class="phase2-grid"></div>
+    </section>
+
+    <section data-panel="privacy" hidden aria-labelledby="privacy-title">
+      <h2 id="privacy-title" class="section-title">Ocultar nomes</h2>
+      <p class="muted small">Quando um encarregado de educação ou um clube pede (minho11.contacto@gmail.com), oculta o nome aqui. Os golos e o resultado ficam; só o nome deixa de aparecer no site. O Excel não muda.</p>
+      <label class="search"><span class="visually-hidden">Procurar jogador</span><input type="search" id="privacy-search" placeholder="Procurar nome ou equipa…" autocomplete="off" enterkeyhint="search"></label>
+      <ul id="privacy-list" class="privacy-list"></ul>
+    </section>
+
+    <section data-panel="history" hidden aria-labelledby="history-title">
+      <h2 id="history-title" class="section-title">Últimas alterações feitas no painel</h2>
+      <ol id="history-list" class="history-list"></ol>
     </section>
 
     <form id="editor" class="card editor" hidden novalidate aria-labelledby="editor-title">
@@ -103,14 +134,39 @@
       </div>
       <p class="hint muted">Se não souberes quem marcou, deixa sem nome: o resultado fica gravado e os golos ficam «por identificar».</p>
 
+      <details class="more">
+        <summary>Mais opções · data e apagar resultado</summary>
+        <div class="more-body">
+          <div class="field date-field">
+            <label for="match-date">Data do jogo</label>
+            <div class="password-row">
+              <input id="match-date" type="date" min="2026-08-01" max="2027-07-31">
+              <button type="button" class="ghost" id="save-date">Gravar data</button>
+            </div>
+          </div>
+          <button type="button" class="danger" id="clear-result">Apagar resultado deste jogo</button>
+        </div>
+      </details>
+
       <div class="save-bar">
         <p id="save-state" class="save-state" role="status" aria-live="polite"></p>
-        <button type="button" class="ghost" id="reload-match" hidden>Atualizar jogo</button>
+        <button type="button" class="ghost" id="reload-match" hidden>Atualizar</button>
         <button type="submit" class="primary" id="save">Gravar resultado</button>
       </div>
     </form>
   </section>
 </main>
+
+<dialog id="confirm" aria-labelledby="confirm-title">
+  <form method="dialog">
+    <h2 id="confirm-title"></h2>
+    <p id="confirm-text" class="muted"></p>
+    <div class="dialog-actions">
+      <button value="cancel" class="ghost">Cancelar</button>
+      <button value="ok" class="primary" id="confirm-ok">Confirmar</button>
+    </div>
+  </form>
+</dialog>
 
 <template id="scorer-row">
   <li class="scorer-row">

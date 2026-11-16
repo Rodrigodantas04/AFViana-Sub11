@@ -1,0 +1,4 @@
+{
+  "description": "Emblemas dos clubes. Cada entrada: \"<clubId>\": { \"file\": \"assets/crests/<clubId>.svg|png|webp\", \"source\": \"origem (clube, Zerozero…)\", \"authorizationReference\": \"quem autorizou e quando\" }. Sem fonte e autorização, o site mostra as iniciais.",
+  "clubs": {}
+}

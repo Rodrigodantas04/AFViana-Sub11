@@ -53,7 +53,7 @@ A política publica apenas nome (como escrito na ficha), equipa e golos. Não h�
 
 ## 5. Escrita no Excel
 
-`lib/writer.js`:
+`lib/writer.js` aplica quatro operações, todas sobre **células de introdução**: `result` (D/F e marcadores C/G da linha seguinte), `clear` (as mesmas, vazias), `date` (B, texto dd/mm/aaaa) e `teams` (M6:M11 de uma série da 2.ª fase; recusada se a série já tem resultados, se a equipa está noutra série da fase ou desistiu — a ordem define o calendário gerado pelas fórmulas). Para todas:
 
 1. Valida o pedido: inteiros 0–99, nomes só com letras, espaço, apóstrofo, hífen ou ponto (sem `=+@`, vírgulas, parênteses ou dígitos), soma dos marcadores ≤ resultado, ≤10 tokens, e o Excel tem de conseguir ler a descrição sem a partir.
 2. Escreve quatro **células de introdução**: `D`/`F` da linha do jogo e `C`/`G` da linha de marcadores (como inline string). Recusa escrever por cima de uma fórmula.
@@ -80,6 +80,10 @@ Recalcular no servidor evita que o Drive, o Excel e o site mostrem números dife
 7. Reimporta, atualiza a projeção pública e responde. Só então o painel diz «Resultado gravado».
 
 **Limite real de concorrência.** O Drive não suporta compare-and-swap em uploads binários. Entre a última verificação de versão e o `PATCH` há uma janela pequena em que uma gravação externa (por exemplo, o Excel no computador com sincronização do Drive) pode ganhar. O servidor guarda o último valor que gravou em cada jogo e, sempre que o painel abre, avisa se o Excel já não o tem. A perda é detetada e mostrada, mas não é impedida. Recomendação operacional: depois de começar a usar o painel, não ter o Excel aberto a editar ao mesmo tempo.
+
+## 6.1 Ocultar nomes e histórico
+
+O pedido de retirada de um nome é aplicado no painel (**Privacidade**). A lista de registos ocultos vive no armazenamento do servidor (`privacy/hidden`, escrita com CAS) e é somada a `excludedScorerIds` da configuração na projeção pública: o nome desaparece dos rankings e dos jogos; o Excel e os golos não mudam. Todas as operações (incluindo ocultar/mostrar) ficam no histórico do painel com o antes e o depois.
 
 ## 7. Autenticação
 

@@ -8,7 +8,6 @@
  */
 import fs from 'node:fs';
 import { spawnSync } from 'node:child_process';
-import readline from 'node:readline';
 import { randomBytes } from 'node:crypto';
 import { DriveSource } from '../server/sources.js';
 import { importCompetition } from '../lib/competition.js';
@@ -39,14 +38,27 @@ console.log('✓ Permissão de edição confirmada (nada foi gravado).');
 if (checkOnly) process.exit(0);
 
 // 2. Shared password for the results desk (never echoed).
+/** Reads a secret from the keyboard showing • for each character (Backspace works, Ctrl+C cancels). */
 function ask(question) {
   return new Promise(resolve => {
-    const rl = readline.createInterface({ input: process.stdin, output: process.stdout, terminal: true });
-    rl._writeToOutput = text => { if (text.includes(question)) process.stdout.write(text); };
-    rl.question(question, answer => { rl.close(); process.stdout.write('\n'); resolve(answer); });
+    const input = process.stdin;
+    process.stdout.write(question);
+    if (!input.isTTY) { let data = ''; input.setEncoding('utf8'); input.on('data', c => { data += c; }); input.on('end', () => resolve(data.split('\n')[0])); return; }
+    let value = '';
+    input.setRawMode(true); input.resume(); input.setEncoding('utf8');
+    const onData = chunk => {
+      for (const char of chunk) {
+        if (char === '\r' || char === '\n') { input.setRawMode(false); input.pause(); input.off('data', onData); process.stdout.write('\n'); resolve(value); return; }
+        if (char === '\u0003') { process.stdout.write('\n'); process.exit(130); }
+        if (char === '\u007f' || char === '\b') { if (value) { value = value.slice(0, -1); process.stdout.write('\b \b'); } continue; }
+        if (char >= ' ') { value += char; process.stdout.write('•'); }
+      }
+    };
+    input.on('data', onData);
   });
 }
-const password = await ask('Palavra-passe do painel (mín. 10 caracteres, não aparece): ');
+const password = await ask('Palavra-passe do painel (mín. 10 caracteres): ');
+if (password.length < 10) stop('A palavra-passe precisa de pelo menos 10 caracteres.');
 if (password !== await ask('Repete a palavra-passe: ')) stop('As palavras-passe não coincidem.');
 const values = {
   GOOGLE_SERVICE_ACCOUNT_JSON: JSON.stringify(credentials),

@@ -12,10 +12,19 @@ export function icon(name, cls = '') {
   };
   return `<svg class="icon ${esc(cls)}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${paths[name] ?? paths.ball}</svg>`;
 }
-export function badge(name, large = false) {
+/** Club crest when an authorised file exists; otherwise initials. Decorative (the name is always next to it). */
+export function badge(name, large = false, crest = null) {
+  if (crest) return `<span class="badge badge-crest ${large ? 'badge-large' : ''}" aria-hidden="true"><img src="${esc(crest)}" alt="" width="${large ? 72 : 36}" height="${large ? 72 : 36}" loading="lazy" decoding="async"></span>`;
   const words = String(name).replace(/[^\p{L}\p{N}\s]/gu, '').split(/\s+/).filter(Boolean);
   const initials = (words.length > 1 ? words.slice(0, 3).map(w => w[0]).join('') : words[0]?.slice(0, 3) ?? 'M11').toUpperCase();
-  return `<span class="badge ${large ? 'badge-large' : ''}" aria-hidden="true"><span>${esc(initials)}</span></span>`;
+  let hue = 0; for (const c of String(name)) hue = (hue * 31 + c.codePointAt(0)) % 360;
+  return `<span class="badge ${large ? 'badge-large' : ''}" style="--badge-hue:${hue}" aria-hidden="true"><span>${esc(initials)}</span></span>`;
+}
+export const clubBadge = (club, large = false) => badge(club.name, large, club.crestUrl);
+export function teamBadge(data, teamOrId, large = false) {
+  const team = typeof teamOrId === 'string' ? teamById(data, teamOrId) : teamOrId;
+  const club = data.clubs.find(c => c.id === team?.clubId);
+  return badge(team?.name ?? '', large, club?.crestUrl);
 }
 export const brand = () => `<a class="brand" href="/" aria-label="MINHO11 — início"><span class="brand-mark">${icon('ball')}</span><span>MINHO<span class="brand-number">11</span></span></a>`;
 export function heading(eyebrow, title, description = '', action = '') {
@@ -38,8 +47,8 @@ export function matchCard(data, match) {
   const g = groupById(data, match.groupId);
   return `<a class="match-card" href="/jogos/${match.id}" aria-label="${esc(home.name)} ${match.homeGoals ?? 'contra'} ${esc(away.name)} ${match.awayGoals ?? ''}, Série ${g?.letter}, ${esc(statusLabels[matchStatus(match)])}">
     <div class="match-meta"><span>${groupShort(data, match.groupId)} <span class="separator">/</span> J${match.round}</span>${statusPill(match)}</div>
-    <div class="match-team">${badge(home.name)}<span>${esc(home.name)}</span><strong>${match.homeGoals ?? '–'}</strong></div>
-    <div class="match-team">${badge(away.name)}<span>${esc(away.name)}</span><strong>${match.awayGoals ?? '–'}</strong></div>
+    <div class="match-team">${teamBadge(data, home)}<span>${esc(home.name)}</span><strong>${match.homeGoals ?? '–'}</strong></div>
+    <div class="match-team">${teamBadge(data, away)}<span>${esc(away.name)}</span><strong>${match.awayGoals ?? '–'}</strong></div>
     <div class="match-footer"><span>${icon('calendar')}${dateLabel(match.date)}</span><span>Ver jogo ${icon('arrow')}</span></div>
   </a>`;
 }
@@ -53,7 +62,7 @@ export function standings(data, group) {
   if (!group.defined) return pendingGroup(data, group);
   return `<div class="table-scroll" tabindex="0" role="region" aria-label="Classificação da Série ${group.letter}"><table class="standings"><caption class="sr-only">Série ${group.letter}, ${esc(phaseById(data, group.phaseId).name)}: classificação calculada com as fórmulas do Excel</caption><thead><tr><th scope="col">Pos.</th><th scope="col">Equipa</th>${[['J', 'Jogos'], ['V', 'Vitórias'], ['E', 'Empates'], ['D', 'Derrotas'], ['GM', 'Golos marcados'], ['GS', 'Golos sofridos'], ['DG', 'Diferença de golos'], ['Pts', 'Pontos']].map(([s, l], i) => `<th scope="col" class="${i > 0 && i < 7 ? 'secondary-stat' : ''}"><abbr title="${l}">${s}</abbr></th>`).join('')}</tr></thead><tbody>${group.standings.map(s => {
     const team = teamById(data, s.teamId);
-    return `<tr class="${s.position === 1 ? 'leader-row' : ''} ${team.withdrawn ? 'withdrawn-row' : ''}"><td><span class="position">${s.position}</span></td><th scope="row"><a class="table-team" href="${teamClubPath(data, s.teamId)}">${badge(team.name)}<span>${esc(team.name)}${team.withdrawn ? '<small>Desistiu da prova</small>' : ''}</span></a></th>${['played', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points'].map((k, i) => `<td class="${i > 0 && i < 7 ? 'secondary-stat' : ''} ${k === 'points' ? 'points' : ''}">${k === 'goalDifference' && s[k] > 0 ? '+' : ''}${s[k]}</td>`).join('')}</tr>`;
+    return `<tr class="${s.position === 1 ? 'leader-row' : ''} ${team.withdrawn ? 'withdrawn-row' : ''}"><td><span class="position">${s.position}</span></td><th scope="row"><a class="table-team" href="${teamClubPath(data, s.teamId)}">${teamBadge(data, team)}<span>${esc(team.name)}${team.withdrawn ? '<small>Desistiu da prova</small>' : ''}</span></a></th>${['played', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points'].map((k, i) => `<td class="${i > 0 && i < 7 ? 'secondary-stat' : ''} ${k === 'points' ? 'points' : ''}">${k === 'goalDifference' && s[k] > 0 ? '+' : ''}${s[k]}</td>`).join('')}</tr>`;
   }).join('')}</tbody></table></div><p class="table-footnote">Ordem da folha: pontos, diferença de golos, golos marcados e, por fim, ordem de inscrição. <span class="mobile-hint">Mais estatísticas no perfil de cada clube.</span></p>`;
 }
 export function pendingGroup(data, group) {
@@ -73,7 +82,7 @@ export function metric(value, label, symbol = 'ball', caption = '') {
   return `<div class="metric"><span class="metric-label">${icon(symbol)}${esc(label)}</span><strong>${esc(value)}</strong>${caption ? `<small>${esc(caption)}</small>` : ''}</div>`;
 }
 export function scorerRows(data, scorers) {
-  return scorers.map(s => `<li class="scorer-row"><span class="scorer-rank" title="${s.tied ? 'Posição partilhada' : ''}">${s.rank}.${s.tied ? '<small>=</small>' : ''}</span>${badge(teamById(data, s.teamId).name)}<div><strong>${esc(s.name)}</strong><a href="${teamClubPath(data, s.teamId)}">${esc(teamById(data, s.teamId).name)}</a></div><strong class="goal-count">${s.goals}<small>${s.goals === 1 ? 'golo' : 'golos'}</small></strong></li>`).join('');
+  return scorers.map(s => `<li class="scorer-row"><span class="scorer-rank" title="${s.tied ? 'Posição partilhada' : ''}">${s.rank}.${s.tied ? '<small>=</small>' : ''}</span>${teamBadge(data, s.teamId)}<div><strong>${esc(s.name)}</strong><a href="${teamClubPath(data, s.teamId)}">${esc(teamById(data, s.teamId).name)}</a></div><strong class="goal-count">${s.goals}<small>${s.goals === 1 ? 'golo' : 'golos'}</small></strong></li>`).join('');
 }
 export function privateScorers(data) {
   const mode = data?.publication?.scorerNames;
@@ -82,21 +91,25 @@ export function privateScorers(data) {
     : 'Os marcadores individuais estão ocultos nesta publicação.';
   return `<div class="privacy-state">${icon('lock')}<p class="eyebrow">Bota de Ouro</p><h3>O golo tem protagonistas.</h3><p>${text}</p><span class="subtle-label">${data?.stats ? `${data.stats.individualGoals} golos com marcador identificado` : ''}</span></div>`;
 }
-/** Small, accessible SVG bar chart. series: [{label, values:[{key,label,value}]}] */
-export function barChart({ title, rows, keys, max, unit = 'golos', height = 140 }) {
+/** Accessible bar chart in HTML/CSS: bars scale with the container, text keeps its real size. */
+export function barChart({ title, rows, keys }) {
   if (!rows.length) return '';
-  const top = Math.max(max ?? 0, ...rows.flatMap(r => keys.map(k => r[k.key])), 1);
-  const width = Math.max(rows.length * 34, 240), slot = width / rows.length, bar = Math.min(12, (slot - 8) / keys.length);
-  const bars = rows.map((r, i) => keys.map((k, j) => {
-    const h = Math.round(r[k.key] / top * (height - 24)), x = i * slot + slot / 2 - (keys.length * bar) / 2 + j * bar;
-    return `<rect class="bar ${k.cls}" x="${x.toFixed(1)}" y="${height - 18 - h}" width="${(bar - 1).toFixed(1)}" height="${h}" rx="2"><title>${esc(r.label)}: ${r[k.key]} ${esc(k.label.toLowerCase())}</title></rect>`;
-  }).join('') + `<text x="${(i * slot + slot / 2).toFixed(1)}" y="${height - 4}" text-anchor="middle">${esc(r.short ?? r.label)}</text>`).join('');
-  return `<figure class="chart"><figcaption>${esc(title)} <span class="chart-legend">${keys.map(k => `<span class="legend-item ${k.cls}">${esc(k.label)}</span>`).join('')}</span></figcaption><div class="chart-scroll"><svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-label="${esc(title)}">${bars}</svg></div><details class="chart-data"><summary>Ver dados</summary><table><thead><tr><th scope="col">Jogo</th>${keys.map(k => `<th scope="col">${esc(k.label)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr><th scope="row">${esc(r.label)}</th>${keys.map(k => `<td>${r[k.key]}</td>`).join('')}</tr>`).join('')}</tbody></table></details></figure>`;
+  const top = Math.max(...rows.flatMap(r => keys.map(k => r[k.key])), 1);
+  const cols = rows.map(r => `<div class="bc-col"><div class="bc-bars">${keys.map(k => `<span class="bc-bar ${k.cls}" style="--h:${(r[k.key] / top * 100).toFixed(1)}%" title="${esc(r.label)}: ${r[k.key]} ${esc(k.label.toLowerCase())}"><b>${r[k.key]}</b></span>`).join('')}</div><span class="bc-label">${esc(r.short ?? r.label)}</span></div>`).join('');
+  return `<figure class="chart"><figcaption>${esc(title)} <span class="chart-legend">${keys.map(k => `<span class="legend-item ${k.cls}">${esc(k.label)}</span>`).join('')}</span></figcaption><div class="bar-chart" role="img" aria-label="${esc(title)}: ${rows.map(r => `${r.label} ${keys.map(k => `${r[k.key]} ${k.label.toLowerCase()}`).join(', ')}`).join('; ')}" style="--cols:${rows.length}">${cols}</div><details class="chart-data"><summary>Ver dados</summary><table><thead><tr><th scope="col">Jogo</th>${keys.map(k => `<th scope="col">${esc(k.label)}</th>`).join('')}</tr></thead><tbody>${rows.map(r => `<tr><th scope="row">${esc(r.label)}</th>${keys.map(k => `<td>${r[k.key]}</td>`).join('')}</tr>`).join('')}</tbody></table></details></figure>`;
 }
-/** Cumulative line (e.g. points after each game). */
-export function lineChart({ title, points, label, height = 120 }) {
+/** Cumulative line: the line is a stretchable SVG; points and labels are HTML so text never scales. */
+export function lineChart({ title, points, label }) {
   if (points.length < 2) return '';
-  const width = Math.max(points.length * 40, 240), top = Math.max(...points.map(p => p.value), 1);
-  const xy = points.map((p, i) => [12 + i * (width - 24) / (points.length - 1), height - 20 - p.value / top * (height - 34)]);
-  return `<figure class="chart"><figcaption>${esc(title)}</figcaption><div class="chart-scroll"><svg viewBox="0 0 ${width} ${height}" width="${width}" height="${height}" role="img" aria-label="${esc(title)}: ${points.map(p => `${p.label} ${p.value}`).join(', ')}"><polyline class="line" points="${xy.map(([x, y]) => `${x.toFixed(1)},${y.toFixed(1)}`).join(' ')}"/>${xy.map(([x, y], i) => `<circle class="dot" cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="3.5"><title>${esc(points[i].label)}: ${points[i].value} ${esc(label)}</title></circle><text x="${x.toFixed(1)}" y="${height - 4}" text-anchor="middle">${esc(points[i].short ?? points[i].label)}</text>`).join('')}</svg></div></figure>`;
+  const top = Math.max(...points.map(p => p.value), 1);
+  const pos = points.map((p, i) => ({ ...p, x: i / (points.length - 1) * 100, y: p.value / top * 100 }));
+  const line = pos.map(p => `${p.x.toFixed(2)},${(100 - p.y).toFixed(2)}`).join(' ');
+  return `<figure class="chart"><figcaption>${esc(title)}</figcaption><div class="line-chart" role="img" aria-label="${esc(title)}: ${points.map(p => `${p.label} ${p.value}`).join(', ')}"><div class="lc-plot"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true"><polygon class="area" points="0,100 ${line} 100,100"/><polyline class="line" points="${line}"/></svg>${pos.map(p => `<span class="lc-dot" style="--x:${p.x.toFixed(2)}%;--y:${p.y.toFixed(2)}%" title="${esc(p.label)}: ${p.value} ${esc(label)}"><b>${p.value}</b></span>`).join('')}</div><div class="lc-labels">${pos.map(p => `<span style="--x:${p.x.toFixed(2)}%">${esc(p.short ?? p.label)}</span>`).join('')}</div></div></figure>`;
+}
+/** Two horizontal bars: this team vs a reference (series average or another team). */
+export function compareBars({ label, a, b, aLabel, bLabel, digits = 1, lowerIsBetter = false }) {
+  const fmt = v => v === null || v === undefined ? '—' : Number(v).toLocaleString('pt-PT', { maximumFractionDigits: digits });
+  const max = Math.max(a ?? 0, b ?? 0, 0.0001);
+  const better = a === null || b === null ? '' : (lowerIsBetter ? a < b : a > b) ? 'is-better' : a === b ? '' : 'is-worse';
+  return `<div class="compare-row ${better}"><div class="compare-head"><span>${esc(label)}</span><strong>${fmt(a)}</strong></div><div class="compare-bars" aria-hidden="true"><span class="cbar cbar-a" style="--v:${Math.round((a ?? 0) / max * 100)}%"></span><span class="cbar cbar-b" style="--v:${Math.round((b ?? 0) / max * 100)}%"></span></div><small>${esc(bLabel)}: ${fmt(b)}${aLabel ? '' : ''}</small></div>`;
 }

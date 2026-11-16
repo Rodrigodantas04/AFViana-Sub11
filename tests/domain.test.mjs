@@ -48,3 +48,10 @@ test('views: phases, pending phase 2, legacy URL, match goals, escaping', () => 
   const hostile = structuredClone(data); hostile.teams[0].name = '<img src=x onerror=alert(1)>';
   assert.doesNotMatch(renderView(hostile, url('/clubes')), /<img src=x/);
 });
+test('compare page: two teams side by side, head-to-head, empty state', () => {
+  const [a, b] = data.groups.find(g => g.id === '1a').teamIds;
+  const html = renderView(data, url(`/comparar?a=${a}&b=${b}`));
+  assert.match(html, /Os números/);
+  assert.match(html, /Quando se encontraram/);
+  assert.match(renderView(data, url('/comparar')), /Escolhe duas equipas/);
+});

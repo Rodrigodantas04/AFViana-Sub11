@@ -98,3 +98,40 @@ test('writer: re-saving the same result is a no-op on values', () => {
 test('description stays readable by the sheet (10 names max)', () => {
   assert.throws(() => scorerDescription(Array.from({ length: 11 }, (_, i) => ({ name: `Nome ${String.fromCharCode(65 + i)}`, goals: 1, ownGoal: false }))), /10 marcadores/);
 });
+
+import { applyChange } from '../lib/writer.js';
+import { crestPaths } from '../lib/projection.js';
+const op = (b, extra) => applyChange(b, fixtureConfig, { revision: importCompetition(b, fixtureConfig, { today }).data.sourceHash, operationId: crypto.randomUUID(), ...extra }, { today });
+
+test('writer: 2.ª fase teams create that series games; refused when a team is already used or results exist', () => {
+  const ids = data.groups.find(g => g.id === '1a').teamIds;
+  const r = op(bytes, { type: 'teams', groupId: '2a', teams: [...ids, '', '', ''] });
+  assert.deepEqual(r.data.groups.find(g => g.id === '2a').teamIds, ids);
+  assert.equal(r.data.matches.filter(m => m.groupId === '2a').length, 6);
+  assert.equal(r.data.phases.find(p => p.id === 'fase-2').state, 'running');
+  assert.equal(importCompetition(r.bytes, fixtureConfig, { today }).context.drift, 0, 'game team formula caches refreshed too');
+  assert.throws(() => op(r.bytes, { type: 'teams', groupId: '2b', teams: [ids[0], data.groups.find(g => g.id === '1b').teamIds[0], '', '', '', ''] }), /já está na Série A/);
+  const game = r.data.matches.find(m => m.groupId === '2a');
+  const played = op(r.bytes, { type: 'result', matchId: game.id, homeGoals: 1, awayGoals: 0, scorers: { home: [], away: [] } });
+  assert.throws(() => op(played.bytes, { type: 'teams', groupId: '2a', teams: [ids[1], ids[0], ids[2], '', '', ''] }), /já tem resultados/);
+  assert.throws(() => op(bytes, { type: 'teams', groupId: '2a', teams: [team('UD Fantasma').id, ids[0], '', '', '', ''] }), /desistiu/);
+});
+
+test('writer: date change and clearing a result keep everything else intact', () => {
+  const finished = data.matches.find(m => m.groupId === '1a' && m.status === 'finished');
+  const dated = op(bytes, { type: 'date', matchId: finished.id, date: '2026-12-05' });
+  assert.equal(dated.match.date, '2026-12-05');
+  assert.equal(dated.match.homeGoals, finished.homeGoals);
+  const cleared = op(bytes, { type: 'clear', matchId: finished.id });
+  assert.equal(cleared.match.status, 'scheduled');
+  assert.equal(cleared.match.scorers.home.description, '');
+  assert.ok(cleared.data.groups.find(g => g.id === '1a').standings.every(s => s.played <= 3));
+  assert.throws(() => op(cleared.bytes, { type: 'clear', matchId: finished.id }), /não tem resultado/);
+  assert.throws(() => op(bytes, { type: 'date', matchId: finished.id, date: '2030-01-01' }), /época/);
+});
+
+test('crests need a registered file, source and authorisation', () => {
+  assert.deepEqual(crestPaths({ clubs: { a: { file: 'assets/crests/a.svg', source: 'clube', authorizationReference: 'ok 2026-11' }, b: { file: 'assets/crests/b.svg' }, c: { file: '../x.svg', source: 's', authorizationReference: 'r' } } }), { a: '/media/crests/a.svg' });
+  const live = projectDataset(data, {}, { mode: 'public', today, importedAt: '2026-11-16T00:00:00Z', crests: { clubs: { 'clube-norte': { file: 'assets/crests/clube-norte.png', source: 'clube', authorizationReference: 'ok' } } } });
+  assert.equal(live.clubs.find(c => c.id === 'clube-norte').crestUrl, '/media/crests/clube-norte.png');
+});

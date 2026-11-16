@@ -7,7 +7,8 @@
     "shortName": "Gomes Ribeiro",
     "season": "2026/2027",
     "category": "Sub-11",
-    "region": "Alto Minho"
+    "region": "Alto Minho",
+    "privacyContact": "minho11.contacto@gmail.com"
   },
   "phases": [
     {
@@ -5047,6 +5048,6 @@
   },
   "rosters": [],
   "sourceHash": "26823a9a00c42d8c9732de3f652d3f7f29e1b3c4c76e1445ac852615421ba1e3",
-  "version": "9240b9d18e47f29e70bd349ec1197fb1f852c8ade261130f458298e745cd2fcb",
-  "importedAt": "2026-11-16T14:25:09.512Z"
+  "version": "c3eed3a1d143c09ed023a3573773b5d7312b2aefaa5d40b4b46fe7b867253a64",
+  "importedAt": "2026-11-16T15:13:42.256Z"
 }
