@@ -56,8 +56,11 @@ for (const route of routes) {
   await fs.writeFile(path.join(directory, 'index.html'), html(route));
 }
 await fs.writeFile(path.join(output, '404.html'), html('/404', true));
-await fs.writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\n${baseUrl ? `Sitemap: ${baseUrl}/sitemap.xml\n` : ''}`);
+// Player profiles exist only with live data: one generic, non-indexed shell for every /jogadores/<id>.
+await fs.mkdir(path.join(output, 'jogadores'), { recursive: true });
+await fs.writeFile(path.join(output, 'jogadores/index.html'), html('/jogadores/-').replace('<meta charset="utf-8">', '<meta charset="utf-8"><meta name="robots" content="noindex, nofollow">'));
+await fs.writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nDisallow: /jogadores/\n${baseUrl ? `Sitemap: ${baseUrl}/sitemap.xml\n` : ''}`);
 if (baseUrl) await fs.writeFile(path.join(output, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map(r => `<url><loc>${esc(baseUrl + r)}</loc></url>`).join('')}</urlset>`);
-await fs.writeFile(path.join(output, '_redirects'), data.groups.filter(g => g.phaseId === 'fase-1').map(g => `${base}/serie-${g.letter.toLowerCase()} ${groupPath(data, g.id)} 301`).join('\n') + '\n');
-await fs.writeFile(path.join(output, '_headers'), '/data/competition.json\n  Cache-Control: no-cache, no-store, must-revalidate\n/assets/*\n  Cache-Control: public, max-age=0, must-revalidate\n');
+await fs.writeFile(path.join(output, '_redirects'), data.groups.filter(g => g.phaseId === 'fase-1').map(g => `${base}/serie-${g.letter.toLowerCase()} ${groupPath(data, g.id)} 301`).join('\n') + '\n/jogadores/*  /jogadores/index.html  200\n');
+await fs.writeFile(path.join(output, '_headers'), '/jogadores/*\n  X-Robots-Tag: noindex, nofollow\n/data/competition.json\n  Cache-Control: no-cache, no-store, must-revalidate\n/assets/*\n  Cache-Control: public, max-age=0, must-revalidate\n');
 console.log(`MINHO11: ${routes.length} páginas pré-renderizadas. Fonte Excel e relatório interno fora de dist/.`);

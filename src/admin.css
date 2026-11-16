@@ -150,6 +150,24 @@
   .history-list time { color: var(--muted); font-size: .85rem; grid-row: span 2; font-variant-numeric: tabular-nums }
   .history-list span { color: var(--muted); font-size: .9rem; overflow-wrap: anywhere }
 
+  .quick-names { display: flex; flex-wrap: wrap; gap: .4rem; align-items: center }
+  .quick-label { font-size: .8125rem; color: var(--muted); font-weight: 700; margin-right: .1rem }
+  .chip { min-height: 2.5rem; padding: .3rem .8rem; border-radius: 99rem; background: var(--accent-soft); color: var(--text); border: 1px solid color-mix(in srgb, var(--accent) 40%, var(--line)); font-weight: 700; font-size: .9rem }
+  .name-field { position: relative }
+  .name-suggest { position: absolute; z-index: 3; top: 3.2rem; left: 0; right: 0; display: grid; background: var(--surface); border: 1px solid var(--accent); border-radius: .7rem; overflow: hidden; box-shadow: 0 .8rem 1.6rem -.8rem #0008 }
+  .name-suggest button { display: flex; justify-content: space-between; align-items: center; gap: .6rem; background: none; border-radius: 0; text-align: left; min-height: 2.9rem; border-bottom: 1px solid var(--line) }
+  .name-suggest button:last-child { border-bottom: 0 }
+  .name-suggest small { color: var(--muted); font-weight: 600 }
+  @media (prefers-reduced-motion: no-preference) { .scorer-row.bump { animation: bump .35s ease } @keyframes bump { 50% { background: var(--accent-soft) } } }
+  .suggestion { display: grid; gap: .5rem; margin-bottom: .8rem; border-color: color-mix(in srgb, var(--warn) 50%, var(--line)) }
+  .sg-names { padding-left: 1.2rem; display: grid; gap: .2rem }
+  .team-pick { display: grid; gap: .3rem; margin: .5rem 0 .8rem }
+  .players-list { list-style: none; padding: 0; display: grid; gap: .5rem; margin-bottom: 5rem }
+  .players-list li:not(.empty) { display: flex; align-items: center; justify-content: space-between; gap: .6rem; padding: .55rem .8rem; border: 1px solid var(--line); border-radius: .8rem; background: var(--surface) }
+  .players-list li:has(input:checked) { border-color: var(--accent); background: var(--accent-soft) }
+  .pick { display: flex; align-items: center; gap: .7rem; min-height: 2.75rem; flex: 1; min-width: 0; font-weight: 500; cursor: pointer }
+  .pick input { width: 1.3rem; height: 1.3rem; flex: none }
+  .players-actions { position: sticky; bottom: 0; display: flex; align-items: center; justify-content: space-between; gap: .8rem; padding: .8rem 1rem calc(.8rem + env(safe-area-inset-bottom)); margin: 0 -1rem; background: color-mix(in srgb, var(--bg) 94%, transparent); border-top: 1px solid var(--line); backdrop-filter: blur(6px) }
   dialog { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); color: var(--text); padding: 1.4rem; width: min(92vw, 26rem) }
   dialog::backdrop { background: #0009; backdrop-filter: blur(2px) }
   dialog form { display: grid; gap: .9rem }

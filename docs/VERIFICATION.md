@@ -1,11 +1,11 @@
-# Verificação da versão 0.3.0
+# Verificação da versão 0.4.0
 
 Executada localmente em 16/11/2026 (macOS, Node 24).
 
 ## Automática (CI público, dados fictícios)
 
 - `npm run check`: sem erros.
-- `npm test`: 34 testes, 0 falhas (inclui as operações 2.ª fase/data/apagar, ocultar nomes, histórico, emblemas e comparação). Cobrem o motor (tokens, `(n)`, `(PB)`, `(AG)`, 10 nomes, chaves sem maiúsculas, empates, desempates, desistente, wildcards), o importador (duas fases, placeholders, A/B, desistências, rankings sem dupla contagem), as projeções (sem nomes no repositório, retirada a pedido), o escritor (partes alteradas, fórmulas intactas, releitura sem divergências, recusas), o servidor (palavra-passe, origem, sessão revogada, limite de tentativas, gravação confirmada, idempotência, conflito, bloqueio, fallback) e as vistas (fases, URL antigo, autogolos, escaping).
+- `npm test`: 37 testes, 0 falhas (inclui juntar nomes, sugestões, perfil e a sua privacidade, as operações 2.ª fase/data/apagar, ocultar nomes, histórico, emblemas e comparação). Cobrem o motor (tokens, `(n)`, `(PB)`, `(AG)`, 10 nomes, chaves sem maiúsculas, empates, desempates, desistente, wildcards), o importador (duas fases, placeholders, A/B, desistências, rankings sem dupla contagem), as projeções (sem nomes no repositório, retirada a pedido), o escritor (partes alteradas, fórmulas intactas, releitura sem divergências, recusas), o servidor (palavra-passe, origem, sessão revogada, limite de tentativas, gravação confirmada, idempotência, conflito, bloqueio, fallback) e as vistas (fases, URL antigo, autogolos, escaping).
 - `npm run build`: 204 páginas pré-renderizadas a partir do snapshot sem nomes.
 
 ## Fonte real (local, `npm run verify:source`)

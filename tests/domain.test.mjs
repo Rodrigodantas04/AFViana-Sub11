@@ -55,3 +55,15 @@ test('compare page: two teams side by side, head-to-head, empty state', () => {
   assert.match(html, /Quando se encontraram/);
   assert.match(renderView(data, url('/comparar')), /Escolhe duas equipas/);
 });
+test('player profile: live names only, hidden or unknown ids show nothing personal', () => {
+  const top = data.scorers.total[0];
+  const html = renderView(data, url(`/jogadores/${top.id}`));
+  assert.match(html, new RegExp(top.name));
+  assert.match(html, /Os golos/);
+  assert.match(renderView(data, url('/jogadores/s-000000000000')), /Perfil indisponível/);
+  const repo = projectDataset(internal, { scorerNames: 'public' }, { mode: 'repository', today: '2026-11-16', importedAt: '2026-11-16T10:00:00Z' });
+  assert.doesNotMatch(renderView(repo, url(`/jogadores/${top.id}`)), new RegExp(top.name));
+  const hidden = projectDataset(internal, { scorerNames: 'public', excludedScorerIds: [top.id] }, { mode: 'public', today: '2026-11-16', importedAt: '2026-11-16T10:00:00Z' });
+  assert.match(renderView(hidden, url(`/jogadores/${top.id}`)), /Perfil indisponível/);
+  assert.ok(data.matches.some(m => m.scoring.home.scorers.some(e => e.id === top.id) || m.scoring.away.scorers.some(e => e.id === top.id)), 'goal entries link to the profile id');
+});

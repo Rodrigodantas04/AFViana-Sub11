@@ -82,7 +82,7 @@ export function metric(value, label, symbol = 'ball', caption = '') {
   return `<div class="metric"><span class="metric-label">${icon(symbol)}${esc(label)}</span><strong>${esc(value)}</strong>${caption ? `<small>${esc(caption)}</small>` : ''}</div>`;
 }
 export function scorerRows(data, scorers) {
-  return scorers.map(s => `<li class="scorer-row"><span class="scorer-rank" title="${s.tied ? 'Posição partilhada' : ''}">${s.rank}.${s.tied ? '<small>=</small>' : ''}</span>${teamBadge(data, s.teamId)}<div><strong>${esc(s.name)}</strong><a href="${teamClubPath(data, s.teamId)}">${esc(teamById(data, s.teamId).name)}</a></div><strong class="goal-count">${s.goals}<small>${s.goals === 1 ? 'golo' : 'golos'}</small></strong></li>`).join('');
+  return scorers.map(s => `<li class="scorer-row"><span class="scorer-rank" title="${s.tied ? 'Posição partilhada' : ''}">${s.rank}.${s.tied ? '<small>=</small>' : ''}</span>${teamBadge(data, s.teamId)}<div><a class="player-link" href="/jogadores/${esc(s.id)}"><strong>${esc(s.name)}</strong></a><a href="${teamClubPath(data, s.teamId)}">${esc(teamById(data, s.teamId).name)}</a></div><strong class="goal-count">${s.goals}<small>${s.goals === 1 ? 'golo' : 'golos'}</small></strong></li>`).join('');
 }
 export function privateScorers(data) {
   const mode = data?.publication?.scorerNames;

@@ -36,7 +36,8 @@ const server = http.createServer(async (req, res) => {
       res.writeHead(response.status, out); res.end(Buffer.from(await response.arrayBuffer())); return;
     }
     if (!['GET', 'HEAD'].includes(req.method)) { res.writeHead(405, { Allow: 'GET, HEAD' }); res.end(); return; }
-    const pathname = decodeURIComponent(url.pathname);
+    let pathname = decodeURIComponent(url.pathname);
+    if (/^\/jogadores\/[^/]+\/?$/.test(pathname)) pathname = '/jogadores/';
     let file = path.resolve(root, '.' + pathname);
     if ((file !== root && !file.startsWith(root + path.sep)) || pathname.split('/').some(part => part.startsWith('.'))) { res.writeHead(403); res.end(); return; }
     try { if ((await fs.stat(file)).isDirectory()) file = path.join(file, 'index.html'); } catch { /* Serve 404 below. */ }
