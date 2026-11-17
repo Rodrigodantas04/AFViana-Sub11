@@ -17,10 +17,11 @@ MINHO11 é uma plataforma independente para acompanhar o futebol de formação d
 - **Clubes e equipas.** As equipas A e B do mesmo clube ficam sob um perfil comum, mas com séries, resultados e estatísticas próprios.
 - **Análise da equipa:** forma recente, aproveitamento, casa/fora com os denominadores corretos, golos por jogo, gráfico de golos marcados e sofridos por jornada, pontos acumulados, comparação com a média da série e contributo dos marcadores. Só conta jogos concluídos.
 - **Perfil do jogador** (`/jogadores/<id>`): golos totais e por fase, jogos em que marcou, peso nos golos da equipa e posição na Bota de Ouro. Só com dados ao vivo, não indexado e sem fotografias nem dados pessoais.
+- **A minha equipa** (`/minha-equipa`): a equipa escolhida fica guardada no aparelho. Próximo jogo com contagem decrescente e antevisão, **calendário da época dentro do site** (sábado a sábado, jogos de manhã), resumo automático, marcadores da equipa e gráficos para comparar com qualquer equipa da série (corrida aos pontos, lugar jornada a jornada, radar «ADN da equipa»).
 - **Comparar equipas** (`/comparar`): duas equipas lado a lado, por jogo disputado, com forma e confronto direto.
-- **Emblemas dos clubes** quando há ficheiro com origem e autorização registadas (`config/crests.json`); até lá, iniciais com uma cor própria de cada clube.
+- **Emblemas dos clubes** quando há ficheiro com origem e autorização registadas (`config/crests.json`); até lá, iniciais pintadas com as cores do clube (`config/club-colors.json`, com origem e confiança).
 - **Gestão de resultados (`/admin`)** para quem atualiza a competição, no telemóvel, com uma palavra-passe partilhada: **Dia de jogo** (jogos recentes e atrasados), **Por série**, **Jogadores** (juntar grafias do mesmo miúdo, corrigir nomes no Excel), **2.ª fase** (escolher as equipas de cada série), **Privacidade** (ocultar um nome a pedido) e **Histórico**. Em cada jogo: resultado e marcadores com **«Gravar resultado»**, mudar a data e apagar um resultado lançado por engano (com confirmação). Ao escrever marcadores, a equipa mostra quem já marcou (um toque acrescenta ou soma um golo) e sugere nomes enquanto se escreve, sem impedir nomes novos. A plataforma grava no Excel oficial, relê-o para confirmar e só então atualiza o site.
-- Temas claro e escuro, navegação móvel, URLs próprias para cada página e estados vazios honestos.
+- Temas claro e escuro, **barra de navegação no telemóvel** (flutuante, com a tua equipa ao centro), URLs próprias para cada página e estados vazios honestos.
 
 ## Como funciona
 

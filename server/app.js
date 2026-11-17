@@ -23,8 +23,12 @@ const sha = text => createHash('sha256').update(text).digest('hex');
 const LIVE_KEY = 'public/live-v2.json', WRITE_LOCK = 'locks/write', REFRESH_LOCK = 'locks/refresh', OPS = 'operations/log', HIDDEN = 'privacy/hidden';
 const SUCCESS = { rename: 'Nome corrigido em todos os jogos. O site já mostra o jogador junto.', result: 'Resultado gravado. O site já mostra o novo resultado.', clear: 'Resultado apagado. O jogo voltou a «por realizar».', date: 'Data gravada.', teams: 'Equipas gravadas. Os jogos da série já aparecem no site.' };
 
-export function createApp({ storage, source, env = {}, config, policy, snapshot, crests = {}, refreshSeconds = 60, now = Date.now, log = () => {} }) {
+export function createApp({ storage, source, env = {}, config, policy, snapshot, crests = {}, colors = {}, refreshSeconds = 60, now = Date.now, log = () => {} }) {
   const today = () => todayLisbon(new Date(now()));
+  // The public cache is only reused while the publishing rules and code are the same (a deploy with new
+  // colours, crests or policy must rebuild it even if the workbook did not change).
+  let deployId = env.DEPLOY_ID ?? env.COMMIT_REF ?? null;
+  const projectionVersion = () => sha(JSON.stringify({ policy, crests, colors, config, schema: snapshot.schemaVersion, code: deployId ?? 'local' }));
 
   async function body(request) {
     const text = await request.text();
@@ -37,16 +41,18 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     const { data, report } = importCompetition(read.bytes, config, { today: today() });
     const importedAt = new Date(now()).toISOString();
     const hidden = (await storage.get(HIDDEN))?.value ?? [];
-    const live = projectDataset(data, { ...policy, excludedScorerIds: [...(policy.excludedScorerIds ?? []), ...hidden] }, { mode: 'public', today: today(), importedAt, rosters: snapshot.rosters ?? [], crests });
-    await storage.set(LIVE_KEY, { checkedAt: now(), sourceVersion: read.meta.version, revision: read.revision, data: live });
+    const live = projectDataset(data, { ...policy, excludedScorerIds: [...(policy.excludedScorerIds ?? []), ...hidden] }, { mode: 'public', today: today(), importedAt, rosters: snapshot.rosters ?? [], crests, colors });
+    await storage.set(LIVE_KEY, { checkedAt: now(), sourceVersion: read.meta.version, revision: read.revision, projectionVersion: projectionVersion(), data: live });
     return { data, report, live, read };
   }
 
-  async function publicData(context) {
-    const cached = await storage.get(LIVE_KEY);
+  /** The public dataset (live when possible) and where it came from: live, cache, snapshot or stale. */
+  async function liveDataset(context) {
+    const stored = await storage.get(LIVE_KEY);
+    const cached = stored && stored.value.projectionVersion === projectionVersion() ? stored : null;
     const age = cached ? now() - cached.value.checkedAt : Infinity;
-    if (!source) return json(cached?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': cached ? 'cache' : 'snapshot' });
-    if (age < refreshSeconds * 1000) return json(cached.value.data, 200, { 'X-MINHO11-Source': 'live' });
+    if (!source) return { data: stored?.value.data ?? snapshot, state: stored ? 'cache' : 'snapshot' };
+    if (age < refreshSeconds * 1000) return { data: cached.value.data, state: 'live' };
     const refresh = async () => {
       const release = await acquireLease(storage, REFRESH_LOCK, 60, now);
       if (!release) return null;
@@ -60,14 +66,18 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
       } finally { await release(); }
     };
     // Serve the last good copy immediately when we have one; refresh in the background if possible.
-    if (cached && context?.waitUntil) { context.waitUntil(refresh().catch(error => log('refresh failed', error.message))); return json(cached.value.data, 200, { 'X-MINHO11-Source': 'live' }); }
+    if (cached && context?.waitUntil) { context.waitUntil(refresh().catch(error => log('refresh failed', error.message))); return { data: cached.value.data, state: 'live' }; }
     try {
       const fresh = await refresh();
-      return json(fresh ?? cached?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': fresh || cached ? 'live' : 'snapshot' });
+      return { data: fresh ?? cached?.value.data ?? snapshot, state: fresh || cached ? 'live' : 'snapshot' };
     } catch (error) {
       log('refresh failed', error.message);
-      return json(cached?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': 'stale' });
+      return { data: cached?.value.data ?? stored?.value.data ?? snapshot, state: 'stale' };
     }
+  }
+  async function publicData(context) {
+    const { data, state } = await liveDataset(context);
+    return json(data, 200, { 'X-MINHO11-Source': state });
   }
 
   // --- admin ----------------------------------------------------------------
@@ -242,6 +252,7 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
   }
 
   return async function handle(request, context = {}) {
+    deployId ??= context?.deploy?.id ?? null;
     const url = new URL(request.url);
     try {
       if (url.pathname.startsWith('/api/admin/')) return await admin(request, url.pathname.slice('/api/admin/'.length));

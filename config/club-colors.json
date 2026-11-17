@@ -1,0 +1,222 @@
+{
+  "description": "Cores predominantes de cada clube (emblema/equipamento), só para pintar as iniciais quando não há emblema autorizado. Cada entrada tem fonte e confiança; 'low' não é usada.",
+  "clubs": {
+    "sc-vianense": {
+      "primary": "#1f4e9e",
+      "secondary": "#ffffff",
+      "colours": "azul e branco",
+      "confidence": "high",
+      "source": "https://www.footyheadlines.com/pt/6434/divulgadas-as-camisas-titulares-e-reservas-do-sc-vianense-para-a-epoca-26-27.html"
+    },
+    "ad-os-limianos": {
+      "primary": "#f2c200",
+      "secondary": "#1f4e9e",
+      "colours": "amarelo e azul",
+      "confidence": "high",
+      "source": "https://pt.wikipedia.org/wiki/Associação_Desportiva_Limianos"
+    },
+    "sc-valenciano": {
+      "primary": "#1f7a3a",
+      "secondary": "#ffffff",
+      "colours": "verde e branco",
+      "confidence": "high",
+      "source": "https://pt.wikipedia.org/wiki/Sport_Clube_Valenciano"
+    },
+    "gd-areosense": {
+      "primary": "#c8102e",
+      "secondary": "#ffffff",
+      "colours": "vermelho e branco",
+      "confidence": "high",
+      "source": "https://pt.wikipedia.org/wiki/Grupo_Desportivo_Areosense"
+    },
+    "atletico-arcos-ad": {
+      "primary": "#c8102e",
+      "secondary": "#ffffff",
+      "colours": "vermelho e branco",
+      "confidence": "medium",
+      "source": "https://pt.wikipedia.org/wiki/Atlético_dos_Arcos_-_Associação_Desportiva"
+    },
+    "cd-cerveira": {
+      "primary": "#f2c200",
+      "secondary": "#1f7a3a",
+      "colours": "amarelo e verde",
+      "confidence": "medium",
+      "source": "https://en.wikipedia.org/wiki/C.D._Cerveira"
+    },
+    "ad-ponte-barca": {
+      "primary": "#c8102e",
+      "secondary": "#ffffff",
+      "colours": "vermelho e branco",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "desp-moncao": {
+      "primary": "#1f4e9e",
+      "secondary": "#c8102e",
+      "colours": "azul e vermelho",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ad-barroselas": {
+      "primary": "#1f4e9e",
+      "secondary": "#f2c200",
+      "colours": "azul e amarelo",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "arc-guilhadeses": {
+      "primary": "#f2c200",
+      "secondary": "#111111",
+      "colours": "amarelo e preto",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "adc-aboim-sabadim": {
+      "primary": "#f2c200",
+      "secondary": "#111111",
+      "colours": "amarelo e preto",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "crc-tavora": {
+      "primary": "#1f4e9e",
+      "secondary": "#ffffff",
+      "colours": "azul e branco",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "af-ponte-lima": {
+      "primary": "#1f4e9e",
+      "secondary": "#f2c200",
+      "colours": "azul e amarelo",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ad-fachense": {
+      "primary": "#1f7a3a",
+      "secondary": "#ffffff",
+      "colours": "verde e branco",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ud-lanheses": {
+      "primary": "#1f4e9e",
+      "secondary": "#f2c200",
+      "colours": "azul e amarelo",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "adc-anha": {
+      "primary": "#1f4e9e",
+      "secondary": "#ffffff",
+      "colours": "azul e branco (provisório: referência do equipamento dos veteranos)",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "neves-fc": {
+      "primary": "#c8102e",
+      "secondary": "#f2c200",
+      "colours": "vermelho e amarelo",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "vila-fria-1980": {
+      "primary": "#c8102e",
+      "secondary": "#ffffff",
+      "colours": "vermelho e branco",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ad-darquense": {
+      "primary": "#1f4e9e",
+      "secondary": "#ffffff",
+      "colours": "azul e branco",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "deucriste-sc": {
+      "primary": "#14284b",
+      "secondary": "#ffffff",
+      "colours": "azul-escuro e branco (provisório)",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "perspectiva-em-jogo-ad": {
+      "primary": "#1f7a3a",
+      "secondary": "#ffffff",
+      "colours": "verde e branco",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "torre-sc": {
+      "primary": "#ffffff",
+      "secondary": "#c9a227",
+      "colours": "branco e dourado",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "gd-meadela": {
+      "primary": "#c8102e",
+      "secondary": "#ffffff",
+      "colours": "vermelho e branco",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "adc-perre": {
+      "primary": "#111111",
+      "secondary": "#ffffff",
+      "colours": "preto e branco (ordem das cores provisória)",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ancora-praia-fc": {
+      "primary": "#111111",
+      "secondary": "#ffffff",
+      "colours": "preto e branco",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ac-caminha": {
+      "primary": "#f2c200",
+      "secondary": "#111111",
+      "colours": "amarelo e preto",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "cc-os-torreenses": {
+      "primary": "#c8102e",
+      "secondary": "#f2c200",
+      "colours": "vermelho e amarelo",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ad-campos": {
+      "primary": "#c8102e",
+      "secondary": "#1f4e9e",
+      "colours": "vermelho e azul",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "sc-courense": {
+      "primary": "#f2c200",
+      "secondary": "#1f4e9e",
+      "colours": "amarelo e azul",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ud-os-raianos": {
+      "primary": "#111111",
+      "secondary": "#ffffff",
+      "colours": "preto e branco (ordem das cores provisória)",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "gd-freixo": {
+      "primary": "#5b2a86",
+      "secondary": "#f28c28",
+      "colours": "roxo e laranja",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    }
+  }
+}

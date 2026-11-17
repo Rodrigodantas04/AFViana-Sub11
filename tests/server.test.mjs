@@ -140,3 +140,4 @@ test('players: spellings are listed per team, suggested and joined through the p
   assert.equal(state.history[0].type, 'rename');
   assert.equal((await app(request(`/api/admin/teams/${teamId}/rename`, { method: 'PUT', body: { from: [name], to: 'X' } }))).status, 401);
 });
+

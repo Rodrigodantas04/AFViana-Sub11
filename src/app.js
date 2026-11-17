@@ -1,12 +1,18 @@
 import { validateDataset } from './domain.js';
-import { renderView, pageTitle } from './views.js';
+import { renderView, pageTitle, prefs, tabBar } from './views.js';
 
 let data = null, refreshing = false;
 const main = document.getElementById('conteudo');
 const sync = document.getElementById('sync-status');
 const dialog = document.getElementById('search-dialog');
 const mobileNav = document.getElementById('mobile-navigation');
+const moreSheet = document.getElementById('more-sheet');
 let manualTheme = false;
+try { prefs.myTeam = localStorage.getItem('minho11-team'); } catch { /* No saved team: the page asks again. */ }
+function follow(teamId) {
+  prefs.myTeam = teamId;
+  try { localStorage.setItem('minho11-team', teamId); } catch { /* Kept for this visit only. */ }
+}
 try { manualTheme = ['dark', 'light'].includes(localStorage.getItem('minho11-theme')); } catch { /* System preference remains available. */ }
 
 function applyTheme(theme, persist = false) {
@@ -28,6 +34,7 @@ function paint({ focusHeading = false, preserveFocus = false } = {}) {
   const selection = preserveFocus && active?.name ? { name: active.name, start: active.selectionStart, end: active.selectionEnd } : null;
   main.innerHTML = renderView(data, new URL(location.href));
   document.title = pageTitle(data, location.pathname.replace(/\/$/, '') || '/');
+  document.getElementById('tab-bar')?.replaceWith(Object.assign(document.createElement('template'), { innerHTML: tabBar(data, location.pathname.replace(/\/$/, '') || '/') }).content);
   document.querySelectorAll('.desktop-nav a').forEach(link => {
     const selected = link.pathname === '/' ? location.pathname === '/' : location.pathname.startsWith(link.pathname);
     if (selected) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
@@ -44,6 +51,7 @@ function navigate(url, { replace = false, filters = false } = {}) {
   const previousScroll = scrollY;
   history[replace ? 'replaceState' : 'pushState']({ minho11: true }, '', url.pathname + url.search + url.hash);
   if (dialog.open) dialog.close();
+  if (moreSheet?.open) moreSheet.close();
   closeMenu();
   const update = () => { paint({ focusHeading: !filters, preserveFocus: filters }); if (!filters) scrollTo({ top: 0, behavior: 'instant' }); else scrollTo({ top: previousScroll, behavior: 'instant' }); };
   // Smooth cross-fade between pages where supported; filters update in place without animation.
@@ -52,17 +60,36 @@ function navigate(url, { replace = false, filters = false } = {}) {
 }
 
 document.addEventListener('click', event => {
+  // Charts: tap (or click) a round to pin its weekend card; tap elsewhere to close it.
+  // Phones: standings always open simple; the detailed view (badges + every column) only on request, never remembered.
+  const toggle = event.target.closest('[data-table-toggle]');
+  if (toggle) {
+    const wrap = toggle.closest('.standings-wrap'), detailed = !wrap.classList.contains('is-detailed');
+    wrap.classList.toggle('is-detailed', detailed);
+    toggle.setAttribute('aria-pressed', String(detailed));
+    toggle.querySelector('span').textContent = detailed ? 'Ver classificação simples' : 'Ver classificação detalhada';
+    return;
+  }
+  const col = event.target.closest('[data-chart-col]');
+  document.querySelectorAll('[data-chart-col].is-active').forEach(el => { if (el !== col) el.classList.remove('is-active'); });
+  if (col) { col.classList.toggle('is-active'); return; }
   const theme = event.target.closest('[data-theme-toggle]');
   if (theme) { applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark', true); return; }
-  if (event.target.closest('[data-search-open]')) { dialog.showModal(); dialog.querySelector('input')?.focus(); return; }
+  if (event.target.closest('[data-more-open]')) { moreSheet.showModal(); return; }
+  if (event.target.closest('[data-more-close]') || event.target === moreSheet) { moreSheet.close(); return; }
+  if (event.target.closest('[data-search-open]')) { if (moreSheet.open) moreSheet.close(); dialog.showModal(); dialog.querySelector('input')?.focus(); return; }
   if (event.target.closest('[data-search-close]') || event.target === dialog) { dialog.close(); return; }
   if (event.target.closest('[data-menu-toggle]')) { mobileNav.hidden = !mobileNav.hidden; document.querySelector('[data-menu-toggle]').setAttribute('aria-expanded', String(!mobileNav.hidden)); return; }
+  const followed = event.target.closest('[data-follow]');
+  if (followed && data && !(event.metaKey || event.ctrlKey || event.shiftKey)) { event.preventDefault(); follow(followed.dataset.follow); navigate(new URL('/minha-equipa', location.href), { replace: followed.tagName === 'BUTTON' }); return; }
   const link = event.target.closest('a[href]');
   if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.download || (link.target && link.target !== '_self')) return;
   const url = new URL(link.href);
   if (url.origin !== location.origin || url.hash || !data) return;
   event.preventDefault();
-  navigate(url);
+  const keep = link.hasAttribute('data-keep-scroll');
+  navigate(url, { filters: keep });
+  if (keep) main.querySelector('[data-keep-scroll][aria-current="true"]')?.focus({ preventScroll: true });
 });
 document.addEventListener('submit', event => {
   const form = event.target;

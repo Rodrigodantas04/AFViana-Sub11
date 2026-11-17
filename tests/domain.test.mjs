@@ -3,9 +3,9 @@ import assert from 'node:assert/strict';
 import { buildFixtureWorkbook, fixtureConfig } from './fixtures/workbook.mjs';
 import { importCompetition } from '../lib/competition.js';
 import { projectDataset } from '../lib/projection.js';
-import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, filterMatches, teamAnalysis, groupAverages } from '../src/domain.js';
-import { renderView } from '../src/views.js';
-import { esc } from '../src/components.js';
+import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, filterMatches, teamAnalysis, groupAverages, pointsRace, teamFixtures, daysUntil } from '../src/domain.js';
+import { renderView, prefs, tabBar, footer } from '../src/views.js';
+import { esc, niceTicks, raceChart } from '../src/components.js';
 
 const { data: internal } = importCompetition(buildFixtureWorkbook(), fixtureConfig, { today: '2026-11-16' });
 const data = projectDataset(internal, { scorerNames: 'public' }, { mode: 'public', today: '2026-11-16', importedAt: '2026-11-16T10:00:00Z' });
@@ -66,4 +66,97 @@ test('player profile: live names only, hidden or unknown ids show nothing person
   const hidden = projectDataset(internal, { scorerNames: 'public', excludedScorerIds: [top.id] }, { mode: 'public', today: '2026-11-16', importedAt: '2026-11-16T10:00:00Z' });
   assert.match(renderView(hidden, url(`/jogadores/${top.id}`)), /Perfil indisponível/);
   assert.ok(data.matches.some(m => m.scoring.home.scorers.some(e => e.id === top.id) || m.scoring.away.scorers.some(e => e.id === top.id)), 'goal entries link to the profile id');
+});
+import { clubColors } from '../lib/projection.js';
+import { badgeInk, badge } from '../src/components.js';
+test('club colours: only valid, reliable entries; initials always legible', () => {
+  assert.deepEqual(clubColors({ clubs: { a: { primary: '#1F7A3A', secondary: '#ffffff', confidence: 'high' }, b: { primary: '#111111', secondary: '#222222', confidence: 'low' }, c: { primary: 'green', secondary: '#fff', confidence: 'high' } } }), { a: { primary: '#1f7a3a', secondary: '#ffffff' } });
+  assert.equal(badgeInk({ primary: '#1f7a3a', secondary: '#ffffff' }), '#ffffff');
+  assert.equal(badgeInk({ primary: '#f2c200', secondary: '#ffffff' }), '#111111', 'white on yellow is not legible');
+  assert.equal(badgeInk({ primary: '#1f4e9e', secondary: '#f2c200' }), '#f2c200');
+  assert.match(badge('Neves FC', false, null, { primary: '#1f7a3a', secondary: '#ffffff' }), /--club-1:#1f7a3a/);
+});
+
+test('points race: the last round matches the official standings of every group', () => {
+  for (const g of data.groups.filter(x => x.defined)) {
+    const race = pointsRace(data, g.id);
+    if (!race.rounds.length) continue;
+    for (const t of race.teams) {
+      const official = g.standings.find(s => s.teamId === t.teamId);
+      assert.equal(t.points.at(-1), official.points, `${g.id} ${t.teamId} pontos`);
+      assert.equal(t.positions.at(-1), official.position, `${g.id} ${t.teamId} lugar`);
+      assert.ok(t.points.every((v, i) => i === 0 || v >= t.points[i - 1]), 'pontos nunca descem');
+    }
+  }
+});
+
+test('team fixtures: next games in date order, past games without result apart, countdown in days', () => {
+  const team = data.groups.find(g => g.id === '1a').teamIds[0];
+  const fx = teamFixtures(data, team, '2026-11-16');
+  assert.ok(fx.upcoming.every(m => m.status === 'scheduled' && (!m.date || m.date >= '2026-11-16')));
+  assert.deepEqual(fx.upcoming.map(m => m.date ?? '9999'), fx.upcoming.map(m => m.date ?? '9999').toSorted());
+  assert.ok(fx.unconfirmed.every(m => m.date < '2026-11-16' && m.status === 'scheduled'));
+  assert.ok(fx.played.every(m => m.status === 'finished'));
+  assert.equal(daysUntil('2026-11-21', '2026-11-16'), 5);
+  assert.equal(daysUntil(null), null);
+});
+
+test('my team: picker without a choice, full page with next game, charts, rival and highlighted table', () => {
+  const g = data.groups.find(x => x.id === '1a'), [me, rival] = g.teamIds;
+  prefs.myTeam = null;
+  assert.match(renderView(data, url('/minha-equipa')), /Qual é a tua equipa\?/);
+  const html = renderView(data, url(`/minha-equipa?equipa=${me}&vs=${rival}`));
+  assert.match(html, /Seguir esta equipa/);
+  assert.match(html, /Corrida aos pontos/);
+  assert.match(html, /O ADN da equipa/);
+  assert.match(html, new RegExp(`vs=${rival}" data-keep-scroll aria-current="true"`));
+  assert.match(html, /class="[^"]*my-row[^"]*" aria-current="true"/);
+  assert.match(html, /Calendário da época/);
+  const games = data.matches.filter(m => m.date && (m.homeId === me || m.awayId === me));
+  assert.equal((html.match(/class="cal-row[^"]*"><a href="\/jogos\//g) ?? []).length, games.length, 'um sábado por jogo com data');
+  assert.doesNotMatch(html, /webcal|\.ics|calendar\.google/, 'nada de calendários externos');
+  prefs.myTeam = me;
+  const saved = renderView(data, url('/minha-equipa'));
+  assert.match(saved, /A tua equipa/);
+  assert.match(renderView(data, url('/minha-equipa?escolher=1')), /Qual é a tua equipa\?/);
+  assert.match(renderView(data, url('/')), /A tua equipa/);
+  prefs.myTeam = null;
+  assert.match(renderView(data, url('/')), /Segue a tua equipa/);
+});
+
+
+test('phone tab bar: five tabs, current page marked, the chosen team in the middle', () => {
+  prefs.myTeam = null;
+  const bar = tabBar(data, '/jogos');
+  assert.equal((bar.match(/<a href=|<a class="tab-team"|data-more-open/g) ?? []).length, 5);
+  assert.match(bar, /<a href="\/jogos" aria-current="page">/);
+  assert.match(bar, /aria-label="Escolher a minha equipa"/);
+  const team = data.teams[0];
+  prefs.myTeam = team.id;
+  assert.match(tabBar(data, '/minha-equipa'), new RegExp(`aria-label="A minha equipa: ${esc(team.name)}" aria-current="page"`));
+  assert.match(tabBar(data, '/clubes/x'), /class="is-current"/, '«Mais» fica ativo nas páginas que abre');
+  prefs.myTeam = null;
+  assert.match(footer(data), /id="more-sheet"/);
+});
+
+test('charts: readable Y axis values and a weekend card for every round', () => {
+  assert.deepEqual(niceTicks(13), { top: 15, ticks: [0, 5, 10, 15] });
+  assert.deepEqual(niceTicks(4), { top: 4, ticks: [0, 1, 2, 3, 4] });
+  assert.deepEqual(niceTicks(0).ticks, [0, 1]);
+  const html = raceChart({ title: 'T', labels: ['J1', 'J2', 'J3'], series: [{ label: 'A', values: [3, 4, 7], role: 'me' }, { label: 'B', values: [1, 1, 2], role: 'other' }], yLabel: 'Pontos' });
+  assert.equal((html.match(/class="chart-y"/g) ?? []).length, 1);
+  assert.match(html, /<span style="--y:100.00%">8<\/span>/, "máximo 7 → eixo até 8");
+  assert.equal((html.match(/data-chart-col/g) ?? []).length, 3);
+  assert.match(html, /aria-label="J2: A: 4"/);
+  const g = data.groups.find(x => x.id === '1a'), [me] = g.teamIds;
+  const page = renderView(data, url(`/minha-equipa?equipa=${me}`));
+  assert.match(page, /class="tip-game">[VED] \d+–\d+ (vs|em) /);
+});
+
+test('standings: every column is in the page, with a simple/detailed switch for phones and the team name kept', () => {
+  const g = data.groups.find(x => x.id === '1a');
+  const html = renderView(data, url(`/competicoes/${data.competition.slug}/fase-1/serie-a`));
+  assert.match(html, /data-table-toggle aria-pressed="false"/);
+  for (const col of ['Jogos', 'Vitórias', 'Empates', 'Derrotas', 'Golos marcados', 'Golos sofridos', 'Diferença de golos', 'Pontos']) assert.match(html, new RegExp(`<abbr title="${col}">`));
+  assert.equal((html.match(/class="table-team" href="[^"]+" title="/g) ?? []).length >= g.teamIds.length, true);
 });

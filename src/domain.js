@@ -155,3 +155,45 @@ export function validateDataset(data) {
   if (!['public', 'hidden', 'redacted'].includes(data.publication?.scorerNames)) fail('publicação individual');
   return data;
 }
+
+/** A team's games split for "A minha equipa": what comes next, what is waiting for a result, what was played. */
+export function teamFixtures(data, teamId, today = todayLisbon()) {
+  const mine = data.matches.filter(m => m.homeId === teamId || m.awayId === teamId);
+  return {
+    upcoming: mine.filter(m => m.status === 'scheduled' && (!m.date || m.date >= today)).sort((a, b) => (a.date ?? '9999').localeCompare(b.date ?? '9999') || a.phaseId.localeCompare(b.phaseId) || a.round - b.round),
+    unconfirmed: mine.filter(m => matchStatus(m, today) === 'unconfirmed').sort((a, b) => a.date.localeCompare(b.date)),
+    played: mine.filter(m => m.status === 'finished').sort(byRecent),
+  };
+}
+/** Whole days from today to a date (Lisbon calendar days). */
+export function daysUntil(date, today = todayLisbon()) {
+  return date ? Math.round((Date.parse(date + 'T12:00:00Z') - Date.parse(today + 'T12:00:00Z')) / 86400000) : null;
+}
+/**
+ * Round-by-round race of a group: cumulative points and table position after each round.
+ * Same order as the workbook (points, goal difference, goals scored, sheet order; a withdrawn team last),
+ * so the last round matches the official standings.
+ */
+export function pointsRace(data, groupId) {
+  const g = groupById(data, groupId);
+  if (!g?.defined) return { rounds: [], teams: [] };
+  const games = data.matches.filter(m => m.groupId === groupId && m.status === 'finished');
+  const last = games.reduce((n, m) => Math.max(n, m.round), 0);
+  const rounds = Array.from({ length: last }, (_, i) => i + 1);
+  const totals = new Map(g.teamIds.map(id => [id, { points: 0, gf: 0, ga: 0 }]));
+  const out = new Map(g.teamIds.map(id => [id, { teamId: id, points: [], positions: [] }]));
+  const withdrawn = id => Number(teamById(data, id).withdrawn);
+  for (const round of rounds) {
+    for (const m of games.filter(x => x.round === round)) {
+      const h = totals.get(m.homeId), a = totals.get(m.awayId);
+      h.gf += m.homeGoals; h.ga += m.awayGoals; a.gf += m.awayGoals; a.ga += m.homeGoals;
+      if (m.homeGoals > m.awayGoals) h.points += 3; else if (m.homeGoals < m.awayGoals) a.points += 3; else { h.points += 1; a.points += 1; }
+    }
+    const order = [...g.teamIds].sort((x, y) => {
+      const a = totals.get(x), b = totals.get(y);
+      return withdrawn(x) - withdrawn(y) || b.points - a.points || (b.gf - b.ga) - (a.gf - a.ga) || b.gf - a.gf || g.teamIds.indexOf(x) - g.teamIds.indexOf(y);
+    });
+    for (const id of g.teamIds) { out.get(id).points.push(totals.get(id).points); out.get(id).positions.push(order.indexOf(id) + 1); }
+  }
+  return { rounds, teams: [...out.values()] };
+}
