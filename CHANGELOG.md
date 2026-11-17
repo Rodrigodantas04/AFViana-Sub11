@@ -1,5 +1,10 @@
 # Histórico de alterações
 
+## 0.6.0 — 2026-11-17 · Emblemas e calendário por jornada
+
+- **Emblemas dos 31 clubes** (`assets/crests/`, registados em `config/crests.json`): imagens do zerozero.pt descarregadas à mão pelo responsável, com o fundo branco exterior removido (preenchimento a partir das margens, o branco dentro do emblema fica), cortadas e normalizadas para WebP 200×200 transparente (≈ 15 KB cada, 464 KB os 31). Mostradas sem escudo nem fundo, com uma sombra leve para contraste nos dois temas; as iniciais coloridas ficam como alternativa. Publicação decidida pelo responsável; retira-se um emblema de imediato a pedido do clube.
+- **Calendário da época por jornada:** cada linha é uma jornada (J1, J2…) com o sábado desse fim de semana, agrupada por fase e série; fins de semana sem jogo aparecem como separador; jogos sem data entram na sua jornada com «Data a confirmar». As fases já terminadas ficam fechadas.
+
 ## 0.5.0 — 2026-11-17 · A minha equipa
 
 - **A minha equipa** (`/minha-equipa`): escolhe-se uma vez (fica guardada só no aparelho, sem conta) e o site mostra o **próximo jogo** com contagem decrescente, os dois lados frente a frente (lugar, pontos, golos por jogo, forma, resultado anterior), o **calendário da época** dentro do site (sábado a sábado, mês a mês, com resultado, folgas e o próximo jogo destacado; os jogos são ao sábado de manhã), um **resumo** automático (distância ao 1.º, melhor ataque/defesa, séries de vitórias, pontos ainda em jogo), os **marcadores da equipa** com o peso de cada um nos golos e a posição na Bota de Ouro, a análise da época e a classificação com a equipa destacada. Atalho na página inicial e no menu; link partilhável `?equipa=`.

@@ -1,4 +1,160 @@
 {
   "description": "Emblemas dos clubes. Cada entrada: \"<clubId>\": { \"file\": \"assets/crests/<clubId>.svg|png|webp\", \"source\": \"origem (clube, Zerozero…)\", \"authorizationReference\": \"quem autorizou e quando\" }. Sem fonte e autorização, o site mostra as iniciais.",
-  "clubs": {}
+  "clubs": {
+    "ac-caminha": {
+      "file": "assets/crests/ac-caminha.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "ad-barroselas": {
+      "file": "assets/crests/ad-barroselas.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "ad-campos": {
+      "file": "assets/crests/ad-campos.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "ad-darquense": {
+      "file": "assets/crests/ad-darquense.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "ad-fachense": {
+      "file": "assets/crests/ad-fachense.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "ad-os-limianos": {
+      "file": "assets/crests/ad-os-limianos.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "ad-ponte-barca": {
+      "file": "assets/crests/ad-ponte-barca.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "adc-aboim-sabadim": {
+      "file": "assets/crests/adc-aboim-sabadim.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "adc-anha": {
+      "file": "assets/crests/adc-anha.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "adc-perre": {
+      "file": "assets/crests/adc-perre.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "af-ponte-lima": {
+      "file": "assets/crests/af-ponte-lima.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "ancora-praia-fc": {
+      "file": "assets/crests/ancora-praia-fc.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "arc-guilhadeses": {
+      "file": "assets/crests/arc-guilhadeses.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "atletico-arcos-ad": {
+      "file": "assets/crests/atletico-arcos-ad.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "cc-os-torreenses": {
+      "file": "assets/crests/cc-os-torreenses.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "cd-cerveira": {
+      "file": "assets/crests/cd-cerveira.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "crc-tavora": {
+      "file": "assets/crests/crc-tavora.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "desp-moncao": {
+      "file": "assets/crests/desp-moncao.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "deucriste-sc": {
+      "file": "assets/crests/deucriste-sc.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "gd-areosense": {
+      "file": "assets/crests/gd-areosense.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "gd-freixo": {
+      "file": "assets/crests/gd-freixo.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "gd-meadela": {
+      "file": "assets/crests/gd-meadela.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "neves-fc": {
+      "file": "assets/crests/neves-fc.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "perspectiva-em-jogo-ad": {
+      "file": "assets/crests/perspectiva-em-jogo-ad.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "sc-courense": {
+      "file": "assets/crests/sc-courense.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "sc-valenciano": {
+      "file": "assets/crests/sc-valenciano.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "sc-vianense": {
+      "file": "assets/crests/sc-vianense.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "torre-sc": {
+      "file": "assets/crests/torre-sc.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "ud-lanheses": {
+      "file": "assets/crests/ud-lanheses.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "ud-os-raianos": {
+      "file": "assets/crests/ud-os-raianos.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    },
+    "vila-fria-1980": {
+      "file": "assets/crests/vila-fria-1980.webp",
+      "source": "zerozero.pt — imagem descarregada manualmente pelo responsável do MINHO11, 17/11/2026; cortada e normalizada para WebP 200×200 transparente",
+      "authorizationReference": "Publicação decidida pelo responsável do MINHO11 a 17/11/2026, à espera de confirmação dos clubes/associação; retira-se de imediato a pedido do clube (minho11.contacto@gmail.com)"
+    }
+  }
 }

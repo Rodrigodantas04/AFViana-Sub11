@@ -2609,8 +2609,12 @@
   /* Club colours: main colour field with a diagonal band of the second colour */
   .badge.badge-club { background:linear-gradient(135deg, var(--club-1) 0 76%, var(--club-2) 76% 86%, var(--club-1) 86%); border-color:color-mix(in srgb, var(--club-2) 45%, var(--club-1)); color:var(--club-ink) }
   .badge.badge-club span { color:var(--club-ink); text-shadow:0 1px 0 color-mix(in srgb, var(--club-1) 60%, transparent) }
-  .badge-crest { background:#fff; padding:2px; overflow:hidden }
-  .badge-crest img { width:100%; height:100%; object-fit:contain; display:block }
+  /* Real crests: transparent PNGs shown as they are (no shield, no white plate), a touch larger than initials */
+  .badge.badge-crest { background:none; border:0; clip-path:none; padding:0; overflow:visible; box-shadow:none }
+  .badge-crest img { width:100%; height:100%; object-fit:contain; display:block; scale:1.12 }
+  html[data-theme=dark] .badge-crest img { filter:drop-shadow(0 0 .6px #ffffff70) drop-shadow(0 1px 2px #0007) }
+  html[data-theme=light] .badge-crest img { filter:drop-shadow(0 1px 1.5px #17272233) }
+  .tab-team .tab-icon:has(.badge-crest) .badge { width:2.4rem; height:2.4rem }
 
   /* Numbers that matter */
   .metric-label { font-size:.8125rem; letter-spacing:.04em }
@@ -2763,7 +2767,10 @@
   .cal-result { display:flex; align-items:center; gap:.5rem; font-variant-numeric:tabular-nums }
   .cal-result b { font-size:1.0625rem }
   .cal-tag { font-size:.8125rem; font-weight:700; color:var(--muted); text-align:right; max-width:9rem }
-  .cal-free .cal-main { font-size:.9375rem }
+  .cal-gap { display:flex; align-items:center; gap:.6rem; padding:.45rem .75rem; font-size:.8125rem; color:var(--muted) }
+  .cal-gap::before, .cal-gap::after { content:''; flex:1; border-top:1px dashed var(--line) }
+  .cal-row + .cal-gap, .cal-gap + .cal-row { border-top:0 }
+  .cal-day small { letter-spacing:.04em }
   .cal-row.is-past .cal-day { opacity:.75 }
   .cal-row.is-next > a { background:var(--accent-soft); box-shadow:inset 0 0 0 2px var(--accent) }
   .cal-row.is-next .cal-day { background:var(--accent); color:var(--accent-ink) } .cal-row.is-next .cal-day small { color:inherit }

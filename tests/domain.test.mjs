@@ -112,8 +112,9 @@ test('my team: picker without a choice, full page with next game, charts, rival 
   assert.match(html, new RegExp(`vs=${rival}" data-keep-scroll aria-current="true"`));
   assert.match(html, /class="[^"]*my-row[^"]*" aria-current="true"/);
   assert.match(html, /Calendário da época/);
-  const games = data.matches.filter(m => m.date && (m.homeId === me || m.awayId === me));
-  assert.equal((html.match(/class="cal-row[^"]*"><a href="\/jogos\//g) ?? []).length, games.length, 'um sábado por jogo com data');
+  const games = data.matches.filter(m => m.homeId === me || m.awayId === me);
+  assert.equal((html.match(/class="cal-row[^"]*"><a href="\/jogos\//g) ?? []).length, games.length, 'uma linha por jornada');
+  assert.match(html, /aria-label="Jornada 1"><small>Jorn\.<\/small><b>1<\/b>/);
   assert.doesNotMatch(html, /webcal|\.ics|calendar\.google/, 'nada de calendários externos');
   prefs.myTeam = me;
   const saved = renderView(data, url('/minha-equipa'));
@@ -159,4 +160,14 @@ test('standings: every column is in the page, with a simple/detailed switch for 
   assert.match(html, /data-table-toggle aria-pressed="false"/);
   for (const col of ['Jogos', 'Vitórias', 'Empates', 'Derrotas', 'Golos marcados', 'Golos sofridos', 'Diferença de golos', 'Pontos']) assert.match(html, new RegExp(`<abbr title="${col}">`));
   assert.equal((html.match(/class="table-team" href="[^"]+" title="/g) ?? []).length >= g.teamIds.length, true);
+});
+
+test('crests: every registered crest is a local PNG/SVG/WEBP with source and publication reference', async () => {
+  const { readFile, stat } = await import('node:fs/promises');
+  const crests = JSON.parse(await readFile(new URL('../config/crests.json', import.meta.url), 'utf8'));
+  for (const [id, entry] of Object.entries(crests.clubs)) {
+    assert.match(entry.file, /^assets\/crests\/[a-z0-9-]+\.(png|svg|webp)$/, id);
+    assert.ok(entry.source && entry.authorizationReference, `${id}: origem e referência`);
+    assert.ok((await stat(new URL('../' + entry.file, import.meta.url))).size > 1000, `${id}: ficheiro existe`);
+  }
 });
