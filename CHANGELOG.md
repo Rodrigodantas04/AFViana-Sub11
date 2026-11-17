@@ -1,5 +1,9 @@
 # Histórico de alterações
 
+## Por publicar
+
+- **Calendário da época por jornada:** cada linha é uma jornada (J1, J2…) com o sábado desse fim de semana, agrupada por fase e série; fins de semana sem jogo aparecem como separador; jogos sem data entram na sua jornada com «Data a confirmar». As fases já terminadas ficam fechadas.
+
 ## 0.5.0 — 2026-11-17 · A minha equipa
 
 - **A minha equipa** (`/minha-equipa`): escolhe-se uma vez (fica guardada só no aparelho, sem conta) e o site mostra o **próximo jogo** com contagem decrescente, os dois lados frente a frente (lugar, pontos, golos por jogo, forma, resultado anterior), o **calendário da época** dentro do site (sábado a sábado, mês a mês, com resultado, folgas e o próximo jogo destacado; os jogos são ao sábado de manhã), um **resumo** automático (distância ao 1.º, melhor ataque/defesa, séries de vitórias, pontos ainda em jogo), os **marcadores da equipa** com o peso de cada um nos golos e a posição na Bota de Ouro, a análise da época e a classificação com a equipa destacada. Atalho na página inicial e no menu; link partilhável `?equipa=`.

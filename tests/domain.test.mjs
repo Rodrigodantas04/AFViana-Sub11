@@ -112,8 +112,9 @@ test('my team: picker without a choice, full page with next game, charts, rival 
   assert.match(html, new RegExp(`vs=${rival}" data-keep-scroll aria-current="true"`));
   assert.match(html, /class="[^"]*my-row[^"]*" aria-current="true"/);
   assert.match(html, /Calendário da época/);
-  const games = data.matches.filter(m => m.date && (m.homeId === me || m.awayId === me));
-  assert.equal((html.match(/class="cal-row[^"]*"><a href="\/jogos\//g) ?? []).length, games.length, 'um sábado por jogo com data');
+  const games = data.matches.filter(m => m.homeId === me || m.awayId === me);
+  assert.equal((html.match(/class="cal-row[^"]*"><a href="\/jogos\//g) ?? []).length, games.length, 'uma linha por jornada');
+  assert.match(html, /aria-label="Jornada 1"><small>Jorn\.<\/small><b>1<\/b>/);
   assert.doesNotMatch(html, /webcal|\.ics|calendar\.google/, 'nada de calendários externos');
   prefs.myTeam = me;
   const saved = renderView(data, url('/minha-equipa'));

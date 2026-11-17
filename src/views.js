@@ -232,38 +232,31 @@ function teamPicker(data, url) {
   const where = t => teamGroups(data, t.id).filter(g => g.defined).map(g => `Série ${g.letter}`).join(' → ');
   return `${pageHeading('A minha equipa', 'Qual é a tua equipa?', 'Escolhe uma vez. O MINHO11 lembra-se neste telemóvel e mostra-te logo os próximos jogos, os marcadores e os números da tua equipa.')}<form class="filter-bar picker-search" action="/minha-equipa"><input type="hidden" name="escolher" value="1">${searchInput(q)}</form><p class="result-count" role="status">${plural(teams.length, 'equipa', 'equipas')}</p>${teams.length ? `<ul class="team-pick-grid">${teams.map(t => `<li><a class="team-pick" href="/minha-equipa?equipa=${t.id}" data-follow="${t.id}">${teamBadge(data, t)}<span><strong>${esc(t.name)}</strong><small>${where(t)}${t.withdrawn ? ' · desistiu' : ''}</small></span>${prefs.myTeam === t.id ? '<span class="pick-current">A tua</span>' : icon('arrow')}</a></li>`).join('')}</ul>` : emptyState('Nenhuma equipa encontrada', 'Experimenta outro nome.')}<p class="muted small">A escolha fica guardada só neste aparelho. Não há conta nem registo.</p>`;
 }
-/** The team's season inside the site: every Saturday from the first to the last game, month by month. */
+/** The team's season inside the site, round by round (each round is a Saturday morning), phase by phase. */
 function seasonCalendar(data, team, fixtures, today = todayLisbon()) {
   const mine = data.matches.filter(m => m.homeId === team.id || m.awayId === team.id);
-  const dated = mine.filter(m => m.date), undated = mine.filter(m => !m.date && m.status === 'scheduled');
-  if (!dated.length) return '';
-  const dates = dated.map(m => m.date).sort(), days = [];
-  for (let d = new Date(dates[0] + 'T12:00:00Z'); d <= new Date(dates.at(-1) + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + 7)) days.push(d.toISOString().slice(0, 10));
-  for (const extra of dates) if (!days.includes(extra)) days.push(extra);
-  days.sort();
-  const nextId = fixtures.upcoming.find(m => m.date)?.id, period = data.competition.schedule?.period;
-  const fmt = (date, opts) => new Intl.DateTimeFormat('pt-PT', { ...opts, timeZone: 'Europe/Lisbon' }).format(new Date(date + 'T12:00:00Z'));
-  const row = (date, m) => {
-    const day = `<span class="cal-day"><small>${esc(fmt(date, { weekday: 'long' }).slice(0, 3))}</small><b>${fmt(date, { day: 'numeric' })}</b></span>`;
-    if (!m) return `<li class="cal-row cal-free${date < today ? ' is-past' : ''}">${day}<span class="cal-main muted">Sem jogo</span></li>`;
-    const side = m.homeId === team.id ? 'home' : 'away', opp = side === 'home' ? m.awayId : m.homeId, g = groupById(data, m.groupId), st = matchStatus(m, today);
+  if (!mine.length) return '';
+  const nextId = (fixtures.upcoming.find(m => m.date) ?? fixtures.upcoming[0])?.id, period = data.competition.schedule?.period;
+  const fmt = date => new Intl.DateTimeFormat('pt-PT', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Europe/Lisbon' }).format(new Date(date + 'T12:00:00Z')).replace(/\./g, '').replace(/^./, c => c.toUpperCase());
+  const row = m => {
+    const side = m.homeId === team.id ? 'home' : 'away', opp = side === 'home' ? m.awayId : m.homeId, st = matchStatus(m, today), next = m.id === nextId;
     const gf = m[side + 'Goals'], ga = m[(side === 'home' ? 'away' : 'home') + 'Goals'], res = gf > ga ? 'V' : gf === ga ? 'E' : 'D';
     const end = st === 'finished' ? `<span class="cal-result"><span class="form-chip form-${res}">${res}</span><b>${gf}–${ga}</b></span>`
       : st === 'unconfirmed' ? '<span class="cal-tag">Resultado por lançar</span>'
-      : `<span class="cal-tag">${m.id === nextId ? esc(whenLabel(m.date)) : esc(period ?? 'Agendado')}</span>`;
-    return `<li class="cal-row${date < today ? ' is-past' : ''}${m.id === nextId ? ' is-next' : ''}"><a href="/jogos/${m.id}">${day}<span class="cal-main"><small>${m.id === nextId ? '<span class="cal-next">Próximo</span>' : ''}${esc(phaseById(data, m.phaseId).name)} · Série ${g.letter} · J${m.round} · ${side === 'home' ? 'Casa' : 'Fora'}</small><span class="cal-opp">${teamBadge(data, opp)}<strong>${side === 'home' ? 'vs' : 'em'} ${esc(teamById(data, opp).name)}</strong></span></span>${end}</a></li>`;
+      : `<span class="cal-tag">${next && m.date ? esc(whenLabel(m.date)) : m.date ? esc(period ?? 'Agendado') : 'Data a confirmar'}</span>`;
+    return `<li class="cal-row${st === 'finished' || st === 'unconfirmed' ? ' is-past' : ''}${next ? ' is-next' : ''}"><a href="/jogos/${m.id}"><span class="cal-day" aria-label="Jornada ${m.round}"><small>Jorn.</small><b>${m.round}</b></span><span class="cal-main"><small>${next ? '<span class="cal-next">Próximo</span>' : ''}${m.date ? esc(fmt(m.date)) : 'Data a confirmar'} · ${side === 'home' ? 'Casa' : 'Fora'}</small><span class="cal-opp">${teamBadge(data, opp)}<strong>${side === 'home' ? 'vs' : 'em'} ${esc(teamById(data, opp).name)}</strong></span></span>${end}</a></li>`;
   };
-  const months = new Map();
-  for (const date of days) { const key = date.slice(0, 7); if (!months.has(key)) months.set(key, []); months.get(key).push(date); }
-  const thisMonth = today.slice(0, 7);
-  const blocks = [...months].map(([key, list]) => {
-    const rows = list.flatMap(date => { const ms = dated.filter(m => m.date === date); return ms.length ? ms.map(m => row(date, m)) : [row(date, null)]; }).join('');
-    const played = list.filter(date => dated.some(m => m.date === date)).length;
-    return `<details class="cal-month"${key >= thisMonth ? ' open' : ''}><summary><span>${esc(fmt(key + '-15', { month: 'long', year: 'numeric' }).replace(/^./, c => c.toUpperCase()))}</span><small>${plural(played, 'jogo', 'jogos')}</small></summary><ol class="cal-list">${rows}</ol></details>`;
+  /** Saturdays strictly between two game dates: weekends without a game for this team. */
+  const gaps = (from, to) => { const out = []; const d = new Date(from + 'T12:00:00Z'); for (d.setUTCDate(d.getUTCDate() + 7); d.toISOString().slice(0, 10) < to; d.setUTCDate(d.getUTCDate() + 7)) out.push(d.toISOString().slice(0, 10)); return out; };
+  const blocks = data.phases.filter(p => mine.some(m => m.phaseId === p.id)).map(phase => {
+    const list = mine.filter(m => m.phaseId === phase.id).sort((a, b) => a.round - b.round || (a.date ?? '').localeCompare(b.date ?? ''));
+    const g = groupById(data, list[0].groupId), played = list.filter(m => m.status === 'finished').length;
+    const rows = list.map((m, k) => { const prev = list[k - 1]; const free = prev?.date && m.date ? gaps(prev.date, m.date) : []; return free.map(d => `<li class="cal-gap">${esc(fmt(d))} · fim de semana sem jogo</li>`).join('') + row(m); }).join('');
+    const open = list.some(m => m.status !== 'finished');
+    return `<details class="cal-month"${open ? ' open' : ''}><summary><span>${esc(phase.name)} · Série ${g.letter}</span><small>${played}/${list.length} jogadas</small></summary><ol class="cal-list">${rows}</ol></details>`;
   }).join('');
-  return `<div class="season-calendar">${blocks}${undated.length ? `<p class="muted small">${icon('clock')} ${plural(undated.length, 'jogo ainda sem data', 'jogos ainda sem data')} na fonte.</p>` : ''}${period ? `<p class="muted small">Os jogos são ao sábado ${esc(period)}. A hora exata e o campo combinam-se com o clube.</p>` : ''}</div>`;
+  return `<div class="season-calendar">${blocks}${period ? `<p class="muted small">Cada jornada é ao sábado ${esc(period)}. A hora exata e o campo combinam-se com o clube.</p>` : ''}</div>`;
 }
-
 function nextMatchPanel(data, team, match) {
   const isHome = match.homeId === team.id, oppId = isHome ? match.awayId : match.homeId, g = groupById(data, match.groupId);
   const me = teamAnalysis(data, team.id, match.phaseId), them = teamAnalysis(data, oppId, match.phaseId);
@@ -368,7 +361,7 @@ function myTeam(data, url) {
   const next = fixtures.upcoming[0];
   return `${hero}
   <section class="section my-next">${next ? nextMatchPanel(data, team, next) : `<div class="panel">${emptyState('Sem próximos jogos marcados', 'Quando houver novas datas, aparecem aqui.')}</div>`}${fixtures.unconfirmed.length ? `<p class="notice">${icon('clock')}<span>${plural(fixtures.unconfirmed.length, 'jogo já passou a data e ainda não tem', 'jogos já passaram a data e ainda não têm')} resultado lançado.</span></p>` : ''}</section>
-  <section class="section">${heading('Sábado a sábado', 'Calendário da época', `${plural(fixtures.upcoming.length, 'jogo marcado', 'jogos marcados')} até ao fim. Os meses já jogados ficam fechados: toca para abrir.`)}${seasonCalendar(data, team, fixtures)}</section>
+  <section class="section">${heading('Jornada a jornada', 'Calendário da época', `${plural(fixtures.upcoming.length, 'jornada por jogar', 'jornadas por jogar')}. Cada jornada é um fim de semana; as fases já terminadas ficam fechadas.`)}${seasonCalendar(data, team, fixtures)}</section>
   ${statsGroup && s?.played ? `<section class="section">${heading(`${phaseById(data, statsGroup.phaseId).name} · Série ${statsGroup.letter}`, 'Em resumo')}${insights(data, team, statsGroup, fixtures)}</section>
   <section class="section">${heading('Frente a frente', 'Contra quem quiseres', 'Escolhe uma equipa da série para a pôr lado a lado com a tua nos gráficos.')}<div class="panel my-compare">${rivalChips(data, team, statsGroup, rivalId)}${raceSection(data, team, statsGroup, rivalId)}<div class="dna-grid">${dnaSection(data, team, statsGroup, rivalId)}<div class="dna-side"><h3>Os números, lado a lado</h3>${rivalId ? (() => { const A = teamAnalysis(data, team.id, statsGroup.phaseId), B = teamAnalysis(data, rivalId, statsGroup.phaseId), per = (x, k) => x.all.played ? x.all[k] / x.all.played : null, rival = teamById(data, rivalId).name; return `${compareBars({ label: 'Pontos por jogo', a: per(A, 'points'), b: per(B, 'points'), bLabel: rival, digits: 2 })}${compareBars({ label: 'Golos marcados por jogo', a: per(A, 'goalsFor'), b: per(B, 'goalsFor'), bLabel: rival })}${compareBars({ label: 'Golos sofridos por jogo', a: per(A, 'goalsAgainst'), b: per(B, 'goalsAgainst'), bLabel: rival, lowerIsBetter: true })}`; })() : ''}<a class="text-link compare-link" href="/comparar?fase=${statsGroup.phaseId}&a=${team.id}${rivalId ? `&b=${rivalId}` : ''}">Comparação completa ${icon('arrow')}</a></div></div></div></section>` : ''}
   <section class="section">${heading('Cada golo conta', 'Os marcadores da equipa')}<div class="panel team-scorers-panel">${teamScorersPanel(data, team)}</div></section>
