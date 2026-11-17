@@ -2843,6 +2843,47 @@
   .my-row th, .my-row td { background:color-mix(in srgb, var(--accent) 12%, transparent) }
   .my-row .table-team span { font-weight:800 }
   .follow-hint { margin:0 0 .25rem; padding:0 clamp(1rem, .5rem + 2vw, 1.5rem) }
+
+  /* Phone tab bar (below 700px): app-like navigation at thumb reach */
+  .tab-bar { display:none }
+  .more-sheet { display:none }
+  .more-sheet[open] { display:block }
+  @media (max-width: 700px) {
+    body { padding-bottom:calc(6rem + env(safe-area-inset-bottom)) }
+    .menu-button { display:none!important }
+    /* Floating "dock": inset from the edges, rounded, frosted glass */
+    .tab-bar { position:fixed; left:max(.75rem, env(safe-area-inset-left)); right:max(.75rem, env(safe-area-inset-right)); bottom:calc(.6rem + env(safe-area-inset-bottom)); z-index:60; display:grid; grid-template-columns:repeat(5, 1fr); align-items:center; max-width:30rem; margin-inline:auto; padding:.4rem .35rem .5rem; border-radius:1.6rem; background:color-mix(in srgb, var(--surface) 72%, transparent); backdrop-filter:blur(22px) saturate(1.6); -webkit-backdrop-filter:blur(22px) saturate(1.6); border:1px solid color-mix(in srgb, var(--text) 12%, transparent); box-shadow:0 12px 32px -10px #000a, 0 2px 6px -2px #0006, inset 0 1px 0 color-mix(in srgb, #fff 10%, transparent) }
+    html[data-theme=light] .tab-bar { background:color-mix(in srgb, #fff 70%, transparent); box-shadow:0 12px 30px -12px #17272255, 0 2px 6px -3px #17272233, inset 0 1px 0 #fff }
+    .tab-bar > a, .tab-bar > button { position:relative; display:grid; justify-items:center; align-content:center; gap:.15rem; min-height:3.3rem; padding:.2rem 0 .35rem; border:0; background:none; color:var(--muted); text-decoration:none; font:inherit; cursor:pointer; border-radius:1.1rem; -webkit-tap-highlight-color:transparent }
+    .tab-icon { position:relative; display:grid; place-items:center; width:2.6rem; height:2.1rem; border-radius:.8rem; transition:background .2s ease, scale .15s ease }
+    .tab-icon .icon { width:1.4rem; height:1.4rem }
+    .tab-label { font-size:.6875rem; font-weight:700; letter-spacing:.01em; line-height:1.1; white-space:nowrap }
+    .tab-bar [aria-current=page], .tab-bar .is-current { color:var(--text) }
+    .tab-bar [aria-current=page] .tab-icon, .tab-bar .is-current .tab-icon { background:var(--accent-soft); color:var(--accent) }
+    /* Dock-style dot under the active tab */
+    .tab-bar [aria-current=page]::after, .tab-bar .is-current::after { content:''; position:absolute; bottom:.05rem; left:50%; width:.3rem; height:.3rem; translate:-50% 0; border-radius:50%; background:var(--accent) }
+    .tab-count { position:absolute; top:-.3rem; right:-.15rem; min-width:1.1rem; height:1.1rem; padding:0 .25rem; border-radius:99px; background:#e5484d; color:#fff; font-size:.625rem; font-weight:800; display:grid; place-items:center; box-shadow:0 0 0 2px var(--surface) }
+    .tab-team .tab-icon { width:2.6rem; height:2.6rem; border-radius:.95rem; background:var(--accent); color:var(--accent-ink); box-shadow:0 6px 14px -6px color-mix(in srgb, var(--accent) 80%, transparent) }
+    .tab-team .tab-icon .icon { width:1.45rem; height:1.45rem; fill:currentColor }
+    .tab-team .badge { width:2.2rem; height:2.2rem; font-size:.65rem; box-shadow:none }
+    .tab-team .tab-icon:has(.badge) { background:none; box-shadow:none }
+    .tab-team .tab-label { display:none }
+    .tab-team[aria-current=page] .tab-icon { background:var(--accent); color:var(--accent-ink) }
+    .tab-team[aria-current=page] .tab-icon:has(.badge) { background:var(--accent-soft) }
+    @media (hover:hover) { .tab-bar > :hover .tab-icon { scale:1.08 } }
+    .tab-bar > :active .tab-icon { scale:.92 }
+    .more-sheet { margin:auto .75rem calc(.75rem + env(safe-area-inset-bottom)); width:auto; max-width:30rem; max-height:85dvh; border:1px solid var(--line); border-radius:1.6rem; padding:.5rem 1.25rem 1.25rem; box-shadow:0 20px 50px -15px #000c; background:var(--surface); color:var(--text) }
+    .more-sheet::backdrop { background:#0008; backdrop-filter:blur(2px) }
+    .sheet-grip { width:2.5rem; height:.3rem; border-radius:99px; background:var(--line); margin:.25rem auto .75rem }
+    .sheet-links { display:grid; gap:.25rem; margin:.5rem 0 1rem }
+    .sheet-links a { display:flex; align-items:center; gap:.9rem; padding:.8rem .5rem; border-radius:12px; color:inherit; text-decoration:none }
+    .sheet-links a:hover, .sheet-links a:focus-visible { background:var(--surface-raised) }
+    .sheet-links .icon { color:var(--accent); flex:none; width:1.4rem; height:1.4rem }
+    .sheet-links span { display:grid } .sheet-links small { color:var(--muted); font-size:.8125rem }
+    .sheet-actions { display:grid; grid-template-columns:1fr 1fr; gap:.6rem }
+    .sheet-actions .button { justify-content:center; font-size:.875rem; min-height:2.9rem }
+    @media (prefers-reduced-motion: no-preference) { .more-sheet[open] { animation:sheet-up .22s ease-out } @keyframes sheet-up { from { translate:0 40%; opacity:0 } } }
+  }
   /* Page transitions (same-document navigation, see app.js) */
   @media (prefers-reduced-motion: no-preference) {
     ::view-transition-old(root) { animation:fade-out .14s ease both }

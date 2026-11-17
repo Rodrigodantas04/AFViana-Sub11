@@ -4,7 +4,7 @@ import { buildFixtureWorkbook, fixtureConfig } from './fixtures/workbook.mjs';
 import { importCompetition } from '../lib/competition.js';
 import { projectDataset } from '../lib/projection.js';
 import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, filterMatches, teamAnalysis, groupAverages, pointsRace, teamFixtures, daysUntil } from '../src/domain.js';
-import { renderView, prefs } from '../src/views.js';
+import { renderView, prefs, tabBar, footer } from '../src/views.js';
 import { esc } from '../src/components.js';
 
 const { data: internal } = importCompetition(buildFixtureWorkbook(), fixtureConfig, { today: '2026-11-16' });
@@ -124,3 +124,17 @@ test('my team: picker without a choice, full page with next game, charts, rival 
   assert.match(renderView(data, url('/')), /Segue a tua equipa/);
 });
 
+
+test('phone tab bar: five tabs, current page marked, the chosen team in the middle', () => {
+  prefs.myTeam = null;
+  const bar = tabBar(data, '/jogos');
+  assert.equal((bar.match(/<a href=|<a class="tab-team"|data-more-open/g) ?? []).length, 5);
+  assert.match(bar, /<a href="\/jogos" aria-current="page">/);
+  assert.match(bar, /aria-label="Escolher a minha equipa"/);
+  const team = data.teams[0];
+  prefs.myTeam = team.id;
+  assert.match(tabBar(data, '/minha-equipa'), new RegExp(`aria-label="A minha equipa: ${esc(team.name)}" aria-current="page"`));
+  assert.match(tabBar(data, '/clubes/x'), /class="is-current"/, '«Mais» fica ativo nas páginas que abre');
+  prefs.myTeam = null;
+  assert.match(footer(data), /id="more-sheet"/);
+});

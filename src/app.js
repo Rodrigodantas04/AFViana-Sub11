@@ -1,11 +1,12 @@
 import { validateDataset } from './domain.js';
-import { renderView, pageTitle, prefs } from './views.js';
+import { renderView, pageTitle, prefs, tabBar } from './views.js';
 
 let data = null, refreshing = false;
 const main = document.getElementById('conteudo');
 const sync = document.getElementById('sync-status');
 const dialog = document.getElementById('search-dialog');
 const mobileNav = document.getElementById('mobile-navigation');
+const moreSheet = document.getElementById('more-sheet');
 let manualTheme = false;
 try { prefs.myTeam = localStorage.getItem('minho11-team'); } catch { /* No saved team: the page asks again. */ }
 function follow(teamId) {
@@ -33,6 +34,7 @@ function paint({ focusHeading = false, preserveFocus = false } = {}) {
   const selection = preserveFocus && active?.name ? { name: active.name, start: active.selectionStart, end: active.selectionEnd } : null;
   main.innerHTML = renderView(data, new URL(location.href));
   document.title = pageTitle(data, location.pathname.replace(/\/$/, '') || '/');
+  document.getElementById('tab-bar')?.replaceWith(Object.assign(document.createElement('template'), { innerHTML: tabBar(data, location.pathname.replace(/\/$/, '') || '/') }).content);
   document.querySelectorAll('.desktop-nav a').forEach(link => {
     const selected = link.pathname === '/' ? location.pathname === '/' : location.pathname.startsWith(link.pathname);
     if (selected) link.setAttribute('aria-current', 'page'); else link.removeAttribute('aria-current');
@@ -49,6 +51,7 @@ function navigate(url, { replace = false, filters = false } = {}) {
   const previousScroll = scrollY;
   history[replace ? 'replaceState' : 'pushState']({ minho11: true }, '', url.pathname + url.search + url.hash);
   if (dialog.open) dialog.close();
+  if (moreSheet?.open) moreSheet.close();
   closeMenu();
   const update = () => { paint({ focusHeading: !filters, preserveFocus: filters }); if (!filters) scrollTo({ top: 0, behavior: 'instant' }); else scrollTo({ top: previousScroll, behavior: 'instant' }); };
   // Smooth cross-fade between pages where supported; filters update in place without animation.
@@ -59,7 +62,9 @@ function navigate(url, { replace = false, filters = false } = {}) {
 document.addEventListener('click', event => {
   const theme = event.target.closest('[data-theme-toggle]');
   if (theme) { applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark', true); return; }
-  if (event.target.closest('[data-search-open]')) { dialog.showModal(); dialog.querySelector('input')?.focus(); return; }
+  if (event.target.closest('[data-more-open]')) { moreSheet.showModal(); return; }
+  if (event.target.closest('[data-more-close]') || event.target === moreSheet) { moreSheet.close(); return; }
+  if (event.target.closest('[data-search-open]')) { if (moreSheet.open) moreSheet.close(); dialog.showModal(); dialog.querySelector('input')?.focus(); return; }
   if (event.target.closest('[data-search-close]') || event.target === dialog) { dialog.close(); return; }
   if (event.target.closest('[data-menu-toggle]')) { mobileNav.hidden = !mobileNav.hidden; document.querySelector('[data-menu-toggle]').setAttribute('aria-expanded', String(!mobileNav.hidden)); return; }
   const followed = event.target.closest('[data-follow]');
