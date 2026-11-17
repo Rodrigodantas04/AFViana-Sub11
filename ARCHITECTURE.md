@@ -65,7 +65,7 @@ Recalcular no servidor evita que o Drive, o Excel e o site mostrem números dife
 
 ## 6. Servidor
 
-`server/app.js` é independente do alojamento (Request → Response). Rotas: `/data/competition.json`, `/calendario/<equipa>.ics` e `/api/admin/*`. Os adaptadores são `netlify/functions/minho11.mjs` (produção) e `scripts/serve.mjs` (local, com uma cópia do Excel).
+`server/app.js` é independente do alojamento (Request → Response). Rotas: `/data/competition.json` e `/api/admin/*`. Os adaptadores são `netlify/functions/minho11.mjs` (produção) e `scripts/serve.mjs` (local, com uma cópia do Excel).
 
 **Leitura pública.** A cache em Netlify Blobs é refrescada no máximo a cada 60 s. Primeiro faz um pedido barato de metadados ao Drive e só descarrega o ficheiro se a versão mudou. Se o Drive falhar, serve a última projeção válida (`X-MINHO11-Source: stale`) ou o snapshot do repositório. Nunca serve dados por validar.
 
@@ -87,11 +87,11 @@ Um jogador é **«nome numa equipa», tal como escrito nas fichas** (a mesma cha
 
 O perfil público (`/jogadores/<id>`) é renderizado só com a projeção ao vivo: o HTML estático é uma página genérica com `noindex` (cabeçalho e meta), `robots.txt` exclui `/jogadores/`, e um nome oculto devolve «Perfil indisponível».
 
-## 6.2 A minha equipa e calendário
+## 6.2 A minha equipa
 
 A equipa escolhida vive só em `localStorage` (`minho11-team`) e chega às vistas por `prefs` (`src/views.js`); o HTML estático não a conhece e mostra o seletor. Não há conta nem cookie. Os gráficos de comparação usam `pointsRace` (`src/domain.js`), que reconstrói a tabela jornada a jornada com os mesmos desempates da folha (pontos, diferença, golos marcados, ordem da folha, desistentes no fim); um teste garante que a última jornada coincide com a classificação oficial. O radar escala cada eixo entre a pior e a melhor equipa da série.
 
-O calendário (`src/calendar.js`, RFC 5545) é gerado a partir da projeção pública: só nomes das equipas, datas e resultados, eventos de dia inteiro com `UID` estável (`<jogo>@minho11`) para que as apps atualizem em vez de duplicar. Em produção a função serve `/calendario/*` com os dados ao vivo (`Cache-Control` de 15 min); o build gera uma cópia estática a partir do snapshot como alternativa. `robots.txt` exclui `/calendario/`.
+O calendário da época é uma vista do site (todos os sábados entre o primeiro e o último jogo da equipa, agrupados por mês). O Excel só tem a data; o horário habitual vem de `config/competition.json` (`schedule`, sábado de manhã) e aparece como texto, nunca como hora exata. Por decisão dos responsáveis não há exportação `.ics` nem ligação a calendários pessoais.
 
 ## 6.3 Ocultar nomes e histórico
 

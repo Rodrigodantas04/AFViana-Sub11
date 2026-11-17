@@ -17,5 +17,12 @@
     "fileId": "10NzITORyeANQY2prYW9YHF4zJmxDAAqd",
     "folderId": "1gKXXHvmW9FD3XlBzXUajNOmySfinwLS1"
   },
-  "privacyContact": "minho11.contacto@gmail.com"
+  "privacyContact": "minho11.contacto@gmail.com",
+  "schedule": {
+    "period": "de manhã",
+    "start": "09:00",
+    "end": "13:00",
+    "note": "Jogos ao sábado de manhã; a hora exata e o campo são combinados entre os clubes.",
+    "source": "Indicado pelos responsáveis do MINHO11, 17/11/2026"
+  }
 }

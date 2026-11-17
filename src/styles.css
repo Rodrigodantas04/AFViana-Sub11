@@ -2740,13 +2740,36 @@
   .my-actions { display:grid; justify-items:end; gap:.5rem }
   .following-tag { display:inline-flex; align-items:center; gap:.4rem; font-weight:700; color:var(--accent) }
   @media (max-width: 40rem) { .my-hero { grid-template-columns:auto 1fr } .my-actions { grid-column:1 / -1; justify-items:start; grid-auto-flow:column; align-items:center; justify-content:start; gap:1rem } }
-  .calendar-menu { margin-bottom:.5rem; border:1px solid var(--line); border-radius:14px; background:var(--surface) }
-  .calendar-menu summary { cursor:pointer; padding:.9rem 1.1rem; font-weight:700; display:flex; align-items:center; gap:.5rem; list-style:none }
-  .calendar-menu summary::-webkit-details-marker { display:none }
-  .calendar-menu summary::after { content:'+'; margin-left:auto; font-size:1.25rem; color:var(--muted) }
-  .calendar-menu[open] summary::after { content:'–' }
-  .calendar-body { padding:0 1.1rem 1.1rem; display:grid; gap:.75rem }
-  .calendar-links { display:flex; flex-wrap:wrap; align-items:center; gap:.6rem 1rem }
+  .season-calendar { display:grid; gap:.75rem }
+  .cal-month { border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); overflow:hidden }
+  .cal-month summary { cursor:pointer; list-style:none; display:flex; align-items:baseline; justify-content:space-between; gap:1rem; padding:1rem 1.25rem; font-weight:800; font-size:1.0625rem }
+  .cal-month summary::-webkit-details-marker { display:none }
+  .cal-month summary small { font-weight:600; color:var(--muted); font-size:.8125rem; text-transform:none }
+  .cal-month summary::after { content:'+'; color:var(--muted); font-size:1.25rem; line-height:1 }
+  .cal-month[open] summary::after { content:'–' }
+  .cal-month summary span { margin-right:auto }
+  .cal-list { list-style:none; margin:0; padding:0 .5rem .5rem }
+  .cal-row > a, .cal-row.cal-free { display:grid; grid-template-columns:3.25rem 1fr auto; align-items:center; gap:.85rem; padding:.7rem .75rem; border-radius:12px; color:inherit; text-decoration:none }
+  .cal-row + .cal-row { border-top:1px solid var(--line) }
+  .cal-row > a:hover { background:var(--surface-raised) }
+  .cal-day { display:grid; justify-items:center; line-height:1.05; padding:.35rem 0; border-radius:10px; background:var(--surface-raised) }
+  .cal-day small { font-size:.6875rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--muted) }
+  .cal-day b { font-size:1.375rem; font-variant-numeric:tabular-nums }
+  .cal-main { display:grid; gap:.2rem; min-width:0 }
+  .cal-main small { color:var(--muted); font-size:.8125rem; display:flex; flex-wrap:wrap; gap:.4rem; align-items:center }
+  .cal-opp { display:flex; align-items:center; gap:.5rem; min-width:0 }
+  .cal-opp strong { font-size:1rem; line-height:1.25; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; overflow:hidden }
+  .cal-opp .badge { width:1.9rem; height:1.9rem; font-size:.6rem; flex:none }
+  .cal-result { display:flex; align-items:center; gap:.5rem; font-variant-numeric:tabular-nums }
+  .cal-result b { font-size:1.0625rem }
+  .cal-tag { font-size:.8125rem; font-weight:700; color:var(--muted); text-align:right; max-width:9rem }
+  .cal-free .cal-main { font-size:.9375rem }
+  .cal-row.is-past .cal-day { opacity:.75 }
+  .cal-row.is-next > a { background:var(--accent-soft); box-shadow:inset 0 0 0 2px var(--accent) }
+  .cal-row.is-next .cal-day { background:var(--accent); color:var(--accent-ink) } .cal-row.is-next .cal-day small { color:inherit }
+  .cal-row.is-next .cal-tag { color:var(--accent) }
+  .cal-next { font-size:.6875rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; padding:.1rem .45rem; border-radius:99px; background:var(--accent); color:var(--accent-ink) }
+  @media (max-width: 30rem) { .cal-row > a, .cal-row.cal-free { grid-template-columns:2.75rem 1fr auto; gap:.6rem; padding:.65rem .4rem } .cal-tag { max-width:5.5rem } .cal-result { gap:.35rem } .cal-result .form-chip { width:1.6rem; height:1.6rem; font-size:.75rem } }
   .next-match { display:grid; gap:1.25rem; padding:clamp(1.25rem, 1rem + 1.5vw, 2rem) }
   .nm-when { display:grid; gap:.15rem; text-align:center }
   .nm-countdown { font-family:var(--display); font-size:clamp(2.25rem, 1.8rem + 2.5vw, 3.5rem); line-height:1; color:var(--accent); letter-spacing:.01em; text-transform:uppercase }

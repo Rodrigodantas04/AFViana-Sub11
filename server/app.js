@@ -10,7 +10,6 @@ import { importCompetition } from '../lib/competition.js';
 import { applyChange, validateChange, OWN_GOAL_LABEL } from '../lib/writer.js';
 import { projectDataset } from '../lib/projection.js';
 import { todayLisbon } from '../src/domain.js';
-import { teamCalendar } from '../src/calendar.js';
 import { authConfigured, verifyPassword, issueToken, readToken, sessionCookie, sameOrigin } from './auth.js';
 import { acquireLease } from './storage.js';
 
@@ -29,7 +28,7 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
   // The public cache is only reused while the publishing rules and code are the same (a deploy with new
   // colours, crests or policy must rebuild it even if the workbook did not change).
   let deployId = env.DEPLOY_ID ?? env.COMMIT_REF ?? null;
-  const projectionVersion = () => sha(JSON.stringify({ policy, crests, colors, schema: snapshot.schemaVersion, code: deployId ?? 'local' }));
+  const projectionVersion = () => sha(JSON.stringify({ policy, crests, colors, config, schema: snapshot.schemaVersion, code: deployId ?? 'local' }));
 
   async function body(request) {
     const text = await request.text();
@@ -79,13 +78,6 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
   async function publicData(context) {
     const { data, state } = await liveDataset(context);
     return json(data, 200, { 'X-MINHO11-Source': state });
-  }
-  /** Subscribable calendar of one team (team names, dates and results only). */
-  async function calendar(teamId, url, context) {
-    const { data } = await liveDataset(context);
-    const ics = teamCalendar(data, teamId, { origin: url.origin });
-    if (!ics) return problem('Equipa não encontrada.', 404);
-    return new Response(ics, { headers: { ...SECURITY, 'Content-Type': 'text/calendar; charset=utf-8', 'Cache-Control': 'public, max-age=900', 'Content-Disposition': `inline; filename="minho11-${teamId}.ics"` } });
   }
 
   // --- admin ----------------------------------------------------------------
@@ -265,8 +257,6 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     try {
       if (url.pathname.startsWith('/api/admin/')) return await admin(request, url.pathname.slice('/api/admin/'.length));
       if (url.pathname === '/data/competition.json' && ['GET', 'HEAD'].includes(request.method)) return await publicData(context);
-      const ics = url.pathname.match(/^\/calendario\/([a-zA-Z0-9_-]+)\.ics$/);
-      if (ics && ['GET', 'HEAD'].includes(request.method)) return await calendar(ics[1], url, context);
       return problem('Pedido não encontrado.', 404);
     } catch (error) {
       log('request failed', error.message);

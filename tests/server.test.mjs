@@ -141,13 +141,3 @@ test('players: spellings are listed per team, suggested and joined through the p
   assert.equal((await app(request(`/api/admin/teams/${teamId}/rename`, { method: 'PUT', body: { from: [name], to: 'X' } }))).status, 401);
 });
 
-test('team calendar is served live as text/calendar; unknown teams are 404', async () => {
-  const { app, data } = await setup();
-  const team = data.teams[0].id;
-  const response = await app(request(`/calendario/${team}.ics`));
-  assert.equal(response.status, 200);
-  assert.match(response.headers.get('content-type'), /^text\/calendar/);
-  assert.match(await response.text(), /BEGIN:VCALENDAR[\s\S]*https:\/\/minho11\.test\/jogos\//);
-  assert.equal((await app(request('/calendario/nao-existe.ics'))).status, 404);
-  assert.equal((await app(request('/calendario/../x.ics'))).status, 404);
-});

@@ -7,7 +7,6 @@ const sync = document.getElementById('sync-status');
 const dialog = document.getElementById('search-dialog');
 const mobileNav = document.getElementById('mobile-navigation');
 let manualTheme = false;
-prefs.origin = location.origin;
 try { prefs.myTeam = localStorage.getItem('minho11-team'); } catch { /* No saved team: the page asks again. */ }
 function follow(teamId) {
   prefs.myTeam = teamId;

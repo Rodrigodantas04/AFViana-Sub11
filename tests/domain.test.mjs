@@ -4,7 +4,6 @@ import { buildFixtureWorkbook, fixtureConfig } from './fixtures/workbook.mjs';
 import { importCompetition } from '../lib/competition.js';
 import { projectDataset } from '../lib/projection.js';
 import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, filterMatches, teamAnalysis, groupAverages, pointsRace, teamFixtures, daysUntil } from '../src/domain.js';
-import { teamCalendar } from '../src/calendar.js';
 import { renderView, prefs } from '../src/views.js';
 import { esc } from '../src/components.js';
 
@@ -112,7 +111,10 @@ test('my team: picker without a choice, full page with next game, charts, rival 
   assert.match(html, /O ADN da equipa/);
   assert.match(html, new RegExp(`vs=${rival}" data-keep-scroll aria-current="true"`));
   assert.match(html, /class="[^"]*my-row[^"]*" aria-current="true"/);
-  assert.match(html, /\/calendario\/[^"]+\.ics/);
+  assert.match(html, /Calendário da época/);
+  const games = data.matches.filter(m => m.date && (m.homeId === me || m.awayId === me));
+  assert.equal((html.match(/class="cal-row[^"]*"><a href="\/jogos\//g) ?? []).length, games.length, 'um sábado por jogo com data');
+  assert.doesNotMatch(html, /webcal|\.ics|calendar\.google/, 'nada de calendários externos');
   prefs.myTeam = me;
   const saved = renderView(data, url('/minha-equipa'));
   assert.match(saved, /A tua equipa/);
@@ -122,15 +124,3 @@ test('my team: picker without a choice, full page with next game, charts, rival 
   assert.match(renderView(data, url('/')), /Segue a tua equipa/);
 });
 
-test('team calendar: valid iCalendar, one all-day event per dated game, no player names', () => {
-  const team = data.groups.find(x => x.id === '1a').teamIds[0];
-  const ics = teamCalendar(data, team, { origin: 'https://minho11.test' });
-  assert.ok(ics.startsWith('BEGIN:VCALENDAR\r\n') && ics.endsWith('END:VCALENDAR\r\n'));
-  for (const line of ics.split('\r\n')) assert.ok(new TextEncoder().encode(line).length <= 75, line);
-  const dated = data.matches.filter(m => m.date && (m.homeId === team || m.awayId === team));
-  assert.equal(ics.match(/BEGIN:VEVENT/g).length, dated.length);
-  assert.match(ics, /DTSTART;VALUE=DATE:\d{8}\r\nDTEND;VALUE=DATE:\d{8}/);
-  const unfolded = ics.replace(/\r\n /g, '');
-  for (const s of data.scorers.total) assert.ok(!unfolded.includes(s.name), 'sem nomes de jogadores');
-  assert.equal(teamCalendar(data, 'nao-existe'), null);
-});

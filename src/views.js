@@ -1,9 +1,8 @@
 import { normalize, teamById, clubById, groupById, phaseById, teamClubPath, groupPath, competitionPath, groupLabel, teamGroups, definedGroups, currentPhase, rankScorers, scorersFor, scorerScopes, recentMatches, upcomingMatches, groupStatistics, filterMatches, teamStanding, clubRanking, teamAnalysis, groupAverages, dateLabel, statusLabels, matchStatus, todayLisbon, teamFixtures, daysUntil, pointsRace } from './domain.js';
 import { esc, icon, badge, teamBadge, clubBadge, compareBars, brand, heading, pageHeading, textLink, matchGrid, standings, groupTabs, phaseTabs, notes, metric, scorerRows, privateScorers, emptyState, statusPill, pendingGroup, groupShort, barChart, lineChart, raceChart, radarChart } from './components.js';
-import { calendarPath } from './calendar.js';
 
 /** Per-visitor preferences, set by the browser (app.js). The static build renders without them. */
-export const prefs = { myTeam: null, origin: '' };
+export const prefs = { myTeam: null };
 
 const selected = (a, b) => a === b ? ' selected' : '';
 const number = (value, digits = 1) => value === null || value === undefined || Number.isNaN(value) ? '—' : Number(value).toLocaleString('pt-PT', { maximumFractionDigits: digits, minimumFractionDigits: 0 });
@@ -233,12 +232,38 @@ function teamPicker(data, url) {
   const where = t => teamGroups(data, t.id).filter(g => g.defined).map(g => `Série ${g.letter}`).join(' → ');
   return `${pageHeading('A minha equipa', 'Qual é a tua equipa?', 'Escolhe uma vez. O MINHO11 lembra-se neste telemóvel e mostra-te logo os próximos jogos, os marcadores e os números da tua equipa.')}<form class="filter-bar picker-search" action="/minha-equipa"><input type="hidden" name="escolher" value="1">${searchInput(q)}</form><p class="result-count" role="status">${plural(teams.length, 'equipa', 'equipas')}</p>${teams.length ? `<ul class="team-pick-grid">${teams.map(t => `<li><a class="team-pick" href="/minha-equipa?equipa=${t.id}" data-follow="${t.id}">${teamBadge(data, t)}<span><strong>${esc(t.name)}</strong><small>${where(t)}${t.withdrawn ? ' · desistiu' : ''}</small></span>${prefs.myTeam === t.id ? '<span class="pick-current">A tua</span>' : icon('arrow')}</a></li>`).join('')}</ul>` : emptyState('Nenhuma equipa encontrada', 'Experimenta outro nome.')}<p class="muted small">A escolha fica guardada só neste aparelho. Não há conta nem registo.</p>`;
 }
-function calendarMenu(team) {
-  const file = calendarPath(team.id);
-  const host = prefs.origin ? new URL(prefs.origin).host : '';
-  const feed = host ? `webcal://${host}${file}` : file;
-  return `<details class="calendar-menu"><summary>${icon('calendar')} Jogos no meu calendário</summary><div class="calendar-body"><p class="muted small">Os jogos da ${esc(team.name)} entram no calendário do telemóvel e atualizam-se sozinhos quando há novas datas ou resultados.</p><div class="calendar-links"><a class="button" href="${esc(feed)}">iPhone, Outlook…</a>${host ? `<a class="button button-secondary" href="https://calendar.google.com/calendar/render?cid=${encodeURIComponent(feed)}" target="_blank" rel="noopener">Google Calendar</a>` : ''}<a class="text-link" href="${esc(file)}" download="minho11-${esc(team.id)}.ics">Descarregar ficheiro .ics ${icon('arrow')}</a></div><p class="muted small">A fonte só tem o dia do jogo: hora e campo, confirmar com o clube.</p></div></details>`;
+/** The team's season inside the site: every Saturday from the first to the last game, month by month. */
+function seasonCalendar(data, team, fixtures, today = todayLisbon()) {
+  const mine = data.matches.filter(m => m.homeId === team.id || m.awayId === team.id);
+  const dated = mine.filter(m => m.date), undated = mine.filter(m => !m.date && m.status === 'scheduled');
+  if (!dated.length) return '';
+  const dates = dated.map(m => m.date).sort(), days = [];
+  for (let d = new Date(dates[0] + 'T12:00:00Z'); d <= new Date(dates.at(-1) + 'T12:00:00Z'); d.setUTCDate(d.getUTCDate() + 7)) days.push(d.toISOString().slice(0, 10));
+  for (const extra of dates) if (!days.includes(extra)) days.push(extra);
+  days.sort();
+  const nextId = fixtures.upcoming.find(m => m.date)?.id, period = data.competition.schedule?.period;
+  const fmt = (date, opts) => new Intl.DateTimeFormat('pt-PT', { ...opts, timeZone: 'Europe/Lisbon' }).format(new Date(date + 'T12:00:00Z'));
+  const row = (date, m) => {
+    const day = `<span class="cal-day"><small>${esc(fmt(date, { weekday: 'long' }).slice(0, 3))}</small><b>${fmt(date, { day: 'numeric' })}</b></span>`;
+    if (!m) return `<li class="cal-row cal-free${date < today ? ' is-past' : ''}">${day}<span class="cal-main muted">Sem jogo</span></li>`;
+    const side = m.homeId === team.id ? 'home' : 'away', opp = side === 'home' ? m.awayId : m.homeId, g = groupById(data, m.groupId), st = matchStatus(m, today);
+    const gf = m[side + 'Goals'], ga = m[(side === 'home' ? 'away' : 'home') + 'Goals'], res = gf > ga ? 'V' : gf === ga ? 'E' : 'D';
+    const end = st === 'finished' ? `<span class="cal-result"><span class="form-chip form-${res}">${res}</span><b>${gf}–${ga}</b></span>`
+      : st === 'unconfirmed' ? '<span class="cal-tag">Resultado por lançar</span>'
+      : `<span class="cal-tag">${m.id === nextId ? esc(whenLabel(m.date)) : esc(period ?? 'Agendado')}</span>`;
+    return `<li class="cal-row${date < today ? ' is-past' : ''}${m.id === nextId ? ' is-next' : ''}"><a href="/jogos/${m.id}">${day}<span class="cal-main"><small>${m.id === nextId ? '<span class="cal-next">Próximo</span>' : ''}${esc(phaseById(data, m.phaseId).name)} · Série ${g.letter} · J${m.round} · ${side === 'home' ? 'Casa' : 'Fora'}</small><span class="cal-opp">${teamBadge(data, opp)}<strong>${side === 'home' ? 'vs' : 'em'} ${esc(teamById(data, opp).name)}</strong></span></span>${end}</a></li>`;
+  };
+  const months = new Map();
+  for (const date of days) { const key = date.slice(0, 7); if (!months.has(key)) months.set(key, []); months.get(key).push(date); }
+  const thisMonth = today.slice(0, 7);
+  const blocks = [...months].map(([key, list]) => {
+    const rows = list.flatMap(date => { const ms = dated.filter(m => m.date === date); return ms.length ? ms.map(m => row(date, m)) : [row(date, null)]; }).join('');
+    const played = list.filter(date => dated.some(m => m.date === date)).length;
+    return `<details class="cal-month"${key >= thisMonth ? ' open' : ''}><summary><span>${esc(fmt(key + '-15', { month: 'long', year: 'numeric' }).replace(/^./, c => c.toUpperCase()))}</span><small>${plural(played, 'jogo', 'jogos')}</small></summary><ol class="cal-list">${rows}</ol></details>`;
+  }).join('');
+  return `<div class="season-calendar">${blocks}${undated.length ? `<p class="muted small">${icon('clock')} ${plural(undated.length, 'jogo ainda sem data', 'jogos ainda sem data')} na fonte.</p>` : ''}${period ? `<p class="muted small">Os jogos são ao sábado ${esc(period)}. A hora exata e o campo combinam-se com o clube.</p>` : ''}</div>`;
 }
+
 function nextMatchPanel(data, team, match) {
   const isHome = match.homeId === team.id, oppId = isHome ? match.awayId : match.homeId, g = groupById(data, match.groupId);
   const me = teamAnalysis(data, team.id, match.phaseId), them = teamAnalysis(data, oppId, match.phaseId);
@@ -249,7 +274,7 @@ function nextMatchPanel(data, team, match) {
   const side = (id, s, a, label) => `<div class="nm-team">${teamBadge(data, id, true)}<strong>${esc(teamById(data, id).name)}</strong><span class="pg-where">${label}</span><div class="form-strip">${form(a)}</div></div>`;
   const row = (label, a, b) => `<div class="nm-row"><strong>${a}</strong><span>${label}</span><strong>${b}</strong></div>`;
   const home = isHome ? [team.id, sMe, me] : [oppId, sThem, them], away = isHome ? [oppId, sThem, them] : [team.id, sMe, me];
-  return `<article class="panel next-match"><div class="nm-when"><p class="eyebrow">Próximo jogo · ${esc(phaseById(data, match.phaseId).name)} · Série ${g.letter} · J${match.round}</p><strong class="nm-countdown">${esc(whenLabel(match.date))}</strong><span class="muted">${esc(longDate(match.date))}</span></div><div class="nm-teams">${side(home[0], home[1], home[2], 'Casa')}<span class="versus-x" aria-hidden="true">×</span>${side(away[0], away[1], away[2], 'Fora')}</div>${home[1]?.played || away[1]?.played ? `<div class="nm-stats">${row('Lugar na série', home[1]?.played ? `${home[1].position}.º` : '—', away[1]?.played ? `${away[1].position}.º` : '—')}${row('Pontos', home[1]?.points ?? 0, away[1]?.points ?? 0)}${row('Golos marcados por jogo', per(home[2], 'goalsFor'), per(away[2], 'goalsFor'))}${row('Golos sofridos por jogo', per(home[2], 'goalsAgainst'), per(away[2], 'goalsAgainst'))}</div>` : ''}${before ? `<p class="nm-before">${icon('clock')} Já se defrontaram nesta fase: <a href="/jogos/${before.id}">${esc(teamById(data, before.homeId).name)} ${before.homeGoals}–${before.awayGoals} ${esc(teamById(data, before.awayId).name)}</a></p>` : ''}<div class="panel-bottom">${textLink(`/comparar?fase=${match.phaseId}&a=${team.id}&b=${oppId}`, 'Comparar as duas equipas')}${textLink(`/jogos/${match.id}`, 'Ver jogo')}</div></article>`;
+  return `<article class="panel next-match"><div class="nm-when"><p class="eyebrow">Próximo jogo · ${esc(phaseById(data, match.phaseId).name)} · Série ${g.letter} · J${match.round}</p><strong class="nm-countdown">${esc(whenLabel(match.date))}</strong><span class="muted">${esc(longDate(match.date))}${match.date && data.competition.schedule?.period ? ` · ${esc(data.competition.schedule.period)}` : ''}</span></div><div class="nm-teams">${side(home[0], home[1], home[2], 'Casa')}<span class="versus-x" aria-hidden="true">×</span>${side(away[0], away[1], away[2], 'Fora')}</div>${home[1]?.played || away[1]?.played ? `<div class="nm-stats">${row('Lugar na série', home[1]?.played ? `${home[1].position}.º` : '—', away[1]?.played ? `${away[1].position}.º` : '—')}${row('Pontos', home[1]?.points ?? 0, away[1]?.points ?? 0)}${row('Golos marcados por jogo', per(home[2], 'goalsFor'), per(away[2], 'goalsFor'))}${row('Golos sofridos por jogo', per(home[2], 'goalsAgainst'), per(away[2], 'goalsAgainst'))}</div>` : ''}${before ? `<p class="nm-before">${icon('clock')} Já se defrontaram nesta fase: <a href="/jogos/${before.id}">${esc(teamById(data, before.homeId).name)} ${before.homeGoals}–${before.awayGoals} ${esc(teamById(data, before.awayId).name)}</a></p>` : ''}<div class="panel-bottom">${textLink(`/comparar?fase=${match.phaseId}&a=${team.id}&b=${oppId}`, 'Comparar as duas equipas')}${textLink(`/jogos/${match.id}`, 'Ver jogo')}</div></article>`;
 }
 function insights(data, team, group, fixtures) {
   const s = group.standings.find(x => x.teamId === team.id), a = teamAnalysis(data, team.id, group.phaseId);
@@ -327,16 +352,15 @@ function myTeam(data, url) {
   const hero = `<header class="my-hero${club.colors ? ' has-colors' : ''}"${colors}>${teamBadge(data, team, true)}<div class="my-hero-text"><p class="eyebrow">${following ? '★ A minha equipa' : 'Equipa'} · ${esc(data.competition.season)}</p><h1 tabindex="-1">${esc(team.name)}</h1><p class="muted">${where ? esc(where) : 'Ainda sem série definida'}</p>${form.length ? `<div class="form-strip" aria-label="Últimos jogos: ${form.map(r => ({ V: 'vitória', E: 'empate', D: 'derrota' })[r]).join(', ')}">${form.map(r => `<span class="form-chip form-${r}">${r}</span>`).join('')}</div>` : ''}</div><div class="my-actions">${following ? `<span class="following-tag">${icon('check')} A tua equipa</span><a class="reset-link" href="/minha-equipa?escolher=1">Mudar de equipa</a>` : `<button type="button" class="button" data-follow="${team.id}">${icon('shield')} Seguir esta equipa</button><a class="reset-link" href="/minha-equipa?escolher=1">Escolher outra</a>`}</div></header>`;
   if (team.withdrawn) return `${hero}<p class="notice">${icon('info')}<span>Esta equipa desistiu da prova. Os jogos já disputados continuam no histórico.</span></p><section class="section">${heading('O percurso', 'Jogos disputados')}${matchGrid(data, fixtures.played)}</section>`;
   const next = fixtures.upcoming[0];
-  const later = fixtures.upcoming.slice(1);
-  return `${hero}${calendarMenu(team)}
-  <section class="section my-next">${next ? nextMatchPanel(data, team, next) : `<div class="panel">${emptyState('Sem próximos jogos marcados', 'Quando houver novas datas, aparecem aqui (e no teu calendário, se o subscreveres).')}</div>`}${fixtures.unconfirmed.length ? `<p class="notice">${icon('clock')}<span>${plural(fixtures.unconfirmed.length, 'jogo já passou a data e ainda não tem', 'jogos já passaram a data e ainda não têm')} resultado lançado.</span></p>` : ''}</section>
-  ${later.length ? `<section class="section">${heading('O que vem a seguir', 'Calendário da equipa', `${plural(fixtures.upcoming.length, 'jogo marcado', 'jogos marcados')}.`)}${matchGrid(data, later)}</section>` : ''}
+  return `${hero}
+  <section class="section my-next">${next ? nextMatchPanel(data, team, next) : `<div class="panel">${emptyState('Sem próximos jogos marcados', 'Quando houver novas datas, aparecem aqui.')}</div>`}${fixtures.unconfirmed.length ? `<p class="notice">${icon('clock')}<span>${plural(fixtures.unconfirmed.length, 'jogo já passou a data e ainda não tem', 'jogos já passaram a data e ainda não têm')} resultado lançado.</span></p>` : ''}</section>
+  <section class="section">${heading('Sábado a sábado', 'Calendário da época', `${plural(fixtures.upcoming.length, 'jogo marcado', 'jogos marcados')} até ao fim. Os meses já jogados ficam fechados: toca para abrir.`)}${seasonCalendar(data, team, fixtures)}</section>
   ${statsGroup && s?.played ? `<section class="section">${heading(`${phaseById(data, statsGroup.phaseId).name} · Série ${statsGroup.letter}`, 'Em resumo')}${insights(data, team, statsGroup, fixtures)}</section>
   <section class="section">${heading('Frente a frente', 'Contra quem quiseres', 'Escolhe uma equipa da série para a pôr lado a lado com a tua nos gráficos.')}<div class="panel my-compare">${rivalChips(data, team, statsGroup, rivalId)}${raceSection(data, team, statsGroup, rivalId)}<div class="dna-grid">${dnaSection(data, team, statsGroup, rivalId)}<div class="dna-side"><h3>Os números, lado a lado</h3>${rivalId ? (() => { const A = teamAnalysis(data, team.id, statsGroup.phaseId), B = teamAnalysis(data, rivalId, statsGroup.phaseId), per = (x, k) => x.all.played ? x.all[k] / x.all.played : null, rival = teamById(data, rivalId).name; return `${compareBars({ label: 'Pontos por jogo', a: per(A, 'points'), b: per(B, 'points'), bLabel: rival, digits: 2 })}${compareBars({ label: 'Golos marcados por jogo', a: per(A, 'goalsFor'), b: per(B, 'goalsFor'), bLabel: rival })}${compareBars({ label: 'Golos sofridos por jogo', a: per(A, 'goalsAgainst'), b: per(B, 'goalsAgainst'), bLabel: rival, lowerIsBetter: true })}`; })() : ''}<a class="text-link compare-link" href="/comparar?fase=${statsGroup.phaseId}&a=${team.id}${rivalId ? `&b=${rivalId}` : ''}">Comparação completa ${icon('arrow')}</a></div></div></div></section>` : ''}
   <section class="section">${heading('Cada golo conta', 'Os marcadores da equipa')}<div class="panel team-scorers-panel">${teamScorersPanel(data, team)}</div></section>
   ${statsGroup && s?.played ? `<section class="section">${heading('Dentro dos números', 'A época da equipa')}<div class="panel analysis-details">${teamAnalysisSection(data, team, statsGroup, { showScorers: false, showPoints: false })}</div></section>
   <section class="section"><div class="panel"><div class="panel-heading"><h2>Classificação · Série ${statsGroup.letter}</h2><span class="subtle-label">${esc(phaseById(data, statsGroup.phaseId).name)}</span></div>${standings(data, statsGroup, { highlight: team.id })}</div></section>` : ''}
-  ${fixtures.played.length ? `<section class="section">${heading('O percurso', 'Últimos resultados', '', textLink(`/clubes/${club.slug}`, 'Perfil do clube'))}${matchGrid(data, fixtures.played.slice(0, 6))}</section>` : ''}`;
+  <p class="page-actions">${textLink(`/clubes/${club.slug}`, `Perfil do clube · ${club.name}`)}</p>`;
 }
 export function notFound() {
   return `${pageHeading('404 · Fora de jogo', 'Esta página saiu do campo.', 'A página que procuras não foi encontrada.')}<a class="button" href="/">Voltar ao início ${icon('arrow')}</a>`;
