@@ -161,3 +161,13 @@ test('standings: every column is in the page, with a simple/detailed switch for 
   for (const col of ['Jogos', 'Vitórias', 'Empates', 'Derrotas', 'Golos marcados', 'Golos sofridos', 'Diferença de golos', 'Pontos']) assert.match(html, new RegExp(`<abbr title="${col}">`));
   assert.equal((html.match(/class="table-team" href="[^"]+" title="/g) ?? []).length >= g.teamIds.length, true);
 });
+
+test('crests: every registered crest is a local PNG/SVG/WEBP with source and publication reference', async () => {
+  const { readFile, stat } = await import('node:fs/promises');
+  const crests = JSON.parse(await readFile(new URL('../config/crests.json', import.meta.url), 'utf8'));
+  for (const [id, entry] of Object.entries(crests.clubs)) {
+    assert.match(entry.file, /^assets\/crests\/[a-z0-9-]+\.(png|svg|webp)$/, id);
+    assert.ok(entry.source && entry.authorizationReference, `${id}: origem e referência`);
+    assert.ok((await stat(new URL('../' + entry.file, import.meta.url))).size > 1000, `${id}: ficheiro existe`);
+  }
+});
