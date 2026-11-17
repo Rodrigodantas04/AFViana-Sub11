@@ -12,5 +12,5 @@ export default async (request, context) => {
   return handler(request, context);
 };
 
-// The live JSON overrides the static snapshot file; the admin API lives under /api/admin/.
-export const config = { path: ['/data/competition.json', '/api/admin/*'], preferStatic: false };
+// The live JSON and team calendars override the static snapshot files; the admin API lives under /api/admin/.
+export const config = { path: ['/data/competition.json', '/calendario/*', '/api/admin/*'], preferStatic: false };

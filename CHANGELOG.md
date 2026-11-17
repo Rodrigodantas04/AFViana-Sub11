@@ -1,5 +1,14 @@
 # Histórico de alterações
 
+## 0.5.0 — 2026-11-17 · A minha equipa
+
+- **A minha equipa** (`/minha-equipa`): escolhe-se uma vez (fica guardada só no aparelho, sem conta) e o site mostra o **próximo jogo** com contagem decrescente, os dois lados frente a frente (lugar, pontos, golos por jogo, forma, resultado anterior), o resto do calendário, um **resumo** automático (distância ao 1.º, melhor ataque/defesa, séries de vitórias, pontos ainda em jogo), os **marcadores da equipa** com o peso de cada um nos golos e a posição na Bota de Ouro, a análise da época e a classificação com a equipa destacada. Atalho na página inicial e no menu; link partilhável `?equipa=`.
+- **Gráficos para comparar** com qualquer equipa da série (`&vs=`): **corrida aos pontos** e **lugar jornada a jornada** (as restantes equipas em fundo; o último ponto coincide com a classificação oficial, verificado nas 33 equipas) e **ADN da equipa**, um radar com ataque, defesa, pontos, forma e jogos sem sofrer, escalado entre a pior e a melhor equipa da série, com a média da série.
+- **Calendário** da equipa em iCalendar (`/calendario/<equipa>.ics`), servido ao vivo: subscrever no iPhone/Outlook ou no Google Calendar e os jogos atualizam-se sozinhos. Só nomes das equipas, datas e resultados; dia inteiro, porque a fonte não tem horas nem campos.
+- **Cores dos clubes** nas iniciais (31 clubes, `config/club-colors.json`, com origem e nível de confiança; a cor do texto é escolhida pelo contraste). A cache ao vivo é reconstruída quando muda a configuração ou o deploy.
+- Painel: botões «Adicionar marcador» e «Autogolo» em cima, «Já marcaram» por baixo.
+- 43 testes.
+
 ## 0.4.0 — 2026-11-16 · Jogadores
 
 - **Perfil do jogador** com golos por fase, jogos em que marcou e peso na equipa; ligações a partir da Bota de Ouro, dos jogos e dos clubes. Não indexado, só com dados ao vivo, respeita «Ocultar nome».

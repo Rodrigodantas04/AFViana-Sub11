@@ -1,5 +1,5 @@
 import { validateDataset } from './domain.js';
-import { renderView, pageTitle } from './views.js';
+import { renderView, pageTitle, prefs } from './views.js';
 
 let data = null, refreshing = false;
 const main = document.getElementById('conteudo');
@@ -7,6 +7,12 @@ const sync = document.getElementById('sync-status');
 const dialog = document.getElementById('search-dialog');
 const mobileNav = document.getElementById('mobile-navigation');
 let manualTheme = false;
+prefs.origin = location.origin;
+try { prefs.myTeam = localStorage.getItem('minho11-team'); } catch { /* No saved team: the page asks again. */ }
+function follow(teamId) {
+  prefs.myTeam = teamId;
+  try { localStorage.setItem('minho11-team', teamId); } catch { /* Kept for this visit only. */ }
+}
 try { manualTheme = ['dark', 'light'].includes(localStorage.getItem('minho11-theme')); } catch { /* System preference remains available. */ }
 
 function applyTheme(theme, persist = false) {
@@ -57,12 +63,16 @@ document.addEventListener('click', event => {
   if (event.target.closest('[data-search-open]')) { dialog.showModal(); dialog.querySelector('input')?.focus(); return; }
   if (event.target.closest('[data-search-close]') || event.target === dialog) { dialog.close(); return; }
   if (event.target.closest('[data-menu-toggle]')) { mobileNav.hidden = !mobileNav.hidden; document.querySelector('[data-menu-toggle]').setAttribute('aria-expanded', String(!mobileNav.hidden)); return; }
+  const followed = event.target.closest('[data-follow]');
+  if (followed && data && !(event.metaKey || event.ctrlKey || event.shiftKey)) { event.preventDefault(); follow(followed.dataset.follow); navigate(new URL('/minha-equipa', location.href), { replace: followed.tagName === 'BUTTON' }); return; }
   const link = event.target.closest('a[href]');
   if (!link || event.defaultPrevented || event.button !== 0 || event.metaKey || event.ctrlKey || event.shiftKey || event.altKey || link.download || (link.target && link.target !== '_self')) return;
   const url = new URL(link.href);
   if (url.origin !== location.origin || url.hash || !data) return;
   event.preventDefault();
-  navigate(url);
+  const keep = link.hasAttribute('data-keep-scroll');
+  navigate(url, { filters: keep });
+  if (keep) main.querySelector('[data-keep-scroll][aria-current="true"]')?.focus({ preventScroll: true });
 });
 document.addEventListener('submit', event => {
   const form = event.target;

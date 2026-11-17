@@ -1,5 +1,9 @@
-import { normalize, teamById, clubById, groupById, phaseById, teamClubPath, groupPath, competitionPath, groupLabel, teamGroups, definedGroups, currentPhase, rankScorers, scorersFor, scorerScopes, recentMatches, upcomingMatches, groupStatistics, filterMatches, teamStanding, clubRanking, teamAnalysis, groupAverages, dateLabel, statusLabels, matchStatus, todayLisbon } from './domain.js';
-import { esc, icon, badge, teamBadge, clubBadge, compareBars, brand, heading, pageHeading, textLink, matchGrid, standings, groupTabs, phaseTabs, notes, metric, scorerRows, privateScorers, emptyState, statusPill, pendingGroup, groupShort, barChart, lineChart } from './components.js';
+import { normalize, teamById, clubById, groupById, phaseById, teamClubPath, groupPath, competitionPath, groupLabel, teamGroups, definedGroups, currentPhase, rankScorers, scorersFor, scorerScopes, recentMatches, upcomingMatches, groupStatistics, filterMatches, teamStanding, clubRanking, teamAnalysis, groupAverages, dateLabel, statusLabels, matchStatus, todayLisbon, teamFixtures, daysUntil, pointsRace } from './domain.js';
+import { esc, icon, badge, teamBadge, clubBadge, compareBars, brand, heading, pageHeading, textLink, matchGrid, standings, groupTabs, phaseTabs, notes, metric, scorerRows, privateScorers, emptyState, statusPill, pendingGroup, groupShort, barChart, lineChart, raceChart, radarChart } from './components.js';
+import { calendarPath } from './calendar.js';
+
+/** Per-visitor preferences, set by the browser (app.js). The static build renders without them. */
+export const prefs = { myTeam: null, origin: '' };
 
 const selected = (a, b) => a === b ? ' selected' : '';
 const number = (value, digits = 1) => value === null || value === undefined || Number.isNaN(value) ? '—' : Number(value).toLocaleString('pt-PT', { maximumFractionDigits: digits, minimumFractionDigits: 0 });
@@ -54,7 +58,7 @@ function home(data, url) {
   const scheduled = upcomingMatches(data).slice(0, 3);
   const pending = data.phases.filter(p => p.state === 'pending');
   return `<section class="hero"><div class="hero-copy"><p class="eyebrow"><span class="status-dot"></span> Futebol de formação · Alto Minho</p><h1 tabindex="-1">O FUTEBOL<br>COMEÇA <em>AQUI.</em></h1><p class="hero-description">Os jogos, as equipas e os golos da nossa terra.<br>O teu futebol. A tua bancada.</p><div class="hero-actions"><a class="button button-lime" href="${competitionPath(data)}">Explorar a competição ${icon('arrow')}</a><span class="hero-season">${esc(data.competition.category)}<span>${esc(data.competition.season)}</span></span></div><div class="hero-caption"><span>MINHO11</span><span>O futebol começa aqui.</span></div></div><div class="hero-art" aria-hidden="true"><svg class="pitch" viewBox="0 0 430 500"><rect x="35" y="30" width="360" height="440" rx="2"/><path d="M35 250h360M140 30v75h150V30M140 470v-75h150v75M175 30v27h80V30M175 470v-27h80v27"/><circle cx="215" cy="250" r="66"/><circle cx="215" cy="250" r="3"/></svg><span class="hero-eleven">11</span><span class="art-label">DA TERRA.<br>PARA O JOGO.</span><span class="art-coordinate">ALTO MINHO · PORTUGAL</span></div></section>
-  <div class="competition-strip"><div>${icon('trophy')}<span><strong>${esc(data.competition.shortName)}</strong><span>${esc(data.competition.category)} · ${esc(phase.name)} em curso${pending.length ? ` · ${esc(pending.map(p => p.name).join(', '))} por definir` : ''}</span></span></div>${textLink(competitionPath(data), 'Acompanhar')}</div>
+  <div class="competition-strip"><div>${icon('trophy')}<span><strong>${esc(data.competition.shortName)}</strong><span>${esc(data.competition.category)} · ${esc(phase.name)} em curso${pending.length ? ` · ${esc(pending.map(p => p.name).join(', '))} por definir` : ''}</span></span></div>${textLink(competitionPath(data), 'Acompanhar')}</div>${myTeamStrip(data)}
   <section class="metrics" aria-label="A competição em números">${metric(data.stats.activeTeams, 'Equipas em prova', 'shield', `${data.stats.teams} inscritas`)}${metric(data.stats.played, 'Jogos realizados', 'calendar', `${data.stats.matches} jogos no calendário`)}${metric(data.stats.goals, 'Golos marcados', 'ball', `${data.stats.individualGoals} com marcador identificado`)}${metric(groups.length, 'Séries', 'trophy', phase.name)}</section>
   <section class="section">${heading('O que se joga por cá', 'Últimos resultados', 'Os resultados mais recentes registados na competição.', textLink('/jogos?estado=finished', 'Todos os resultados'))}${matchGrid(data, recentMatches(data, 6))}</section>
   <section class="section home-columns"><div class="panel"><div class="panel-heading"><div><p class="eyebrow">A corrida ao topo · ${esc(phase.name)}</p><h2>Classificação</h2></div><form action="/" class="inline-form">${groupSelect(data, group?.id, phase.id)}<button type="submit" class="sr-only">Selecionar série</button></form></div>${group ? standings(data, group) : pendingPhase(data, phase)}<div class="panel-bottom">${group ? textLink(groupPath(data, group.id), `Explorar a Série ${group.letter}`) : ''}</div></div><div class="panel scorers-preview"><div class="panel-heading"><div><p class="eyebrow">Cada golo conta</p><h2>Bota de Ouro</h2></div>${icon('trophy', 'accent')}</div>${topScorersPreview(data)}<div class="panel-bottom">${textLink('/marcadores', 'Ver marcadores')}</div></div></section>
@@ -130,7 +134,7 @@ function rosterSection(data, team) {
 function splitRow(label, s) {
   return `<tr><th scope="row">${label}</th><td>${s.played}</td><td>${s.wins}-${s.draws}-${s.losses}</td><td>${s.goalsFor}</td><td>${s.goalsAgainst}</td><td>${s.played ? number(s.goalsFor / s.played) : '—'}</td><td>${s.played ? number(s.points / s.played) : '—'}</td></tr>`;
 }
-function teamAnalysisSection(data, team, group) {
+function teamAnalysisSection(data, team, group, { showScorers = true, showPoints = true } = {}) {
   const a = teamAnalysis(data, team.id, group.phaseId);
   if (!a.all.played) return `<p class="muted">Ainda sem jogos concluídos nesta fase.</p>`;
   const avg = groupAverages(data, group.id);
@@ -141,10 +145,10 @@ function teamAnalysisSection(data, team, group) {
   return `<div class="analysis">
     <div class="form-strip" aria-label="Forma recente: ${a.form.map(r => ({ V: 'vitória', E: 'empate', D: 'derrota' })[r]).join(', ')}"><span class="eyebrow">Últimos ${a.form.length} jogos</span>${a.form.map(r => `<span class="form-chip form-${r}">${r}</span>`).join('')}</div>
     <dl class="team-stat-grid">${[['Aproveitamento', percent(a.efficiency)], ['Golos/jogo', number(a.all.goalsFor / a.all.played)], ['Sofridos/jogo', number(a.all.goalsAgainst / a.all.played)], ['Sem sofrer', a.cleanSheets], ['Sem marcar', a.blanks], ['Decididos por ≤1 golo', a.closest]].map(([l, v]) => `<div><dt>${l}</dt><dd>${v}</dd></div>`).join('')}</dl>
-    <div class="two-columns analysis-charts"><div>${barChart({ title: 'Golos marcados e sofridos por jogo', rows, keys: [{ key: 'gf', label: 'Marcados', cls: 'bar-for' }, { key: 'ga', label: 'Sofridos', cls: 'bar-against' }] })}</div><div>${lineChart({ title: 'Pontos acumulados', label: 'pontos', points: a.timeline.map(t => ({ label: `J${t.round}`, value: t.points })) })}</div></div>
+    <div class="${showPoints ? 'two-columns analysis-charts' : 'analysis-single'}"><div>${barChart({ title: 'Golos marcados e sofridos por jogo', rows, keys: [{ key: 'gf', label: 'Marcados', cls: 'bar-for' }, { key: 'ga', label: 'Sofridos', cls: 'bar-against' }] })}</div>${showPoints ? `<div>${lineChart({ title: 'Pontos acumulados', label: 'pontos', points: a.timeline.map(t => ({ label: `J${t.round}`, value: t.points })) })}</div>` : ''}</div>
     <div class="two-columns"><div class="table-scroll"><table class="split-table"><caption>Casa e fora</caption><thead><tr><th scope="col"></th><th scope="col">J</th><th scope="col">V-E-D</th><th scope="col">GM</th><th scope="col">GS</th><th scope="col">GM/J</th><th scope="col">Pts/J</th></tr></thead><tbody>${splitRow('Casa', a.home)}${splitRow('Fora', a.away)}${splitRow('Total', a.all)}</tbody></table></div>
     <div class="compare"><h3>Comparação com a Série ${group.letter}</h3><p class="muted small">Por jogo disputado · média das ${avg.teams} equipas com jogos.</p>${compareBars({ label: 'Golos marcados por jogo', a: per(a.all.goalsFor, a.all.played), b: avg.goalsForPerGame, bLabel: 'Média da série' })}${compareBars({ label: 'Golos sofridos por jogo', a: per(a.all.goalsAgainst, a.all.played), b: avg.goalsAgainstPerGame, bLabel: 'Média da série', lowerIsBetter: true })}${compareBars({ label: 'Pontos por jogo', a: per(a.all.points, a.all.played), b: avg.pointsPerGame, bLabel: 'Média da série' })}<a class="text-link compare-link" href="/comparar?a=${team.id}">Comparar com outra equipa ${icon('arrow')}</a>${a.biggestWin ? `<p class="muted small">Maior vitória: ${a.biggestWin.gf}–${a.biggestWin.ga} frente a ${esc(teamById(data, a.biggestWin.opponentId).name)} (J${a.biggestWin.match.round}).</p>` : ''}</div></div>
-    <div class="team-scorers"><h3>Quem marcou</h3>${scorers.length ? `<ol class="scorer-list compact">${scorerRows(data, scorers)}</ol>` : `<p class="muted">${data.publication.scorerNames === 'public' ? 'Sem marcadores identificados nesta fase.' : 'Nomes disponíveis nos dados ao vivo.'}</p>`}<p class="muted small">${identified} de ${a.all.goalsFor} golos com marcador identificado${a.all.goalsFor - identified > 0 ? ` (os restantes são autogolos a favor ou golos sem nome na fonte)` : ''}.</p></div>
+    ${showScorers ? `<div class="team-scorers"><h3>Quem marcou</h3>${scorers.length ? `<ol class="scorer-list compact">${scorerRows(data, scorers)}</ol>` : `<p class="muted">${data.publication.scorerNames === 'public' ? 'Sem marcadores identificados nesta fase.' : 'Nomes disponíveis nos dados ao vivo.'}</p>`}<p class="muted small">${identified} de ${a.all.goalsFor} golos com marcador identificado${a.all.goalsFor - identified > 0 ? ` (os restantes são autogolos a favor ou golos sem nome na fonte)` : ''}.</p></div>` : ''}
   </div>`;
 }
 function clubProfile(data, id) {
@@ -157,7 +161,7 @@ function clubProfile(data, id) {
   return `<a class="back-link" href="/clubes">← Todos os clubes</a><header class="club-profile-heading">${clubBadge(club, true)}<div><p class="eyebrow">Futebol de formação · ${esc(data.competition.season)}</p><h1 tabindex="-1">${esc(club.name)}</h1><p class="muted">${teams.length} ${teams.length === 1 ? 'equipa na competição' : 'equipas na competição — cada uma com a sua série e os seus resultados'} · ${esc(data.competition.shortName)}</p></div></header>${teams.map(t => teamGroups(data, t.id).filter(g => g.defined).reverse().map(g => {
     const s = teamStanding(data, t.id, g.phaseId), phase = phaseById(data, g.phaseId);
     if (!s.played && !t.withdrawn) return `<section class="panel team-summary team-summary-upcoming"><div class="panel-heading"><div><h2>${esc(t.name)}</h2><p class="muted">${esc(phase.name)} · Série ${g.letter} · ainda sem jogos</p></div>${textLink(groupPath(data, g.id), 'Ver série')}</div></section>`;
-    return `<section class="panel team-summary"><div class="panel-heading"><div><h2>${esc(t.name)}</h2><p class="muted">${esc(phase.name)} · Série ${g.letter} · ${t.withdrawn ? 'Desistiu da prova' : `${s.position}.º classificado`}</p></div>${textLink(groupPath(data, g.id), 'Classificação')}</div><dl class="team-stat-grid">${[['Pontos', s.points], ['Jogos', s.played], ['Vitórias', s.wins], ['Empates', s.draws], ['Derrotas', s.losses], ['Golos marcados', s.goalsFor], ['Golos sofridos', s.goalsAgainst], ['Diferença', s.goalDifference]].map(([l, v]) => `<div><dt>${l}</dt><dd>${v}</dd></div>`).join('')}</dl>${t.withdrawn ? '' : `<details class="analysis-details" open><summary>${icon('chart')} Análise da equipa · ${esc(phase.name)}</summary>${teamAnalysisSection(data, t, g)}</details>`}</section>`;
+    return `<section class="panel team-summary"><div class="panel-heading"><div><h2>${esc(t.name)}</h2><p class="muted">${esc(phase.name)} · Série ${g.letter} · ${t.withdrawn ? 'Desistiu da prova' : `${s.position}.º classificado`}</p></div>${textLink(groupPath(data, g.id), 'Classificação')}</div><dl class="team-stat-grid">${[['Pontos', s.points], ['Jogos', s.played], ['Vitórias', s.wins], ['Empates', s.draws], ['Derrotas', s.losses], ['Golos marcados', s.goalsFor], ['Golos sofridos', s.goalsAgainst], ['Diferença', s.goalDifference]].map(([l, v]) => `<div><dt>${l}</dt><dd>${v}</dd></div>`).join('')}</dl>${t.withdrawn ? '' : `<p class="follow-hint"><a class="text-link" href="/minha-equipa?equipa=${t.id}">${icon('shield')} Seguir como a minha equipa</a></p><details class="analysis-details" open><summary>${icon('chart')} Análise da equipa · ${esc(phase.name)}</summary>${teamAnalysisSection(data, t, g)}</details>`}</section>`;
   }).join('') + rosterSection(data, t)).join('')}<section class="section">${heading('O percurso', 'Últimos resultados')}${matchGrid(data, matches)}</section><section class="section">${heading('Em agenda', 'Próximos jogos')}${matchGrid(data, fixtures)}</section>`;
 }
 function statistics(data) {
@@ -211,6 +215,129 @@ function playerProfile(data, id) {
   }).join('');
   return `${back}<header class="player-hero">${teamBadge(data, team, true)}<div><p class="eyebrow">${esc(data.competition.category)} · ${esc(data.competition.season)}</p><h1 tabindex="-1">${esc(record.name)}</h1><p class="muted"><a href="/clubes/${club.slug}">${esc(team.name)}</a> · ${ranked.rank}.º na Bota de Ouro${ranked.tied ? ' (empatado)' : ''}</p></div></header><section class="metrics">${metric(record.goals, 'Golos', 'ball', 'Acumulado da competição')}${byPhase.map(x => metric(x.goals, `Golos · ${x.p.name}`, 'trophy')).join('')}${metric(games.length, 'Jogos a marcar', 'calendar')}${metric(teamGoals ? `${Math.round(record.goals / teamGoals * 100)}%` : '—', 'dos golos da equipa', 'chart', `${record.goals} de ${teamGoals}`)}</section><section class="section">${heading('Jogo a jogo', 'Os golos', 'Jogos em que marcou, do mais recente para o mais antigo.')}${games.length ? `<ol class="player-games">${rows}</ol>` : emptyState('Sem jogos', '')}</section><p class="notice">${icon('shield')}<span>Perfil criado a partir das fichas de jogo: só o nome, a equipa e os golos. Sem fotografias nem dados pessoais. <a href="/privacidade">Pedir para retirar</a>.</span></p>`;
 }
+// --- A minha equipa ------------------------------------------------------------
+const plural = (n, one, many) => `${n} ${n === 1 ? one : many}`;
+const whenLabel = date => { const d = daysUntil(date); return d === null ? 'Data a confirmar' : d === 0 ? 'Hoje' : d === 1 ? 'Amanhã' : d > 1 ? `Daqui a ${d} dias` : 'Por confirmar'; };
+const longDate = date => date ? new Intl.DateTimeFormat('pt-PT', { weekday: 'long', day: 'numeric', month: 'long', timeZone: 'Europe/Lisbon' }).format(new Date(date + 'T12:00:00Z')) : 'Data a confirmar';
+function myTeamStrip(data) {
+  const team = prefs.myTeam ? teamById(data, prefs.myTeam) : null;
+  if (!team) return `<a class="my-team-cta" href="/minha-equipa">${icon('shield')}<span><strong>Segue a tua equipa</strong><small>Próximos jogos, marcadores e números da tua equipa, num só sítio.</small></span>${icon('arrow')}</a>`;
+  const next = teamFixtures(data, team.id).upcoming[0];
+  const s = [...teamGroups(data, team.id)].reverse().map(g => teamStanding(data, team.id, g.phaseId)).find(x => x?.played);
+  const opp = next && teamById(data, next.homeId === team.id ? next.awayId : next.homeId);
+  return `<a class="my-team-cta is-following" href="/minha-equipa">${teamBadge(data, team)}<span><small>A tua equipa${s ? ` · ${s.position}.º lugar, ${s.points} pts` : ''}</small><strong>${esc(team.name)}</strong><small>${next ? `Próximo: ${next.homeId === team.id ? 'em casa' : 'fora'} com ${esc(opp.name)} · ${esc(whenLabel(next.date).toLowerCase())}` : 'Sem próximos jogos marcados'}</small></span>${icon('arrow')}</a>`;
+}
+function teamPicker(data, url) {
+  const q = url.searchParams.get('q') ?? '';
+  const teams = data.teams.filter(t => !q || normalize(`${t.name} ${clubById(data, t.clubId).name}`).includes(normalize(q))).sort((a, b) => a.name.localeCompare(b.name, 'pt-PT'));
+  const where = t => teamGroups(data, t.id).filter(g => g.defined).map(g => `Série ${g.letter}`).join(' → ');
+  return `${pageHeading('A minha equipa', 'Qual é a tua equipa?', 'Escolhe uma vez. O MINHO11 lembra-se neste telemóvel e mostra-te logo os próximos jogos, os marcadores e os números da tua equipa.')}<form class="filter-bar picker-search" action="/minha-equipa"><input type="hidden" name="escolher" value="1">${searchInput(q)}</form><p class="result-count" role="status">${plural(teams.length, 'equipa', 'equipas')}</p>${teams.length ? `<ul class="team-pick-grid">${teams.map(t => `<li><a class="team-pick" href="/minha-equipa?equipa=${t.id}" data-follow="${t.id}">${teamBadge(data, t)}<span><strong>${esc(t.name)}</strong><small>${where(t)}${t.withdrawn ? ' · desistiu' : ''}</small></span>${prefs.myTeam === t.id ? '<span class="pick-current">A tua</span>' : icon('arrow')}</a></li>`).join('')}</ul>` : emptyState('Nenhuma equipa encontrada', 'Experimenta outro nome.')}<p class="muted small">A escolha fica guardada só neste aparelho. Não há conta nem registo.</p>`;
+}
+function calendarMenu(team) {
+  const file = calendarPath(team.id);
+  const host = prefs.origin ? new URL(prefs.origin).host : '';
+  const feed = host ? `webcal://${host}${file}` : file;
+  return `<details class="calendar-menu"><summary>${icon('calendar')} Jogos no meu calendário</summary><div class="calendar-body"><p class="muted small">Os jogos da ${esc(team.name)} entram no calendário do telemóvel e atualizam-se sozinhos quando há novas datas ou resultados.</p><div class="calendar-links"><a class="button" href="${esc(feed)}">iPhone, Outlook…</a>${host ? `<a class="button button-secondary" href="https://calendar.google.com/calendar/render?cid=${encodeURIComponent(feed)}" target="_blank" rel="noopener">Google Calendar</a>` : ''}<a class="text-link" href="${esc(file)}" download="minho11-${esc(team.id)}.ics">Descarregar ficheiro .ics ${icon('arrow')}</a></div><p class="muted small">A fonte só tem o dia do jogo: hora e campo, confirmar com o clube.</p></div></details>`;
+}
+function nextMatchPanel(data, team, match) {
+  const isHome = match.homeId === team.id, oppId = isHome ? match.awayId : match.homeId, g = groupById(data, match.groupId);
+  const me = teamAnalysis(data, team.id, match.phaseId), them = teamAnalysis(data, oppId, match.phaseId);
+  const sMe = teamStanding(data, team.id, match.phaseId), sThem = teamStanding(data, oppId, match.phaseId);
+  const before = data.matches.find(m => m.status === 'finished' && m.phaseId === match.phaseId && [m.homeId, m.awayId].includes(team.id) && [m.homeId, m.awayId].includes(oppId));
+  const per = (a, k) => a.all.played ? number(a.all[k] / a.all.played) : '—';
+  const form = a => a.form.length ? a.form.map(r => `<span class="form-chip form-${r}">${r}</span>`).join('') : '<span class="muted small">sem jogos</span>';
+  const side = (id, s, a, label) => `<div class="nm-team">${teamBadge(data, id, true)}<strong>${esc(teamById(data, id).name)}</strong><span class="pg-where">${label}</span><div class="form-strip">${form(a)}</div></div>`;
+  const row = (label, a, b) => `<div class="nm-row"><strong>${a}</strong><span>${label}</span><strong>${b}</strong></div>`;
+  const home = isHome ? [team.id, sMe, me] : [oppId, sThem, them], away = isHome ? [oppId, sThem, them] : [team.id, sMe, me];
+  return `<article class="panel next-match"><div class="nm-when"><p class="eyebrow">Próximo jogo · ${esc(phaseById(data, match.phaseId).name)} · Série ${g.letter} · J${match.round}</p><strong class="nm-countdown">${esc(whenLabel(match.date))}</strong><span class="muted">${esc(longDate(match.date))}</span></div><div class="nm-teams">${side(home[0], home[1], home[2], 'Casa')}<span class="versus-x" aria-hidden="true">×</span>${side(away[0], away[1], away[2], 'Fora')}</div>${home[1]?.played || away[1]?.played ? `<div class="nm-stats">${row('Lugar na série', home[1]?.played ? `${home[1].position}.º` : '—', away[1]?.played ? `${away[1].position}.º` : '—')}${row('Pontos', home[1]?.points ?? 0, away[1]?.points ?? 0)}${row('Golos marcados por jogo', per(home[2], 'goalsFor'), per(away[2], 'goalsFor'))}${row('Golos sofridos por jogo', per(home[2], 'goalsAgainst'), per(away[2], 'goalsAgainst'))}</div>` : ''}${before ? `<p class="nm-before">${icon('clock')} Já se defrontaram nesta fase: <a href="/jogos/${before.id}">${esc(teamById(data, before.homeId).name)} ${before.homeGoals}–${before.awayGoals} ${esc(teamById(data, before.awayId).name)}</a></p>` : ''}<div class="panel-bottom">${textLink(`/comparar?fase=${match.phaseId}&a=${team.id}&b=${oppId}`, 'Comparar as duas equipas')}${textLink(`/jogos/${match.id}`, 'Ver jogo')}</div></article>`;
+}
+function insights(data, team, group, fixtures) {
+  const s = group.standings.find(x => x.teamId === team.id), a = teamAnalysis(data, team.id, group.phaseId);
+  if (!s?.played) return '';
+  const list = [], name = id => esc(teamById(data, id).name), leader = group.standings[0];
+  if (s.position === 1) { const gap = s.points - (group.standings[1]?.points ?? s.points); list.push(['trophy', gap ? `Lidera a Série ${group.letter} com ${plural(gap, 'ponto', 'pontos')} de vantagem.` : `Lidera a Série ${group.letter}, empatada em pontos com o 2.º.`]); }
+  else list.push(['trophy', leader.points === s.points ? `Tem os mesmos pontos que o 1.º (${name(leader.teamId)}); está atrás pelo desempate.` : `Está a ${plural(leader.points - s.points, 'ponto', 'pontos')} do 1.º lugar (${name(leader.teamId)}).`]);
+  const active = group.standings.filter(x => x.played && !teamById(data, x.teamId).withdrawn);
+  const rate = (x, k) => x[k] / x.played;
+  if (active.length > 1 && active.every(x => rate(x, 'goalsFor') <= rate(s, 'goalsFor'))) list.push(['ball', `Melhor ataque da série: ${number(rate(s, 'goalsFor'))} golos por jogo.`]);
+  if (active.length > 1 && active.every(x => rate(x, 'goalsAgainst') >= rate(s, 'goalsAgainst'))) { const r = rate(s, 'goalsAgainst'); list.push(['shield', `Defesa menos batida da série: ${number(r)} ${r === 1 ? 'golo sofrido' : 'golos sofridos'} por jogo.`]); }
+  const results = a.rows.map(r => r.result).reverse();
+  const run = test => { let n = 0; for (const r of results) { if (!test(r)) break; n++; } return n; };
+  const wins = run(r => r === 'V'), unbeaten = run(r => r !== 'D');
+  if (wins >= 2) list.push(['chart', `${wins} vitórias seguidas.`]);
+  else if (unbeaten >= 3) list.push(['chart', `${unbeaten} jogos seguidos sem perder.`]);
+  if (a.cleanSheets) list.push(['shield', `${plural(a.cleanSheets, 'jogo', 'jogos')} sem sofrer golos.`]);
+  const left = [...fixtures.upcoming, ...fixtures.unconfirmed].filter(m => m.groupId === group.id).length;
+  if (left) list.push(['calendar', `Faltam ${plural(left, 'jogo', 'jogos')} nesta fase: ${left * 3} pontos ainda em jogo.${s.position > 1 && s.points + left * 3 >= leader.points ? ' Ainda dá para chegar aos pontos do 1.º.' : ''}`]);
+  return `<ul class="insights">${list.map(([i, t]) => `<li>${icon(i)}<span>${t}</span></li>`).join('')}</ul>`;
+}
+function rivalChips(data, team, group, rivalId) {
+  return `<nav class="rival-chips" aria-label="Comparar com"><span class="muted small">Comparar com:</span>${group.teamIds.filter(id => id !== team.id).map(id => `<a href="/minha-equipa?equipa=${team.id}&vs=${id}" data-keep-scroll${id === rivalId ? ' aria-current="true"' : ''}>${teamBadge(data, id)}${esc(teamById(data, id).name)}</a>`).join('')}</nav>`;
+}
+function raceSection(data, team, group, rivalId) {
+  const race = pointsRace(data, group.id);
+  if (race.rounds.length < 2) return '';
+  const role = id => id === team.id ? 'me' : id === rivalId ? 'rival' : 'other';
+  const series = key => race.teams.map(t => ({ label: teamById(data, t.teamId).name, values: t[key], role: role(t.teamId) }));
+  return `<div class="race-grid">${raceChart({ title: 'Corrida aos pontos', rounds: race.rounds, series: series('points'), unit: 'pontos' })}${raceChart({ title: 'Lugar na série, jornada a jornada', rounds: race.rounds, series: series('positions'), invert: true, max: group.teamIds.length, caption: 'Com os desempates da folha: pontos, diferença de golos, golos marcados.' })}</div>`;
+}
+function dnaSection(data, team, group, rivalId) {
+  const ids = group.teamIds.filter(id => !teamById(data, id).withdrawn && teamStanding(data, id, group.phaseId)?.played);
+  if (!ids.includes(team.id) || ids.length < 3) return '';
+  const raw = id => { const a = teamAnalysis(data, id, group.phaseId), p = a.all.played, last = a.rows.slice(-5); return [a.all.goalsFor / p, a.all.goalsAgainst / p, a.all.points / p, last.reduce((n, r) => n + r.points, 0) / (3 * last.length), a.cleanSheets / p]; };
+  const table = new Map(ids.map(id => [id, raw(id)]));
+  const lowerIsBetter = [false, true, false, false, false];
+  const score = values => values.map((v, i) => { const col = [...table.values()].map(r => r[i]), min = Math.min(...col), max = Math.max(...col); if (max === min) return 0.5; const t = (v - min) / (max - min); return lowerIsBetter[i] ? 1 - t : t; });
+  const avg = [0, 1, 2, 3, 4].map(i => [...table.values()].reduce((n, r) => n + r[i], 0) / table.size);
+  const pct = v => `${Math.round(v * 100)}%`;
+  const axes = [{ label: 'Ataque', format: v => `${number(v)} golos/j` }, { label: 'Defesa', format: v => `${number(v)} sofr./j` }, { label: 'Pontos', format: v => `${number(v)} pts/j` }, { label: 'Forma', format: pct }, { label: 'Sem sofrer', format: pct }];
+  const series = [{ label: 'Média da série', role: 'avg', raw: avg, score: score(avg) }];
+  if (rivalId && table.has(rivalId)) series.push({ label: teamById(data, rivalId).name, role: 'rival', raw: table.get(rivalId), score: score(table.get(rivalId)) });
+  series.push({ label: team.name, role: 'me', raw: table.get(team.id), score: score(table.get(team.id)) });
+  return radarChart({ title: 'O ADN da equipa', axes, series, caption: 'Cada eixo vai da pior à melhor equipa da série: quanto mais perto da ponta, melhor. Defesa: menos golos sofridos. Forma: pontos nos últimos 5 jogos.' });
+}
+function teamScorersPanel(data, team) {
+  if (data.publication.scorerNames !== 'public') return privateScorers(data);
+  const list = rankScorers(scorersFor(data, 'total').filter(s => s.teamId === team.id));
+  const overall = new Map(rankScorers(scorersFor(data, 'total')).map(s => [s.id, s]));
+  const teamGoals = data.groups.flatMap(g => g.standings).filter(s => s.teamId === team.id).reduce((n, s) => n + s.goalsFor, 0);
+  if (!list.length) return `<p class="muted">Ainda sem marcadores identificados.</p>`;
+  const max = list[0].goals;
+  const row = s => `<li><span class="scorer-rank">${s.rank}.${s.tied ? '<small>=</small>' : ''}</span><div class="share-main"><a class="player-link" href="/jogadores/${esc(s.id)}"><strong>${esc(s.name)}</strong></a><small>${overall.get(s.id).rank}.º na Bota de Ouro · ${teamGoals ? Math.round(s.goals / teamGoals * 100) : 0}% dos golos da equipa</small><span class="share-track" aria-hidden="true"><span style="--v:${(s.goals / max * 100).toFixed(1)}%"></span></span></div><strong class="goal-count">${s.goals}<small>${s.goals === 1 ? 'golo' : 'golos'}</small></strong></li>`;
+  const top = list.slice(0, 5), rest = list.slice(5);
+  return `<ol class="share-list">${top.map(row).join('')}</ol>${rest.length ? `<details class="more-scorers"><summary>Ver todos (${list.length} jogadores)</summary><ol class="share-list">${rest.map(row).join('')}</ol></details>` : ''}<p class="muted small">Acumulado das duas fases · ${plural(list.reduce((n, s) => n + s.goals, 0), 'golo', 'golos')} com nome, de ${teamGoals} da equipa.</p>`;
+}
+function myTeam(data, url) {
+  const asked = url.searchParams.get('equipa');
+  const team = url.searchParams.has('escolher') ? null : teamById(data, asked ?? prefs.myTeam ?? '');
+  if (!team) return teamPicker(data, url);
+  const club = clubById(data, team.clubId);
+  const groups = teamGroups(data, team.id).filter(g => g.defined);
+  const statsGroup = [...groups].reverse().find(g => teamStanding(data, team.id, g.phaseId)?.played) ?? groups.at(-1);
+  const current = groups.at(-1);
+  const fixtures = teamFixtures(data, team.id);
+  const following = prefs.myTeam === team.id;
+  const s = statsGroup && teamStanding(data, team.id, statsGroup.phaseId);
+  const form = statsGroup ? teamAnalysis(data, team.id, statsGroup.phaseId).form : [];
+  const others = statsGroup ? statsGroup.standings.filter(x => x.teamId !== team.id) : [];
+  const askedRival = url.searchParams.get('vs');
+  const rivalId = statsGroup?.teamIds.includes(askedRival) && askedRival !== team.id ? askedRival : (others[0]?.teamId ?? null);
+  const where = [current && current !== statsGroup ? `${phaseById(data, current.phaseId).name} · Série ${current.letter}` : null, statsGroup && s?.played ? `${phaseById(data, statsGroup.phaseId).name} · Série ${statsGroup.letter} · ${team.withdrawn ? 'desistiu' : `${s.position}.º lugar · ${s.points} pts`}` : null].filter(Boolean).join(' — ');
+  const colors = club.colors ? ` style="--club-1:${club.colors.primary};--club-2:${club.colors.secondary}"` : '';
+  const hero = `<header class="my-hero${club.colors ? ' has-colors' : ''}"${colors}>${teamBadge(data, team, true)}<div class="my-hero-text"><p class="eyebrow">${following ? '★ A minha equipa' : 'Equipa'} · ${esc(data.competition.season)}</p><h1 tabindex="-1">${esc(team.name)}</h1><p class="muted">${where ? esc(where) : 'Ainda sem série definida'}</p>${form.length ? `<div class="form-strip" aria-label="Últimos jogos: ${form.map(r => ({ V: 'vitória', E: 'empate', D: 'derrota' })[r]).join(', ')}">${form.map(r => `<span class="form-chip form-${r}">${r}</span>`).join('')}</div>` : ''}</div><div class="my-actions">${following ? `<span class="following-tag">${icon('check')} A tua equipa</span><a class="reset-link" href="/minha-equipa?escolher=1">Mudar de equipa</a>` : `<button type="button" class="button" data-follow="${team.id}">${icon('shield')} Seguir esta equipa</button><a class="reset-link" href="/minha-equipa?escolher=1">Escolher outra</a>`}</div></header>`;
+  if (team.withdrawn) return `${hero}<p class="notice">${icon('info')}<span>Esta equipa desistiu da prova. Os jogos já disputados continuam no histórico.</span></p><section class="section">${heading('O percurso', 'Jogos disputados')}${matchGrid(data, fixtures.played)}</section>`;
+  const next = fixtures.upcoming[0];
+  const later = fixtures.upcoming.slice(1);
+  return `${hero}${calendarMenu(team)}
+  <section class="section my-next">${next ? nextMatchPanel(data, team, next) : `<div class="panel">${emptyState('Sem próximos jogos marcados', 'Quando houver novas datas, aparecem aqui (e no teu calendário, se o subscreveres).')}</div>`}${fixtures.unconfirmed.length ? `<p class="notice">${icon('clock')}<span>${plural(fixtures.unconfirmed.length, 'jogo já passou a data e ainda não tem', 'jogos já passaram a data e ainda não têm')} resultado lançado.</span></p>` : ''}</section>
+  ${later.length ? `<section class="section">${heading('O que vem a seguir', 'Calendário da equipa', `${plural(fixtures.upcoming.length, 'jogo marcado', 'jogos marcados')}.`)}${matchGrid(data, later)}</section>` : ''}
+  ${statsGroup && s?.played ? `<section class="section">${heading(`${phaseById(data, statsGroup.phaseId).name} · Série ${statsGroup.letter}`, 'Em resumo')}${insights(data, team, statsGroup, fixtures)}</section>
+  <section class="section">${heading('Frente a frente', 'Contra quem quiseres', 'Escolhe uma equipa da série para a pôr lado a lado com a tua nos gráficos.')}<div class="panel my-compare">${rivalChips(data, team, statsGroup, rivalId)}${raceSection(data, team, statsGroup, rivalId)}<div class="dna-grid">${dnaSection(data, team, statsGroup, rivalId)}<div class="dna-side"><h3>Os números, lado a lado</h3>${rivalId ? (() => { const A = teamAnalysis(data, team.id, statsGroup.phaseId), B = teamAnalysis(data, rivalId, statsGroup.phaseId), per = (x, k) => x.all.played ? x.all[k] / x.all.played : null, rival = teamById(data, rivalId).name; return `${compareBars({ label: 'Pontos por jogo', a: per(A, 'points'), b: per(B, 'points'), bLabel: rival, digits: 2 })}${compareBars({ label: 'Golos marcados por jogo', a: per(A, 'goalsFor'), b: per(B, 'goalsFor'), bLabel: rival })}${compareBars({ label: 'Golos sofridos por jogo', a: per(A, 'goalsAgainst'), b: per(B, 'goalsAgainst'), bLabel: rival, lowerIsBetter: true })}`; })() : ''}<a class="text-link compare-link" href="/comparar?fase=${statsGroup.phaseId}&a=${team.id}${rivalId ? `&b=${rivalId}` : ''}">Comparação completa ${icon('arrow')}</a></div></div></div></section>` : ''}
+  <section class="section">${heading('Cada golo conta', 'Os marcadores da equipa')}<div class="panel team-scorers-panel">${teamScorersPanel(data, team)}</div></section>
+  ${statsGroup && s?.played ? `<section class="section">${heading('Dentro dos números', 'A época da equipa')}<div class="panel analysis-details">${teamAnalysisSection(data, team, statsGroup, { showScorers: false, showPoints: false })}</div></section>
+  <section class="section"><div class="panel"><div class="panel-heading"><h2>Classificação · Série ${statsGroup.letter}</h2><span class="subtle-label">${esc(phaseById(data, statsGroup.phaseId).name)}</span></div>${standings(data, statsGroup, { highlight: team.id })}</div></section>` : ''}
+  ${fixtures.played.length ? `<section class="section">${heading('O percurso', 'Últimos resultados', '', textLink(`/clubes/${club.slug}`, 'Perfil do clube'))}${matchGrid(data, fixtures.played.slice(0, 6))}</section>` : ''}`;
+}
 export function notFound() {
   return `${pageHeading('404 · Fora de jogo', 'Esta página saiu do campo.', 'A página que procuras não foi encontrada.')}<a class="button" href="/">Voltar ao início ${icon('arrow')}</a>`;
 }
@@ -240,6 +367,7 @@ export function renderView(data, url) {
   if (path === '/estatisticas') return statistics(data);
   if (path === '/privacidade') return privacyPage(data);
   if (path === '/comparar') return compareTeams(data, url);
+  if (path === '/minha-equipa') return myTeam(data, url);
   if (path.startsWith('/jogadores/')) return playerProfile(data, path.slice('/jogadores/'.length));
   return notFound();
 }
@@ -250,15 +378,15 @@ export function pageTitle(data, path) {
   const route = routeOf(data, path);
   if (route.view === 'group') return `${groupLabel(data, route.id)} · ${data.competition.shortName} · MINHO11`;
   if (route.view === 'phase') return `${phaseById(data, route.id)?.name ?? ''} · ${data.competition.shortName} · MINHO11`;
-  const names = { '/comparar': 'Comparar equipas', '/privacidade': 'Privacidade', '/': 'O futebol começa aqui', '/jogos': 'Jogos e resultados', '/clubes': 'Os clubes', '/marcadores': 'Bota de Ouro', '/estatisticas': 'Estatísticas', '/competicoes': 'Competições' };
+  const names = { '/minha-equipa': 'A minha equipa', '/comparar': 'Comparar equipas', '/privacidade': 'Privacidade', '/': 'O futebol começa aqui', '/jogos': 'Jogos e resultados', '/clubes': 'Os clubes', '/marcadores': 'Bota de Ouro', '/estatisticas': 'Estatísticas', '/competicoes': 'Competições' };
   return `${names[path] ?? data.competition.shortName} · MINHO11`;
 }
 export function header(data, path) {
-  const links = [['/', 'Início'], ['/competicoes', 'Competições'], ['/jogos', 'Jogos'], ['/clubes', 'Clubes'], ['/marcadores', 'Marcadores']];
+  const links = [['/', 'Início'], ['/minha-equipa', 'A minha equipa'], ['/competicoes', 'Competições'], ['/jogos', 'Jogos'], ['/clubes', 'Clubes'], ['/marcadores', 'Marcadores']];
   return `<a class="skip-link" href="#conteudo">Saltar para o conteúdo</a><header class="site-header"><div class="header-inner shell">${brand()}<nav class="desktop-nav" aria-label="Navegação principal">${links.map(([href, label]) => `<a href="${href}"${(href === '/' ? path === '/' : path.startsWith(href)) ? ' aria-current="page"' : ''}>${label}</a>`).join('')}</nav><div class="header-actions"><span class="season-label">${esc(data.competition.season)}</span><button class="icon-button" type="button" data-search-open aria-label="Procurar equipa">${icon('search')}</button><button class="icon-button" type="button" data-theme-toggle aria-label="Alternar tema claro e escuro">${icon('sun')}</button><button class="icon-button menu-button" type="button" data-menu-toggle aria-label="Abrir navegação" aria-expanded="false" aria-controls="mobile-navigation">${icon('menu')}</button></div></div><nav id="mobile-navigation" class="mobile-navigation shell" aria-label="Navegação móvel" hidden>${links.map(([href, label]) => `<a href="${href}">${label}</a>`).join('')}<a href="/estatisticas">Estatísticas</a></nav></header>`;
 }
 export function footer(data) {
-  return `<footer class="site-footer shell"><div>${brand()}<p>O futebol começa aqui.</p><p class="muted small">Plataforma independente · Alto Minho</p></div><nav aria-label="Navegação do rodapé"><a href="/competicoes">A competição</a><a href="/estatisticas">Estatísticas</a><a href="/marcadores">Marcadores</a><a href="/comparar">Comparar equipas</a><a href="/privacidade">Privacidade</a></nav><div class="footer-data"><p>${esc(data.competition.shortName)} · ${esc(data.competition.category)}<br>${esc(currentPhase(data).name)} · ${esc(data.competition.season)}</p><p class="sync-status" id="sync-status" role="status">Dados de ${new Intl.DateTimeFormat('pt-PT', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Lisbon' }).format(new Date(data.importedAt))}</p><p class="muted small">Atualizado automaticamente quando há resultados novos.</p></div></footer><dialog id="search-dialog" aria-labelledby="search-title"><form action="/jogos"><div class="dialog-heading"><h2 id="search-title">Encontra a tua equipa.</h2><button type="button" class="icon-button" data-search-close aria-label="Fechar pesquisa">${icon('close')}</button></div><label>Nome da equipa<input type="search" name="q" placeholder="Ex.: Lanheses" required></label><button class="button" type="submit">Pesquisar ${icon('arrow')}</button></form></dialog>`;
+  return `<footer class="site-footer shell"><div>${brand()}<p>O futebol começa aqui.</p><p class="muted small">Plataforma independente · Alto Minho</p></div><nav aria-label="Navegação do rodapé"><a href="/competicoes">A competição</a><a href="/estatisticas">Estatísticas</a><a href="/marcadores">Marcadores</a><a href="/minha-equipa">A minha equipa</a><a href="/comparar">Comparar equipas</a><a href="/privacidade">Privacidade</a></nav><div class="footer-data"><p>${esc(data.competition.shortName)} · ${esc(data.competition.category)}<br>${esc(currentPhase(data).name)} · ${esc(data.competition.season)}</p><p class="sync-status" id="sync-status" role="status">Dados de ${new Intl.DateTimeFormat('pt-PT', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Lisbon' }).format(new Date(data.importedAt))}</p><p class="muted small">Atualizado automaticamente quando há resultados novos.</p></div></footer><dialog id="search-dialog" aria-labelledby="search-title"><form action="/jogos"><div class="dialog-heading"><h2 id="search-title">Encontra a tua equipa.</h2><button type="button" class="icon-button" data-search-close aria-label="Fechar pesquisa">${icon('close')}</button></div><label>Nome da equipa<input type="search" name="q" placeholder="Ex.: Lanheses" required></label><button class="button" type="submit">Pesquisar ${icon('arrow')}</button></form></dialog>`;
 }
 export function privacyPage(data) {
   return `${pageHeading('Privacidade', 'Os miúdos primeiro.', 'Como o MINHO11 trata os nomes dos jogadores.')}<div class="panel prose"><p>O MINHO11 mostra apenas o que é necessário para valorizar os golos: o nome tal como aparece na ficha do jogo, a equipa e o número de golos. Não publicamos datas de nascimento, contactos, moradas nem fotografias de crianças sem autorização própria.</p><p>Os nomes não são guardados no repositório público do projeto nem nas páginas estáticas; chegam apenas com os dados ao vivo da competição.</p><p>Um encarregado de educação ou o clube pode pedir a retirada de um nome${data.competition.privacyContact ? ` através de <a href="mailto:${esc(data.competition.privacyContact)}">${esc(data.competition.privacyContact)}</a>` : ' aos responsáveis da plataforma'}. O pedido é aplicado em todo o site (rankings e jogos) sem apagar o resultado da equipa.</p></div>`;

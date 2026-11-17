@@ -4,6 +4,7 @@ import { fileURLToPath } from 'node:url';
 import { validateDataset, groupPath } from '../src/domain.js';
 import { renderView, pageTitle, header, footer } from '../src/views.js';
 import { esc } from '../src/components.js';
+import { teamCalendar } from '../src/calendar.js';
 
 const root = fileURLToPath(new URL('../', import.meta.url)), output = path.join(root, 'dist');
 // Static HTML is always rendered from the repository snapshot, which has no children's names.
@@ -11,7 +12,7 @@ const data = validateDataset(JSON.parse(await fs.readFile(path.join(root, 'data/
 const livePath = path.join(root, 'data/internal/live.json');
 const liveData = await fs.readFile(livePath, 'utf8').then(text => validateDataset(JSON.parse(text)) && text).catch(() => null);
 const base = `/competicoes/${data.competition.slug}`;
-const routes = ['/', '/competicoes', base, '/jogos', '/clubes', '/marcadores', '/estatisticas', '/privacidade', '/comparar', ...data.phases.map(p => `${base}/${p.id}`), ...data.groups.map(g => groupPath(data, g.id)), ...data.matches.map(m => `/jogos/${m.id}`), ...data.clubs.map(c => `/clubes/${c.slug}`)];
+const routes = ['/', '/minha-equipa', '/competicoes', base, '/jogos', '/clubes', '/marcadores', '/estatisticas', '/privacidade', '/comparar', ...data.phases.map(p => `${base}/${p.id}`), ...data.groups.map(g => groupPath(data, g.id)), ...data.matches.map(m => `/jogos/${m.id}`), ...data.clubs.map(c => `/clubes/${c.slug}`)];
 const siteUrl = process.env.SITE_URL || process.env.URL || '';
 if (siteUrl && !/^https?:\/\//.test(siteUrl)) throw new Error('SITE_URL deve ser um URL HTTP(S) absoluto.');
 const baseUrl = siteUrl ? new URL(siteUrl).origin : '';
@@ -21,7 +22,7 @@ await fs.mkdir(output, { recursive: true });
 await fs.rm(output, { recursive: true, force: true });
 await fs.mkdir(path.join(output, 'assets'), { recursive: true });
 await fs.mkdir(path.join(output, 'data'), { recursive: true });
-for (const name of ['app.js', 'theme.js', 'views.js', 'components.js', 'domain.js', 'styles.css']) await fs.copyFile(path.join(root, 'src', name), path.join(output, 'assets', name));
+for (const name of ['app.js', 'theme.js', 'views.js', 'components.js', 'domain.js', 'calendar.js', 'styles.css']) await fs.copyFile(path.join(root, 'src', name), path.join(output, 'assets', name));
 for (const name of ['admin.js', 'admin.css']) await fs.copyFile(path.join(root, 'src', name), path.join(output, 'assets', name));
 await fs.mkdir(path.join(output, 'admin'), { recursive: true });
 await fs.copyFile(path.join(root, 'src/admin.html'), path.join(output, 'admin/index.html'));
@@ -56,11 +57,14 @@ for (const route of routes) {
   await fs.writeFile(path.join(directory, 'index.html'), html(route));
 }
 await fs.writeFile(path.join(output, '404.html'), html('/404', true));
+// Team calendars: static fallback from the snapshot (no names in it); production serves them live from the function.
+await fs.mkdir(path.join(output, 'calendario'), { recursive: true });
+for (const team of data.teams) await fs.writeFile(path.join(output, 'calendario', `${team.id}.ics`), teamCalendar(data, team.id, { origin: baseUrl }));
 // Player profiles exist only with live data: one generic, non-indexed shell for every /jogadores/<id>.
 await fs.mkdir(path.join(output, 'jogadores'), { recursive: true });
 await fs.writeFile(path.join(output, 'jogadores/index.html'), html('/jogadores/-').replace('<meta charset="utf-8">', '<meta charset="utf-8"><meta name="robots" content="noindex, nofollow">'));
-await fs.writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nDisallow: /jogadores/\n${baseUrl ? `Sitemap: ${baseUrl}/sitemap.xml\n` : ''}`);
+await fs.writeFile(path.join(output, 'robots.txt'), `User-agent: *\nAllow: /\nDisallow: /admin\nDisallow: /api/\nDisallow: /jogadores/\nDisallow: /calendario/\n${baseUrl ? `Sitemap: ${baseUrl}/sitemap.xml\n` : ''}`);
 if (baseUrl) await fs.writeFile(path.join(output, 'sitemap.xml'), `<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${routes.map(r => `<url><loc>${esc(baseUrl + r)}</loc></url>`).join('')}</urlset>`);
 await fs.writeFile(path.join(output, '_redirects'), data.groups.filter(g => g.phaseId === 'fase-1').map(g => `${base}/serie-${g.letter.toLowerCase()} ${groupPath(data, g.id)} 301`).join('\n') + '\n/jogadores/*  /jogadores/index.html  200\n');
-await fs.writeFile(path.join(output, '_headers'), '/jogadores/*\n  X-Robots-Tag: noindex, nofollow\n/data/competition.json\n  Cache-Control: no-cache, no-store, must-revalidate\n/assets/*\n  Cache-Control: public, max-age=0, must-revalidate\n');
+await fs.writeFile(path.join(output, '_headers'), '/jogadores/*\n  X-Robots-Tag: noindex, nofollow\n/calendario/*\n  Content-Type: text/calendar; charset=utf-8\n  X-Robots-Tag: noindex\n/data/competition.json\n  Cache-Control: no-cache, no-store, must-revalidate\n/assets/*\n  Cache-Control: public, max-age=0, must-revalidate\n');
 console.log(`MINHO11: ${routes.length} páginas pré-renderizadas. Fonte Excel e relatório interno fora de dist/.`);

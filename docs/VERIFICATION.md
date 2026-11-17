@@ -1,4 +1,14 @@
-# Verificação da versão 0.4.0
+# Verificação da versão 0.5.0
+
+Executada localmente em 17/11/2026 (macOS, Node 24).
+
+## 0.5.0 · A minha equipa
+
+- `npm test`: 43 testes, 0 falhas. Os novos cobrem a corrida aos pontos (a última jornada é igual à classificação oficial em todas as séries), os próximos jogos e a contagem de dias, a página (seletor, equipa guardada, rival, linha destacada, atalho na página inicial), o iCalendar (linhas ≤ 75 octetos, um evento por jogo com data, sem nomes de jogadores) e a rota `/calendario/<equipa>.ics` (`text/calendar`, 404 para equipa desconhecida).
+- Dados reais: `pointsRace` coincide com a classificação nas 33 equipas (pontos e lugar), 0 divergências.
+- Browser (Playwright, 390 px e 1280 px, claro e escuro): sem scroll horizontal; procurar e escolher equipa guarda a escolha e abre a página; trocar de rival mantém o scroll e o foco; atalho na página inicial com o próximo jogo; ligações de calendário (`webcal://`, Google, `.ics`) e o ficheiro servido como `text/calendar`; sem erros na consola. Menu com «A minha equipa» cabe a 900 px.
+
+## 0.4.0
 
 Executada localmente em 16/11/2026 (macOS, Node 24).
 

@@ -10,6 +10,7 @@ import { importCompetition } from '../lib/competition.js';
 import { applyChange, validateChange, OWN_GOAL_LABEL } from '../lib/writer.js';
 import { projectDataset } from '../lib/projection.js';
 import { todayLisbon } from '../src/domain.js';
+import { teamCalendar } from '../src/calendar.js';
 import { authConfigured, verifyPassword, issueToken, readToken, sessionCookie, sameOrigin } from './auth.js';
 import { acquireLease } from './storage.js';
 
@@ -46,12 +47,13 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     return { data, report, live, read };
   }
 
-  async function publicData(context) {
+  /** The public dataset (live when possible) and where it came from: live, cache, snapshot or stale. */
+  async function liveDataset(context) {
     const stored = await storage.get(LIVE_KEY);
     const cached = stored && stored.value.projectionVersion === projectionVersion() ? stored : null;
     const age = cached ? now() - cached.value.checkedAt : Infinity;
-    if (!source) return json(stored?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': stored ? 'cache' : 'snapshot' });
-    if (age < refreshSeconds * 1000) return json(cached.value.data, 200, { 'X-MINHO11-Source': 'live' });
+    if (!source) return { data: stored?.value.data ?? snapshot, state: stored ? 'cache' : 'snapshot' };
+    if (age < refreshSeconds * 1000) return { data: cached.value.data, state: 'live' };
     const refresh = async () => {
       const release = await acquireLease(storage, REFRESH_LOCK, 60, now);
       if (!release) return null;
@@ -65,14 +67,25 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
       } finally { await release(); }
     };
     // Serve the last good copy immediately when we have one; refresh in the background if possible.
-    if (cached && context?.waitUntil) { context.waitUntil(refresh().catch(error => log('refresh failed', error.message))); return json(cached.value.data, 200, { 'X-MINHO11-Source': 'live' }); }
+    if (cached && context?.waitUntil) { context.waitUntil(refresh().catch(error => log('refresh failed', error.message))); return { data: cached.value.data, state: 'live' }; }
     try {
       const fresh = await refresh();
-      return json(fresh ?? cached?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': fresh || cached ? 'live' : 'snapshot' });
+      return { data: fresh ?? cached?.value.data ?? snapshot, state: fresh || cached ? 'live' : 'snapshot' };
     } catch (error) {
       log('refresh failed', error.message);
-      return json(cached?.value.data ?? stored?.value.data ?? snapshot, 200, { 'X-MINHO11-Source': 'stale' });
+      return { data: cached?.value.data ?? stored?.value.data ?? snapshot, state: 'stale' };
     }
+  }
+  async function publicData(context) {
+    const { data, state } = await liveDataset(context);
+    return json(data, 200, { 'X-MINHO11-Source': state });
+  }
+  /** Subscribable calendar of one team (team names, dates and results only). */
+  async function calendar(teamId, url, context) {
+    const { data } = await liveDataset(context);
+    const ics = teamCalendar(data, teamId, { origin: url.origin });
+    if (!ics) return problem('Equipa não encontrada.', 404);
+    return new Response(ics, { headers: { ...SECURITY, 'Content-Type': 'text/calendar; charset=utf-8', 'Cache-Control': 'public, max-age=900', 'Content-Disposition': `inline; filename="minho11-${teamId}.ics"` } });
   }
 
   // --- admin ----------------------------------------------------------------
@@ -252,6 +265,8 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
     try {
       if (url.pathname.startsWith('/api/admin/')) return await admin(request, url.pathname.slice('/api/admin/'.length));
       if (url.pathname === '/data/competition.json' && ['GET', 'HEAD'].includes(request.method)) return await publicData(context);
+      const ics = url.pathname.match(/^\/calendario\/([a-zA-Z0-9_-]+)\.ics$/);
+      if (ics && ['GET', 'HEAD'].includes(request.method)) return await calendar(ics[1], url, context);
       return problem('Pedido não encontrado.', 404);
     } catch (error) {
       log('request failed', error.message);

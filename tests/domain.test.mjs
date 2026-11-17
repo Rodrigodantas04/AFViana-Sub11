@@ -3,8 +3,9 @@ import assert from 'node:assert/strict';
 import { buildFixtureWorkbook, fixtureConfig } from './fixtures/workbook.mjs';
 import { importCompetition } from '../lib/competition.js';
 import { projectDataset } from '../lib/projection.js';
-import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, filterMatches, teamAnalysis, groupAverages } from '../src/domain.js';
-import { renderView } from '../src/views.js';
+import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, filterMatches, teamAnalysis, groupAverages, pointsRace, teamFixtures, daysUntil } from '../src/domain.js';
+import { teamCalendar } from '../src/calendar.js';
+import { renderView, prefs } from '../src/views.js';
 import { esc } from '../src/components.js';
 
 const { data: internal } = importCompetition(buildFixtureWorkbook(), fixtureConfig, { today: '2026-11-16' });
@@ -75,4 +76,61 @@ test('club colours: only valid, reliable entries; initials always legible', () =
   assert.equal(badgeInk({ primary: '#f2c200', secondary: '#ffffff' }), '#111111', 'white on yellow is not legible');
   assert.equal(badgeInk({ primary: '#1f4e9e', secondary: '#f2c200' }), '#f2c200');
   assert.match(badge('Neves FC', false, null, { primary: '#1f7a3a', secondary: '#ffffff' }), /--club-1:#1f7a3a/);
+});
+
+test('points race: the last round matches the official standings of every group', () => {
+  for (const g of data.groups.filter(x => x.defined)) {
+    const race = pointsRace(data, g.id);
+    if (!race.rounds.length) continue;
+    for (const t of race.teams) {
+      const official = g.standings.find(s => s.teamId === t.teamId);
+      assert.equal(t.points.at(-1), official.points, `${g.id} ${t.teamId} pontos`);
+      assert.equal(t.positions.at(-1), official.position, `${g.id} ${t.teamId} lugar`);
+      assert.ok(t.points.every((v, i) => i === 0 || v >= t.points[i - 1]), 'pontos nunca descem');
+    }
+  }
+});
+
+test('team fixtures: next games in date order, past games without result apart, countdown in days', () => {
+  const team = data.groups.find(g => g.id === '1a').teamIds[0];
+  const fx = teamFixtures(data, team, '2026-11-16');
+  assert.ok(fx.upcoming.every(m => m.status === 'scheduled' && (!m.date || m.date >= '2026-11-16')));
+  assert.deepEqual(fx.upcoming.map(m => m.date ?? '9999'), fx.upcoming.map(m => m.date ?? '9999').toSorted());
+  assert.ok(fx.unconfirmed.every(m => m.date < '2026-11-16' && m.status === 'scheduled'));
+  assert.ok(fx.played.every(m => m.status === 'finished'));
+  assert.equal(daysUntil('2026-11-21', '2026-11-16'), 5);
+  assert.equal(daysUntil(null), null);
+});
+
+test('my team: picker without a choice, full page with next game, charts, rival and highlighted table', () => {
+  const g = data.groups.find(x => x.id === '1a'), [me, rival] = g.teamIds;
+  prefs.myTeam = null;
+  assert.match(renderView(data, url('/minha-equipa')), /Qual é a tua equipa\?/);
+  const html = renderView(data, url(`/minha-equipa?equipa=${me}&vs=${rival}`));
+  assert.match(html, /Seguir esta equipa/);
+  assert.match(html, /Corrida aos pontos/);
+  assert.match(html, /O ADN da equipa/);
+  assert.match(html, new RegExp(`vs=${rival}" data-keep-scroll aria-current="true"`));
+  assert.match(html, /class="[^"]*my-row[^"]*" aria-current="true"/);
+  assert.match(html, /\/calendario\/[^"]+\.ics/);
+  prefs.myTeam = me;
+  const saved = renderView(data, url('/minha-equipa'));
+  assert.match(saved, /A tua equipa/);
+  assert.match(renderView(data, url('/minha-equipa?escolher=1')), /Qual é a tua equipa\?/);
+  assert.match(renderView(data, url('/')), /A tua equipa/);
+  prefs.myTeam = null;
+  assert.match(renderView(data, url('/')), /Segue a tua equipa/);
+});
+
+test('team calendar: valid iCalendar, one all-day event per dated game, no player names', () => {
+  const team = data.groups.find(x => x.id === '1a').teamIds[0];
+  const ics = teamCalendar(data, team, { origin: 'https://minho11.test' });
+  assert.ok(ics.startsWith('BEGIN:VCALENDAR\r\n') && ics.endsWith('END:VCALENDAR\r\n'));
+  for (const line of ics.split('\r\n')) assert.ok(new TextEncoder().encode(line).length <= 75, line);
+  const dated = data.matches.filter(m => m.date && (m.homeId === team || m.awayId === team));
+  assert.equal(ics.match(/BEGIN:VEVENT/g).length, dated.length);
+  assert.match(ics, /DTSTART;VALUE=DATE:\d{8}\r\nDTEND;VALUE=DATE:\d{8}/);
+  const unfolded = ics.replace(/\r\n /g, '');
+  for (const s of data.scorers.total) assert.ok(!unfolded.includes(s.name), 'sem nomes de jogadores');
+  assert.equal(teamCalendar(data, 'nao-existe'), null);
 });

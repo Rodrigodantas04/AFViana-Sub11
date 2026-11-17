@@ -21,11 +21,11 @@ if (process.env.MINHO11_DEV_SOURCE) {
   api = appFromEnv({ env: process.env, storage: new FileStorage(path.join(repo, 'data/internal/dev-store')), sourceFile, log: console.log });
   console.log(`MINHO11: gestão local ativa sobre ${path.relative(repo, sourceFile)}`);
 }
-const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.xml': 'application/xml', '.txt': 'text/plain' };
+const types = { '.html': 'text/html; charset=utf-8', '.js': 'text/javascript; charset=utf-8', '.css': 'text/css; charset=utf-8', '.json': 'application/json; charset=utf-8', '.svg': 'image/svg+xml', '.png': 'image/png', '.xml': 'application/xml', '.txt': 'text/plain', '.ics': 'text/calendar; charset=utf-8' };
 const server = http.createServer(async (req, res) => {
   try {
     const url = new URL(req.url, `http://localhost:${port}`);
-    if (api && (url.pathname.startsWith('/api/admin/') || url.pathname === '/data/competition.json')) {
+    if (api && (url.pathname.startsWith('/api/admin/') || url.pathname === '/data/competition.json' || url.pathname.startsWith('/calendario/'))) {
       const chunks = []; for await (const c of req) chunks.push(c);
       // Local HTTP: present the request as https so Secure cookies and Origin checks behave as in production.
       const headers = new Headers(Object.entries(req.headers).filter(([, v]) => typeof v === 'string'));

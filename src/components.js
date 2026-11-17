@@ -69,11 +69,11 @@ export function matchGrid(data, matches) {
 export function emptyState(title, description = '', link = '') {
   return `<div class="empty-state">${icon('search')}<h3>${esc(title)}</h3><p>${esc(description)}</p>${link}</div>`;
 }
-export function standings(data, group) {
+export function standings(data, group, { highlight = null } = {}) {
   if (!group.defined) return pendingGroup(data, group);
   return `<div class="table-scroll" tabindex="0" role="region" aria-label="Classificação da Série ${group.letter}"><table class="standings"><caption class="sr-only">Série ${group.letter}, ${esc(phaseById(data, group.phaseId).name)}: classificação calculada com as fórmulas do Excel</caption><thead><tr><th scope="col">Pos.</th><th scope="col">Equipa</th>${[['J', 'Jogos'], ['V', 'Vitórias'], ['E', 'Empates'], ['D', 'Derrotas'], ['GM', 'Golos marcados'], ['GS', 'Golos sofridos'], ['DG', 'Diferença de golos'], ['Pts', 'Pontos']].map(([s, l], i) => `<th scope="col" class="${i > 0 && i < 7 ? 'secondary-stat' : ''}"><abbr title="${l}">${s}</abbr></th>`).join('')}</tr></thead><tbody>${group.standings.map(s => {
     const team = teamById(data, s.teamId);
-    return `<tr class="${s.position === 1 ? 'leader-row' : ''} ${team.withdrawn ? 'withdrawn-row' : ''}"><td><span class="position">${s.position}</span></td><th scope="row"><a class="table-team" href="${teamClubPath(data, s.teamId)}">${teamBadge(data, team)}<span>${esc(team.name)}${team.withdrawn ? '<small>Desistiu da prova</small>' : ''}</span></a></th>${['played', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points'].map((k, i) => `<td class="${i > 0 && i < 7 ? 'secondary-stat' : ''} ${k === 'points' ? 'points' : ''}">${k === 'goalDifference' && s[k] > 0 ? '+' : ''}${s[k]}</td>`).join('')}</tr>`;
+    return `<tr class="${s.position === 1 ? 'leader-row' : ''} ${team.withdrawn ? 'withdrawn-row' : ''} ${s.teamId === highlight ? 'my-row' : ''}"${s.teamId === highlight ? ' aria-current="true"' : ''}><td><span class="position">${s.position}</span></td><th scope="row"><a class="table-team" href="${teamClubPath(data, s.teamId)}">${teamBadge(data, team)}<span>${esc(team.name)}${team.withdrawn ? '<small>Desistiu da prova</small>' : ''}</span></a></th>${['played', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points'].map((k, i) => `<td class="${i > 0 && i < 7 ? 'secondary-stat' : ''} ${k === 'points' ? 'points' : ''}">${k === 'goalDifference' && s[k] > 0 ? '+' : ''}${s[k]}</td>`).join('')}</tr>`;
   }).join('')}</tbody></table></div><p class="table-footnote">Ordem da folha: pontos, diferença de golos, golos marcados e, por fim, ordem de inscrição. <span class="mobile-hint">Mais estatísticas no perfil de cada clube.</span></p>`;
 }
 export function pendingGroup(data, group) {
@@ -123,4 +123,38 @@ export function compareBars({ label, a, b, aLabel, bLabel, digits = 1, lowerIsBe
   const max = Math.max(a ?? 0, b ?? 0, 0.0001);
   const better = a === null || b === null ? '' : (lowerIsBetter ? a < b : a > b) ? 'is-better' : a === b ? '' : 'is-worse';
   return `<div class="compare-row ${better}"><div class="compare-head"><span>${esc(label)}</span><strong>${fmt(a)}</strong></div><div class="compare-bars" aria-hidden="true"><span class="cbar cbar-a" style="--v:${Math.round((a ?? 0) / max * 100)}%"></span><span class="cbar cbar-b" style="--v:${Math.round((b ?? 0) / max * 100)}%"></span></div><small>${esc(bLabel)}: ${fmt(b)}${aLabel ? '' : ''}</small></div>`;
+}
+/**
+ * Race of several teams across rounds. Lines are a stretchable SVG; dots and labels are HTML so text keeps its size.
+ * series: [{ label, values, role: 'me' | 'rival' | 'other' }]. invert: 1 is the top (table positions).
+ */
+export function raceChart({ title, rounds, series, invert = false, max, unit = '', caption = '' }) {
+  if (rounds.length < 2) return '';
+  const top = max ?? Math.max(1, ...series.flatMap(s => s.values));
+  const x = i => i / (rounds.length - 1) * 100;
+  const y = v => invert ? (v - 1) / Math.max(top - 1, 1) * 100 : 100 - v / top * 100;
+  const order = { other: 0, rival: 1, me: 2 };
+  const drawn = [...series].sort((a, b) => order[a.role] - order[b.role]);
+  const lines = drawn.map(s => `<polyline class="race-line race-${s.role}" points="${s.values.map((v, i) => `${x(i).toFixed(2)},${y(v).toFixed(2)}`).join(' ')}"/>`).join('');
+  const marked = drawn.filter(s => s.role !== 'other');
+  const dots = marked.map(s => s.values.map((v, i) => `<span class="race-dot race-${s.role}${i === s.values.length - 1 ? ' race-end' : ''}" style="--x:${x(i).toFixed(2)}%;--y:${(100 - y(v)).toFixed(2)}%" title="${esc(s.label)} · J${rounds[i]}: ${v}${unit ? ` ${esc(unit)}` : ''}">${i === s.values.length - 1 ? `<b>${invert ? `${v}.º` : v}</b>` : ''}</span>`).join('')).join('');
+  const ticks = rounds.map((r, i) => `<span style="--x:${x(i).toFixed(2)}%">J${r}</span>`).join('');
+  const legend = marked.map(s => `<span class="legend-item race-key-${s.role}">${esc(s.label)}</span>`).join('') + (series.some(s => s.role === 'other') ? '<span class="legend-item race-key-other">Restantes equipas</span>' : '');
+  const summary = marked.map(s => `${s.label}: ${s.values.map((v, i) => `J${rounds[i]} ${v}`).join(', ')}`).join('; ');
+  return `<figure class="chart race-chart${invert ? ' race-positions' : ''}"><figcaption>${esc(title)}<span class="chart-legend">${legend}</span></figcaption><div class="race-plot" role="img" aria-label="${esc(title)}. ${esc(summary)}"><svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true">${lines}</svg>${dots}</div><div class="lc-labels race-ticks" aria-hidden="true">${ticks}</div>${caption ? `<p class="chart-note">${esc(caption)}</p>` : ''}<details class="chart-data"><summary>Ver dados</summary><div class="table-scroll"><table><thead><tr><th scope="col">Equipa</th>${rounds.map(r => `<th scope="col">J${r}</th>`).join('')}</tr></thead><tbody>${marked.map(s => `<tr><th scope="row">${esc(s.label)}</th>${s.values.map(v => `<td>${v}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details></figure>`;
+}
+/**
+ * Radar ("ADN da equipa"): each axis is scaled between the worst and best team of the group, so the
+ * outer ring is "the best in the series". axes: [{ label, format(v) }]; series: [{ label, role, raw, score }].
+ */
+export function radarChart({ title, axes, series, caption = '' }) {
+  const n = axes.length, angle = i => -Math.PI / 2 + i * 2 * Math.PI / n;
+  const point = (i, r) => [Math.cos(angle(i)) * r, Math.sin(angle(i)) * r];
+  const ring = r => axes.map((_, i) => point(i, r).map(v => v.toFixed(3)).join(',')).join(' ');
+  const grid = [0.25, 0.5, 0.75, 1].map(r => `<polygon class="radar-ring" points="${ring(r)}"/>`).join('') + axes.map((_, i) => `<line class="radar-spoke" x1="0" y1="0" x2="${point(i, 1)[0].toFixed(3)}" y2="${point(i, 1)[1].toFixed(3)}"/>`).join('');
+  const shapes = series.map(s => `<polygon class="radar-shape radar-${s.role}" points="${s.score.map((v, i) => point(i, 0.12 + 0.88 * v).map(c => c.toFixed(3)).join(',')).join(' ')}"/>`).join('');
+  const me = series.find(s => s.role === 'me');
+  const labels = axes.map((a, i) => { const [cx, cy] = point(i, 1); return `<span class="radar-label" style="--lx:${(50 + cx * 54).toFixed(2)}%;--ly:${(50 + cy * 54).toFixed(2)}%;--ox:${(cx * 50 - 50).toFixed(1)}%;--oy:${(cy * 50 - 50).toFixed(1)}%">${esc(a.label)}${me ? `<b>${esc(a.format(me.raw[i]))}</b>` : ''}</span>`; }).join('');
+  const legend = series.map(s => `<span class="legend-item radar-key-${s.role}">${esc(s.label)}</span>`).join('');
+  return `<figure class="chart radar-chart"><figcaption>${esc(title)}<span class="chart-legend">${legend}</span></figcaption><div class="radar-box" role="img" aria-label="${esc(title)}. ${esc(series.map(s => `${s.label}: ${axes.map((a, i) => `${a.label} ${a.format(s.raw[i])}`).join(', ')}`).join('; '))}"><div class="radar-area"><svg viewBox="-1 -1 2 2" aria-hidden="true">${grid}${shapes}</svg>${labels}</div></div>${caption ? `<p class="chart-note">${esc(caption)}</p>` : ''}<details class="chart-data"><summary>Ver dados</summary><div class="table-scroll"><table><thead><tr><th scope="col"></th>${series.map(s => `<th scope="col">${esc(s.label)}</th>`).join('')}</tr></thead><tbody>${axes.map((a, i) => `<tr><th scope="row">${esc(a.label)}</th>${series.map(s => `<td>${esc(a.format(s.raw[i]))}</td>`).join('')}</tr>`).join('')}</tbody></table></div></details></figure>`;
 }
