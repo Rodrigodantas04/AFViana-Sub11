@@ -4,9 +4,9 @@ Executada localmente em 17/11/2026 (macOS, Node 24).
 
 ## 0.5.0 · A minha equipa
 
-- `npm test`: 42 testes, 0 falhas. Os novos cobrem a corrida aos pontos (a última jornada é igual à classificação oficial em todas as séries), os próximos jogos e a contagem de dias, e a página: seletor, equipa guardada, rival, linha destacada, atalho na página inicial, calendário da época com um sábado por jogo e nenhuma ligação a calendários externos.
+- `npm test`: 43 testes, 0 falhas. Os novos cobrem a corrida aos pontos (a última jornada é igual à classificação oficial em todas as séries), os próximos jogos e a contagem de dias, e a página: seletor, equipa guardada, rival, linha destacada, atalho na página inicial, calendário da época com um sábado por jogo e nenhuma ligação a calendários externos.
 - Dados reais: `pointsRace` coincide com a classificação nas 33 equipas (pontos e lugar), 0 divergências. Os 150 jogos com data são todos ao sábado.
-- Browser (Playwright, 390 px e 1280 px, claro e escuro): sem scroll horizontal. Procurar e escolher a equipa guarda a escolha e abre a página. Trocar de rival mantém o scroll e o foco. A página inicial mostra o atalho com o próximo jogo e o calendário marca «Próximo» e «de manhã». Sem erros na consola. O menu com «A minha equipa» cabe a 900 px. Barra do telemóvel: os separadores navegam e marcam a página atual; «Mais» abre e fecha (link, botão, Esc); a equipa escolhida aparece ao centro; escondida no computador.
+- Browser (Playwright, 390 px e 1280 px, claro e escuro): sem scroll horizontal. Procurar e escolher a equipa guarda a escolha e abre a página. Trocar de rival mantém o scroll e o foco. A página inicial mostra o atalho com o próximo jogo e o calendário marca «Próximo» e «de manhã». Sem erros na consola. O menu com «A minha equipa» cabe a 900 px. Barra do telemóvel: os separadores navegam e marcam a página atual; «Mais» abre e fecha (link, botão, Esc); a equipa escolhida aparece ao centro; escondida no computador. Gráficos: eixo Y com valores, cartão da jornada ao passar o cursor (computador) e ao tocar (telemóvel), com data, pontos/lugar e o jogo; a coluna ativa fica por cima das vizinhas.
 
 ## 0.4.0
 

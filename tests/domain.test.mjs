@@ -5,7 +5,7 @@ import { importCompetition } from '../lib/competition.js';
 import { projectDataset } from '../lib/projection.js';
 import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, filterMatches, teamAnalysis, groupAverages, pointsRace, teamFixtures, daysUntil } from '../src/domain.js';
 import { renderView, prefs, tabBar, footer } from '../src/views.js';
-import { esc } from '../src/components.js';
+import { esc, niceTicks, raceChart } from '../src/components.js';
 
 const { data: internal } = importCompetition(buildFixtureWorkbook(), fixtureConfig, { today: '2026-11-16' });
 const data = projectDataset(internal, { scorerNames: 'public' }, { mode: 'public', today: '2026-11-16', importedAt: '2026-11-16T10:00:00Z' });
@@ -137,4 +137,18 @@ test('phone tab bar: five tabs, current page marked, the chosen team in the midd
   assert.match(tabBar(data, '/clubes/x'), /class="is-current"/, '«Mais» fica ativo nas páginas que abre');
   prefs.myTeam = null;
   assert.match(footer(data), /id="more-sheet"/);
+});
+
+test('charts: readable Y axis values and a weekend card for every round', () => {
+  assert.deepEqual(niceTicks(13), { top: 15, ticks: [0, 5, 10, 15] });
+  assert.deepEqual(niceTicks(4), { top: 4, ticks: [0, 1, 2, 3, 4] });
+  assert.deepEqual(niceTicks(0).ticks, [0, 1]);
+  const html = raceChart({ title: 'T', labels: ['J1', 'J2', 'J3'], series: [{ label: 'A', values: [3, 4, 7], role: 'me' }, { label: 'B', values: [1, 1, 2], role: 'other' }], yLabel: 'Pontos' });
+  assert.equal((html.match(/class="chart-y"/g) ?? []).length, 1);
+  assert.match(html, /<span style="--y:100.00%">8<\/span>/, "máximo 7 → eixo até 8");
+  assert.equal((html.match(/data-chart-col/g) ?? []).length, 3);
+  assert.match(html, /aria-label="J2: A: 4"/);
+  const g = data.groups.find(x => x.id === '1a'), [me] = g.teamIds;
+  const page = renderView(data, url(`/minha-equipa?equipa=${me}`));
+  assert.match(page, /class="tip-game">[VED] \d+–\d+ (vs|em) /);
 });

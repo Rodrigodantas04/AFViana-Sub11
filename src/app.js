@@ -60,6 +60,10 @@ function navigate(url, { replace = false, filters = false } = {}) {
 }
 
 document.addEventListener('click', event => {
+  // Charts: tap (or click) a round to pin its weekend card; tap elsewhere to close it.
+  const col = event.target.closest('[data-chart-col]');
+  document.querySelectorAll('[data-chart-col].is-active').forEach(el => { if (el !== col) el.classList.remove('is-active'); });
+  if (col) { col.classList.toggle('is-active'); return; }
   const theme = event.target.closest('[data-theme-toggle]');
   if (theme) { applyTheme(document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark', true); return; }
   if (event.target.closest('[data-more-open]')) { moreSheet.showModal(); return; }

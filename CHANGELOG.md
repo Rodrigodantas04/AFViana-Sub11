@@ -6,9 +6,10 @@
 - **Gráficos para comparar** com qualquer equipa da série (`&vs=`): **corrida aos pontos** e **lugar jornada a jornada** (as restantes equipas em fundo; o último ponto coincide com a classificação oficial, verificado nas 33 equipas) e **ADN da equipa**, um radar com ataque, defesa, pontos, forma e jogos sem sofrer, escalado entre a pior e a melhor equipa da série, com a média da série.
 - **Horário habitual** em `config/competition.json` (`schedule`: sábado de manhã, indicado pelos responsáveis a 17/11/2026). O site diz «de manhã»; hora exata e campo combinam-se com o clube. Não há exportação para calendários pessoais (decisão: nada ligado às contas das pessoas).
 - **Cores dos clubes** nas iniciais (31 clubes, `config/club-colors.json`, com origem e nível de confiança; a cor do texto é escolhida pelo contraste). A cache ao vivo é reconstruída quando muda a configuração (incluindo `competition.json`) ou o deploy.
+- **Gráficos com eixos e o fim de semana à vista:** eixo vertical com valores (pontos, lugares, golos) e grelha alinhada, eixo «Jornada»; passar o cursor, focar com o teclado ou tocar numa jornada mostra uma linha guia e um cartão com a data, os pontos ou o lugar de cada equipa e o jogo dessa jornada («V 3–1 vs …»). Vale para a corrida aos pontos, o lugar jornada a jornada, os pontos acumulados e as barras de golos.
 - **Barra de navegação no telemóvel** (abaixo de 700 px), a flutuar e com cantos arredondados (estilo dock): Início, Jogos (com o número de jogos de hoje), a equipa favorita ao centro com o seu símbolo, Marcadores e Mais (folha com as restantes páginas, pesquisa e tema). Respeita as margens seguras do iPhone.
 - Painel: botões «Adicionar marcador» e «Autogolo» em cima, «Já marcaram» por baixo.
-- 42 testes.
+- 43 testes.
 
 ## 0.4.0 — 2026-11-16 · Jogadores
 

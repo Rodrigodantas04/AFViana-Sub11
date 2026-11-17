@@ -144,7 +144,7 @@ function teamAnalysisSection(data, team, group, { showScorers = true, showPoints
   return `<div class="analysis">
     <div class="form-strip" aria-label="Forma recente: ${a.form.map(r => ({ V: 'vitória', E: 'empate', D: 'derrota' })[r]).join(', ')}"><span class="eyebrow">Últimos ${a.form.length} jogos</span>${a.form.map(r => `<span class="form-chip form-${r}">${r}</span>`).join('')}</div>
     <dl class="team-stat-grid">${[['Aproveitamento', percent(a.efficiency)], ['Golos/jogo', number(a.all.goalsFor / a.all.played)], ['Sofridos/jogo', number(a.all.goalsAgainst / a.all.played)], ['Sem sofrer', a.cleanSheets], ['Sem marcar', a.blanks], ['Decididos por ≤1 golo', a.closest]].map(([l, v]) => `<div><dt>${l}</dt><dd>${v}</dd></div>`).join('')}</dl>
-    <div class="${showPoints ? 'two-columns analysis-charts' : 'analysis-single'}"><div>${barChart({ title: 'Golos marcados e sofridos por jogo', rows, keys: [{ key: 'gf', label: 'Marcados', cls: 'bar-for' }, { key: 'ga', label: 'Sofridos', cls: 'bar-against' }] })}</div>${showPoints ? `<div>${lineChart({ title: 'Pontos acumulados', label: 'pontos', points: a.timeline.map(t => ({ label: `J${t.round}`, value: t.points })) })}</div>` : ''}</div>
+    <div class="${showPoints ? 'two-columns analysis-charts' : 'analysis-single'}"><div>${barChart({ title: 'Golos marcados e sofridos por jogo', rows, keys: [{ key: 'gf', label: 'Marcados', cls: 'bar-for' }, { key: 'ga', label: 'Sofridos', cls: 'bar-against' }] })}</div>${showPoints ? `<div>${lineChart({ title: 'Pontos acumulados', label: 'pontos', points: a.timeline.map(t => ({ label: `Jornada ${t.round}`, short: `J${t.round}`, value: t.points, detail: `<small class="tip-game">${t.result} ${t.gf}–${t.ga} frente a ${esc(teamById(data, t.opponentId).name)}</small>` })) })}</div>` : ''}</div>
     <div class="two-columns"><div class="table-scroll"><table class="split-table"><caption>Casa e fora</caption><thead><tr><th scope="col"></th><th scope="col">J</th><th scope="col">V-E-D</th><th scope="col">GM</th><th scope="col">GS</th><th scope="col">GM/J</th><th scope="col">Pts/J</th></tr></thead><tbody>${splitRow('Casa', a.home)}${splitRow('Fora', a.away)}${splitRow('Total', a.all)}</tbody></table></div>
     <div class="compare"><h3>Comparação com a Série ${group.letter}</h3><p class="muted small">Por jogo disputado · média das ${avg.teams} equipas com jogos.</p>${compareBars({ label: 'Golos marcados por jogo', a: per(a.all.goalsFor, a.all.played), b: avg.goalsForPerGame, bLabel: 'Média da série' })}${compareBars({ label: 'Golos sofridos por jogo', a: per(a.all.goalsAgainst, a.all.played), b: avg.goalsAgainstPerGame, bLabel: 'Média da série', lowerIsBetter: true })}${compareBars({ label: 'Pontos por jogo', a: per(a.all.points, a.all.played), b: avg.pointsPerGame, bLabel: 'Média da série' })}<a class="text-link compare-link" href="/comparar?a=${team.id}">Comparar com outra equipa ${icon('arrow')}</a>${a.biggestWin ? `<p class="muted small">Maior vitória: ${a.biggestWin.gf}–${a.biggestWin.ga} frente a ${esc(teamById(data, a.biggestWin.opponentId).name)} (J${a.biggestWin.match.round}).</p>` : ''}</div></div>
     ${showScorers ? `<div class="team-scorers"><h3>Quem marcou</h3>${scorers.length ? `<ol class="scorer-list compact">${scorerRows(data, scorers)}</ol>` : `<p class="muted">${data.publication.scorerNames === 'public' ? 'Sem marcadores identificados nesta fase.' : 'Nomes disponíveis nos dados ao vivo.'}</p>`}<p class="muted small">${identified} de ${a.all.goalsFor} golos com marcador identificado${a.all.goalsFor - identified > 0 ? ` (os restantes são autogolos a favor ou golos sem nome na fonte)` : ''}.</p></div>` : ''}
@@ -299,12 +299,26 @@ function insights(data, team, group, fixtures) {
 function rivalChips(data, team, group, rivalId) {
   return `<nav class="rival-chips" aria-label="Comparar com"><span class="muted small">Comparar com:</span>${group.teamIds.filter(id => id !== team.id).map(id => `<a href="/minha-equipa?equipa=${team.id}&vs=${id}" data-keep-scroll${id === rivalId ? ' aria-current="true"' : ''}>${teamBadge(data, id)}${esc(teamById(data, id).name)}</a>`).join('')}</nav>`;
 }
+/** One team's game in a given round of a group, in words: "V 3–1 vs CRC Távora". */
+function roundGame(data, teamId, groupId, round) {
+  const m = data.matches.find(x => x.groupId === groupId && x.round === round && x.status === 'finished' && (x.homeId === teamId || x.awayId === teamId));
+  if (!m) return { text: 'Sem jogo nesta jornada', date: null };
+  const home = m.homeId === teamId, gf = home ? m.homeGoals : m.awayGoals, ga = home ? m.awayGoals : m.homeGoals;
+  return { text: `${gf > ga ? 'V' : gf === ga ? 'E' : 'D'} ${gf}–${ga} ${home ? 'vs' : 'em'} ${teamById(data, home ? m.awayId : m.homeId).name}`, date: m.date };
+}
 function raceSection(data, team, group, rivalId) {
   const race = pointsRace(data, group.id);
   if (race.rounds.length < 2) return '';
   const role = id => id === team.id ? 'me' : id === rivalId ? 'rival' : 'other';
   const series = key => race.teams.map(t => ({ label: teamById(data, t.teamId).name, values: t[key], role: role(t.teamId) }));
-  return `<div class="race-grid">${raceChart({ title: 'Corrida aos pontos', rounds: race.rounds, series: series('points'), unit: 'pontos' })}${raceChart({ title: 'Lugar na série, jornada a jornada', rounds: race.rounds, series: series('positions'), invert: true, max: group.teamIds.length, caption: 'Com os desempates da folha: pontos, diferença de golos, golos marcados.' })}</div>`;
+  const marked = race.teams.filter(t => role(t.teamId) !== 'other').sort((a, b) => (role(a.teamId) === 'me' ? -1 : 1));
+  const tips = key => race.rounds.map((round, i) => {
+    const games = marked.map(t => ({ t, g: roundGame(data, t.teamId, group.id, round) }));
+    const date = games.map(x => x.g.date).find(Boolean);
+    return `<strong>Jornada ${round}${date ? ` · ${esc(new Intl.DateTimeFormat('pt-PT', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Europe/Lisbon' }).format(new Date(date + 'T12:00:00Z')))}` : ''}</strong>${games.map(({ t, g }) => `<span class="tip-line"><i class="tip-dot race-key-${role(t.teamId)}"></i>${esc(teamById(data, t.teamId).name)}<b>${key === 'points' ? `${t.points[i]} pts` : `${t.positions[i]}.º`}</b></span><small class="tip-game">${esc(g.text)}</small>`).join('')}`;
+  });
+  const labels = race.rounds.map(r => `J${r}`);
+  return `<div class="race-grid">${raceChart({ title: 'Corrida aos pontos', labels, series: series('points'), tips: tips('points'), unit: 'pontos', yLabel: 'Pontos' })}${raceChart({ title: 'Lugar na série, jornada a jornada', labels, series: series('positions'), tips: tips('positions'), invert: true, max: group.teamIds.length, yLabel: 'Lugar', caption: 'Com os desempates da folha: pontos, diferença de golos, golos marcados. Toca numa jornada para ver esse fim de semana.' })}</div>`;
 }
 function dnaSection(data, team, group, rivalId) {
   const ids = group.teamIds.filter(id => !teamById(data, id).withdrawn && teamStanding(data, id, group.phaseId)?.played);
