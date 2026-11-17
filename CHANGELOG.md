@@ -1,6 +1,6 @@
 # Histórico de alterações
 
-## Por publicar
+## 0.6.0 — 2026-11-17 · Emblemas e calendário por jornada
 
 - **Emblemas dos 31 clubes** (`assets/crests/`, registados em `config/crests.json`): imagens do zerozero.pt descarregadas à mão pelo responsável, com o fundo branco exterior removido (preenchimento a partir das margens, o branco dentro do emblema fica), cortadas e normalizadas para WebP 200×200 transparente (≈ 15 KB cada, 464 KB os 31). Mostradas sem escudo nem fundo, com uma sombra leve para contraste nos dois temas; as iniciais coloridas ficam como alternativa. Publicação decidida pelo responsável; retira-se um emblema de imediato a pedido do clube.
 - **Calendário da época por jornada:** cada linha é uma jornada (J1, J2…) com o sábado desse fim de semana, agrupada por fase e série; fins de semana sem jogo aparecem como separador; jogos sem data entram na sua jornada com «Data a confirmar». As fases já terminadas ficam fechadas.
