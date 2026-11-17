@@ -171,3 +171,11 @@ test('crests: every registered crest is a local PNG/SVG/WEBP with source and pub
     assert.ok((await stat(new URL('../' + entry.file, import.meta.url))).size > 1000, `${id}: ficheiro existe`);
   }
 });
+
+test('installable app: install button and iPhone help in every page, offline worker never touches the desk', async () => {
+  const { readFile } = await import('node:fs/promises');
+  assert.match(footer(data), /data-install hidden/);
+  assert.match(footer(data), /id="install-help"/);
+  const sw = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
+  assert.match(sw, /startsWith\('\/admin'\) \|\| url\.pathname\.startsWith\('\/api\/'\)\) return;/);
+});

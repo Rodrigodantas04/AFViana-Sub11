@@ -2955,6 +2955,18 @@
     .standings-wrap.is-detailed .standings tbody th { width:auto }
     .standings-wrap.is-detailed .table-team .badge { width:2rem; height:2rem; font-size:.6rem }
   }
+
+  /* Installed app (standalone): the header sits under the phone's status bar */
+  @media (display-mode: standalone) { .site-header { padding-top:env(safe-area-inset-top) } }
+  .install-button { width:100%; justify-content:center; margin:0 0 .6rem; min-height:3rem }
+  .link-like { background:none; border:0; padding:0; color:inherit; font:inherit; cursor:pointer; text-align:left }
+  .link-like:hover { color:var(--accent) }
+  .install-help { max-width:24rem; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); color:var(--text); padding:1.25rem 1.25rem 1rem }
+  .install-help h2 { font-size:1.25rem }
+  .install-help ol { padding-left:1.2rem; display:grid; gap:.6rem; margin:.75rem 0 1rem }
+  .install-help svg { vertical-align:-.25rem; color:var(--accent) }
+  .install-help .button { width:100%; justify-content:center }
+  .install-help::backdrop { background:#0009; backdrop-filter:blur(2px) }
   /* Page transitions (same-document navigation, see app.js) */
   @media (prefers-reduced-motion: no-preference) {
     ::view-transition-old(root) { animation:fade-out .14s ease both }

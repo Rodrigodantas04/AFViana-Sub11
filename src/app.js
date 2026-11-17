@@ -1,5 +1,10 @@
 import { validateDataset } from './domain.js';
 import { renderView, pageTitle, prefs, tabBar } from './views.js';
+import { setupInstall } from './install.js';
+
+setupInstall();
+// Offline support: network first, last seen pages and data when there is no signal (see sw.js).
+if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
 
 let data = null, refreshing = false;
 const main = document.getElementById('conteudo');
@@ -129,7 +134,7 @@ export async function refreshData() {
     const checked = new Intl.DateTimeFormat('pt-PT', { timeStyle: 'short', timeZone: 'Europe/Lisbon' }).format(new Date());
     const imported = new Intl.DateTimeFormat('pt-PT', { dateStyle: 'short', timeStyle: 'short', timeZone: 'Europe/Lisbon' }).format(new Date(data.importedAt));
     const sourceState = response.headers.get('X-MINHO11-Source');
-    sync.textContent = sourceState === 'snapshot' ? `Dados publicados em ${imported}` : sourceState === 'stale' ? 'Fonte indisponível · últimos dados mantidos' : `${changed ? 'Dados atualizados' : 'Sem alterações'} · verificado às ${checked}`;
+    sync.textContent = sourceState === 'offline' ? `Sem rede · últimos dados guardados (${imported})` : sourceState === 'snapshot' ? `Dados publicados em ${imported}` : sourceState === 'stale' ? 'Fonte indisponível · últimos dados mantidos' : `${changed ? 'Dados atualizados' : 'Sem alterações'} · verificado às ${checked}`;
     sync.title = `Última importação publicada: ${imported}. Verificação de novos dados a cada 45 segundos.`;
     sync.classList.remove('sync-error');
     sync.dataset.state = changed ? 'updated' : 'unchanged';

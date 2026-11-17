@@ -3,7 +3,10 @@
  * validates every payload, writes the Excel and confirms by reading it back.
  * This page only reports success after that confirmation arrives.
  */
+import { setupInstall, installHelp } from './install.js';
 const $ = selector => document.querySelector(selector);
+document.body.insertAdjacentHTML('beforeend', installHelp('a Gestão do MINHO11'));
+setupInstall({ buttons: '#install-app' });
 const NAME = /^[\p{L}][\p{L}\p{M} .'’-]{0,58}[\p{L}\p{M}.]$|^[\p{L}]$/u;
 const state = { data: null, matchId: null, initial: null, op: null, saving: false, draftKeep: null };
 const fold = value => String(value ?? '').normalize('NFC').toLocaleLowerCase('pt-PT').trim();

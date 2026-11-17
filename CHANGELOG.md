@@ -1,5 +1,11 @@
 # Histórico de alterações
 
+## Por publicar
+
+- **App no telemóvel (PWA):** «Adicionar ao ecrã principal» transforma o site numa app com o ícone «11», ecrã inteiro e atalhos (A minha equipa, Jogos, Marcadores, Classificações). Botão «Instalar a app MINHO11» no «Mais» e no rodapé: no Android abre o pedido do próprio browser; no iPhone mostra os três passos. Esconde-se quando já está instalada.
+- **App da gestão** («Gestão M11», ícone escuro, `/admin/manifest.webmanifest`) para o tio Rui ter o painel como app, com o botão «Instalar app» no cabeçalho.
+- **Sem rede no campo:** service worker *network first* (`/sw.js`): com rede nada muda; sem rede mostra as últimas páginas e dados vistos e o rodapé diz «Sem rede · últimos dados guardados». Nunca guarda nada de `/admin` nem `/api`. Sem custo de créditos a mais.
+
 ## 0.6.0 — 2026-11-17 · Emblemas e calendário por jornada
 
 - **Emblemas dos 31 clubes** (`assets/crests/`, registados em `config/crests.json`): imagens do zerozero.pt descarregadas à mão pelo responsável, com o fundo branco exterior removido (preenchimento a partir das margens, o branco dentro do emblema fica), cortadas e normalizadas para WebP 200×200 transparente (≈ 15 KB cada, 464 KB os 31). Mostradas sem escudo nem fundo, com uma sombra leve para contraste nos dois temas; as iniciais coloridas ficam como alternativa. Publicação decidida pelo responsável; retira-se um emblema de imediato a pedido do clube.
