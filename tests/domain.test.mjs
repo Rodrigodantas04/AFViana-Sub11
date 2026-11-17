@@ -152,3 +152,11 @@ test('charts: readable Y axis values and a weekend card for every round', () => 
   const page = renderView(data, url(`/minha-equipa?equipa=${me}`));
   assert.match(page, /class="tip-game">[VED] \d+–\d+ (vs|em) /);
 });
+
+test('standings: every column is in the page, with a simple/detailed switch for phones and the team name kept', () => {
+  const g = data.groups.find(x => x.id === '1a');
+  const html = renderView(data, url(`/competicoes/${data.competition.slug}/fase-1/serie-a`));
+  assert.match(html, /data-table-toggle aria-pressed="false"/);
+  for (const col of ['Jogos', 'Vitórias', 'Empates', 'Derrotas', 'Golos marcados', 'Golos sofridos', 'Diferença de golos', 'Pontos']) assert.match(html, new RegExp(`<abbr title="${col}">`));
+  assert.equal((html.match(/class="table-team" href="[^"]+" title="/g) ?? []).length >= g.teamIds.length, true);
+});

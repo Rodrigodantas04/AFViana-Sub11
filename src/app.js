@@ -61,6 +61,15 @@ function navigate(url, { replace = false, filters = false } = {}) {
 
 document.addEventListener('click', event => {
   // Charts: tap (or click) a round to pin its weekend card; tap elsewhere to close it.
+  // Phones: standings always open simple; the detailed view (badges + every column) only on request, never remembered.
+  const toggle = event.target.closest('[data-table-toggle]');
+  if (toggle) {
+    const wrap = toggle.closest('.standings-wrap'), detailed = !wrap.classList.contains('is-detailed');
+    wrap.classList.toggle('is-detailed', detailed);
+    toggle.setAttribute('aria-pressed', String(detailed));
+    toggle.querySelector('span').textContent = detailed ? 'Ver classificação simples' : 'Ver classificação detalhada';
+    return;
+  }
   const col = event.target.closest('[data-chart-col]');
   document.querySelectorAll('[data-chart-col].is-active').forEach(el => { if (el !== col) el.classList.remove('is-active'); });
   if (col) { col.classList.toggle('is-active'); return; }

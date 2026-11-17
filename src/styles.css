@@ -2922,6 +2922,32 @@
   .bc-col.tip-start .chart-tip { left:0; translate:0 0 } .bc-col.tip-end .chart-tip { left:auto; right:0; translate:0 0 }
   .bc-col:hover .chart-tip, .bc-col:focus-visible .chart-tip, .bc-col.is-active .chart-tip { display:grid }
   .bc-col:focus-visible .bc-label { color:var(--accent) }
+
+  /* Standings: every column on tablets (pinned team, sideways scroll if needed); on phones a simple/detailed switch */
+  .standings .secondary-stat, .home-columns .secondary-stat { display:table-cell }
+  .mobile-hint, .home-columns .mobile-hint { display:none }
+  .table-toggle { display:none }
+  @media (min-width: 40.01rem) and (max-width: 1170px) {
+    .standings { width:max(100%, 34rem) }
+    .standings th, .standings td { padding-inline:.5rem }
+    .standings td:first-child, .standings thead th:first-child { position:sticky; left:0; z-index:1; width:2.6rem; min-width:2.6rem; padding-left:.75rem; background:var(--surface) }
+    .standings tbody th, .standings thead th:nth-child(2) { position:sticky; left:2.6rem; z-index:1; min-width:9.5rem; background:var(--surface); box-shadow:6px 0 8px -6px #0006 }
+    .leader-row td:first-child, .leader-row th { background:linear-gradient(var(--accent-soft), var(--accent-soft)), var(--surface) }
+    .my-row td:first-child, .my-row th { background:linear-gradient(color-mix(in srgb, var(--accent) 12%, transparent), color-mix(in srgb, var(--accent) 12%, transparent)), var(--surface) }
+  }
+  @media (max-width: 40rem) {
+    .table-toggle { display:inline-flex; align-items:center; gap:.45rem; margin:.25rem 1rem .5rem auto; float:right; padding:.5rem .85rem; min-height:2.5rem; border-radius:99px; border:1px solid var(--line); background:var(--surface-raised); color:var(--text); font:inherit; font-size:.8125rem; font-weight:700; cursor:pointer }
+    .table-toggle .icon { width:1rem; height:1rem; color:var(--accent) }
+    .table-toggle[aria-pressed=true] { border-color:var(--accent); color:var(--accent) }
+    .standings-wrap .table-scroll { clear:both }
+    .standings-wrap:not(.is-detailed) .secondary-stat { display:none }
+    .standings-wrap.is-detailed .standings th, .standings-wrap.is-detailed .standings td { padding-inline:.3rem; font-size:.8125rem }
+    .standings-wrap.is-detailed .standings td:first-child { padding-left:.6rem }
+    .standings-wrap.is-detailed .standings .points { padding-right:.6rem!important }
+    .standings-wrap.is-detailed .table-team > span:last-child { position:absolute; width:1px; height:1px; overflow:hidden; clip-path:inset(50%); white-space:nowrap }
+    .standings-wrap.is-detailed .standings tbody th { width:auto }
+    .standings-wrap.is-detailed .table-team .badge { width:2rem; height:2rem; font-size:.6rem }
+  }
   /* Page transitions (same-document navigation, see app.js) */
   @media (prefers-reduced-motion: no-preference) {
     ::view-transition-old(root) { animation:fade-out .14s ease both }
