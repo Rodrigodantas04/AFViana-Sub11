@@ -3,8 +3,8 @@ import assert from 'node:assert/strict';
 import { buildFixtureWorkbook, fixtureConfig } from './fixtures/workbook.mjs';
 import { importCompetition } from '../lib/competition.js';
 import { projectDataset } from '../lib/projection.js';
-import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, filterMatches, teamAnalysis, groupAverages, pointsRace, teamFixtures, daysUntil } from '../src/domain.js';
-import { renderView, prefs, tabBar, footer } from '../src/views.js';
+import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, recentMatches, filterMatches, teamAnalysis, groupAverages, pointsRace, teamFixtures, daysUntil } from '../src/domain.js';
+import { renderView, prefs, tabBar, footer, teamFirst } from '../src/views.js';
 import { esc, niceTicks, raceChart } from '../src/components.js';
 
 const { data: internal } = importCompetition(buildFixtureWorkbook(), fixtureConfig, { today: '2026-11-16' });
@@ -203,4 +203,30 @@ test('polish: hover only on devices that hover, a stale-data banner, lime kept f
   const app = readFileSync(new URL('../src/app.js', import.meta.url), 'utf8');
   assert.match(app, /Sem rede\. Estás a ver os últimos dados guardados/);
   assert.match(app, /Não foi possível atualizar/);
+});
+
+test('home with a followed team: its game, then the rest of that jornada in its series, then the others', () => {
+  const recent = recentMatches(data);
+  prefs.myTeam = null;
+  assert.deepEqual(teamFirst(data, recent, 6), recent.slice(0, 6), 'sem equipa: ordem de sempre');
+  const g = data.groups.find(x => x.id === '1a'), me = g.teamIds.at(-1);
+  prefs.myTeam = me;
+  const list = teamFirst(data, recent, 6);
+  const plays = m => m.homeId === me || m.awayId === me;
+  assert.ok(plays(list[0]), 'o jogo da minha equipa primeiro');
+  const round = list.filter(m => m.groupId === list[0].groupId && m.round === list[0].round);
+  assert.deepEqual(list.slice(0, round.length), round, 'depois a mesma jornada da série');
+  assert.deepEqual(list.slice(round.length), recent.filter(m => !round.includes(m)).slice(0, 6 - round.length), 'o resto pela ordem de sempre');
+  assert.equal(list.length, Math.min(6, recent.length));
+  assert.equal(new Set(list).size, list.length, 'sem repetidos');
+  const html = renderView(data, url('/'));
+  assert.ok(html.indexOf(`/jogos/${list[0].id}"`) < html.indexOf(`/jogos/${list.at(-1).id}"`));
+  const other = data.groups.find(x => x.phaseId === g.phaseId && x.id !== g.id);
+  assert.match(html, new RegExp(`<option value="${g.id}" selected`), 'classificação abre na série da minha equipa');
+  assert.match(renderView(data, url(`/?serie=${other.id}`)), new RegExp(`<option value="${other.id}" selected`), 'escolher outra série continua a funcionar');
+  assert.match(html, /class="[^"]*my-row[^"]*" aria-current="true"/, 'a minha equipa destacada na tabela da página inicial');
+  assert.match(renderView(data, url('/jogos')), /class="match-card is-mine"[\s\S]*?class="match-team is-mine"/, 'e nos cartões de jogo');
+  prefs.myTeam = null;
+  assert.doesNotMatch(renderView(data, url('/jogos')), /is-mine/, 'sem equipa, nada destacado');
+  prefs.myTeam = null;
 });

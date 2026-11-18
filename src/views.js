@@ -1,8 +1,8 @@
 import { normalize, teamById, clubById, groupById, phaseById, teamClubPath, groupPath, competitionPath, groupLabel, teamGroups, definedGroups, currentPhase, rankScorers, scorersFor, scorerScopes, recentMatches, upcomingMatches, groupStatistics, filterMatches, teamStanding, clubRanking, teamAnalysis, groupAverages, dateLabel, statusLabels, matchStatus, todayLisbon, teamFixtures, daysUntil, pointsRace } from './domain.js';
-import { esc, icon, badge, teamBadge, clubBadge, compareBars, brand, heading, pageHeading, textLink, matchGrid, standings, groupTabs, phaseTabs, notes, metric, scorerRows, privateScorers, emptyState, statusPill, pendingGroup, groupShort, barChart, lineChart, raceChart, radarChart } from './components.js';
+import { prefs, esc, icon, badge, teamBadge, clubBadge, compareBars, brand, heading, pageHeading, textLink, matchGrid, standings, groupTabs, phaseTabs, notes, metric, scorerRows, privateScorers, emptyState, statusPill, pendingGroup, groupShort, barChart, lineChart, raceChart, radarChart } from './components.js';
 
 /** Per-visitor preferences, set by the browser (app.js). The static build renders without them. */
-export const prefs = { myTeam: null };
+export { prefs };
 import { installHelp } from './install.js';
 
 const selected = (a, b) => a === b ? ' selected' : '';
@@ -51,20 +51,29 @@ function completenessNote(data) {
   if (!missing) return '';
   return `<p class="muted small">${icon('info')} ${missing} ${missing === 1 ? 'golo ainda não tem' : 'golos ainda não têm'} marcador identificado na fonte. Os rankings contam apenas os golos identificados.</p>`;
 }
+/** With a followed team: its game first, then the rest of that jornada in its series, then everyone else. Without one, the list as is. */
+export function teamFirst(data, list, count) {
+  const team = prefs.myTeam ? teamById(data, prefs.myTeam) : null;
+  if (!team) return list.slice(0, count);
+  const own = list.find(m => m.homeId === team.id || m.awayId === team.id);
+  const groupIds = new Set(teamGroups(data, team.id).map(g => g.id));
+  const anchor = own ?? list.find(m => groupIds.has(m.groupId));
+  const first = anchor ? list.filter(m => m === own || (m.groupId === anchor.groupId && m.round === anchor.round && m.phaseId === anchor.phaseId)) : [];
+  if (own) first.sort((a, b) => Number(b === own) - Number(a === own));
+  return [...first, ...list.filter(m => !first.includes(m))].slice(0, count);
+}
 function home(data, url) {
   const phase = currentPhase(data);
   const groups = definedGroups(data, phase.id);
-  const group = groups.find(g => g.id === url.searchParams.get('serie')) ?? groups[0];
-  const scheduled = upcomingMatches(data).slice(0, 3);
-  const pending = data.phases.filter(p => p.state === 'pending');
-  return `<section class="hero"><div class="hero-copy"><p class="eyebrow"><span class="status-dot"></span> Futebol de formação · Alto Minho</p><h1 tabindex="-1">O FUTEBOL<br>COMEÇA <em>AQUI.</em></h1><p class="hero-description">Os jogos, as equipas e os golos da nossa terra.<br>O teu futebol. A tua bancada.</p><div class="hero-actions"><a class="button button-lime" href="${competitionPath(data)}">Explorar a competição ${icon('arrow')}</a><span class="hero-season">${esc(data.competition.category)}<span>${esc(data.competition.season)}</span></span></div><div class="hero-caption"><span>MINHO11</span><span>O futebol começa aqui.</span></div></div><div class="hero-art" aria-hidden="true"><svg class="pitch" viewBox="0 0 430 500"><rect x="35" y="30" width="360" height="440" rx="2"/><path d="M35 250h360M140 30v75h150V30M140 470v-75h150v75M175 30v27h80V30M175 470v-27h80v27"/><circle cx="215" cy="250" r="66"/><circle cx="215" cy="250" r="3"/></svg><span class="hero-eleven">11</span><span class="art-label">DA TERRA.<br>PARA O JOGO.</span><span class="art-coordinate">ALTO MINHO · PORTUGAL</span></div></section>
-  <div class="competition-strip"><div>${icon('trophy')}<span><strong>${esc(data.competition.shortName)}</strong><span>${esc(data.competition.category)} · ${esc(phase.name)} em curso${pending.length ? ` · ${esc(pending.map(p => p.name).join(', '))} por definir` : ''}</span></span></div>${textLink(competitionPath(data), 'Acompanhar')}</div>${myTeamStrip(data)}
-  <section class="metrics" aria-label="A competição em números">${metric(data.stats.activeTeams, 'Equipas em prova', 'shield', `${data.stats.teams} inscritas`)}${metric(data.stats.played, 'Jogos realizados', 'calendar', `${data.stats.matches} jogos no calendário`)}${metric(data.stats.goals, 'Golos marcados', 'ball', `${data.stats.individualGoals} com marcador identificado`)}${metric(groups.length, 'Séries', 'trophy', phase.name)}</section>
-  <section class="section">${heading('O que se joga por cá', 'Últimos resultados', 'Os resultados mais recentes registados na competição.', textLink('/jogos?estado=finished', 'Todos os resultados'))}${matchGrid(data, recentMatches(data, 6))}</section>
-  <section class="section home-columns"><div class="panel"><div class="panel-heading"><div><p class="eyebrow">A corrida ao topo · ${esc(phase.name)}</p><h2>Classificação</h2></div><form action="/" class="inline-form">${groupSelect(data, group?.id, phase.id)}<button type="submit" class="sr-only">Selecionar série</button></form></div>${group ? standings(data, group) : pendingPhase(data, phase)}<div class="panel-bottom">${group ? textLink(groupPath(data, group.id), `Explorar a Série ${group.letter}`) : ''}</div></div><div class="panel scorers-preview"><div class="panel-heading"><div><p class="eyebrow">Cada golo conta</p><h2>Bota de Ouro</h2></div>${icon('trophy', 'accent')}</div>${topScorersPreview(data)}<div class="panel-bottom">${textLink('/marcadores', 'Ver marcadores')}</div></div></section>
-  <section class="section">${heading('A próxima jornada', 'Ainda há muito jogo.', 'Jogos agendados a partir de hoje, com data indicada na fonte.', textLink('/jogos?estado=scheduled', 'Ver calendário'))}${scheduled.length ? matchGrid(data, scheduled) : emptyState('Sem próximos jogos confirmados', 'O calendário será atualizado quando houver novas datas.')}</section>
-  <section class="section">${heading('Escolhe o teu campo', `${groups.length} séries. A mesma paixão.`, '', textLink(competitionPath(data), 'A competição'))}${groupCards(data, phase.id)}</section>
-  <aside class="manifesto"><span class="eyebrow">Feito para o nosso futebol</span><p>Pequenos campos.<br><strong>Grandes histórias.</strong></p><span>Uma plataforma independente para o futebol de formação do Alto Minho.</span></aside>`;
+  const group = groups.find(g => g.id === url.searchParams.get('serie')) ?? groups.find(g => prefs.myTeam && g.teamIds.includes(prefs.myTeam)) ?? groups[0];
+  const scheduled = teamFirst(data, upcomingMatches(data), 3);
+  const n = (value, one, many) => `<span><b>${value}</b> ${value === 1 ? one : many}</span>`;
+  return `<header class="home-head"><div><h1 tabindex="-1">${esc(data.competition.shortName)}</h1><p class="muted">${esc(data.competition.category)} · ${esc(data.competition.region)} · ${esc(phase.name)} em curso</p></div>${textLink(competitionPath(data), 'A competição')}</header>
+  <p class="home-numbers" aria-label="A competição em números">${n(data.stats.activeTeams, 'equipa', 'equipas')}${n(data.stats.played, 'jogo', 'jogos')}${n(data.stats.goals, 'golo', 'golos')}${n(groups.length, 'série', 'séries')}</p>${myTeamStrip(data)}
+  <section class="section">${heading('', 'Últimos resultados', '', textLink('/jogos?estado=finished', 'Todos os resultados'))}${matchGrid(data, teamFirst(data, recentMatches(data), 6))}</section>
+  <section class="section home-columns"><div class="panel"><div class="panel-heading"><div><h2>Classificação</h2></div><form action="/" class="inline-form">${groupSelect(data, group?.id, phase.id)}<button type="submit" class="sr-only">Selecionar série</button></form></div>${group ? standings(data, group) : pendingPhase(data, phase)}<div class="panel-bottom">${group ? textLink(groupPath(data, group.id), `Explorar a Série ${group.letter}`) : ''}</div></div><div class="panel scorers-preview"><div class="panel-heading"><div><h2>Bota de Ouro</h2></div>${icon('trophy', 'accent')}</div>${topScorersPreview(data)}<div class="panel-bottom">${textLink('/marcadores', 'Ver marcadores')}</div></div></section>
+  <section class="section">${heading('', 'Próximos jogos', '', textLink('/jogos?estado=scheduled', 'Ver calendário'))}${scheduled.length ? matchGrid(data, scheduled) : emptyState('Sem próximos jogos confirmados', 'O calendário será atualizado quando houver novas datas.')}</section>
+  <section class="section">${heading('', `Séries · ${phase.name}`, '', textLink(competitionPath(data), 'A competição'))}${groupCards(data, phase.id)}</section>`;
 }
 function competition(data) {
   return `${pageHeading(`${data.competition.category} · ${data.competition.season}`, data.competition.name, `${data.competition.region}. Duas fases, seis séries em cada uma. Resultados, classificações e calendário num só lugar.`)}<div class="page-actions"><a class="button" href="/jogos">${icon('calendar')} Calendário e resultados</a><a class="button button-secondary" href="/estatisticas">${icon('chart')} Estatísticas</a></div><div class="metrics">${metric(data.stats.activeTeams, 'Equipas em prova', 'shield')}${metric(data.stats.played, 'Jogos realizados', 'calendar')}${metric(data.stats.goals, 'Golos', 'ball')}${metric(number(data.stats.goals / Math.max(data.stats.played, 1)), 'Golos por jogo', 'chart')}</div>${data.phases.map(p => `<section class="section">${heading(p.state === 'pending' ? 'Por definir' : p.state === 'finished' ? 'Concluída' : 'Em curso', p.name, '', p.state === 'pending' ? '' : textLink(`${competitionPath(data)}/${p.id}`, `Ver ${p.name}`))}${groupCards(data, p.id)}</section>`).join('')}<div class="notice">${icon('shield')}<span>Plataforma independente. Resultados e marcadores vêm do ficheiro da competição; as classificações são calculadas com as mesmas fórmulas desse ficheiro.</span></div>`;
