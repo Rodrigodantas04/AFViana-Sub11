@@ -171,3 +171,36 @@ test('crests: every registered crest is a local PNG/SVG/WEBP with source and pub
     assert.ok((await stat(new URL('../' + entry.file, import.meta.url))).size > 1000, `${id}: ficheiro existe`);
   }
 });
+
+test('installable app: install button and iPhone help in every page, offline worker never touches the desk', async () => {
+  const { readFile } = await import('node:fs/promises');
+  assert.match(footer(data), /data-install hidden/);
+  assert.match(footer(data), /id="install-help"/);
+  const sw = await readFile(new URL('../src/sw.js', import.meta.url), 'utf8');
+  assert.match(sw, /startsWith\('\/admin'\) \|\| url\.pathname\.startsWith\('\/api\/'\)\) return;/);
+});
+
+import { brand } from '../src/components.js';
+import { readFileSync } from 'node:fs';
+test('one MINHO11 mark: the shield with the 11 in the header, the desk and the favicon', () => {
+  const shield = 'M0 0h28v25.74L14 33 0 25.74Z';
+  const header = brand();
+  assert.match(header, /class="brand-mark"/);
+  assert.ok(header.includes(shield) && header.includes('mark-number'));
+  assert.ok(!header.includes('class="icon'), 'the ball icon is no longer the logo');
+  assert.ok(readFileSync(new URL('../src/admin.html', import.meta.url), 'utf8').split(shield).length === 3, 'desk header + login use the same shield');
+  assert.ok(readFileSync(new URL('../scripts/build.mjs', import.meta.url), 'utf8').includes(shield), 'favicon uses the shield');
+});
+
+test('polish: hover only on devices that hover, a stale-data banner, lime kept for actions and the leader', () => {
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  const unwrapped = css.split('\n').filter(line => line.includes(':hover') && !line.includes('hover:hover'));
+  assert.deepEqual(unwrapped, [], 'every :hover rule sits inside @media (hover:hover)');
+  assert.match(css, /@media \(pointer:coarse\)/);
+  assert.match(css, /\.pill-final \{ color:var\(--text\)/);
+  assert.match(css, /\.leader-row \.points, \.my-row \.points \{ color:var\(--accent\) \}/);
+  assert.ok(readFileSync(new URL('../scripts/build.mjs', import.meta.url), 'utf8').includes('id="data-banner"'));
+  const app = readFileSync(new URL('../src/app.js', import.meta.url), 'utf8');
+  assert.match(app, /Sem rede\. Estás a ver os últimos dados guardados/);
+  assert.match(app, /Não foi possível atualizar/);
+});

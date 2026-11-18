@@ -37,7 +37,9 @@ export function teamBadge(data, teamOrId, large = false) {
   const club = data.clubs.find(c => c.id === team?.clubId);
   return badge(team?.name ?? '', large, club?.crestUrl, club?.colors);
 }
-export const brand = () => `<a class="brand" href="/" aria-label="MINHO11 — início"><span class="brand-mark">${icon('ball')}</span><span>MINHO<span class="brand-number">11</span></span></a>`;
+// The MINHO11 mark (same shield as the app icon and favicon); colours follow the theme accent.
+export const brandMark = (cls = 'brand-mark') => `<svg class="${cls}" viewBox="0 0 28 33" aria-hidden="true" focusable="false"><path class="mark-shield" d="M0 0h28v25.74L14 33 0 25.74Z"/><path class="mark-number" d="M10.55 6.1h3.58v17h-3.58V11.2l-3.01 2.72V8.48ZM18.37 6.1h3.58v17h-3.58V11.2l-3.01 2.72V8.48Z"/></svg>`;
+export const brand = () => `<a class="brand" href="/" aria-label="MINHO11 — início">${brandMark()}<span>MINHO<span class="brand-number">11</span></span></a>`;
 export function heading(eyebrow, title, description = '', action = '') {
   return `<div class="section-heading"><div>${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>` : ''}<h2>${esc(title)}</h2>${description ? `<p class="muted">${esc(description)}</p>` : ''}</div>${action}</div>`;
 }

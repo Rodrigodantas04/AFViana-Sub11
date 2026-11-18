@@ -1,3 +1,16 @@
+# Verificação da versão 0.7.0
+
+Executada localmente em 18/11/2026 (macOS, Node 24).
+
+## 0.7.0 · App, símbolo e polimento
+
+- `npm test`: 48 testes, 0 falhas (inclui o símbolo único, o manifesto/service worker, os `:hover` só em `@media (hover:hover)`, o aviso de dados antigos e o verde reservado).
+- App: Chrome (`Page.getInstallabilityErrors`) sem erros para `/` e `/admin/`; offline, `/jogos` mostra os 150 jogos e o aviso «Sem rede…»; com o servidor a falhar (503) aparece «Não foi possível atualizar…»; online o aviso fica escondido.
+- Zonas de toque (Playwright, 390 px, ecrã tátil, `elementFromPoint` a partir do centro de cada alvo) em 9 páginas e no painel: todos os alvos com ≥ 44 px, exceto um link dentro de uma frase (`.nm-before`). Nas linhas dos marcadores, a metade de cima abre o jogador (44 px) e a de baixo a equipa.
+- Paridade computador/telemóvel (15 páginas): igual à 0.5.0 — só os links que no telemóvel estão no «Mais» e as colunas da classificação detalhada (a pedido).
+- Sem scroll horizontal em 9 páginas a 390 e 1280 px, claro e escuro; 0 erros na consola.
+- Painel (390 px, cópia `data/dev-source.xlsx`, sem gravar): login, Dia de jogo, abrir jogo, preencher resultado e marcadores, separadores Por série/Jogadores/2.ª fase/Privacidade/Histórico.
+
 # Verificação da versão 0.5.0
 
 Executada localmente em 17/11/2026 (macOS, Node 24).

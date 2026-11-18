@@ -21,6 +21,7 @@ MINHO11 é uma plataforma independente para acompanhar o futebol de formação d
 - **Comparar equipas** (`/comparar`): duas equipas lado a lado, por jogo disputado, com forma e confronto direto.
 - **Emblemas dos 31 clubes** (`assets/crests/`, com origem e decisão de publicação registadas em `config/crests.json`); um clube sem emblema registado mostra as iniciais pintadas com as suas cores (`config/club-colors.json`).
 - **Gestão de resultados (`/admin`)** para quem atualiza a competição, no telemóvel, com uma palavra-passe partilhada: **Dia de jogo** (jogos recentes e atrasados), **Por série**, **Jogadores** (juntar grafias do mesmo miúdo, corrigir nomes no Excel), **2.ª fase** (escolher as equipas de cada série), **Privacidade** (ocultar um nome a pedido) e **Histórico**. Em cada jogo: resultado e marcadores com **«Gravar resultado»**, mudar a data e apagar um resultado lançado por engano (com confirmação). Ao escrever marcadores, a equipa mostra quem já marcou (um toque acrescenta ou soma um golo) e sugere nomes enquanto se escreve, sem impedir nomes novos. A plataforma grava no Excel oficial, relê-o para confirmar e só então atualiza o site.
+- **Instala-se como app** no telemóvel (ícone «11», ecrã inteiro, últimos dados sem rede), e o painel tem a sua própria app «Gestão M11».
 - Temas claro e escuro, **barra de navegação no telemóvel** (flutuante, com a tua equipa ao centro), URLs próprias para cada página e estados vazios honestos.
 
 ## Como funciona
