@@ -1,5 +1,11 @@
 # Histórico de alterações
 
+## 0.8.0 — 2026-11-18 · Página inicial limpa e a minha equipa em primeiro
+
+- **Página inicial mais limpa** (pedido do responsável a 18/11/2026: «a imagem inicial é demais»): sai o cartão grande do topo, as frases de slogan, as etiquetas em maiúsculas por cima dos títulos, os quatro cartões de números e a caixa «Pequenos campos. Grandes histórias.». Fica o título «Gomes Ribeiro», uma linha com a categoria, a região e a fase, e uma linha de números. No telemóvel os resultados aparecem logo no primeiro ecrã.
+- **A minha equipa primeiro:** com uma equipa escolhida, «Últimos resultados» e «Próximos jogos» mostram o jogo dela, depois o resto dessa jornada na série e depois os outros; a classificação abre na série da equipa. Sem equipa fica tudo como antes.
+- **A minha equipa sempre destacada:** linha nas tabelas (com barra verde à esquerda, para não se confundir com o 1.º lugar), cartões de jogo e jogadores na Bota de Ouro. Na página «A minha equipa» não se destaca nada.
+
 ## 0.7.0 — 2026-11-18 · App no telemóvel, símbolo e polimento
 
 - **App no telemóvel (PWA):** «Adicionar ao ecrã principal» transforma o site numa app com o símbolo do escudo, ecrã inteiro e atalhos (A minha equipa, Jogos, Marcadores, Classificações). Botão «Instalar a app MINHO11» no «Mais» e no rodapé: no Android abre o pedido do próprio browser; no iPhone mostra os três passos. Esconde-se quando já está instalada.

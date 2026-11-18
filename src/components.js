@@ -1,4 +1,7 @@
 import { dateLabel, matchStatus, statusLabels, teamById, teamClubPath, groupPath, groupById, phaseById } from './domain.js';
+/** The visitor's followed team (saved on this phone by app.js); views and components highlight it everywhere. */
+export const prefs = { myTeam: null };
+const isMine = teamId => !!prefs.myTeam && teamId === prefs.myTeam;
 export const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 export function icon(name, cls = '') {
   const paths = {
@@ -55,23 +58,24 @@ export function groupShort(data, groupId) {
   const g = groupById(data, groupId), p = g && phaseById(data, g.phaseId);
   return g ? `${p.number}.ª Fase <span class="separator">/</span> Série ${g.letter}` : '';
 }
-export function matchCard(data, match) {
+export function matchCard(data, match, mark = true) {
   const home = teamById(data, match.homeId), away = teamById(data, match.awayId);
   const g = groupById(data, match.groupId);
-  return `<a class="match-card" href="/jogos/${match.id}" aria-label="${esc(home.name)} ${match.homeGoals ?? 'contra'} ${esc(away.name)} ${match.awayGoals ?? ''}, Série ${g?.letter}, ${esc(statusLabels[matchStatus(match)])}">
+  const mine = side => mark && isMine(side.id) ? ' is-mine' : '';
+  return `<a class="match-card${mine(home) || mine(away)}" href="/jogos/${match.id}" aria-label="${esc(home.name)} ${match.homeGoals ?? 'contra'} ${esc(away.name)} ${match.awayGoals ?? ''}, Série ${g?.letter}, ${esc(statusLabels[matchStatus(match)])}">
     <div class="match-meta"><span>${groupShort(data, match.groupId)} <span class="separator">/</span> J${match.round}</span>${statusPill(match)}</div>
-    <div class="match-team">${teamBadge(data, home)}<span>${esc(home.name)}</span><strong>${match.homeGoals ?? '–'}</strong></div>
-    <div class="match-team">${teamBadge(data, away)}<span>${esc(away.name)}</span><strong>${match.awayGoals ?? '–'}</strong></div>
+    <div class="match-team${mine(home)}">${teamBadge(data, home)}<span>${esc(home.name)}</span><strong>${match.homeGoals ?? '–'}</strong></div>
+    <div class="match-team${mine(away)}">${teamBadge(data, away)}<span>${esc(away.name)}</span><strong>${match.awayGoals ?? '–'}</strong></div>
     <div class="match-footer"><span>${icon('calendar')}${dateLabel(match.date)}</span><span>Ver jogo ${icon('arrow')}</span></div>
   </a>`;
 }
 export function matchGrid(data, matches) {
-  return matches.length ? `<div class="match-grid">${matches.map(m => matchCard(data, m)).join('')}</div>` : emptyState('Sem jogos para mostrar', 'Experimenta outra série ou limpa os filtros.');
+  return matches.length ? `<div class="match-grid">${matches.map(m => matchCard(data, m, !matches.every(x => isMine(x.homeId) || isMine(x.awayId)))).join('')}</div>` : emptyState('Sem jogos para mostrar', 'Experimenta outra série ou limpa os filtros.');
 }
 export function emptyState(title, description = '', link = '') {
   return `<div class="empty-state">${icon('search')}<h3>${esc(title)}</h3><p>${esc(description)}</p>${link}</div>`;
 }
-export function standings(data, group, { highlight = null } = {}) {
+export function standings(data, group, { highlight = prefs.myTeam } = {}) {
   if (!group.defined) return pendingGroup(data, group);
   return `<div class="standings-wrap"><button type="button" class="table-toggle" data-table-toggle aria-pressed="false">${icon('chart')}<span>Ver classificação detalhada</span></button><div class="table-scroll" tabindex="0" role="region" aria-label="Classificação da Série ${group.letter}"><table class="standings"><caption class="sr-only">Série ${group.letter}, ${esc(phaseById(data, group.phaseId).name)}: classificação calculada com as fórmulas do Excel</caption><thead><tr><th scope="col">Pos.</th><th scope="col">Equipa</th>${[['J', 'Jogos'], ['V', 'Vitórias'], ['E', 'Empates'], ['D', 'Derrotas'], ['GM', 'Golos marcados'], ['GS', 'Golos sofridos'], ['DG', 'Diferença de golos'], ['Pts', 'Pontos']].map(([s, l], i) => `<th scope="col" class="${i > 0 && i < 7 ? 'secondary-stat' : ''}"><abbr title="${l}">${s}</abbr></th>`).join('')}</tr></thead><tbody>${group.standings.map(s => {
     const team = teamById(data, s.teamId);
@@ -95,7 +99,8 @@ export function metric(value, label, symbol = 'ball', caption = '') {
   return `<div class="metric"><span class="metric-label">${icon(symbol)}${esc(label)}</span><strong>${esc(value)}</strong>${caption ? `<small>${esc(caption)}</small>` : ''}</div>`;
 }
 export function scorerRows(data, scorers) {
-  return scorers.map(s => `<li class="scorer-row"><span class="scorer-rank" title="${s.tied ? 'Posição partilhada' : ''}">${s.rank}.${s.tied ? '<small>=</small>' : ''}</span>${teamBadge(data, s.teamId)}<div><a class="player-link" href="/jogadores/${esc(s.id)}"><strong>${esc(s.name)}</strong></a><a href="${teamClubPath(data, s.teamId)}">${esc(teamById(data, s.teamId).name)}</a></div><strong class="goal-count">${s.goals}<small>${s.goals === 1 ? 'golo' : 'golos'}</small></strong></li>`).join('');
+  const mark = !scorers.every(s => isMine(s.teamId));
+  return scorers.map(s => `<li class="scorer-row${mark && isMine(s.teamId) ? ' is-mine' : ''}"><span class="scorer-rank" title="${s.tied ? 'Posição partilhada' : ''}">${s.rank}.${s.tied ? '<small>=</small>' : ''}</span>${teamBadge(data, s.teamId)}<div><a class="player-link" href="/jogadores/${esc(s.id)}"><strong>${esc(s.name)}</strong></a><a href="${teamClubPath(data, s.teamId)}">${esc(teamById(data, s.teamId).name)}</a></div><strong class="goal-count">${s.goals}<small>${s.goals === 1 ? 'golo' : 'golos'}</small></strong></li>`).join('');
 }
 export function privateScorers(data) {
   const mode = data?.publication?.scorerNames;
