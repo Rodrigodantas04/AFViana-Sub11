@@ -1,6 +1,6 @@
 # Histórico de alterações
 
-## Por publicar
+## 0.7.0 — 2026-11-18 · App no telemóvel, símbolo e polimento
 
 - **App no telemóvel (PWA):** «Adicionar ao ecrã principal» transforma o site numa app com o símbolo do escudo, ecrã inteiro e atalhos (A minha equipa, Jogos, Marcadores, Classificações). Botão «Instalar a app MINHO11» no «Mais» e no rodapé: no Android abre o pedido do próprio browser; no iPhone mostra os três passos. Esconde-se quando já está instalada.
 - **App da gestão** («Gestão M11», o mesmo escudo em cores trocadas: fundo verde, escudo escuro, `/admin/manifest.webmanifest`) para o tio Rui ter o painel como app, com o botão «Instalar app» no cabeçalho.
@@ -11,6 +11,7 @@
   - **Resposta ao toque:** botões, cartões, separadores e chips encolhem ligeiramente (3 %) ao carregar; os efeitos de passar o rato só existem em aparelhos com rato e já não ficam «presos» depois de tocar. Quem desliga as animações no telemóvel não vê nenhuma.
   - **Folhas sem arrastar a página:** o «Mais» e a ajuda de instalação não fazem a página de trás deslizar; tabelas e chips com scroll lateral não puxam o gesto de «voltar».
   - **O verde só para o que conta:** botões e links, o separador ativo, o 1.º classificado, a tua equipa e os golos da Bota de Ouro. Os títulos pequenos das secções, as etiquetas «Finalizado», os pontos das outras equipas e os ícones decorativos passam a cinzento/branco.
+  - **Painel:** os nomes de «Já marcaram» e o logótipo também com 44 px de altura (sem outras mudanças: o fluxo de gravar ficou como estava).
   - **Aviso de dados antigos** logo abaixo do topo (e não só no rodapé): «Sem rede. Estás a ver os últimos dados guardados (…)» ou «Não foi possível atualizar…». Desaparece quando a ligação volta.
 
 ## 0.6.0 — 2026-11-17 · Emblemas e calendário por jornada
