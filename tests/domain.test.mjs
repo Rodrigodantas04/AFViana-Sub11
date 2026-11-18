@@ -230,3 +230,14 @@ test('home with a followed team: its game, then the rest of that jornada in its 
   assert.doesNotMatch(renderView(data, url('/jogos')), /is-mine/, 'sem equipa, nada destacado');
   prefs.myTeam = null;
 });
+
+test('Bota de Ouro: filter by club (all its teams), together with phase and series', () => {
+  const club = data.clubs.find(c => data.teams.some(t => t.clubId === c.id && Object.values(data.scorers).flat().some(s => s.teamId === t.id)));
+  const html = renderView(data, url(`/marcadores?clube=${club.slug}`));
+  assert.match(html, new RegExp(`<option value="${club.slug}" selected`));
+  const teams = [...html.matchAll(/class="scorer-row[^"]*">[\s\S]*?<a href="[^"]*">([^<]+)<\/a><\/div>/g)].map(m => m[1]);
+  assert.ok(teams.length, 'há marcadores do clube');
+  const names = new Set(data.teams.filter(t => t.clubId === club.id).map(t => esc(t.name)));
+  assert.ok(teams.every(t => names.has(t)), 'só equipas desse clube');
+  assert.match(renderView(data, url('/marcadores')), /<option value="">Todos os clubes<\/option>/);
+});

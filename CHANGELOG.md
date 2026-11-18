@@ -1,5 +1,9 @@
 # Histórico de alterações
 
+## Por publicar
+
+- **Bota de Ouro por clube:** novo filtro «Clube» ao lado de «Fase» e «Série» (pedido do responsável a 18/11/2026). Junta todas as equipas do clube (ex.: Barroselas «A» e «B») e combina com a fase e a série.
+
 ## 0.8.1 — 2026-11-18 · Correção: dados ao vivo e painel
 
 - **Dados ao vivo e painel voltam a funcionar:** depois do deploy da 0.8.0, todos os pedidos a `/data/competition.json` (e ao painel) falhavam com 401. Os registos da Netlify mostravam «Failed to decode token: Token expired»: a função guardava a ligação ao Netlify Blobs do primeiro pedido e a chave dessa ligação expira. Agora abre a ligação em cada operação.

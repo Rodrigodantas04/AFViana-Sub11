@@ -15,6 +15,10 @@ function groupSelect(data, group = '', phaseId = '') {
 function phaseSelect(data, phase = '', { all = 'Todas as fases', values = data.phases.map(p => [p.id, p.name]) } = {}) {
   return `<label>Fase<select name="fase" data-filter>${all ? `<option value="">${esc(all)}</option>` : ''}${values.map(([id, name]) => `<option value="${id}"${selected(id, phase)}>${esc(name)}</option>`).join('')}</select></label>`;
 }
+function clubSelect(data, slug = '') {
+  const clubs = [...data.clubs].sort((a, b) => a.name.localeCompare(b.name, 'pt-PT'));
+  return `<label>Clube<select name="clube" data-filter><option value="">Todos os clubes</option>${clubs.map(c => `<option value="${esc(c.slug)}"${selected(c.slug, slug)}>${esc(c.name)}</option>`).join('')}</select></label>`;
+}
 function searchInput(q, label = 'Procurar equipa', placeholder = 'Nome da equipa…') {
   return `<label class="search-field">${label}<span>${icon('search')}<input type="search" name="q" value="${esc(q)}" placeholder="${esc(placeholder)}" autocomplete="off" data-filter></span></label>`;
 }
@@ -118,9 +122,10 @@ export function matchDetails(data, id) {
 function scorers(data, url) {
   const scope = scorerScopes[url.searchParams.get('fase')] ? url.searchParams.get('fase') : 'total';
   const group = url.searchParams.get('serie') ?? '', q = url.searchParams.get('q') ?? '';
+  const club = data.clubs.find(c => c.slug === url.searchParams.get('clube')) ?? null;
   const phaseId = scope === 'total' ? '' : scope;
   const groupTeams = group ? new Set(groupById(data, group)?.teamIds ?? []) : null;
-  const scoped = rankScorers(scorersFor(data, scope).filter(s => !groupTeams || groupTeams.has(s.teamId)));
+  const scoped = rankScorers(scorersFor(data, scope).filter(s => (!groupTeams || groupTeams.has(s.teamId)) && (!club || teamById(data, s.teamId)?.clubId === club.id)));
   const ranked = scoped.filter(s => !q || normalize(s.name + ' ' + teamById(data, s.teamId).name).includes(normalize(q)));
   const podium = scoped.slice(0, 3);
   const pendingScope = scope !== 'total' && phaseById(data, scope)?.state === 'pending';
@@ -128,7 +133,7 @@ function scorers(data, url) {
   const body = pendingScope ? `<div class="panel">${pendingPhase(data, phaseById(data, scope))}</div>`
     : !anyNames ? `<div class="panel privacy-feature">${privateScorers(data)}</div>`
     : `${podium.length ? `<div class="podium">${podium.map((s, index) => `<article class="podium-place podium-${index + 1}"><span class="eyebrow">${s.rank}.º lugar${s.tied ? ' · ex aequo' : ''}</span>${icon('trophy')}<strong class="podium-goals">${s.goals}<small>golos</small></strong><h2>${esc(s.name)}</h2><a href="${teamClubPath(data, s.teamId)}">${esc(teamById(data, s.teamId).name)}</a></article>`).join('')}</div>` : ''}<section class="panel"><div class="panel-heading"><h2>Classificação de marcadores · ${esc(scorerScopes[scope])}</h2><span class="subtle-label">${ranked.length} ${ranked.length === 1 ? 'jogador' : 'jogadores'}</span></div>${ranked.length ? `<ol class="scorer-list">${scorerRows(data, ranked)}</ol>` : emptyState('Sem resultados', 'Experimenta outro nome ou limpa os filtros.')}</section><p class="muted small">Totais iguais partilham a posição (=); em empate, ordem alfabética. O acumulado soma a 1.ª e a 2.ª fase sem contar golos duas vezes. Cada registo é um nome numa equipa, tal como escrito na ficha: o mesmo nome em equipas diferentes não é juntado.</p>${completenessNote(data)}`;
-  return `${pageHeading('O golo tem protagonistas', 'Bota de Ouro.', 'Cada golo conta uma história. Acompanha as conquistas dos jogadores e das equipas.')}<form class="filter-bar" action="/marcadores">${searchInput(q, 'Procurar jogador ou clube', 'Nome do jogador ou clube…')}${phaseSelect(data, scope, { all: '', values: Object.entries(scorerScopes) })}${groupSelect(data, group, phaseId)}${formFooter('/marcadores')}</form>${body}<section class="section">${heading('O ataque em números', 'As equipas com mais golos', `Golos marcados na ${currentPhase(data).name}, segundo os resultados.`)}<div class="panel goal-ranking">${teamGoalRanking(data, 12)}</div></section>`;
+  return `${pageHeading('O golo tem protagonistas', 'Bota de Ouro.', 'Cada golo conta uma história. Acompanha as conquistas dos jogadores e das equipas.')}<form class="filter-bar" action="/marcadores">${searchInput(q, 'Procurar jogador ou clube', 'Nome do jogador ou clube…')}${phaseSelect(data, scope, { all: '', values: Object.entries(scorerScopes) })}${groupSelect(data, group, phaseId)}${clubSelect(data, club?.slug)}${formFooter('/marcadores')}</form>${body}<section class="section">${heading('O ataque em números', 'As equipas com mais golos', `Golos marcados na ${currentPhase(data).name}, segundo os resultados.`)}<div class="panel goal-ranking">${teamGoalRanking(data, 12)}</div></section>`;
 }
 function clubs(data, url) {
   const q = url.searchParams.get('q') ?? '', group = url.searchParams.get('serie') ?? '';
