@@ -1,5 +1,10 @@
 # Histórico de alterações
 
+## 0.8.1 — 2026-11-18 · Correção: dados ao vivo e painel
+
+- **Dados ao vivo e painel voltam a funcionar:** depois do deploy da 0.8.0, todos os pedidos a `/data/competition.json` (e ao painel) falhavam com 401. Os registos da Netlify mostravam «Failed to decode token: Token expired»: a função guardava a ligação ao Netlify Blobs do primeiro pedido e a chave dessa ligação expira. Agora abre a ligação em cada operação.
+- **O site público nunca falha por causa do armazenamento:** se o Netlify Blobs falhar, `/data/competition.json` responde com os dados do deploy (estado «stale», com o aviso de dados antigos) em vez de um erro.
+
 ## 0.8.0 — 2026-11-18 · Página inicial limpa e a minha equipa em primeiro
 
 - **Página inicial mais limpa** (pedido do responsável a 18/11/2026: «a imagem inicial é demais»): sai o cartão grande do topo, as frases de slogan, as etiquetas em maiúsculas por cima dos títulos, os quatro cartões de números e a caixa «Pequenos campos. Grandes histórias.». Fica o título «Gomes Ribeiro», uma linha com a categoria, a região e a fase, e uma linha de números. No telemóvel os resultados aparecem logo no primeiro ecrã.

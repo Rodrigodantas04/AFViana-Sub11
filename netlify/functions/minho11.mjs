@@ -6,7 +6,8 @@ let handler;
 export default async (request, context) => {
   handler ??= appFromEnv({
     env: process.env,
-    storage: new BlobStorage(getStore({ name: 'minho11-private', consistency: 'strong' })),
+    // A fresh store per operation: the Blobs token of the first request expires on warm instances.
+    storage: new BlobStorage(() => getStore({ name: 'minho11-private', consistency: 'strong' })),
     log: (...args) => console.log('[minho11]', ...args),
   });
   return handler(request, context);

@@ -48,7 +48,9 @@ export function createApp({ storage, source, env = {}, config, policy, snapshot,
 
   /** The public dataset (live when possible) and where it came from: live, cache, snapshot or stale. */
   async function liveDataset(context) {
-    const stored = await storage.get(LIVE_KEY);
+    let stored;
+    // If the store itself fails, the public site still gets the snapshot from the deploy instead of an error.
+    try { stored = await storage.get(LIVE_KEY); } catch (error) { log('store read failed', error.message); return { data: snapshot, state: 'stale' }; }
     const cached = stored && stored.value.projectionVersion === projectionVersion() ? stored : null;
     const age = cached ? now() - cached.value.checkedAt : Infinity;
     if (!source) return { data: stored?.value.data ?? snapshot, state: stored ? 'cache' : 'snapshot' };
