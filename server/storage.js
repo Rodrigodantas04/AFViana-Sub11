@@ -52,8 +52,14 @@ export class FileStorage extends MemoryStorage {
 }
 
 /** Netlify Blobs (site-wide store, strong consistency for locks and idempotency). */
+/**
+ * Netlify Blobs. Pass a function that returns the store: Netlify hands each invocation a
+ * short-lived Blobs token, so a store kept from the first request of a warm instance starts
+ * failing with "Token expired" (18/11/2026). The function is called on every operation.
+ */
 export class BlobStorage {
-  constructor(store) { this.store = store; }
+  constructor(store) { this.open = typeof store === 'function' ? store : () => store; }
+  get store() { return this.open(); }
   async get(key, type = 'json') {
     const result = await this.store.getWithMetadata(key, { type: type === 'json' ? 'json' : 'arrayBuffer' });
     if (!result) return null;

@@ -7,7 +7,7 @@ import { buildFixtureWorkbook, fixtureConfig } from './fixtures/workbook.mjs';
 import { importCompetition } from '../lib/competition.js';
 import { projectDataset } from '../lib/projection.js';
 import { createApp } from '../server/app.js';
-import { MemoryStorage, acquireLease } from '../server/storage.js';
+import { MemoryStorage, BlobStorage, acquireLease } from '../server/storage.js';
 import { FileSource } from '../server/sources.js';
 import { hashPassword } from '../server/auth.js';
 
@@ -141,3 +141,21 @@ test('players: spellings are listed per team, suggested and joined through the p
   assert.equal((await app(request(`/api/admin/teams/${teamId}/rename`, { method: 'PUT', body: { from: [name], to: 'X' } }))).status, 401);
 });
 
+
+test('Netlify Blobs: a fresh store on every operation, and the public site survives a broken store', async () => {
+  // Warm instances used to keep the first request's store; its token expired (18/11/2026) and every request failed with 401.
+  let opened = 0;
+  const memory = new Map();
+  const fake = { async getWithMetadata(key) { return memory.has(key) ? { data: memory.get(key), etag: 'e' } : null; }, async setJSON(key, value) { memory.set(key, value); return { modified: true, etag: 'e' }; }, async set() { return { modified: true }; }, async delete(key) { memory.delete(key); } };
+  const blobs = new BlobStorage(() => { opened++; return fake; });
+  await blobs.set('a', { x: 1 }); await blobs.get('a'); await blobs.get('b');
+  assert.equal(opened, 3, 'getStore em cada operação');
+
+  const { data } = await setup();
+  const snapshot = projectDataset(data, {}, { mode: 'repository', today: '2026-11-16', importedAt: '2026-11-16T00:00:00Z' });
+  const broken = { async get() { throw Object.assign(new Error('Failed to decode token: Token expired'), { status: 401 }); }, async set() { throw new Error('down'); }, async delete() {} };
+  const app = createApp({ storage: broken, source: null, env: {}, config: fixtureConfig, policy: {}, snapshot, log: () => {} });
+  const response = await app(request('/data/competition.json'));
+  assert.equal(response.status, 200, 'nunca 401 no site público');
+  assert.equal(response.headers.get('x-minho11-source'), 'stale');
+});
