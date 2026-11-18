@@ -9,6 +9,15 @@ if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').cat
 let data = null, refreshing = false;
 const main = document.getElementById('conteudo');
 const sync = document.getElementById('sync-status');
+// Stale-data banner under the header: the footer status is easy to miss on a phone at the pitch.
+const banner = document.getElementById('data-banner');
+const showBanner = text => {
+  if (!banner) return;
+  const appearing = banner.hidden && !!text;
+  banner.textContent = text ?? ''; banner.hidden = !text;
+  // Scroll anchoring would push the page down by the banner's height and hide it under the sticky header.
+  if (appearing && scrollY <= banner.offsetHeight + 40) scrollTo({ top: 0, behavior: 'instant' });
+};
 const dialog = document.getElementById('search-dialog');
 const mobileNav = document.getElementById('mobile-navigation');
 const moreSheet = document.getElementById('more-sheet');
@@ -137,10 +146,12 @@ export async function refreshData() {
     sync.textContent = sourceState === 'offline' ? `Sem rede · últimos dados guardados (${imported})` : sourceState === 'snapshot' ? `Dados publicados em ${imported}` : sourceState === 'stale' ? 'Fonte indisponível · últimos dados mantidos' : `${changed ? 'Dados atualizados' : 'Sem alterações'} · verificado às ${checked}`;
     sync.title = `Última importação publicada: ${imported}. Verificação de novos dados a cada 45 segundos.`;
     sync.classList.remove('sync-error');
+    showBanner(sourceState === 'offline' ? `Sem rede. Estás a ver os últimos dados guardados (${imported}).` : sourceState === 'stale' ? `A fonte dos resultados não respondeu. Estás a ver os últimos dados (${imported}).` : '');
     sync.dataset.state = changed ? 'updated' : 'unchanged';
   } catch (error) {
     sync.textContent = invalid ? 'Nova versão inválida · últimos dados mantidos' : 'Sincronização indisponível · últimos dados mantidos';
     sync.classList.add('sync-error');
+    showBanner(invalid ? 'Chegaram dados novos com erros. Continuas a ver os anteriores.' : 'Não foi possível atualizar. Os resultados podem não ser os mais recentes.');
     sync.dataset.state = invalid ? 'invalid' : 'unavailable';
     console.warn('MINHO11: sincronização não concluída.', error.message);
   } finally { clearTimeout(timer); refreshing = false; }

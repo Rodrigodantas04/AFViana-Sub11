@@ -6,6 +6,12 @@
 - **App da gestão** («Gestão M11», o mesmo escudo em cores trocadas: fundo verde, escudo escuro, `/admin/manifest.webmanifest`) para o tio Rui ter o painel como app, com o botão «Instalar app» no cabeçalho.
 - **Sem rede no campo:** service worker *network first* (`/sw.js`): com rede nada muda; sem rede mostra as últimas páginas e dados vistos e o rodapé diz «Sem rede · últimos dados guardados». Nunca guarda nada de `/admin` nem `/api`. Sem custo de créditos a mais.
 - **Um só símbolo MINHO11:** o escudo verde com o «11» (pedido do responsável a 18/11/2026, opção A) passa a ser o logótipo no topo do site e do painel, no computador e no telemóvel, o ícone do separador do browser e o ícone das duas apps. Desenhado em formas (SVG), sem depender de fontes, e segue as cores do tema claro/escuro. A bola deixa de ser o logótipo (continua nos golos).
+- **Ronda de polimento** (regras das Vercel Web Interface Guidelines, *Make Interfaces Feel Better* e Emil Kowalski, analisadas a 18/11/2026; nada instalado):
+  - **Zonas de toque de 44 px** no telemóvel: nomes dos marcadores, equipas nas listas e na classificação, pódio, botões do topo, «Ver dados» dos gráficos, classificação detalhada e seletores. Nas linhas dos marcadores, a metade de cima abre o jogador e a de baixo a equipa. Sem mudar o aspeto no computador.
+  - **Resposta ao toque:** botões, cartões, separadores e chips encolhem ligeiramente (3 %) ao carregar; os efeitos de passar o rato só existem em aparelhos com rato e já não ficam «presos» depois de tocar. Quem desliga as animações no telemóvel não vê nenhuma.
+  - **Folhas sem arrastar a página:** o «Mais» e a ajuda de instalação não fazem a página de trás deslizar; tabelas e chips com scroll lateral não puxam o gesto de «voltar».
+  - **O verde só para o que conta:** botões e links, o separador ativo, o 1.º classificado, a tua equipa e os golos da Bota de Ouro. Os títulos pequenos das secções, as etiquetas «Finalizado», os pontos das outras equipas e os ícones decorativos passam a cinzento/branco.
+  - **Aviso de dados antigos** logo abaixo do topo (e não só no rodapé): «Sem rede. Estás a ver os últimos dados guardados (…)» ou «Não foi possível atualizar…». Desaparece quando a ligação volta.
 
 ## 0.6.0 — 2026-11-17 · Emblemas e calendário por jornada
 

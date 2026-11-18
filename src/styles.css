@@ -254,9 +254,12 @@
     color:var(--muted);
     position:relative
   }
-  .desktop-nav a:hover,.desktop-nav a[aria-current] {
+  .desktop-nav a[aria-current] {
     color:var(--text)
   }
+  @media (hover:hover) { .desktop-nav a:hover {
+    color:var(--text)
+  } }
   .desktop-nav a[aria-current]::after {
     position:absolute;
     bottom:0;
@@ -290,10 +293,10 @@
     border:1px solid transparent;
     border-radius:8px
   }
-  .icon-button:hover {
+  @media (hover:hover) { .icon-button:hover {
     background:var(--surface-raised);
     border-color:var(--line)
-  }
+  } }
   .menu-button {
     display:none
   }
@@ -333,9 +336,9 @@
     font-size:0.875rem;
     color:var(--muted)
   }
-  .site-footer nav a:hover {
+  @media (hover:hover) { .site-footer nav a:hover {
     color:var(--accent)
-  }
+  } }
   .footer-data {
     text-align:right
   }
@@ -411,10 +414,10 @@
     font-weight:750;
     transition:filter .18s,transform .18s
   }
-  .button:hover {
+  @media (hover:hover) { .button:hover {
     filter:brightness(1.1);
     transform:translateY(-1px)
-  }
+  } }
   .button-secondary {
     background:var(--surface);
     color:var(--text);
@@ -440,9 +443,9 @@
     height:16px;
     transition:transform .2s
   }
-  .text-link:hover .icon {
+  @media (hover:hover) { .text-link:hover .icon {
     transform:translateX(3px)
-  }
+  } }
   .panel {
     background:var(--surface);
     border:1px solid var(--line);
@@ -691,10 +694,10 @@
     border-radius:12px;
     transition:border-color .18s,transform .18s
   }
-  .match-card:hover {
+  @media (hover:hover) { .match-card:hover {
     border-color:var(--accent);
     transform:translateY(-3px)
-  }
+  } }
   .match-meta {
     display:flex;
     align-items:center;
@@ -836,9 +839,9 @@
     max-width:220px;
     overflow-wrap:anywhere
   }
-  .table-team:hover {
+  @media (hover:hover) { .table-team:hover {
     color:var(--accent)
-  }
+  } }
   .table-team .badge {
     width:26px;
     height:29px;
@@ -894,11 +897,16 @@
     font-size:0.875rem;
     font-weight:650
   }
-  .group-tabs a:hover,.group-tabs a[aria-current] {
+  .group-tabs a[aria-current] {
     background:var(--accent);
     border-color:var(--accent);
     color:var(--accent-ink)
   }
+  @media (hover:hover) { .group-tabs a:hover {
+    background:var(--accent);
+    border-color:var(--accent);
+    color:var(--accent-ink)
+  } }
   .group-grid {
     display:grid;
     grid-template-columns:repeat(3,minmax(0,1fr));
@@ -912,10 +920,10 @@
     transition:border-color .18s,transform .18s;
     overflow:hidden
   }
-  .group-card:hover {
+  @media (hover:hover) { .group-card:hover {
     border-color:var(--accent);
     transform:translateY(-3px)
-  }
+  } }
   .group-card-top {
     display:flex;
     align-items:start;
@@ -1243,9 +1251,9 @@
     align-items:center;
     margin-top:25px
   }
-  .back-link:hover {
+  @media (hover:hover) { .back-link:hover {
     color:var(--accent)
-  }
+  } }
   .match-page-heading {
     text-align:center;
     padding:30px 0
@@ -1354,10 +1362,10 @@
     align-items:center;
     flex-direction:column
   }
-  .club-card:hover {
+  @media (hover:hover) { .club-card:hover {
     border-color:var(--accent);
     transform:translateY(-3px)
-  }
+  } }
   .club-card .badge {
     width:54px;
     height:60px;
@@ -2053,7 +2061,7 @@
       height:35px
     }
     .icon-button {
-      width:42px;
+      width:44px;
       height:44px
     }
     .hero {
@@ -2570,7 +2578,7 @@
   .chart .line { fill:none; stroke:var(--accent); stroke-width:2.5 }
   .chart .dot { fill:var(--surface); stroke:var(--accent); stroke-width:2 }
   .chart-data { margin-top:6px; font-size:0.875rem; color:var(--muted) }
-  .chart-data summary { cursor:pointer; min-height:32px; display:flex; align-items:center }
+  .chart-data summary { cursor:pointer; min-height:44px; display:flex; align-items:center }
   .chart-data table, .split-table { width:100%; border-collapse:collapse; font-size:0.9062rem }
   .chart-data th, .chart-data td, .split-table th, .split-table td { padding:6px 8px; text-align:right; border-bottom:1px solid var(--line) }
   .chart-data th:first-child, .split-table th:first-child { text-align:left }
@@ -2698,14 +2706,14 @@
   .phase-tabs small { display:block; font-size:.75rem; color:inherit; opacity:.75; margin:0 }
   /* Player profile */
   .player-link { color:inherit; text-decoration:none }
-  .player-link:hover strong, a.player-link:hover { color:var(--accent); text-decoration:underline; text-underline-offset:3px }
+  @media (hover:hover) { .player-link:hover strong, a.player-link:hover { color:var(--accent); text-decoration:underline; text-underline-offset:3px } }
   .player-hero { display:flex; align-items:center; gap:1.25rem; margin:1.5rem 0 2rem }
   .player-hero h1 { font-size:clamp(2.25rem, 1.6rem + 3vw, 4rem); line-height:1.05 }
   .player-hero .muted a { color:var(--accent); font-weight:600 }
   .player-games { list-style:none; padding:0; display:grid; gap:.6rem }
   .player-games a { display:grid; grid-template-columns:10rem 1fr auto auto; grid-template-areas:'date opp score goals'; align-items:center; gap:.5rem 1rem; padding:1rem 1.25rem; background:var(--surface); border:1px solid var(--line); border-radius:14px; color:inherit; text-decoration:none }
   .pg-date { grid-area:date } .pg-opp { grid-area:opp } .pg-score { grid-area:score } .pg-goals { grid-area:goals }
-  .player-games a:hover { border-color:color-mix(in srgb, var(--accent) 45%, var(--line)) }
+  @media (hover:hover) { .player-games a:hover { border-color:color-mix(in srgb, var(--accent) 45%, var(--line)) } }
   .pg-date { display:grid; font-weight:700 } .pg-date small { font-weight:500; color:var(--muted); font-size:.8125rem }
   .pg-opp { display:flex; align-items:center; gap:.5rem; min-width:0; color:var(--muted) }
   .pg-score { display:flex; align-items:center; gap:.5rem; font-variant-numeric:tabular-nums; font-weight:700 }
@@ -2726,14 +2734,14 @@
   .my-team-cta small { color:var(--muted); font-size:.875rem }
   .my-team-cta > .icon { color:var(--accent); flex:none }
   .my-team-cta.is-following { border-style:solid; background:var(--surface) }
-  .my-team-cta:hover { border-color:var(--accent) }
+  @media (hover:hover) { .my-team-cta:hover { border-color:var(--accent) } }
   .picker-search { margin-bottom:.5rem }
   .team-pick-grid { list-style:none; padding:0; margin:0 0 1.5rem; display:grid; gap:.6rem; grid-template-columns:repeat(auto-fill, minmax(min(100%, 17rem), 1fr)) }
   .team-pick { display:flex; align-items:center; gap:.85rem; padding:.85rem 1rem; background:var(--surface); border:1px solid var(--line); border-radius:14px; color:inherit; text-decoration:none; min-height:3.75rem }
   .team-pick > span:not(.badge):not(.pick-current) { display:grid; flex:1; min-width:0 }
   .team-pick small { color:var(--muted); font-size:.8125rem }
   .team-pick > .icon { color:var(--muted); flex:none }
-  .team-pick:hover { border-color:var(--accent) } .team-pick:hover > .icon { color:var(--accent) }
+  @media (hover:hover) { .team-pick:hover { border-color:var(--accent) } } @media (hover:hover) { .team-pick:hover > .icon { color:var(--accent) } }
   .pick-current { font-size:.75rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; padding:.2rem .55rem; border-radius:99px; background:var(--accent); color:var(--accent-ink) }
   .my-hero { position:relative; display:grid; grid-template-columns:auto 1fr auto; align-items:center; gap:1.25rem 1.5rem; margin:1.5rem 0 1rem; padding:clamp(1.25rem, 1rem + 2vw, 2rem); border:1px solid var(--line); border-radius:calc(var(--radius) + 4px); background:var(--surface); overflow:hidden; isolation:isolate }
   .my-hero.has-colors::before { content:''; position:absolute; inset:0; z-index:-1; background:linear-gradient(120deg, color-mix(in srgb, var(--club-1) 30%, transparent), transparent 55%), linear-gradient(300deg, color-mix(in srgb, var(--club-2) 10%, transparent), transparent 40%) }
@@ -2754,7 +2762,7 @@
   .cal-list { list-style:none; margin:0; padding:0 .5rem .5rem }
   .cal-row > a, .cal-row.cal-free { display:grid; grid-template-columns:3.25rem 1fr auto; align-items:center; gap:.85rem; padding:.7rem .75rem; border-radius:12px; color:inherit; text-decoration:none }
   .cal-row + .cal-row { border-top:1px solid var(--line) }
-  .cal-row > a:hover { background:var(--surface-raised) }
+  @media (hover:hover) { .cal-row > a:hover { background:var(--surface-raised) } }
   .cal-day { display:grid; justify-items:center; line-height:1.05; padding:.35rem 0; border-radius:10px; background:var(--surface-raised) }
   .cal-day small { font-size:.6875rem; font-weight:800; text-transform:uppercase; letter-spacing:.06em; color:var(--muted) }
   .cal-day b { font-size:1.375rem; font-variant-numeric:tabular-nums }
@@ -2882,7 +2890,8 @@
     .sheet-grip { width:2.5rem; height:.3rem; border-radius:99px; background:var(--line); margin:.25rem auto .75rem }
     .sheet-links { display:grid; gap:.25rem; margin:.5rem 0 1rem }
     .sheet-links a { display:flex; align-items:center; gap:.9rem; padding:.8rem .5rem; border-radius:12px; color:inherit; text-decoration:none }
-    .sheet-links a:hover, .sheet-links a:focus-visible { background:var(--surface-raised) }
+    .sheet-links a:focus-visible { background:var(--surface-raised) }
+    @media (hover:hover) { .sheet-links a:hover { background:var(--surface-raised) } }
     .sheet-links .icon { color:var(--accent); flex:none; width:1.4rem; height:1.4rem }
     .sheet-links span { display:grid } .sheet-links small { color:var(--muted); font-size:.8125rem }
     .sheet-actions { display:grid; grid-template-columns:1fr 1fr; gap:.6rem }
@@ -2904,12 +2913,14 @@
   .race-cols { position:absolute; inset:-.5rem 0 -1.9rem; z-index:2 }
   .race-col { position:absolute; top:0; bottom:0; left:calc(var(--x) - var(--w) / 2); width:var(--w); cursor:pointer; outline:none; -webkit-tap-highlight-color:transparent }
   .race-col::before { content:''; position:absolute; left:50%; top:.5rem; bottom:1.9rem; border-left:2px dashed color-mix(in srgb, var(--text) 45%, transparent); opacity:0; transition:opacity .12s }
-  .race-col:hover::before, .race-col:focus-visible::before, .race-col.is-active::before { opacity:1 }
+  .race-col:focus-visible::before, .race-col.is-active::before { opacity:1 }
+  @media (hover:hover) { .race-col:hover::before { opacity:1 } }
   .race-col:focus-visible { box-shadow:inset 0 -3px 0 var(--accent) }
   .chart-tip { position:absolute; top:.25rem; left:calc(50% + .6rem); z-index:5; display:none; gap:.25rem; min-width:11.5rem; max-width:15rem; padding:.65rem .8rem; border-radius:12px; background:color-mix(in srgb, var(--surface-raised) 94%, transparent); backdrop-filter:blur(8px); border:1px solid var(--line); box-shadow:0 12px 28px -10px #000b; font-size:.8125rem; line-height:1.3; text-align:left; color:var(--text); pointer-events:none; white-space:normal }
   html[data-theme=light] .chart-tip { background:#fffffff2; box-shadow:0 12px 28px -12px #17272255 }
   .race-col.tip-end .chart-tip { left:auto; right:calc(50% + .6rem) }
-  .race-col:hover .chart-tip, .race-col:focus-visible .chart-tip, .race-col.is-active .chart-tip { display:grid }
+  .race-col:focus-visible .chart-tip, .race-col.is-active .chart-tip { display:grid }
+  @media (hover:hover) { .race-col:hover .chart-tip { display:grid } }
   .chart-tip strong { font-size:.8125rem; margin-bottom:.15rem }
   .tip-line { display:grid; grid-template-columns:auto 1fr auto; gap:.45rem; align-items:center }
   .tip-line b { font-variant-numeric:tabular-nums; white-space:nowrap }
@@ -2920,13 +2931,17 @@
   .bar-plot > .chart-y, .bar-plot > .chart-grid { top:1.25rem; bottom:1.75rem }
   .bar-plot > .chart-grid { z-index:0 }
   .bc-col { position:relative; z-index:1; cursor:pointer; outline:none; border-radius:8px; -webkit-tap-highlight-color:transparent }
-  .bc-col:hover .bc-bars, .bc-col:focus-visible .bc-bars, .bc-col.is-active .bc-bars { background:color-mix(in srgb, var(--text) 6%, transparent); border-radius:8px }
-  .bc-col:hover, .bc-col:focus-visible, .bc-col.is-active { z-index:4 }
-  .race-col:hover, .race-col:focus-visible, .race-col.is-active { z-index:4 }
+  .bc-col:focus-visible .bc-bars, .bc-col.is-active .bc-bars { background:color-mix(in srgb, var(--text) 6%, transparent); border-radius:8px }
+  @media (hover:hover) { .bc-col:hover .bc-bars { background:color-mix(in srgb, var(--text) 6%, transparent); border-radius:8px } }
+  .bc-col:focus-visible, .bc-col.is-active { z-index:4 }
+  @media (hover:hover) { .bc-col:hover { z-index:4 } }
+  .race-col:focus-visible, .race-col.is-active { z-index:4 }
+  @media (hover:hover) { .race-col:hover { z-index:4 } }
   .bc-col .chart-tip { top:0; left:50%; translate:-50% 0; background:var(--surface-raised) }
   html[data-theme=light] .bc-col .chart-tip { background:#fff }
   .bc-col.tip-start .chart-tip { left:0; translate:0 0 } .bc-col.tip-end .chart-tip { left:auto; right:0; translate:0 0 }
-  .bc-col:hover .chart-tip, .bc-col:focus-visible .chart-tip, .bc-col.is-active .chart-tip { display:grid }
+  .bc-col:focus-visible .chart-tip, .bc-col.is-active .chart-tip { display:grid }
+  @media (hover:hover) { .bc-col:hover .chart-tip { display:grid } }
   .bc-col:focus-visible .bc-label { color:var(--accent) }
 
   /* Standings: every column on tablets (pinned team, sideways scroll if needed); on phones a simple/detailed switch */
@@ -2942,7 +2957,7 @@
     .my-row td:first-child, .my-row th { background:linear-gradient(color-mix(in srgb, var(--accent) 12%, transparent), color-mix(in srgb, var(--accent) 12%, transparent)), var(--surface) }
   }
   @media (max-width: 40rem) {
-    .table-toggle { display:inline-flex; align-items:center; gap:.45rem; margin:.25rem 1rem .5rem auto; float:right; padding:.5rem .85rem; min-height:2.5rem; border-radius:99px; border:1px solid var(--line); background:var(--surface-raised); color:var(--text); font:inherit; font-size:.8125rem; font-weight:700; cursor:pointer }
+    .table-toggle { display:inline-flex; align-items:center; gap:.45rem; margin:.25rem 1rem .5rem auto; float:right; padding:.5rem .85rem; min-height:2.75rem; border-radius:99px; border:1px solid var(--line); background:var(--surface-raised); color:var(--text); font:inherit; font-size:.8125rem; font-weight:700; cursor:pointer }
     .table-toggle .icon { width:1rem; height:1rem; color:var(--accent) }
     .table-toggle[aria-pressed=true] { border-color:var(--accent); color:var(--accent) }
     .standings-wrap .table-scroll { clear:both }
@@ -2959,13 +2974,46 @@
   @media (display-mode: standalone) { .site-header { padding-top:env(safe-area-inset-top) } }
   .install-button { width:100%; justify-content:center; margin:0 0 .6rem; min-height:3rem }
   .link-like { background:none; border:0; padding:0; color:inherit; font:inherit; cursor:pointer; text-align:left }
-  .link-like:hover { color:var(--accent) }
+  @media (hover:hover) { .link-like:hover { color:var(--accent) } }
   .install-help { max-width:24rem; border:1px solid var(--line); border-radius:var(--radius); background:var(--surface); color:var(--text); padding:1.25rem 1.25rem 1rem }
   .install-help h2 { font-size:1.25rem }
   .install-help ol { padding-left:1.2rem; display:grid; gap:.6rem; margin:.75rem 0 1rem }
   .install-help svg { vertical-align:-.25rem; color:var(--accent) }
   .install-help .button { width:100%; justify-content:center }
   .install-help::backdrop { background:#0009; backdrop-filter:blur(2px) }
+  /* Polish (0.7.0), from the Vercel, Krehel and Emil Kowalski interface guidelines:
+     touch targets of at least 44px, a short press response, sheets that do not scroll the page behind. */
+  .brand { min-height:44px }
+  .inline-form select { min-height:44px }
+  @media (pointer:coarse) {
+    /* Names and teams in lists: a 44px tall tap area without changing the layout. */
+    .player-link, .goal-team > a, .table-team, .podium-place a, .share-main a, .match-page-heading a { position:relative }
+    .player-link::after, .goal-team > a::after, .table-team::after, .podium-place a::after, .share-main a::after, .match-page-heading a::after { content:''; position:absolute; inset:min(0px, calc(50% - 22px)) 0 }
+    .goal-team { min-height:44px }
+    /* Scorer rows stack the name over the team: the top half of the row opens the player, the bottom half the team. */
+    .scorer-row { position:relative; min-height:88px }
+    .scorer-row .player-link { position:static }
+    .scorer-row .player-link::after { inset:0 0 50% 0 }
+    .scorer-row > div > a:not(.player-link)::after { content:''; position:absolute; inset:50% 0 0 0 }
+  }
+  :where(.button, .icon-button, .table-toggle, .link-like, .rival-chips a, .group-tabs a, .team-pick, .my-team-cta, .sheet-links a, .cal-row > a, .player-games a) { transition:scale .16s cubic-bezier(.23, 1, .32, 1) }
+  .button { transition:filter .18s, transform .18s, scale .16s cubic-bezier(.23, 1, .32, 1) }
+  .match-card, .group-card, .club-card { transition:transform .18s ease, border-color .18s ease, box-shadow .18s ease, scale .16s cubic-bezier(.23, 1, .32, 1) }
+  :where(.button, .icon-button, .table-toggle, .rival-chips a, .group-tabs a, .team-pick, .my-team-cta, .sheet-links a, .match-card, .group-card, .club-card, .player-games a):active { scale:.97 }
+  .more-sheet, .install-help { overscroll-behavior:contain }
+  .rival-chips, .table-scroll, .chart-scroll { overscroll-behavior-x:contain }
+  /* Lime for one job: actions (buttons, links), the active tab, the leader and "my team". Section labels, finished-game
+     pills, every team's points and decorative icons go neutral, so the accent means something where it stays. */
+  .eyebrow { color:var(--muted) }
+  .hero .eyebrow { color:#c4fa58 }
+  .metric-label .icon { color:var(--muted) }
+  .pill-final { color:var(--text); background:var(--surface-raised) }
+  .points { color:var(--text) }
+  .leader-row .points, .my-row .points { color:var(--accent) }
+  .sync-status { color:var(--muted) }
+  .data-banner { display:flex; align-items:center; gap:.6rem; margin-top:1rem; padding:.7rem 1rem; border:1px solid color-mix(in srgb, var(--danger) 45%, var(--line)); border-radius:12px; background:color-mix(in srgb, var(--danger) 10%, var(--surface)); color:var(--text); font-size:.875rem; line-height:1.4; text-wrap:pretty }
+  .data-banner::before { content:''; flex:none; width:.5rem; height:.5rem; border-radius:50%; background:var(--danger) }
+  .data-banner[hidden] { display:none }
   /* Page transitions (same-document navigation, see app.js) */
   @media (prefers-reduced-motion: no-preference) {
     ::view-transition-old(root) { animation:fade-out .14s ease both }

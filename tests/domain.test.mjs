@@ -191,3 +191,16 @@ test('one MINHO11 mark: the shield with the 11 in the header, the desk and the f
   assert.ok(readFileSync(new URL('../src/admin.html', import.meta.url), 'utf8').split(shield).length === 3, 'desk header + login use the same shield');
   assert.ok(readFileSync(new URL('../scripts/build.mjs', import.meta.url), 'utf8').includes(shield), 'favicon uses the shield');
 });
+
+test('polish: hover only on devices that hover, a stale-data banner, lime kept for actions and the leader', () => {
+  const css = readFileSync(new URL('../src/styles.css', import.meta.url), 'utf8');
+  const unwrapped = css.split('\n').filter(line => line.includes(':hover') && !line.includes('hover:hover'));
+  assert.deepEqual(unwrapped, [], 'every :hover rule sits inside @media (hover:hover)');
+  assert.match(css, /@media \(pointer:coarse\)/);
+  assert.match(css, /\.pill-final \{ color:var\(--text\)/);
+  assert.match(css, /\.leader-row \.points, \.my-row \.points \{ color:var\(--accent\) \}/);
+  assert.ok(readFileSync(new URL('../scripts/build.mjs', import.meta.url), 'utf8').includes('id="data-banner"'));
+  const app = readFileSync(new URL('../src/app.js', import.meta.url), 'utf8');
+  assert.match(app, /Sem rede\. Estás a ver os últimos dados guardados/);
+  assert.match(app, /Não foi possível atualizar/);
+});
