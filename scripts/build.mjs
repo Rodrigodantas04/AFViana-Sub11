@@ -49,7 +49,7 @@ for (const photo of photos) {
   if (!/^\/media\/[a-f0-9]{64}\.(jpg|jpeg|png|webp)$/.test(photo)) throw new Error('Caminho de imagem não autorizado.');
   await fs.copyFile(path.join(root, 'assets', photo), path.join(output, photo));
 }
-const favicon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#c4fa58"/><text x="32" y="47" text-anchor="middle" fill="#142105" font-family="Arial,sans-serif" font-weight="900" font-size="43" letter-spacing="-6">11</text></svg>';
+const favicon = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="14" fill="#0b1219"/><g transform="translate(10 5) scale(1.571)"><path fill="#c4fa58" d="M0 0h28v25.74L14 33 0 25.74Z"/><path fill="#142105" d="M10.55 6.1h3.58v17h-3.58V11.2l-3.01 2.72V8.48ZM18.37 6.1h3.58v17h-3.58V11.2l-3.01 2.72V8.48Z"/></g></svg>';
 await fs.writeFile(path.join(output, 'favicon.svg'), favicon);
 await fs.writeFile(path.join(output, 'social.svg'), '<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630"><rect width="1200" height="630" fill="#0b1219"/><rect x="900" width="300" height="630" fill="#c4fa58"/><text x="70" y="130" fill="#c4fa58" font-family="Arial" font-size="32" font-weight="700">MINHO11</text><text x="70" y="310" fill="#fff" font-family="Arial" font-weight="900" font-size="82">O FUTEBOL</text><text x="70" y="410" fill="#c4fa58" font-family="Arial" font-weight="900" font-size="82">COMEÇA AQUI.</text><text x="70" y="550" fill="#a3b3ba" font-family="Arial" font-size="24">Futebol de formação · Alto Minho</text></svg>');
 function html(route, is404 = false) {

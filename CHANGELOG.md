@@ -2,9 +2,10 @@
 
 ## Por publicar
 
-- **App no telemóvel (PWA):** «Adicionar ao ecrã principal» transforma o site numa app com o ícone «11», ecrã inteiro e atalhos (A minha equipa, Jogos, Marcadores, Classificações). Botão «Instalar a app MINHO11» no «Mais» e no rodapé: no Android abre o pedido do próprio browser; no iPhone mostra os três passos. Esconde-se quando já está instalada.
-- **App da gestão** («Gestão M11», ícone escuro, `/admin/manifest.webmanifest`) para o tio Rui ter o painel como app, com o botão «Instalar app» no cabeçalho.
+- **App no telemóvel (PWA):** «Adicionar ao ecrã principal» transforma o site numa app com o símbolo do escudo, ecrã inteiro e atalhos (A minha equipa, Jogos, Marcadores, Classificações). Botão «Instalar a app MINHO11» no «Mais» e no rodapé: no Android abre o pedido do próprio browser; no iPhone mostra os três passos. Esconde-se quando já está instalada.
+- **App da gestão** («Gestão M11», o mesmo escudo em cores trocadas: fundo verde, escudo escuro, `/admin/manifest.webmanifest`) para o tio Rui ter o painel como app, com o botão «Instalar app» no cabeçalho.
 - **Sem rede no campo:** service worker *network first* (`/sw.js`): com rede nada muda; sem rede mostra as últimas páginas e dados vistos e o rodapé diz «Sem rede · últimos dados guardados». Nunca guarda nada de `/admin` nem `/api`. Sem custo de créditos a mais.
+- **Um só símbolo MINHO11:** o escudo verde com o «11» (pedido do responsável a 18/11/2026, opção A) passa a ser o logótipo no topo do site e do painel, no computador e no telemóvel, o ícone do separador do browser e o ícone das duas apps. Desenhado em formas (SVG), sem depender de fontes, e segue as cores do tema claro/escuro. A bola deixa de ser o logótipo (continua nos golos).
 
 ## 0.6.0 — 2026-11-17 · Emblemas e calendário por jornada
 

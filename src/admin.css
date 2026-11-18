@@ -47,8 +47,10 @@
   .brand { display: flex; align-items: center; gap: .45rem; font-weight: 800; color: var(--text); text-decoration: none; letter-spacing: .02em }
   .brand b { color: var(--accent) }
   .brand small { font-weight: 600; color: var(--muted); margin-left: .35rem; font-size: .85rem }
-  .mark, .login-mark { display: grid; place-items: center; width: 1.9rem; aspect-ratio: 1; border-radius: .55rem; background: var(--accent); color: var(--accent-ink); font-size: .95rem; font-weight: 900 }
-  .login-mark { width: 3.2rem; font-size: 1.5rem; border-radius: .9rem; margin-bottom: .25rem }
+  .mark, .login-mark { display: block; width: 1.6rem; aspect-ratio: 28 / 33; flex: none }
+  .mark-shield { fill: var(--accent) }
+  .mark-number { fill: var(--accent-ink) }
+  .login-mark { width: 2.75rem; margin-bottom: .25rem }
   .center { min-height: 70dvh; display: grid; place-items: center }
   .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.25rem }
   .login { width: min(100%, 24rem); display: grid; gap: 1rem; box-shadow: 0 1.5rem 3rem -1.5rem #0006 }
