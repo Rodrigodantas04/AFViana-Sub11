@@ -1,5 +1,18 @@
 # Histórico de alterações
 
+## Por publicar
+
+- **Equipas A e B sempre separadas** (pedido do responsável a 18/11/2026: «nunca as juntes»):
+  - Bota de Ouro filtra por **Equipa** (ao lado de Fase e Série), uma opção por equipa: Barroselas «A» e «B» nunca aparecem juntas.
+  - Página do clube: cada equipa tem os seus «Últimos resultados» e «Próximos jogos», por baixo do seu resumo; «A» antes de «B».
+  - Lista de clubes: cada equipa na sua linha («Equipa "A" · Série C»).
+  - Estatísticas: sai a tabela «Golos por clube», que somava as duas.
+  - Comparar: «Equipa A/B» passa a «1.ª/2.ª equipa», para não confundir com as equipas A e B.
+- **Sem textos técnicos** (pedido de 18/11/2026: «textinhos informáticos» que não interessam aos pais):
+  - Saem: «Qualidade dos dados», «Plataforma independente. Resultados e marcadores vêm do ficheiro…», «Ordem da folha: pontos…», a nota longa dos marcadores, «X golos sem marcador identificado na fonte», «A fonte não tem minutos de golo…», «A fonte já regista um resultado…», «jogos já passaram a data e ainda não têm resultado lançado», «Os símbolos com iniciais…», «Por jogo disputado · média das N equipas», «Séries diferentes: …», o plantel «a caminho» quando não há dados, e «Atualizado automaticamente…» e a hora de verificação no rodapé.
+  - Textos encurtados: fase por definir, calendário da equipa, gráficos da equipa, perfil de jogador («Pedir para retirar este perfil»), privacidade.
+  - Títulos das páginas simples («Jogos», «Bota de Ouro», «Clubes», «Estatísticas», «Comparar equipas», «Privacidade»), sem frases de slogan nem etiquetas pequenas em maiúsculas por cima dos títulos das secções.
+
 ## 0.8.1 — 2026-11-18 · Correção: dados ao vivo e painel
 
 - **Dados ao vivo e painel voltam a funcionar:** depois do deploy da 0.8.0, todos os pedidos a `/data/competition.json` (e ao painel) falhavam com 401. Os registos da Netlify mostravam «Failed to decode token: Token expired»: a função guardava a ligação ao Netlify Blobs do primeiro pedido e a chave dessa ligação expira. Agora abre a ligação em cada operação.

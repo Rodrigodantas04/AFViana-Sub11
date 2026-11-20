@@ -43,11 +43,12 @@ export function teamBadge(data, teamOrId, large = false) {
 // The MINHO11 mark (same shield as the app icon and favicon); colours follow the theme accent.
 export const brandMark = (cls = 'brand-mark') => `<svg class="${cls}" viewBox="0 0 28 33" aria-hidden="true" focusable="false"><path class="mark-shield" d="M0 0h28v25.74L14 33 0 25.74Z"/><path class="mark-number" d="M10.55 6.1h3.58v17h-3.58V11.2l-3.01 2.72V8.48ZM18.37 6.1h3.58v17h-3.58V11.2l-3.01 2.72V8.48Z"/></svg>`;
 export const brand = () => `<a class="brand" href="/" aria-label="MINHO11 — início">${brandMark()}<span>MINHO<span class="brand-number">11</span></span></a>`;
-export function heading(eyebrow, title, description = '', action = '') {
-  return `<div class="section-heading"><div>${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>` : ''}<h2>${esc(title)}</h2>${description ? `<p class="muted">${esc(description)}</p>` : ''}</div>${action}</div>`;
+/** Section title. The first argument (a small label above the title) is no longer shown: plain titles only (18/11/2026). */
+export function heading(_label, title, description = '', action = '') {
+  return `<div class="section-heading"><div><h2>${esc(title)}</h2>${description ? `<p class="muted">${esc(description)}</p>` : ''}</div>${action}</div>`;
 }
 export function pageHeading(eyebrow, title, description = '') {
-  return `<header class="page-heading"><p class="eyebrow">${esc(eyebrow)}</p><h1 tabindex="-1">${esc(title)}</h1><p class="muted">${esc(description)}</p></header>`;
+  return `<header class="page-heading">${eyebrow ? `<p class="eyebrow">${esc(eyebrow)}</p>` : ''}<h1 tabindex="-1">${esc(title)}</h1>${description ? `<p class="muted">${esc(description)}</p>` : ''}</header>`;
 }
 export const textLink = (href, label) => `<a class="text-link" href="${esc(href)}">${esc(label)} ${icon('arrow')}</a>`;
 export function statusPill(match) {
@@ -80,7 +81,7 @@ export function standings(data, group, { highlight = prefs.myTeam } = {}) {
   return `<div class="standings-wrap"><button type="button" class="table-toggle" data-table-toggle aria-pressed="false">${icon('chart')}<span>Ver classificação detalhada</span></button><div class="table-scroll" tabindex="0" role="region" aria-label="Classificação da Série ${group.letter}"><table class="standings"><caption class="sr-only">Série ${group.letter}, ${esc(phaseById(data, group.phaseId).name)}: classificação calculada com as fórmulas do Excel</caption><thead><tr><th scope="col">Pos.</th><th scope="col">Equipa</th>${[['J', 'Jogos'], ['V', 'Vitórias'], ['E', 'Empates'], ['D', 'Derrotas'], ['GM', 'Golos marcados'], ['GS', 'Golos sofridos'], ['DG', 'Diferença de golos'], ['Pts', 'Pontos']].map(([s, l], i) => `<th scope="col" class="${i > 0 && i < 7 ? 'secondary-stat' : ''}"><abbr title="${l}">${s}</abbr></th>`).join('')}</tr></thead><tbody>${group.standings.map(s => {
     const team = teamById(data, s.teamId);
     return `<tr class="${s.position === 1 ? 'leader-row' : ''} ${team.withdrawn ? 'withdrawn-row' : ''} ${s.teamId === highlight ? 'my-row' : ''}"${s.teamId === highlight ? ' aria-current="true"' : ''}><td><span class="position">${s.position}</span></td><th scope="row"><a class="table-team" href="${teamClubPath(data, s.teamId)}" title="${esc(team.name)}">${teamBadge(data, team)}<span>${esc(team.name)}${team.withdrawn ? '<small>Desistiu da prova</small>' : ''}</span></a></th>${['played', 'wins', 'draws', 'losses', 'goalsFor', 'goalsAgainst', 'goalDifference', 'points'].map((k, i) => `<td class="${i > 0 && i < 7 ? 'secondary-stat' : ''} ${k === 'points' ? 'points' : ''}">${k === 'goalDifference' && s[k] > 0 ? '+' : ''}${s[k]}</td>`).join('')}</tr>`;
-  }).join('')}</tbody></table></div><p class="table-footnote">Ordem da folha: pontos, diferença de golos, golos marcados e, por fim, ordem de inscrição. </p></div>`;
+  }).join('')}</tbody></table></div></div>`;
 }
 export function pendingGroup(data, group) {
   return `<div class="pending-state">${icon('clock')}<h3>Série ${esc(group.letter)} por definir</h3><p>As equipas da ${esc(phaseById(data, group.phaseId).name)} ainda não foram indicadas. Os jogos e a classificação aparecem aqui assim que forem definidas.</p></div>`;
