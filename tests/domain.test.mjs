@@ -231,13 +231,20 @@ test('home with a followed team: its game, then the rest of that jornada in its 
   prefs.myTeam = null;
 });
 
-test('Bota de Ouro: filter by club (all its teams), together with phase and series', () => {
-  const club = data.clubs.find(c => data.teams.some(t => t.clubId === c.id && Object.values(data.scorers).flat().some(s => s.teamId === t.id)));
-  const html = renderView(data, url(`/marcadores?clube=${club.slug}`));
-  assert.match(html, new RegExp(`<option value="${club.slug}" selected`));
+test('A and B teams are never joined: Bota de Ouro filters by team, club page and clubs list show each team apart', () => {
+  const [a, b] = data.teams.filter(t => t.clubId === data.teams.find(x => data.teams.some(y => y !== x && y.clubId === x.clubId)).clubId);
+  const html = renderView(data, url(`/marcadores?equipa=${a.id}`));
+  assert.match(html, new RegExp(`<option value="${a.id}" selected`));
+  assert.match(html, new RegExp(`<option value="${b.id}">`), 'A e B são opções diferentes');
   const teams = [...html.matchAll(/class="scorer-row[^"]*">[\s\S]*?<a href="[^"]*">([^<]+)<\/a><\/div>/g)].map(m => m[1]);
-  assert.ok(teams.length, 'há marcadores do clube');
-  const names = new Set(data.teams.filter(t => t.clubId === club.id).map(t => esc(t.name)));
-  assert.ok(teams.every(t => names.has(t)), 'só equipas desse clube');
-  assert.match(renderView(data, url('/marcadores')), /<option value="">Todos os clubes<\/option>/);
+  assert.ok(teams.length && teams.every(t => t === esc(a.name)), 'só a equipa escolhida, nunca a outra do mesmo clube');
+  assert.doesNotMatch(html, /name="clube"/);
+  const club = renderView(data, url(`/clubes/${a.clubId}`));
+  assert.match(club, new RegExp(`Últimos resultados · ${esc(a.name)}`));
+  assert.match(club, new RegExp(`Últimos resultados · ${esc(b.name)}`));
+  const list = renderView(data, url('/clubes'));
+  const clubName = data.clubs.find(c => c.id === a.clubId).name;
+  assert.match(list, new RegExp(`<b>Equipa ${esc(a.name.replace(clubName, '').trim())}</b>`));
+  assert.match(list, new RegExp(`<b>Equipa ${esc(b.name.replace(clubName, '').trim())}</b>`));
+  assert.doesNotMatch(renderView(data, url('/estatisticas')), /Golos por clube|Qualidade dos dados/);
 });
