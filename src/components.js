@@ -59,19 +59,42 @@ export function groupShort(data, groupId) {
   const g = groupById(data, groupId), p = g && phaseById(data, g.phaseId);
   return g ? `${p.number}.ª Fase <span class="separator">/</span> Série ${g.letter}` : '';
 }
-export function matchCard(data, match, mark = true) {
+/** One game: the two teams, the score and the state. Series and matchday are titles above it (matchGrid), never inside the card (23/11/2026). */
+export function matchCard(data, match, mark = true, showDate = true) {
   const home = teamById(data, match.homeId), away = teamById(data, match.awayId);
-  const g = groupById(data, match.groupId);
   const mine = side => mark && isMine(side.id) ? ' is-mine' : '';
-  return `<a class="match-card${mine(home) || mine(away)}" href="/jogos/${match.id}" aria-label="${esc(home.name)} ${match.homeGoals ?? 'contra'} ${esc(away.name)} ${match.awayGoals ?? ''}, Série ${g?.letter}, ${esc(statusLabels[matchStatus(match)])}">
-    <div class="match-meta"><span>${groupShort(data, match.groupId)} <span class="separator">/</span> J${match.round}</span>${statusPill(match)}</div>
+  return `<a class="match-card${mine(home) || mine(away)}" href="/jogos/${match.id}" aria-label="${esc(home.name)} ${match.homeGoals ?? 'contra'} ${esc(away.name)} ${match.awayGoals ?? ''}, ${esc(dateLabel(match.date))}, ${esc(statusLabels[matchStatus(match)])}">
+    ${showDate || matchStatus(match) !== 'finished' ? `<div class="match-meta"><span>${showDate ? `${icon('calendar')}${dateLabel(match.date)}` : ''}</span>${matchStatus(match) !== 'finished' ? statusPill(match) : ''}</div>` : ''}
     <div class="match-team${mine(home)}">${teamBadge(data, home)}<span>${esc(home.name)}</span><strong>${match.homeGoals ?? '–'}</strong></div>
     <div class="match-team${mine(away)}">${teamBadge(data, away)}<span>${esc(away.name)}</span><strong>${match.awayGoals ?? '–'}</strong></div>
-    <div class="match-footer"><span>${icon('calendar')}${dateLabel(match.date)}</span><span>Ver jogo ${icon('arrow')}</span></div>
   </a>`;
 }
+/** Buckets in order of first appearance, so the list keeps its own order (most recent first, the followed team first…). */
+function bucket(items, keyOf) {
+  const map = new Map();
+  for (const item of items) { const k = keyOf(item); if (!map.has(k)) map.set(k, []); map.get(k).push(item); }
+  return [...map.values()];
+}
+const roundDay = date => new Intl.DateTimeFormat('pt-PT', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'Europe/Lisbon' }).format(new Date(date + 'T12:00:00Z'));
+/**
+ * Games under titles: series (only when the list mixes series), then matchday with its date.
+ * A card shows its own date only when it differs from the matchday's (a game moved to another day).
+ */
 export function matchGrid(data, matches) {
-  return matches.length ? `<div class="match-grid">${matches.map(m => matchCard(data, m, !matches.every(x => isMine(x.homeId) || isMine(x.awayId)))).join('')}</div>` : emptyState('Sem jogos para mostrar', 'Experimenta outra série ou limpa os filtros.');
+  if (!matches.length) return emptyState('Sem jogos para mostrar', 'Experimenta outra série ou limpa os filtros.');
+  const mark = !matches.every(x => isMine(x.homeId) || isMine(x.awayId));
+  const manyPhases = new Set(matches.map(m => groupById(data, m.groupId)?.phaseId)).size > 1;
+  const rounds = games => bucket(games, m => m.round).map(list => {
+    const dates = list.map(m => m.date).filter(Boolean);
+    const day = dates.length ? [...dates].sort((a, b) => dates.filter(d => d === b).length - dates.filter(d => d === a).length)[0] : null;
+    return `<div class="match-round"><h4 class="match-round-title">Jornada ${list[0].round}${day ? `<span>${esc(roundDay(day))}</span>` : ''}</h4><div class="match-grid">${list.map(m => matchCard(data, m, mark, m.date !== day)).join('')}</div></div>`;
+  }).join('');
+  const series = bucket(matches, m => m.groupId);
+  if (series.length === 1) return `<div class="match-groups">${rounds(series[0])}</div>`;
+  return `<div class="match-groups">${series.map(list => {
+    const g = groupById(data, list[0].groupId), p = g && phaseById(data, g.phaseId);
+    return `<section class="match-series"><h3 class="match-series-title">Série ${esc(g?.letter ?? '')}${manyPhases && p ? `<span>${p.number}.ª Fase</span>` : ''}</h3>${rounds(list)}</section>`;
+  }).join('')}</div>`;
 }
 export function emptyState(title, description = '', link = '') {
   return `<div class="empty-state">${icon('search')}<h3>${esc(title)}</h3><p>${esc(description)}</p>${link}</div>`;

@@ -2,6 +2,7 @@
 
 ## Por publicar
 
+- **Jogos arrumados por série e jornada** (pedido de 23/11/2026: os identificadores saem dos cartões e passam a títulos): em todas as listas de jogos aparece primeiro o título da série (só quando a lista mistura séries) e depois «Jornada N» com o dia. O cartão fica só com as equipas e o resultado; mostra a data apenas quando o jogo foi para outro dia e o estado apenas quando não é «Finalizado» (por exemplo «Resultado por confirmar»).
 - **Equipas A e B sempre separadas** (pedido do responsável a 18/11/2026: «nunca as juntes»):
   - Bota de Ouro filtra por **Equipa** (ao lado de Fase e Série), uma opção por equipa: Barroselas «A» e «B» nunca aparecem juntas.
   - Página do clube: cada equipa tem os seus «Últimos resultados» e «Próximos jogos», por baixo do seu resumo; «A» antes de «B».
