@@ -232,20 +232,26 @@ test('home with a followed team: its game, then the rest of that jornada in its 
 });
 
 test('A and B teams are never joined: Bota de Ouro filters by team, club page and clubs list show each team apart', () => {
-  const [a, b] = data.teams.filter(t => t.clubId === data.teams.find(x => data.teams.some(y => y !== x && y.clubId === x.clubId)).clubId);
+  const [a, b] = ['A', 'B'].map(l => data.teams.find(t => t.name === `Clube Norte "${l}"`));
   const html = renderView(data, url(`/marcadores?equipa=${a.id}`));
   assert.match(html, new RegExp(`<option value="${a.id}" selected`));
   assert.match(html, new RegExp(`<option value="${b.id}">`), 'A e B são opções diferentes');
   const teams = [...html.matchAll(/class="scorer-row[^"]*">[\s\S]*?<a href="[^"]*">([^<]+)<\/a><\/div>/g)].map(m => m[1]);
   assert.ok(teams.length && teams.every(t => t === esc(a.name)), 'só a equipa escolhida, nunca a outra do mesmo clube');
   assert.doesNotMatch(html, /name="clube"/);
-  const club = renderView(data, url(`/clubes/${a.clubId}`));
-  assert.match(club, new RegExp(`Últimos resultados · ${esc(a.name)}`));
-  assert.match(club, new RegExp(`Últimos resultados · ${esc(b.name)}`));
+  // Changing B's games must never change a character of A's pages (other than B's own name elsewhere).
+  const changed = structuredClone(data);
+  for (const g of changed.groups) for (const r of g.standings) if (r.teamId === b.id) { r.goalsFor += 77; r.points += 77; r.played += 77; }
+  for (const m of changed.matches) if (m.status === 'finished') { if (m.homeId === b.id) m.homeGoals += 77; if (m.awayId === b.id) m.awayGoals += 77; }
+  for (const list of Object.values(changed.scorers)) for (const r of list) if (r.teamId === b.id) r.goals += 77;
+  for (const path of [`/clubes/${a.clubId}`, `/minha-equipa?equipa=${a.id}`, `/marcadores?equipa=${a.id}`]) {
+    const part = html => path.startsWith('/marcadores') ? html.match(/<ol class="scorer-list">[\s\S]*?<\/ol>/)[0] : html.replace(/\d+\.º na Bota de Ouro/g, ''); // the overall rank compares every player
+    assert.equal(part(renderView(changed, url(path))), part(renderView(data, url(path))), path);
+  }
+  const page = renderView(data, url(`/clubes/${a.clubId}`));
+  assert.ok(page.includes(esc(a.name)) && !page.includes(esc(b.name)), 'a página da A não fala da B');
   const list = renderView(data, url('/clubes'));
-  const clubName = data.clubs.find(c => c.id === a.clubId).name;
-  assert.match(list, new RegExp(`<b>Equipa ${esc(a.name.replace(clubName, '').trim())}</b>`));
-  assert.match(list, new RegExp(`<b>Equipa ${esc(b.name.replace(clubName, '').trim())}</b>`));
+  for (const t of [a, b]) assert.ok(list.includes(`href="/clubes/${t.id}"`), t.name);
   assert.doesNotMatch(renderView(data, url('/estatisticas')), /Golos por clube|Qualidade dos dados/);
 });
 

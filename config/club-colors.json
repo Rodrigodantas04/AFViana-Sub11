@@ -50,14 +50,28 @@
       "confidence": "medium",
       "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
     },
-    "desp-moncao": {
+    "desp-moncao-a": {
       "primary": "#1f4e9e",
       "secondary": "#c8102e",
       "colours": "azul e vermelho",
       "confidence": "medium",
       "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
     },
-    "ad-barroselas": {
+    "desp-moncao-b": {
+      "primary": "#1f4e9e",
+      "secondary": "#c8102e",
+      "colours": "azul e vermelho",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ad-barroselas-a": {
+      "primary": "#1f4e9e",
+      "secondary": "#f2c200",
+      "colours": "azul e amarelo",
+      "confidence": "medium",
+      "source": "Indicado pelos responsáveis do MINHO11, 16/11/2026"
+    },
+    "ad-barroselas-b": {
       "primary": "#1f4e9e",
       "secondary": "#f2c200",
       "colours": "azul e amarelo",

@@ -66,11 +66,6 @@ export function teamStanding(data, teamId, phaseId) {
   const group = data.groups.find(g => (!phaseId || g.phaseId === phaseId) && g.standings.some(s => s.teamId === teamId));
   return group?.standings.find(s => s.teamId === teamId);
 }
-/** Sum of the club's teams. Labelled as such: A and B teams are different competitors. */
-export function clubRanking(data) {
-  return data.clubs.map(club => ({ ...club, goals: data.groups.flatMap(g => g.standings).filter(s => club.teamIds.includes(s.teamId)).reduce((n, s) => n + s.goalsFor, 0) })).sort((a, b) => b.goals - a.goals || a.name.localeCompare(b.name, 'pt-PT'));
-}
-
 /** Facts for one team in one phase, computed only from finished games. */
 export function teamAnalysis(data, teamId, phaseId) {
   const games = data.matches.filter(m => m.phaseId === phaseId && m.status === 'finished' && (m.homeId === teamId || m.awayId === teamId))

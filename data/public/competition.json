@@ -640,7 +640,7 @@
     {
       "id": "ad-barroselas-b",
       "name": "AD Barroselas \"B\"",
-      "clubId": "ad-barroselas",
+      "clubId": "ad-barroselas-b",
       "withdrawn": false
     },
     {
@@ -730,7 +730,7 @@
     {
       "id": "ad-barroselas-a",
       "name": "AD Barroselas \"A\"",
-      "clubId": "ad-barroselas",
+      "clubId": "ad-barroselas-a",
       "withdrawn": false
     },
     {
@@ -796,7 +796,7 @@
     {
       "id": "desp-moncao-b",
       "name": "Desp. Monção \"B\"",
-      "clubId": "desp-moncao",
+      "clubId": "desp-moncao-b",
       "withdrawn": false
     },
     {
@@ -808,7 +808,7 @@
     {
       "id": "desp-moncao-a",
       "name": "Desp. Monção \"A\"",
-      "clubId": "desp-moncao",
+      "clubId": "desp-moncao-a",
       "withdrawn": false
     },
     {
@@ -838,13 +838,12 @@
   ],
   "clubs": [
     {
-      "id": "ad-barroselas",
-      "slug": "ad-barroselas",
-      "name": "AD Barroselas",
+      "id": "ad-barroselas-b",
+      "slug": "ad-barroselas-b",
+      "name": "AD Barroselas \"B\"",
       "crestUrl": "/media/crests/ad-barroselas.webp",
       "teamIds": [
-        "ad-barroselas-b",
-        "ad-barroselas-a"
+        "ad-barroselas-b"
       ],
       "colors": {
         "primary": "#1f4e9e",
@@ -1034,6 +1033,19 @@
       }
     },
     {
+      "id": "ad-barroselas-a",
+      "slug": "ad-barroselas-a",
+      "name": "AD Barroselas \"A\"",
+      "crestUrl": "/media/crests/ad-barroselas.webp",
+      "teamIds": [
+        "ad-barroselas-a"
+      ],
+      "colors": {
+        "primary": "#1f4e9e",
+        "secondary": "#f2c200"
+      }
+    },
+    {
       "id": "deucriste-sc",
       "slug": "deucriste-sc",
       "name": "Deucriste SC",
@@ -1164,13 +1176,12 @@
       }
     },
     {
-      "id": "desp-moncao",
-      "slug": "desp-moncao",
-      "name": "Desp. Monção",
+      "id": "desp-moncao-b",
+      "slug": "desp-moncao-b",
+      "name": "Desp. Monção \"B\"",
       "crestUrl": "/media/crests/desp-moncao.webp",
       "teamIds": [
-        "desp-moncao-b",
-        "desp-moncao-a"
+        "desp-moncao-b"
       ],
       "colors": {
         "primary": "#1f4e9e",
@@ -1188,6 +1199,19 @@
       "colors": {
         "primary": "#c8102e",
         "secondary": "#1f4e9e"
+      }
+    },
+    {
+      "id": "desp-moncao-a",
+      "slug": "desp-moncao-a",
+      "name": "Desp. Monção \"A\"",
+      "crestUrl": "/media/crests/desp-moncao.webp",
+      "teamIds": [
+        "desp-moncao-a"
+      ],
+      "colors": {
+        "primary": "#1f4e9e",
+        "secondary": "#c8102e"
       }
     },
     {
@@ -5155,7 +5179,7 @@
     "groups": 6,
     "teams": 33,
     "activeTeams": 32,
-    "clubs": 31,
+    "clubs": 33,
     "matches": 150,
     "played": 81,
     "goals": 510,
@@ -5169,9 +5193,7 @@
   "quality": {
     "unidentifiedGoals": 11,
     "sidesWithMissingScorers": 5,
-    "futureResults": [
-      "m-a80b2f89cb2325b5"
-    ]
+    "futureResults": []
   },
   "publication": {
     "scorerNames": "redacted",
@@ -5179,6 +5201,6 @@
   },
   "rosters": [],
   "sourceHash": "26823a9a00c42d8c9732de3f652d3f7f29e1b3c4c76e1445ac852615421ba1e3",
-  "version": "edf670466da0816ae9ff9d200e2b4cff215c0cf7af8a07148a565398d877b949",
-  "importedAt": "2026-11-17T10:30:24.439Z"
+  "version": "12af75dd28cf3aca7d19ac9b55c283bfc945e2aaea761c9c0bc0eba0a0455cf4",
+  "importedAt": "2026-11-24T11:32:57.602Z"
 }

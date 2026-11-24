@@ -8,7 +8,7 @@ import { importCompetition } from '../../lib/competition.js';
 import { patchSheetXml } from '../../lib/xlsx.js';
 
 const esc = v => String(v).replaceAll('&', '&amp;').replaceAll('<', '&lt;').replaceAll('>', '&gt;').replaceAll('"', '&quot;');
-export const fixtureConfig = { id: 'teste-sub11-2026-27', slug: 'teste-sub11', name: 'Torneio de Teste', shortName: 'Teste', season: '2026/2027', category: 'Sub-11', region: 'Teste', source: 'n/a', clubMappings: { 'Clube Norte "A"': 'Clube Norte', 'Clube Norte "B"': 'Clube Norte' } };
+export const fixtureConfig = { id: 'teste-sub11-2026-27', slug: 'teste-sub11', name: 'Torneio de Teste', shortName: 'Teste', season: '2026/2027', category: 'Sub-11', region: 'Teste', source: 'n/a' };
 
 const LETTERS = 'ABCDEF';
 // Phase 1: 3 teams per series (double round robin = 6 games). Series F has a withdrawn team.

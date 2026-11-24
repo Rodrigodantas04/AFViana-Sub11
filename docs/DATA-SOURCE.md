@@ -30,7 +30,7 @@ Introduzido por pessoas: M6:M11 (equipas, 1.ª fase e 2.ª fase), A/B/C/G das li
 | F (Série 6) | 20 | 7 | 59 |
 | **Total** | **150** | **81** | **510** |
 
-- 33 equipas (32 ativas; UD «Os Raianos» desistiu), 31 clubes (Barroselas e Monção com A/B).
+- 33 equipas (32 ativas; UD «Os Raianos» desistiu), uma página por equipa (Barroselas A e B e Monção A e B são quatro equipas independentes).
 - 218 registos de marcador com golos, 494 golos individuais. As descrições somam 499 golos, dos quais 5 são autogolos (PB). Faltam 11 golos por identificar: Série B J6 (Freixo 1, Fachense 4), Série C J2 (Vila Fria 3), Série C J3 (Anha 1), Série C J6 (Darquense 2).
 - A 2.ª fase não tem equipas, jogos nem golos. Rankings da 1.ª fase e acumulado idênticos (218 registos).
 
