@@ -1,5 +1,18 @@
 # Histórico de alterações
 
+## Por publicar
+
+- **Jogos arrumados por série e jornada** (pedido de 23/11/2026: os identificadores saem dos cartões e passam a títulos): em todas as listas de jogos aparece primeiro o título da série (só quando a lista mistura séries) e depois «Jornada N» com o dia. O cartão fica só com as equipas e o resultado; mostra a data apenas quando o jogo foi para outro dia e o estado apenas quando não é «Finalizado» (por exemplo «Resultado por confirmar»).
+- **Equipas A e B sempre separadas** (pedido do responsável a 18/11/2026: «nunca as juntes»):
+  - Bota de Ouro filtra por **Equipa** (ao lado de Fase e Série), uma opção por equipa: Barroselas «A» e «B» nunca aparecem juntas.
+  - **Separadas na origem** (24/11/2026: «são equipas diferentes, em nenhum momento juntas esses valores»): cada equipa tem a sua página, o seu cartão na lista e o seu link (`/clubes/ad-barroselas-a`, `/clubes/ad-barroselas-b`, e o mesmo para Monção). Sai da configuração a regra que as punha no mesmo clube e a função que somava os golos das duas. O emblema e as cores mantêm-se nas duas. Os links antigos abrem a lista com as duas equipas.
+  - Estatísticas: sai a tabela «Golos por clube», que somava as duas.
+  - Comparar: «Equipa A/B» passa a «1.ª/2.ª equipa», para não confundir com as equipas A e B.
+- **Sem textos técnicos** (pedido de 18/11/2026: «textinhos informáticos» que não interessam aos pais):
+  - Saem: «Qualidade dos dados», «Plataforma independente. Resultados e marcadores vêm do ficheiro…», «Ordem da folha: pontos…», a nota longa dos marcadores, «X golos sem marcador identificado na fonte», «A fonte não tem minutos de golo…», «A fonte já regista um resultado…», «jogos já passaram a data e ainda não têm resultado lançado», «Os símbolos com iniciais…», «Por jogo disputado · média das N equipas», «Séries diferentes: …», o plantel «a caminho» quando não há dados, e «Atualizado automaticamente…» e a hora de verificação no rodapé.
+  - Textos encurtados: fase por definir, calendário da equipa, gráficos da equipa, perfil de jogador («Pedir para retirar este perfil»), privacidade.
+  - Títulos das páginas simples («Jogos», «Bota de Ouro», «Clubes», «Estatísticas», «Comparar equipas», «Privacidade»), sem frases de slogan nem etiquetas pequenas em maiúsculas por cima dos títulos das secções.
+
 ## 0.8.1 — 2026-11-18 · Correção: dados ao vivo e painel
 
 - **Dados ao vivo e painel voltam a funcionar:** depois do deploy da 0.8.0, todos os pedidos a `/data/competition.json` (e ao painel) falhavam com 401. Os registos da Netlify mostravam «Failed to decode token: Token expired»: a função guardava a ligação ao Netlify Blobs do primeiro pedido e a chave dessa ligação expira. Agora abre a ligação em cada operação.

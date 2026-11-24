@@ -7,12 +7,6 @@
   "category": "Sub-11",
   "region": "Alto Minho",
   "source": "data/source.xlsx",
-  "clubMappings": {
-    "AD Barroselas \"A\"": "AD Barroselas",
-    "AD Barroselas \"B\"": "AD Barroselas",
-    "Desp. Monção \"A\"": "Desp. Monção",
-    "Desp. Monção \"B\"": "Desp. Monção"
-  },
   "drive": {
     "fileId": "10NzITORyeANQY2prYW9YHF4zJmxDAAqd",
     "folderId": "1gKXXHvmW9FD3XlBzXUajNOmySfinwLS1"

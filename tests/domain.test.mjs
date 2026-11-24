@@ -5,7 +5,7 @@ import { importCompetition } from '../lib/competition.js';
 import { projectDataset } from '../lib/projection.js';
 import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, recentMatches, filterMatches, teamAnalysis, groupAverages, pointsRace, teamFixtures, daysUntil } from '../src/domain.js';
 import { renderView, prefs, tabBar, footer, teamFirst } from '../src/views.js';
-import { esc, niceTicks, raceChart } from '../src/components.js';
+import { esc, niceTicks, raceChart, matchGrid } from '../src/components.js';
 
 const { data: internal } = importCompetition(buildFixtureWorkbook(), fixtureConfig, { today: '2026-11-16' });
 const data = projectDataset(internal, { scorerNames: 'public' }, { mode: 'public', today: '2026-11-16', importedAt: '2026-11-16T10:00:00Z' });
@@ -229,4 +229,42 @@ test('home with a followed team: its game, then the rest of that jornada in its 
   prefs.myTeam = null;
   assert.doesNotMatch(renderView(data, url('/jogos')), /is-mine/, 'sem equipa, nada destacado');
   prefs.myTeam = null;
+});
+
+test('A and B teams are never joined: Bota de Ouro filters by team, club page and clubs list show each team apart', () => {
+  const [a, b] = ['A', 'B'].map(l => data.teams.find(t => t.name === `Clube Norte "${l}"`));
+  const html = renderView(data, url(`/marcadores?equipa=${a.id}`));
+  assert.match(html, new RegExp(`<option value="${a.id}" selected`));
+  assert.match(html, new RegExp(`<option value="${b.id}">`), 'A e B são opções diferentes');
+  const teams = [...html.matchAll(/class="scorer-row[^"]*">[\s\S]*?<a href="[^"]*">([^<]+)<\/a><\/div>/g)].map(m => m[1]);
+  assert.ok(teams.length && teams.every(t => t === esc(a.name)), 'só a equipa escolhida, nunca a outra do mesmo clube');
+  assert.doesNotMatch(html, /name="clube"/);
+  // Changing B's games must never change a character of A's pages (other than B's own name elsewhere).
+  const changed = structuredClone(data);
+  for (const g of changed.groups) for (const r of g.standings) if (r.teamId === b.id) { r.goalsFor += 77; r.points += 77; r.played += 77; }
+  for (const m of changed.matches) if (m.status === 'finished') { if (m.homeId === b.id) m.homeGoals += 77; if (m.awayId === b.id) m.awayGoals += 77; }
+  for (const list of Object.values(changed.scorers)) for (const r of list) if (r.teamId === b.id) r.goals += 77;
+  for (const path of [`/clubes/${a.clubId}`, `/minha-equipa?equipa=${a.id}`, `/marcadores?equipa=${a.id}`]) {
+    const part = html => path.startsWith('/marcadores') ? html.match(/<ol class="scorer-list">[\s\S]*?<\/ol>/)[0] : html.replace(/\d+\.º na Bota de Ouro/g, ''); // the overall rank compares every player
+    assert.equal(part(renderView(changed, url(path))), part(renderView(data, url(path))), path);
+  }
+  const page = renderView(data, url(`/clubes/${a.clubId}`));
+  assert.ok(page.includes(esc(a.name)) && !page.includes(esc(b.name)), 'a página da A não fala da B');
+  const list = renderView(data, url('/clubes'));
+  for (const t of [a, b]) assert.ok(list.includes(`href="/clubes/${t.id}"`), t.name);
+  assert.doesNotMatch(renderView(data, url('/estatisticas')), /Golos por clube|Qualidade dos dados/);
+});
+
+test('games sit under series and matchday titles; the cards carry no identifiers', () => {
+  const games = recentMatches(data);
+  const html = matchGrid(data, games);
+  const cards = html.match(/<a class="match-card[\s\S]*?<\/a>/g);
+  assert.equal(cards.length, games.length);
+  assert.ok(cards.every(c => !/Série|Jornada|J\d|Fase/.test(c.replace(/aria-label="[^"]*"/, ''))));
+  const groups = new Set(games.map(m => m.groupId));
+  assert.equal((html.match(/class="match-series-title"/g) ?? []).length, groups.size > 1 ? groups.size : 0);
+  const oneSeries = games.filter(m => m.groupId === games[0].groupId);
+  const single = matchGrid(data, oneSeries);
+  assert.ok(!single.includes('match-series-title'));
+  assert.equal((single.match(/class="match-round-title"/g) ?? []).length, new Set(oneSeries.map(m => m.round)).size);
 });

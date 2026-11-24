@@ -1194,6 +1194,19 @@
     font-size:0.75rem;
     margin-block:10px 20px
   }
+  .club-teams {
+    list-style:none;
+    padding:0;
+    margin-block:10px 20px;
+    display:grid;
+    gap:4px;
+    color:var(--muted);
+    font-size:0.8125rem
+  }
+  .club-teams b {
+    color:var(--text);
+    font-weight:650
+  }
   .club-card>div {
     border-top:1px solid var(--line);
     width:100%;
@@ -2611,6 +2624,21 @@
   .home-numbers { display:flex; flex-wrap:wrap; gap:.25rem 1.25rem; margin:.75rem 0 0; color:var(--muted); font-size:.9375rem }
   .home-numbers b { color:var(--text); font-weight:700; font-variant-numeric:tabular-nums }
   .home-numbers + .my-team-cta { margin-top:1.25rem }
+
+  /* Games under titles (23/11/2026): series, then matchday with its date; the cards carry no identifiers. */
+  .match-groups { display:grid; gap:1.75rem }
+  .match-series { display:grid; gap:1rem }
+  .match-series + .match-series { padding-top:1.75rem; border-top:1px solid var(--line) }
+  .match-series-title { margin:0; display:flex; align-items:baseline; gap:.6rem; font-size:1.25rem; font-weight:750; line-height:1.2 }
+  .match-series-title span, .match-round-title span { color:var(--muted); font-weight:500 }
+  .match-series-title span { font-size:.875rem }
+  .match-round { display:grid; gap:.75rem }
+  .match-round-title { margin:0; display:flex; flex-wrap:wrap; align-items:baseline; gap:.25rem .6rem; font-size:.9375rem; font-weight:700; line-height:1.3 }
+  .match-round-title span { font-size:.875rem }
+  .match-round-title span::first-letter { text-transform:uppercase }
+  .match-groups .match-meta { margin-bottom:14px }
+  .match-meta>span:first-child { display:inline-flex; align-items:center; gap:7px; min-height:1.5rem }
+  .match-meta .icon { width:13px; height:13px }
 
   /* Page transitions (same-document navigation, see app.js) */
   @media (prefers-reduced-motion: no-preference) {

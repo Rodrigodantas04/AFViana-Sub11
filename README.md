@@ -14,7 +14,7 @@ MINHO11 é uma plataforma independente para acompanhar o futebol de formação d
 - **Classificações** calculadas com as mesmas regras das fórmulas do Excel: pontos, diferença de golos, golos marcados e, por fim, a ordem de inscrição na folha.
 - **Centro de jogo** com os marcadores de cada lado, autogolos (a favor da equipa, sem crédito individual) e golos ainda por identificar.
 - **Bota de Ouro** da 1.ª fase, da 2.ª fase e acumulada, sem contar golos duas vezes, com posições partilhadas em caso de empate, filtros por fase e série e pesquisa sem acentos.
-- **Clubes e equipas.** As equipas A e B do mesmo clube ficam sob um perfil comum, mas com séries, resultados e estatísticas próprios.
+- **Uma página por equipa.** As equipas A e B são equipas diferentes: cada uma tem a sua página, a sua série e os seus números. Nunca se juntam nem se somam.
 - **Análise da equipa:** forma recente, aproveitamento, casa/fora com os denominadores corretos, golos por jogo, gráfico de golos marcados e sofridos por jornada, pontos acumulados, comparação com a média da série e contributo dos marcadores. Só conta jogos concluídos.
 - **Perfil do jogador** (`/jogadores/<id>`): golos totais e por fase, jogos em que marcou, peso nos golos da equipa e posição na Bota de Ouro. Só com dados ao vivo, não indexado e sem fotografias nem dados pessoais.
 - **A minha equipa** (`/minha-equipa`): a equipa escolhida fica guardada no aparelho. Próximo jogo com contagem decrescente e antevisão, **calendário da época dentro do site** (sábado a sábado, jogos de manhã), resumo automático, marcadores da equipa e gráficos para comparar com qualquer equipa da série (corrida aos pontos, lugar jornada a jornada, radar «ADN da equipa»).
