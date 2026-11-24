@@ -5,7 +5,7 @@ import { importCompetition } from '../lib/competition.js';
 import { projectDataset } from '../lib/projection.js';
 import { validateDataset, normalize, rankScorers, matchStatus, upcomingMatches, recentMatches, filterMatches, teamAnalysis, groupAverages, pointsRace, teamFixtures, daysUntil } from '../src/domain.js';
 import { renderView, prefs, tabBar, footer, teamFirst } from '../src/views.js';
-import { esc, niceTicks, raceChart } from '../src/components.js';
+import { esc, niceTicks, raceChart, matchGrid } from '../src/components.js';
 
 const { data: internal } = importCompetition(buildFixtureWorkbook(), fixtureConfig, { today: '2026-11-16' });
 const data = projectDataset(internal, { scorerNames: 'public' }, { mode: 'public', today: '2026-11-16', importedAt: '2026-11-16T10:00:00Z' });
@@ -253,4 +253,18 @@ test('A and B teams are never joined: Bota de Ouro filters by team, club page an
   const list = renderView(data, url('/clubes'));
   for (const t of [a, b]) assert.ok(list.includes(`href="/clubes/${t.id}"`), t.name);
   assert.doesNotMatch(renderView(data, url('/estatisticas')), /Golos por clube|Qualidade dos dados/);
+});
+
+test('games sit under series and matchday titles; the cards carry no identifiers', () => {
+  const games = recentMatches(data);
+  const html = matchGrid(data, games);
+  const cards = html.match(/<a class="match-card[\s\S]*?<\/a>/g);
+  assert.equal(cards.length, games.length);
+  assert.ok(cards.every(c => !/Série|Jornada|J\d|Fase/.test(c.replace(/aria-label="[^"]*"/, ''))));
+  const groups = new Set(games.map(m => m.groupId));
+  assert.equal((html.match(/class="match-series-title"/g) ?? []).length, groups.size > 1 ? groups.size : 0);
+  const oneSeries = games.filter(m => m.groupId === games[0].groupId);
+  const single = matchGrid(data, oneSeries);
+  assert.ok(!single.includes('match-series-title'));
+  assert.equal((single.match(/class="match-round-title"/g) ?? []).length, new Set(oneSeries.map(m => m.round)).size);
 });
