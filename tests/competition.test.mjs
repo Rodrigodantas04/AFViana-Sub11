@@ -26,10 +26,14 @@ test('standings follow the sheet formulas', () => {
     [['Vila Azul', 2, 4, 1], ['Clube Norte "A"', 3, 4, -2], ['Rio Verde', 3, 3, 1]]);
 });
 
-test('A and B teams of a club stay separate competitors under one club', () => {
-  const club = data.clubs.find(c => c.name === 'Clube Norte');
-  assert.equal(club.teamIds.length, 2);
-  assert.notEqual(team('Clube Norte "A"').id, team('Clube Norte "B"').id);
+test('A and B are different teams: one page per team, even if an old config tries to join them', () => {
+  const joined = importCompetition(buildFixtureWorkbook(), { ...fixtureConfig, clubMappings: { 'Clube Norte "A"': 'Clube Norte', 'Clube Norte "B"': 'Clube Norte' } }, { today }).data;
+  for (const d of [data, joined]) {
+    assert.equal(d.clubs.length, d.teams.length);
+    assert.ok(d.clubs.every(c => c.teamIds.length === 1 && c.teamIds[0] === c.id));
+    assert.ok(d.teams.every(t => t.clubId === t.id));
+  }
+  assert.notEqual(team('Clube Norte "A"').clubId, team('Clube Norte "B"').clubId);
 });
 
 test('withdrawn team is flagged and its open games are not "scheduled"', () => {
@@ -132,8 +136,8 @@ test('writer: date change and clearing a result keep everything else intact', ()
 
 test('crests need a registered file, source and authorisation', () => {
   assert.deepEqual(crestPaths({ clubs: { a: { file: 'assets/crests/a.svg', source: 'clube', authorizationReference: 'ok 2026-11' }, b: { file: 'assets/crests/b.svg' }, c: { file: '../x.svg', source: 's', authorizationReference: 'r' } } }), { a: '/media/crests/a.svg' });
-  const live = projectDataset(data, {}, { mode: 'public', today, importedAt: '2026-11-16T00:00:00Z', crests: { clubs: { 'clube-norte': { file: 'assets/crests/clube-norte.png', source: 'clube', authorizationReference: 'ok' } } } });
-  assert.equal(live.clubs.find(c => c.id === 'clube-norte').crestUrl, '/media/crests/clube-norte.png');
+  const live = projectDataset(data, {}, { mode: 'public', today, importedAt: '2026-11-16T00:00:00Z', crests: { clubs: { 'clube-norte-a': { file: 'assets/crests/clube-norte.png', source: 'clube', authorizationReference: 'ok' } } } });
+  assert.equal(live.clubs.find(c => c.id === 'clube-norte-a').crestUrl, '/media/crests/clube-norte.png');
 });
 
 test('writer: rename joins spellings of one child in every game of that team only', () => {
